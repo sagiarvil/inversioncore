@@ -350,7 +350,7 @@ Sistem, kodu çalıştırmak (Execution) yerine sürekli daha fazla kütüphane 
         // Brackets to Premium Badges [SÖZCÜK] (only if it's not empty and doesn't span the whole huge line)
         processed = processed.replace(/\[(.*?)\]/g, (match, p1) => {
             if (p1.length > 50 || p1.includes('KÖK NEDEN') || p1.includes('VİA NEGATİVA')) return match; // don't replace headers
-            return `<span class="px-2 py-0.5 mx-1 rounded bg-slate-800 text-rose-400 font-mono text-[0.85em] tracking-widest shadow-inner">${p1}</span>`;
+            return `<span class="px-2 py-0.5 mx-1 rounded bg-slate-800 text-slate-100 font-mono text-[0.85em] tracking-widest shadow-inner">${p1}</span>`;
         });
         
         // Data Pills

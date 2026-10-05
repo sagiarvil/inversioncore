@@ -98,7 +98,7 @@ async def stream_text(request: StreamRequest):
                 api_key=api_key,
                 api_base="https://api.deepseek.com",
                 temperature=0.1,
-                max_tokens=750,
+                max_tokens=2500,
                 stream=True
             )
             for chunk in response:
