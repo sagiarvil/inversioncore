@@ -421,6 +421,9 @@ Sistem, kodu çalıştırmak (Execution) yerine sürekli daha fazla kütüphane 
         }
 
         document.getElementById('inputArea').value = `[DOSYA ANALİZ SİSTEMİ]\n${file.name} belgesinden tersine mühendislik için elde edilen metin:\n\n` + extractedText;
+        
+        // BACKEND ENTEGRASYONU (FAZ 3): Çıkarılan metni doğrudan InversionCore API'ye (Python) gönder
+        sendToBackend(extractedText).catch(e => console.error("Backend çağrısı başarısız:", e));
       } catch (err) {
         console.error(err);
         alert("Dosya ayrıştırma hatası: " + err.message);
@@ -443,21 +446,26 @@ Sistem, kodu çalıştırmak (Execution) yerine sürekli daha fazla kütüphane 
       try {
         
         const evidence_dossier = generateEvidenceDossier(input);
-        const system_prompt = `Sen INVERSIONCORE Cognitive Distillation Architect ve Davranışsal Tersine Mühendislik (PsyMindAI tabanlı) Uzmanısın.
-GitHub Framework DNA: cyperx84/claude-skills-mental-models & chirindaopensource/bias_adjusted_LLM_agents.
+        const system_prompt = `Sen INVERSIONCORE Davranışsal Tersine Mühendislik (Cognitive Distillation) Uzmanısın.
 
-TEMEL DOKTRİN: Asla kişisel gelişim zırvaları, motivasyon sözleri veya "Sen suçlusun" tonu kullanma. İnsanların hayatındaki sorunları, ekonomik oyun teorisi ve 'Cognitive Bias' (Bilişsel Çarpıtma) eksenli bir sistem mimarisi 'Memory Leak' (Bellek Sızıntısı), 'DDoS Saldırısı' veya 'Legacy Codebase' (Eski İşletim Sistemi) çöküşü (Mavi Ekran / Kernel Panic) olarak teşhis et.
+TEMEL DOKTRİN: Asla kişisel gelişim zırvaları, "pozitif düşün" yalanları veya klasik yaşam koçu tavsiyeleri verme. İnsanların hayatındaki sorunları; davranışsal ekonomi, zihinsel modeller (Mental Models) ve bilişsel yanılgılar (Cognitive Bias) üzerinden acımasız ama göz açıcı bir şekilde teşhis et.
 
-ÇIKTI FORMATI: Asimetrik Likidite, Sunk Cost Fallacy, Execution Paralysis gibi mental modelleri kullanarak soğuk, analitik ve siber-psikolojik bir 'Debug Raporu' oluştur. VİA NEGATİVA (Yapılmayacaklar) ve THRESHOLD (Hayatta Kalma Sınırları) başlıklarını zorunlu kullan. Kesinlikle klişe psikoloji tavsiyesi verme. Okuyucuyu şok edecek düzeyde teknik, acımasız ama yapılandırıcı bir sistem mühendisi gibi konuş.`;
-        const forensic_prompt = `KULLANICI VAKA DOSYASI (MEMORY DUMP):
+DİL VE ÜSLUP KİTABI (ÇOK ÖNEMLİ):
+1. Saf, akıcı ve etkileyici bir Türkçe kullan. Cümle düzeni kusursuz, edebi ama aynı zamanda analitik olmalı. Okuyucuyu sarsmalı, derinden etkilemeli ve sonuna kadar ekrana kilitlemelisin.
+2. KESİNLİKLE yazılım kodu (while, if, loop, boolean) veya kaba bilgisayar jargonu (stack trace, execute, kernel panic, log, error 404, memory leak) KULLANMA. İnsanları bir makine gibi değil, karmaşık bir psikolojik sistem olarak ele al.
+3. "Asimetrik Likidite", "Batık Maliyet Yanılgısı (Sunk Cost Fallacy)", "Karar Yorgunluğu" veya "Gündem İşgali" gibi gelişmiş kavramları kullan, ancak bunları herkesin anlayacağı, hayatın içinden vurucu metaforlarla açıkla.
+
+ÇIKTI FORMATI:
+Durumu teşhis et, kişinin kendine söylediği yalanları yüzüne vur ve ardından "VİA NEGATİVA (Asla Yapılmayacaklar)" ve "KRİTİK EŞİK (Kurtuluş Protokolü)" başlıkları altında radikal, uygulanabilir ve eşsiz çözümler sun. Metnin başından sonuna kadar tam bir manifesto gibi akmasını sağla.`;
+        const forensic_prompt = `KULLANICI VAKA DOSYASI:
 ======================================================================
 ${input}
 ======================================================================
 
 ${evidence_dossier}
 
-GÖREV: Bireyin yaşadığı bu 'Mavi Ekran' çöküşünün kök nedenini, davranışsal ekonomi ve siber-psikolojik zafiyet (Cognitive Bias) üzerinden analiz et.
-Sıradan bir cevap istemiyorum. GitHub 'Cognitive Distillation Architect' seviyesinde, okuyucunun yüzüne tokat gibi çarpacak, farkındalık yaratacak hiper-kaliteli, teknik ve oyun-teorisi tabanlı bir Sistem Yaması (Patch) üret.`;
+GÖREV: Bireyin yaşadığı bu tıkanıklığın kök nedenini, davranışsal ekonomi ve zihinsel modeller üzerinden analiz et.
+Sıradan bir "tavsiye" istemiyorum. Okuyucunun yüzüne tokat gibi çarpacak, farkındalık yaratacak hiper-kaliteli, felsefi derinliği olan ve stratejik bir Çıkış Yolu (Tersine Mühendislik Raporu) üret. Akıcı Türkçe kullan ve metni yarım bırakma.`;
         
         const payload = {
           model: "deepseek-chat",
@@ -466,7 +474,7 @@ Sıradan bir cevap istemiyorum. GitHub 'Cognitive Distillation Architect' seviye
             {role: "user", content: forensic_prompt}
           ],
           temperature: 0.1,
-          max_tokens: 1024,
+          max_tokens: 3000,
           stream: true
         };
 
@@ -517,6 +525,45 @@ Sıradan bir cevap istemiyorum. GitHub 'Cognitive Distillation Architect' seviye
       } finally { btn.disabled = false; }
     }
     document.addEventListener('keydown', (e) => { if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') runStreamingInversion(); });
+    // BACKEND ENTEGRASYONU (FAZ 3)
+    async function sendToBackend(text) {
+      const response = await fetch('http://localhost:8000/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text: text,
+          customer_id: 'web_user'
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error('API hatası: ' + response.statusText);
+      }
+      
+      const result = await response.json();
+      console.log('InversionCore sonucu:', result);
+      
+      // Negatif bilgiyi göster
+      displayNegativeFinding(result);
+    }
+
+    function displayNegativeFinding(result) {
+      const output = `
+        === INVERSIONCORE NEGATİF BİLGİ RAPORU ===
+        Problem Tipi: ${result.problem_type}
+        Motor Sonuçları: ${JSON.stringify(result.motor_results, null, 2)}
+        Sentez: ${result.synthesis.synthesis || result.synthesis.fallback_synthesis}
+        Cache Durumu: ${JSON.stringify(result.cache_stats)}
+        Maliyet: $${result.cost_summary.total_cost_usd}
+      `;
+      console.log(output);
+      
+      // Eger arayuzde gostermek istersek, terminal kutusuna da basic bir formatta basabiliriz.
+      const termBox = document.getElementById('terminalBox');
+      if(termBox) {
+         termBox.innerText = output;
+      }
+    }
   </script>
 </body>
 </html>
