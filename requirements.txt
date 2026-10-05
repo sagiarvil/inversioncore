@@ -14,3 +14,5 @@ nashpy
 dowhy
 numpy
 pandas
+tenacity
+httpx
