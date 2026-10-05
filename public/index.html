@@ -474,14 +474,27 @@ VURGU:
             if (line.trim().startsWith("data: ")) {
               const dataStr = line.trim().slice(6).trim();
               if (dataStr === "[DONE]") break;
-              accumulated += dataStr;
-              termBox.innerHTML = formatHarmoniousColors(accumulated) + '<span class="blinking-cursor"></span>';
+              try {
+                const parsed = JSON.parse(dataStr);
+                if (parsed.content) {
+                  accumulated += parsed.content;
+                  termBox.innerHTML = formatHarmoniousColors(accumulated) + '<span class="blinking-cursor"></span>';
+                }
+              } catch (e) {
+                // If parsing fails, it might be raw text. Don't trim the inner content!
+                // But backend now sends JSON!
+              }
             }
           }
         }
         if (buffer.trim().startsWith("data: ")) {
           const dataStr = buffer.trim().slice(6).trim();
-          if (dataStr !== "[DONE]") { accumulated += dataStr; }
+          if (dataStr !== "[DONE]") {
+             try {
+                const parsed = JSON.parse(dataStr);
+                if (parsed.content) accumulated += parsed.content;
+             } catch(e){}
+          }
         }
         
         termBox.innerHTML = formatHarmoniousColors(accumulated);
