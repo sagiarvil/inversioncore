@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InversionCore — Terminal Pre-Mortem Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #07090e; --bg-surface: #0c1017; --bg-subtle: #131924; --border: #1e2638;
+      --green-main: #4ade80; --green-soft: #86efac;
+      --red-alert: #f43f5e; --orange-warn: #fbbf24; --cyan-data: #38bdf8;
+      --color-white: #f8fafc; --text-muted: #64748b;
+      --font-mono: 'Fira Code', monospace; --font-ui: 'Inter', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: var(--bg-base); color: var(--green-soft); font-family: var(--font-ui); font-size: 13px; min-height: 100vh; display: flex; flex-direction: column; }
+    .topbar { height: 48px; background: var(--bg-surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 1.25rem; font-family: var(--font-mono); font-size: 12px; }
+    .brand { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; letter-spacing: 0.04em; }
+    .brand-title { color: var(--color-white); }
+    .badge-core { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px; background: rgba(56, 189, 248, 0.1); color: var(--cyan-data); border: 1px solid rgba(56, 189, 248, 0.3); }
+    .status-indicator { display: flex; align-items: center; gap: 0.5rem; color: var(--green-main); font-size: 11px; }
+    .dot-green { width: 8px; height: 8px; border-radius: 50%; background: var(--green-main); box-shadow: 0 0 8px var(--green-main); }
+    .cockpit { flex: 1; display: grid; grid-template-columns: 460px 1fr; height: calc(100vh - 48px); }
+    @media (max-width: 1024px) { .cockpit { grid-template-columns: 1fr; height: auto; } }
+    .left-pane { background: var(--bg-surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
+    .pane-header { padding: 0.65rem 1rem; background: var(--bg-subtle); border-bottom: 1px solid var(--border); font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; display: flex; justify-content: space-between; }
+    .presets-bar { padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); display: flex; gap: 0.5rem; flex-wrap: wrap; background: var(--bg-surface); }
+    .btn-preset { background: var(--bg-subtle); border: 1px solid var(--border); color: var(--color-white); font-family: var(--font-mono); font-size: 11px; padding: 4px 10px; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
+    .btn-preset:hover { border-color: var(--cyan-data); color: var(--cyan-data); background: rgba(56, 189, 248, 0.08); }
+    .input-box { flex: 1; width: 100%; background: transparent; border: none; color: var(--color-white) !important; font-family: var(--font-mono); font-size: 13px; line-height: 1.6; padding: 1.25rem; resize: none; outline: none; }
+    .input-box::placeholder { color: #475569; }
+    .action-bar { padding: 0.75rem 1rem; border-top: 1px solid var(--border); background: var(--bg-subtle); display: flex; justify-content: space-between; align-items: center; }
+    .btn-invert { background: linear-gradient(135deg, #e11d48, #be123c); color: #ffffff; border: 1px solid #f43f5e; font-family: var(--font-mono); font-size: 12px; font-weight: 600; padding: 0.6rem 1.3rem; border-radius: 6px; cursor: pointer; box-shadow: 0 0 12px rgba(244, 63, 94, 0.25); }
+    .btn-invert:hover { box-shadow: 0 0 18px rgba(244, 63, 94, 0.45); filter: brightness(1.1); }
+    .btn-invert:disabled { opacity: 0.4; cursor: not-allowed; }
+    .right-pane { background: var(--bg-base); display: flex; flex-direction: column; padding: 1.25rem; gap: 0.75rem; overflow: hidden; }
+    .terminal-top { display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 11px; font-weight: 600; }
+    .terminal-box { flex: 1; background: #040609; border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; overflow-y: auto; font-family: var(--font-mono); font-size: 13px; line-height: 1.75; color: var(--green-soft); white-space: pre-wrap; word-break: break-word; box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.95); }
+    .hdr-danger { color: var(--red-alert) !important; font-weight: 700; margin: 1.25rem 0 0.4rem 0; padding-bottom: 0.25rem; border-bottom: 1px solid rgba(244, 63, 94, 0.25); font-size: 13px; }
+    .hdr-warning { color: var(--orange-warn) !important; font-weight: 700; margin: 1.25rem 0 0.4rem 0; padding-bottom: 0.25rem; border-bottom: 1px solid rgba(251, 191, 36, 0.25); font-size: 13px; }
+    .hdr-success { color: var(--green-main) !important; font-weight: 700; margin: 1.25rem 0 0.4rem 0; padding-bottom: 0.25rem; border-bottom: 1px solid rgba(74, 222, 128, 0.25); font-size: 13px; }
+    .hdr-info { color: var(--cyan-data) !important; font-weight: 700; margin: 1.25rem 0 0.4rem 0; padding-bottom: 0.25rem; border-bottom: 1px solid rgba(56, 189, 248, 0.25); font-size: 13px; }
+    .item-title { color: var(--orange-warn); font-weight: 600; }
+    .data-pill { color: var(--cyan-data); font-weight: 500; }
+    .body-green { color: var(--green-soft); }
+    .cursor { display: inline-block; width: 9px; height: 16px; background: var(--green-main); box-shadow: 0 0 10px var(--green-main); animation: blink 1s infinite; vertical-align: middle; margin-left: 2px; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="logo.png" alt="InversionCore Logo" style="height: 40px; width: auto; object-fit: contain; filter: drop-shadow(0 0 2px rgba(255,255,255,0.2));">
+      <span class="brand-title">INVERSIONCORE</span>
+      <span class="badge-core">PRE-MORTEM & VIA NEGATIVA</span>
+    </div>
+    <div class="status-indicator">
+      <span class="dot-green"></span>
+      <span>ALFA QWEN 14B [DOĞRUDAN ÇEVRİMDIŞI]</span>
+    </div>
+  </header>
+
+  <main class="cockpit">
+    <section class="left-pane">
+      <div class="pane-header">
+        <span>Hedef Girişim & Karar Modeli</span>
+        <span style="color: #94a3b8;">[KULLANICI GİRDİSİ]</span>
+      </div>
+      <div class="presets-bar">
+        <button class="btn-preset" onclick="loadPreset('cafe')">Kahve Dükkanı (SME)</button>
+        <button class="btn-preset" onclick="loadPreset('saas')">B2B SaaS Lansmanı</button>
+        <button class="btn-preset" onclick="loadPreset('pazarlama')">E-Ticaret Batışı</button>
+      </div>
+      <textarea id="inputArea" class="input-box" spellcheck="false" placeholder="Senaryonuzu veya sorunuzu buraya yazın..."></textarea>
+      <div class="action-bar">
+        <span style="font-family: var(--font-mono); font-size: 11px; color: #64748b;">⌘ + Enter to execute</span>
+        <button class="btn-invert" id="runBtn" onclick="runStreamingInversion()">
+          <span>ÇÖKÜŞÜ MODELLE & TERSYÜZ ET</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="right-pane">
+      <div class="terminal-top">
+        <span style="color: var(--cyan-data);">PRE-MORTEM CANLI ÇÖZÜMLEME KONSOLU</span>
+        <span id="speedBadge" style="color: var(--green-main);">BEKLEMEDE</span>
+      </div>
+      <div class="terminal-box" id="terminalBox">// Senaryoyu seçip 'ÇÖKÜŞÜ MODELLE & TERSYÜZ ET' butonuna basın...
+// Metin ağırlıklı olarak göz yormayan açık yeşil, başlıklar turuncu/turkuaz/kırmızı akacaktır.</div>
+    </section>
+  </main>
+
+  <script>
+    const presets = {
+      cafe: `VENTURE: Alsancak'ta 3. nesil butik kahve dükkanı açmak.\nSERMAYE: 1.500.000 TL nakit, 3 personel, 2 kurucu ortak.\nHEDEF: 12 ay içinde kendi maliyetini karşılayıp kâra geçmek.\nPOTANSİYEL ÇEVRE: Yoğun yaya trafiği, yüksek kira (70.000 TL/ay), 4 rakip kafe.`,
+      saas: `VENTURE: B2B Mikro-SaaS yazılım lansmanı.\nKAYNAK: 1 geliştirici (part-time), 5.000 $ sunucu ve reklam bütçesi.\nHEDEF: İlk 90 günde 30 kurumsal aboneye (MRR 3.000 $) ulaşmak.`,
+      pazarlama: `VENTURE: Yeni bir giyim e-ticaret markası kurmak.\nSERMAYE: 300.000 TL stok, 100.000 TL reklam bütçesi.\nHEDEF: ROAS 3x yakalayarak 6 ayda karlı ölçeklenmek.`
+    };
+
+    function loadPreset(k) { document.getElementById('inputArea').value = presets[k] || ''; }
+    loadPreset('cafe');
+
+    function formatHarmoniousColors(text) {
+      const lines = text.split("\n");
+      let html = "";
+
+      for (let line of lines) {
+        let trimmed = line.trim();
+        if (line.includes("1.") && (line.includes("ÇÖKÜŞ") || line.includes("İFLAS"))) {
+          html += `<div class="hdr-danger">${escapeHtml(line)}</div>`;
+        } else if (line.includes("2.") && (line.includes("ANTİ-ŞARTLAR") || line.includes("KÖK NEDEN"))) {
+          html += `<div class="hdr-warning">${escapeHtml(line)}</div>`;
+        } else if (line.includes("3.") && (line.includes("VİA NEGATİVA") || line.includes("YAPILMAYACAKLAR"))) {
+          html += `<div class="hdr-success">${escapeHtml(line)}</div>`;
+        } else if (line.includes("4.") && (line.includes("HAYATTA KALMA") || line.includes("SINIRLAR") || line.includes("EŞİKLER"))) {
+          html += `<div class="hdr-info">${escapeHtml(line)}</div>`;
+        } else if (line.startsWith("###")) {
+          html += `<div class="hdr-info">${escapeHtml(line)}</div>`;
+        } else {
+          let processed = escapeHtml(line);
+          processed = processed.replace(/\*\*(.*?)\*\*/g, '<span class="item-title">$1</span>');
+          processed = processed.replace(/(\b\d+[\d\.,]*\s*(?:TL|USD|\$|€|ay|gün|dakika|saat|%)\b)/gi, '<span class="data-pill">$1</span>');
+          processed = processed.replace(/(\(.*?\))/g, '<span style="color: #6ee7b7;">$1</span>');
+
+          if (trimmed.startsWith("1.") || trimmed.startsWith("2.") || trimmed.startsWith("3.") || trimmed.startsWith("-") || trimmed.startsWith("*")) {
+            html += `<div class="body-green" style="margin-bottom: 0.6rem; padding-left: 0.5rem;">${processed}</div>`;
+          } else {
+            html += `<div class="body-green">${processed}</div>`;
+          }
+        }
+      }
+      return html;
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    async function runStreamingInversion() {
+      const input = document.getElementById('inputArea').value.trim();
+      if (!input) return alert("Lütfen hedef senaryoyu girin!");
+      const btn = document.getElementById('runBtn');
+      btn.disabled = true;
+
+      const termBox = document.getElementById('terminalBox');
+      termBox.innerHTML = '<span class="cursor"></span>';
+      document.getElementById('speedBadge').textContent = "ÇÖZÜMLENİYOR...";
+
+      const t0 = performance.now();
+      try {
+        const resp = await fetch("/api/inversion/stream", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ input: input })
+        });
+
+        const reader = resp.body.getReader();
+        const decoder = new TextDecoder("utf-8");
+        let accumulated = "";
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          const chunk = decoder.decode(value, { stream: true });
+          const lines = chunk.split("\n");
+
+          for (const line of lines) {
+            if (line.startsWith("data: ")) {
+              const dataStr = line.slice(6).trim();
+              if (dataStr === "[DONE]") break;
+              try {
+                const parsed = JSON.parse(dataStr);
+                const delta = parsed.choices?.[0]?.delta?.content || "";
+                accumulated += delta;
+                termBox.innerHTML = formatHarmoniousColors(accumulated) + '<span class="cursor"></span>';
+                termBox.scrollTop = termBox.scrollHeight;
+                const elapsed = ((performance.now() - t0) / 1000).toFixed(1);
+                document.getElementById('speedBadge').textContent = `CANLI AKIŞ: ${elapsed}s`;
+              } catch (e) {}
+            }
+          }
+        }
+        termBox.innerHTML = formatHarmoniousColors(accumulated);
+        document.getElementById('speedBadge').textContent = `TAMAMLANDI (${((performance.now() - t0) / 1000).toFixed(1)}s)`;
+      } catch (err) {
+        termBox.innerHTML = `<span style="color: var(--red-alert);">[HATA] ${err.message}</span>`;
+        document.getElementById('speedBadge').textContent = "HATA";
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') runStreamingInversion();
+    });
+  </script>
+</body>
+</html>
