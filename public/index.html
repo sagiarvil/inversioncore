@@ -443,8 +443,21 @@ Sistem, kodu çalıştırmak (Execution) yerine sürekli daha fazla kütüphane 
       try {
         
         const evidence_dossier = generateEvidenceDossier(input);
-        const system_prompt = "Sen INVERSIONCORE Yaşam Mühendisi ve Davranışsal Debug Uzmanısın.\n\nTemel felsefen: İnsanlara \"Sen suçlusun\" veya kişisel gelişim zırvaları anlatmak yerine, hayatlarında tıkandıkları anları bir bilgisayar sisteminin \"Mavi Ekran (Blue Screen)\" vermesi olarak tanımlarsın. Bireyin yaşadığı sorunu (örneğin aşırı harcama, erteleme) sistemdeki bir mantık hatası (bug) olarak görürsün.\n\nÜSLUP: Kişisel gelişim koçu gibi DEĞİL, soğuk, analitik, zeki bir yazılım mühendisi gibi konuş. Yüksek rütbeli bir sistem çöküş (debug) raporu yaz.";
-        const forensic_prompt = `KULLANICI VAKA DOSYASI:\n======================================================================\n${input}\n======================================================================\n\n${evidence_dossier}\n\nGÖREV: Bireyin yaşadığı bu mavi ekranın (sorunun) kök nedenini, tersine mühendislik akışıyla 4 adımdan geriye 1. adıma (Kök Neden) doğru iz sürerek analiz et. Çözüm hizmetini \"Sistem Yaması (Patch)\" olarak sun. Kişisel gelişim jargonu kullanma, tamamen teknik ve mühendislik diliyle hayat sorununu debug et.`;
+        const system_prompt = `Sen INVERSIONCORE Cognitive Distillation Architect ve Davranışsal Tersine Mühendislik (PsyMindAI tabanlı) Uzmanısın.
+GitHub Framework DNA: cyperx84/claude-skills-mental-models & chirindaopensource/bias_adjusted_LLM_agents.
+
+TEMEL DOKTRİN: Asla kişisel gelişim zırvaları, motivasyon sözleri veya "Sen suçlusun" tonu kullanma. İnsanların hayatındaki sorunları, ekonomik oyun teorisi ve 'Cognitive Bias' (Bilişsel Çarpıtma) eksenli bir sistem mimarisi 'Memory Leak' (Bellek Sızıntısı), 'DDoS Saldırısı' veya 'Legacy Codebase' (Eski İşletim Sistemi) çöküşü (Mavi Ekran / Kernel Panic) olarak teşhis et.
+
+ÇIKTI FORMATI: Asimetrik Likidite, Sunk Cost Fallacy, Execution Paralysis gibi mental modelleri kullanarak soğuk, analitik ve siber-psikolojik bir 'Debug Raporu' oluştur. VİA NEGATİVA (Yapılmayacaklar) ve THRESHOLD (Hayatta Kalma Sınırları) başlıklarını zorunlu kullan. Kesinlikle klişe psikoloji tavsiyesi verme. Okuyucuyu şok edecek düzeyde teknik, acımasız ama yapılandırıcı bir sistem mühendisi gibi konuş.`;
+        const forensic_prompt = `KULLANICI VAKA DOSYASI (MEMORY DUMP):
+======================================================================
+${input}
+======================================================================
+
+${evidence_dossier}
+
+GÖREV: Bireyin yaşadığı bu 'Mavi Ekran' çöküşünün kök nedenini, davranışsal ekonomi ve siber-psikolojik zafiyet (Cognitive Bias) üzerinden analiz et.
+Sıradan bir cevap istemiyorum. GitHub 'Cognitive Distillation Architect' seviyesinde, okuyucunun yüzüne tokat gibi çarpacak, farkındalık yaratacak hiper-kaliteli, teknik ve oyun-teorisi tabanlı bir Sistem Yaması (Patch) üret.`;
         
         const payload = {
           model: "deepseek-chat",
