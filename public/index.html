@@ -300,21 +300,25 @@
       document.getElementById('inputArea').focus();
     }
 
-    // Klavye Kısayolu: Enter ile Gönder
-    document.addEventListener('DOMContentLoaded', function() {
+    // Klavye Kısayolu: Enter ile Gönder (Direct Binding)
+    (function initEnterKey() {
       const input = document.getElementById('inputArea');
       if (input) {
         input.addEventListener('keydown', function(e) {
           if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             const text = input.value.trim();
-            if (text.length > 5) {
+            if (text.length > 0) { // Sınırı kaldırdım ki her türlü denemede tetiklensin
               runStreamingInversion();
+            } else {
+              showToast("Lütfen analiz edilecek bir metin girin.");
             }
           }
         });
+      } else {
+        console.error("inputArea bulunamadı!");
       }
-    });
+    })();
 
     function generateEvidenceDossier(text) {
       return `[SİSTEMİK KANIT VE ÇELİŞKİ HARİTASI]\n- Metin: ${text.length} karakter\n- Via Negativa: Neyin bırakılması gerektiği üzerine odaklan.`;
