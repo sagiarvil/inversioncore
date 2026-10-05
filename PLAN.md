@@ -14,8 +14,8 @@ Dünyanın en iyi, endüstriyel GitHub repoları projeye çekirdek olarak entegr
 
 ## 2. Beyin Katmanı (AI)
 Fiziksel motorlar sistemi çökertip raporu ürettikten sonra devreye girer:
-- **Red Team (Qwen Abliterated):** Semgrep ve Tree-sitter'dan gelen fiziksel kırılma noktalarını alıp, sistemi daha da yok edecek sınır testleri (Edge Cases) yazar.
+- **Red Team (DeepSeek):** Semgrep ve Tree-sitter'dan gelen fiziksel kırılma noktalarını alıp, sistemi daha da yok edecek sınır testleri (Edge Cases) yazar.
 - **Blue Team (DeepSeek):** Bozulan kodu alır, Strict-Type onarımı yapar ve Tree-sitter üzerinden fiziksel AST'nin düzelip düzelmediğini doğrular.
 
 ## 3. Orkestrasyon
-- **n8n Engine:** Bu 5 motoru (Tree-sitter, Semgrep, Docker, Qwen, DeepSeek) birbiriyle otomatize şekilde konuşturan ve süreçleri kilitleyen ana vites kutusu.
+- **n8n Engine:** Bu 5 motoru (Tree-sitter, Semgrep, Docker, DeepSeek) birbiriyle otomatize şekilde konuşturan ve süreçleri kilitleyen ana vites kutusu.
