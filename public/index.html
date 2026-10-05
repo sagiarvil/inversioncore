@@ -60,9 +60,11 @@
         </div>
         
         <div class="p-3 border-b border-slate-100 flex flex-wrap gap-2 bg-white items-center">
-          <button class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition-colors" onclick="loadPreset('trendyol')">Trendyol Satıcısı</button>
-          <button class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition-colors" onclick="loadPreset('tinyhouse')">Ege'de Tiny House</button>
-          <button class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition-colors" onclick="loadPreset('oyun')">Mobil Oyun Stüdyosu</button>
+          <button class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition-colors" onclick="loadPreset('finans')">Maaş/Finans</button>
+          <button class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition-colors" onclick="loadPreset('zaman')">Vakitsizlik</button>
+          <button class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition-colors" onclick="loadPreset('iliski')">İlişki Döngüsü</button>
+          <button class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition-colors" onclick="loadPreset('kariyer')">Pazartesi Sendromu</button>
+          <button class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition-colors" onclick="loadPreset('erteleme')">Erteleme</button>
           <div class="h-4 w-px bg-slate-300 mx-1"></div>
           <button class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold px-3 py-1 rounded border border-indigo-200 transition-colors flex items-center gap-1" onclick="toggleDynamicPanel()">
             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
@@ -115,36 +117,59 @@
   <script>
 
     function extractParams(text) {
-      let cash = 500000;
-      let burn = 50000;
+      let type = "BİLİNMEYEN HATA (KERNEL PANIC)";
+      let rootCause = "Sistemik Korku ve Yanlış Yönlendirme";
+      let burnMetric = "Enerji/Nakit Yakımı";
+      let overload = "Psikolojik/Finansal Aşırı Yükleme";
       
-      const cashMatch = text.match(/([0-9]+(?:\.[0-9]+)*)\s*(?:TL|\$|USD)\s*(?:nakit|sermaye|bütçe)/i);
-      const burnMatch = text.match(/([0-9]+(?:\.[0-9]+)*)\s*(?:TL|\$|USD)\s*(?:kira|harcama|gider)/i);
-      
-      if (cashMatch) cash = parseFloat(cashMatch[1].replace(/\./g, ''));
-      if (burnMatch) burn = parseFloat(burnMatch[1].replace(/\./g, ''));
+      const t = text.toLowerCase();
+      if (t.includes("maaş") || t.includes("para") || t.includes("finans")) {
+        type = "FİNANSAL KÖRLÜK SARMALI";
+        rootCause = "Bütçe körlüğü ve yapay zenginlik hissi.";
+        burnMetric = "Maaşın %80'i ilk 5 günde buharlaşıyor.";
+        overload = "Asgari ödeme sarmalı (Debt Overload)";
+      } else if (t.includes("vakit") || t.includes("zaman") || t.includes("dopamin") || t.includes("hırsız")) {
+        type = "ZAMAN DECONSTRUCTION PARADOKSU";
+        rootCause = "Plansızlık ve başkalarının ajandasına teslimiyet.";
+        burnMetric = "Günde 4-5 saat algoritmik dopamin hırsızlığı.";
+        overload = "Tükenmişlik ve suçluluk hissi (Focus Crash)";
+      } else if (t.includes("ilişki") || t.includes("toksik") || t.includes("partner") || t.includes("insan")) {
+        type = "TOKSİK İLİŞKİ ALGORİTMASI";
+        rootCause = "Yalnızlık korkusu ve çocukluk kodlamaları.";
+        burnMetric = "Tüm duygusal enerjinin yanlış profile harcanması.";
+        overload = "Değersizlik hissi ve sınır (Boundary) ihlali.";
+      } else if (t.includes("kariyer") || t.includes("iş") || t.includes("pazartesi")) {
+        type = "KARİYER KAYNAK KODU ÇÖKÜŞÜ";
+        rootCause = "Konfor alanı tuzağı ve yetenek/değer haritası eksikliği.";
+        burnMetric = "Zihinsel enerjinin %90'ı mesai saatlerinde yok oluyor.";
+        overload = "Pazartesi Sendromu ve Burnout Mavi Ekranı.";
+      } else if (t.includes("erteleme") || t.includes("kararsızlık") || t.includes("adım")) {
+        type = "EYLEMSİZLİK SİSTEMİ (ANALYSIS PARALYSIS)";
+        rootCause = "Kusursuzluk arzusu ve eleştirilme korkusu.";
+        burnMetric = "Yıllardır süren zihinsel yük ve pasif pişmanlık.";
+        overload = "Potansiyelin sıfıra inmesi (Execution Fail).";
+      }
 
-      let runway = (burn > 0) ? (cash / burn) : 999;
-      let max_cap = 3 * 30 * 8;
-      
       return {
-        theoretical_monthly_kwh: max_cap,
-        verdict: "KAPASİTE TAVANI RİSKİ",
-        minimal_cut_sets: [["Nakit_Bitiş", "Zaman_Baskısı"]].concat(burn > 50000 ? [["Yüksek_Sabit_Gider", "Operasyonel_Çöküş"]] : []),
-        risk_propagation_paths: ["Sermaye -> Risk"],
-        initial_runway_months: runway.toFixed(1),
-        absorbing_barrier_month: runway.toFixed(1),
-        equilibrium: "FİYAT SAVAŞI",
-        strategic_finding: "Sabit maliyet varken yıkıcı rekabet.",
-        safe_max_single_contract_kwh: (3*240) * 0.60,
-        safe_band_label: "Kapasite Limit %60"
+        verdict: type,
+        risk_propagation_paths: `${rootCause} -> Semptom -> MAVİ EKRAN`,
+        burn_rate: burnMetric,
+        overload_status: overload
       };
     }
 
     function generateEvidenceDossier(text) {
-      const cap = extractParams(text);
-      return `[DETERMİNİSTİK HESAPLANMIŞ KANIT ZİNCİRİ]
-1. KAPASİTE TAVANI: Teorik Tavan: ${cap.theoretical_monthly_kwh} Birim/Ay. Durum: ${cap.verdict}.
+      const p = extractParams(text);
+      return `[SİSTEMİK ADLİ KANIT (MAVİ EKRAN) DOSYASI]
+1. TESPİT EDİLEN BUG: ${p.verdict}
+2. KÖK NEDEN (ROOT CAUSE) ANALİZİ:
+   - Başlangıç Hatası: ${p.risk_propagation_paths}
+3. ENERJİ/KAYNAK YAKIM HIZI (BURN RATE):
+   - ${p.burn_rate}
+4. SİSTEM ÇÖKÜŞÜ (OVERLOAD):
+   - Durum: ${p.overload_status}
+5. ÇÖZÜM PROTOKOLÜ: Kullanıcının sisteminde (hayatında) tespit edilen bu mantık hatasını (bug) yargılamadan 'debug' edin. Hata kodu ve mavi ekran metaforuyla, suçlama yapmadan, tersine mühendislikle sistemi yeniden inşa edin.`;
+    } Birim/Ay. Durum: ${cap.verdict}.
 2. HATA AĞACI (MCS): Asgari Kesme Kümeleri = ${JSON.stringify(cap.minimal_cut_sets)}.
    - Risk Yayılım Hattı (Propagation Path): ${cap.risk_propagation_paths}.
 3. RUNWAY (NAKİT YAKIM HIZI): ${cap.initial_runway_months} ay (Kasa Sıfırlanması: ${cap.absorbing_barrier_month}. Ay).
@@ -153,9 +178,51 @@
     }
 
     const presets = {
-      trendyol: `İki arkadaş 300.000 TL ihtiyaç kredisi çekip Trendyol'da fason üretim eşofman takımı satmaya karar verdik.\n\nReklamlara günlük 2.000 TL harcıyoruz, kâr marjımız güya %40 ama sürekli artan kargo maliyetleri, komisyonlar ve acımasız iade oranları yüzünden ay sonu hep eksi yazıyoruz. 6 ay içinde bu işten ya köşeyi döneceğiz ya da kredileri ödeyemeyip batacağız.`,
-      tinyhouse: `Kurumsal plazadaki 10 yıllık beyaz yaka yazılımcılık işimden tamamen bunalıp istifa ettim. Tüm tazminatımla (yaklaşık 1.2 Milyon TL) Çanakkale Assos civarında imarsız bir tarla aldım.\n\nOraya 3 tane Tiny House koyup Airbnb üzerinden Alman turistlere kiralayarak pasif gelir elde etmeyi planlıyorum. Tek sorun; ne inşaattan, ne resmi izin süreçlerinden, ne de turizm işletmeciliğinden zerre kadar anlamıyorum.`,
-      oyun: `Türkiye'deki enflasyon sarmalından kurtulup doğrudan dolar kazanmak için üç üniversite öğrencisi bir araya gelip bir mobil oyun stüdyosu kurduk.\n\nElimizde sermaye olarak sadece birikmiş KYK kredilerimiz ve iki tane eski model laptobumuz var. Hedefimiz 3 ay içinde global pazarda patlayacak bir hyper-casual oyun yapıp yurt dışındaki yayıncı bir şirketten (publisher) dev bir yatırım almak.`
+      finans: `[HATA KODU: 0x01 - FİNANSAL KÖRLÜK]
+Kronik "Ay Sonunu Getiremiyorum" Sendromu
+
+Çıktı (Mavi Ekran): Ayın 15'inde maaş biter, kredi kartı asgari tutarına sarılırım.
+Adım 3: "Zaten para bitti" diyerek teselli harcamaları yaparım (dışarıda yemek, kahve).
+Adım 2: Maaş yattığı günkü "zenginlik hissi" ile keyfi harcamalar yaparım.
+Adım 1 (Kök): Sabit giderlerimi bilmem, bütçe yapmam, "gelir kadar harcanır" yanılgısındayım.
+
+Maaşımın ömrünü uzatma protokolüne ihtiyacım var. Param nerede tasarım hatası veriyor?`,
+      zaman: `[HATA KODU: 0x02 - ZAMAN HIRSIZLARI]
+"Hiç Vaktim Yok" Paradoksu
+
+Çıktı (Mavi Ekran): Gün biter ama kendime zerre vakit ayıramadan tükenmiş hissederim.
+Adım 3: İş/okul dönüşü yorgunluk bahanesiyle saatlerce Reels/TikTok (Dopamin tuzağı) kaydırırım.
+Adım 2: Gün içinde işleri son dakikaya bırakıp yüksek stresle çalışırım.
+Adım 1 (Kök): Güne plansız başlar, "hayır" diyemediğim için başkalarının ajandasını yaşarım.
+
+24 saatimi kim çalıyor? Zaman deconstruction analizi yapın.`,
+      iliski: `[HATA KODU: 0x03 - TOKSİK DÖNGÜ]
+"İlişkilerimde Hep Aynı Tip İnsanları Seçiyorum" Döngüsü
+
+Çıktı (Mavi Ekran): Hep bencil, değersiz hissettiren insanlarla karşılaşır ve ayrılırım.
+Adım 3: Karşı tarafın kırmızı çizgilerimi (red flags) ihlal etmesine "düzelir" diye izin veririm.
+Adım 2: İlk tanışmadaki toksik sinyalleri "heyecan ve tutku" zannederim.
+Adım 1 (Kök): Yalnız kalma korkusu ve çocukluktan gelen "sevilmek için çok çabalamalıyım" kodlaması.
+
+Seçim kriterlerimi tersine mühendislikle yeniden yazmak için algoritma revizyonuna ihtiyacım var.`,
+      kariyer: `[HATA KODU: 0x04 - KARİYER SIKIŞMASI]
+Kariyer Sıkışması ve "Pazartesi Sendromu"
+
+Çıktı (Mavi Ekran): İşten nefret etme, sabahları uyanmak istememe, tam bir tükenmişlik (burnout).
+Adım 3: Son 3 yıldır sektörel trendleri takip etmemek, yeni yetkinlik (upskilling) kazanmamak.
+Adım 2: Kariyer seçiminde "garanti maaş" için hareket edip kendi yeteneklerini analiz etmemek.
+Adım 1 (Kök): Konfor alanından çıkma korkusu.
+
+Profesyonel hayatım nerede hata veriyor? Kariyer kaynak kodumu analiz et.`,
+      erteleme: `[HATA KODU: 0x05 - ANALYSIS PARALYSIS]
+Kararsızlık ve Hayatı Erteleme
+
+Çıktı (Mavi Ekran): Yıllardır dil öğreneceğim, iş kuracağım derim ama sıfır adım.
+Adım 3: Kusursuz anı, mükemmel bütçeyi (Mükemmeliyetçilik tuzağı) beklerim.
+Adım 2: Yapacağım işle ilgili aylarca sadece araştırma yapar ama asla eyleme geçmem.
+Adım 1 (Kök): Başarısız olma ve başkaları tarafından eleştirilme korkusu.
+
+Eylemsizlik sistemimi hacklemek ve erteleme döngümü tersine çevirmek istiyorum.`
     };
 
     function loadPreset(k) { 
