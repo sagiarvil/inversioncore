@@ -1,28 +1,20 @@
 """
-Orkestrator v2 - Cache-first strategy
-1. Cache kontrol (0 token)
-2. Cache miss -> fiziksel motorlar calisir (0 token)
-3. Motor sonuclari cache'e yazilir
-4. DeepSeek sadece sentez icin cagirilir (minimum token)
-5. Sentez de cache'e yazilir -> sonraki ayni sorguda 0 token
+Orkestrator v2.1 - FORENSIC FIX
+Degisiklik:
+- Cache write mantigi guncellendi:
+  * "error" key var = transient hata -> cache YAZMA
+  * "error" key YOK = offline veya success -> cache YAZ
 """
-
-class MockMotor:
-    def find_contradictions(self, st): return {"motor": "Z3Surgeon", "negative_finding": "Tutarsizlik tespit edildi"}
-    def find_infeasible(self, v, c): return {"motor": "ORToolsSurgeon", "negative_finding": "Kapasite asimi"}
-    def find_hidden_connections(self, n, e): return {"motor": "NetworkSurgeon", "negative_finding": "Gizli araci bulundu"}
-    def find_manipulation(self, d, e=None): return {"motor": "StatsSurgeon", "negative_finding": "Manipulasyon tespit edildi"}
-    def find_collapse(self, f, c): return {"motor": "DynamicsSurgeon", "negative_finding": "Sistem cokus noktasinda"}
-    def find_minimal_cut_sets(self, c): return {"motor": "RiskSurgeon", "negative_finding": "Kritik zafiyet (Cut Set)"}
-    def find_spurious_correlation(self, d, t, o): return {"motor": "CausalSurgeon", "negative_finding": "Korelasyon nedensellik degil"}
-
-class ProblemOntology:
-    def classify(self, text):
-        if "celiski" in text.lower(): return "LOGICAL"
-        if "ag" in text.lower(): return "NETWORK"
-        return "UNKNOWN"
-
-from engine.cache.deterministic_cache import get_cache, cached
+from engine.ontology import ProblemOntology
+from engine.motors.z3_surgeon import Z3Surgeon
+from engine.motors.ortools_surgeon import ORToolsSurgeon
+from engine.motors.network_surgeon import NetworkSurgeon
+from engine.motors.stats_surgeon import StatsSurgeon
+from engine.motors.dynamics_surgeon import DynamicsSurgeon
+from engine.motors.game_surgeon import GameSurgeon
+from engine.motors.risk_surgeon import RiskSurgeon
+from engine.motors.causal_surgeon import CausalSurgeon
+from engine.cache.deterministic_cache import get_cache
 from engine.cache.cost_ledger import get_ledger
 from engine.llm.deepseek_proxy import DeepSeekProxy
 import config.settings as settings
@@ -33,22 +25,21 @@ class InversionOrchestratorV2:
         self.ontology = ProblemOntology()
         self.deepseek = DeepSeekProxy()
         self.motors = {
-            "LOGICAL": MockMotor(),
-            "OPTIMIZATION": MockMotor(),
-            "NETWORK": MockMotor(),
-            "PROBABILISTIC": MockMotor(),
-            "DYNAMIC": MockMotor(),
-            "GAME": MockMotor(),
-            "RISK": MockMotor(),
-            "CAUSAL": MockMotor()
+            "LOGICAL": Z3Surgeon(),
+            "OPTIMIZATION": ORToolsSurgeon(),
+            "NETWORK": NetworkSurgeon(),
+            "PROBABILISTIC": StatsSurgeon(),
+            "DYNAMIC": DynamicsSurgeon(),
+            "GAME": GameSurgeon(),
+            "RISK": RiskSurgeon(),
+            "CAUSAL": CausalSurgeon()
         }
-    
+
     def invert_motors(self, problem_type: str, data: dict) -> list:
-        """Fiziksel motorlari calistirir (0 token maliyeti)"""
         motor = self.motors.get(problem_type)
         if not motor:
             return [{"error": "Bilinmeyen problem tipi: " + str(problem_type)}]
-        
+
         if problem_type == "LOGICAL":
             result = motor.find_contradictions(data.get("statements", []))
         elif problem_type == "OPTIMIZATION":
@@ -68,23 +59,15 @@ class InversionOrchestratorV2:
         else:
             result = {"error": "Motor bulunamadi"}
         return [result]
-    
+
     def auto_invert(self, text: str, data: dict, customer_id: str = "default") -> dict:
-        """
-        TAM AKIS:
-        1. Ontoloji siniflandirma (0 token)
-        2. Motor cache kontrol (0 token)
-        3. Motor calistirma (0 token)
-        4. Sentez cache kontrol (0 token)
-        5. DeepSeek sentez (minimum token, sadece cevirir)
-        """
         problem_type = self.ontology.classify(text)
         cache = get_cache()
-        
-        # Motor sonuclari icin cache
+
+        # MOTOR CACHE
         motor_key = cache.make_key(f"motor:{problem_type}", data)
         cached_motor_result = cache.get(motor_key)
-        
+
         if cached_motor_result is not None:
             motor_results = cached_motor_result
             motor_cache_status = "HIT"
@@ -93,11 +76,11 @@ class InversionOrchestratorV2:
             if motor_results and isinstance(motor_results[0], dict) and not motor_results[0].get("error"):
                 cache.set(motor_key, motor_results)
             motor_cache_status = "MISS"
-        
-        # Sentez icin cache
+
+        # SENTEZ CACHE
         synthesis_key = cache.make_key(f"synth:{problem_type}", {"data": data, "results": motor_results})
         cached_synth = cache.get(synthesis_key)
-        
+
         if cached_synth is not None:
             synthesis = cached_synth
             synthesis_cache_status = "HIT"
@@ -108,10 +91,12 @@ class InversionOrchestratorV2:
                 synthesis = self.deepseek.synthesize(
                     motor_results, customer_id=customer_id, problem_type=problem_type
                 )
+                # FORENSIC FIX: transient hata yoksa cache'e yaz
+                # (offline mod dahil - cunku offline deterministik)
                 if "error" not in synthesis:
                     cache.set(synthesis_key, synthesis)
             synthesis_cache_status = "MISS"
-        
+
         return {
             "problem_type": problem_type,
             "motor_results": motor_results,
