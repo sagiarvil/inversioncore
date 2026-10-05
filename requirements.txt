@@ -16,3 +16,6 @@ numpy
 pandas
 tenacity
 httpx
+langgraph
+langchain
+langchain-community
