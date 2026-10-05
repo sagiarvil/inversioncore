@@ -37,6 +37,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.21/mammoth.browser.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+  <script src="vision_forensics.js"></script>
 
 </head>
 <body class="min-h-screen flex flex-col antialiased">
@@ -296,14 +297,9 @@
           extractedText = text;
         } 
         else if (ext === 'png' || ext === 'jpg' || ext === 'jpeg') {
-          textElem.innerText = "Yapay Zeka Görsel Analizi (OCR) çalışıyor...";
-          const result = await Tesseract.recognize(file, 'tur+eng', {
-            logger: m => { if(m.status === "recognizing text") textElem.innerText = `Görsel Taranıyor: %${Math.round(m.progress * 100)}`; }
-          });
-          extractedText = result.data.text;
-          if (extractedText.trim().length < 5) {
-             extractedText = "[SİSTEM UYARISI]: Yüklenen fotoğrafta anlamlı bir metin veya sorun dizisi bulunamadı. Lütfen analiz edilecek net bir fotoğraf yükleyin.";
-          }
+          if (!window.InversionVision) throw new Error("Görsel Analiz Süiti (vision_forensics.js) yüklenmedi!");
+          const visionResult = await window.InversionVision.analyzeImage(file, document.getElementById('inputArea').value.trim(), (msg) => { textElem.innerText = msg; });
+          extractedText = visionResult.summary;
         } 
         else {
           alert("Desteklenmeyen dosya formatı.");
