@@ -6,7 +6,7 @@ import urllib.request
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from engine.inversion_physics_suite import InversionPhysicsSuite
 
-PORT = 8085
+PORT = 80
 MODEL_ENDPOINT = "http://localhost:8080/v1/chat/completions"
 SUITE = InversionPhysicsSuite()
 
