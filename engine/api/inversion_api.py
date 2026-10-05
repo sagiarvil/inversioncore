@@ -92,56 +92,57 @@ async def stream_text(request: StreamRequest):
 
     def token_generator():
         import json
+        import urllib.request
+        import urllib.error
+        import time
+        
+        # 1. BİRİNCİL MOTOR: ALFA (inversioncore.com/api/chat)
         try:
-            response = litellm.completion(
-                model="deepseek/deepseek-flash",
-                messages=messages,
-                api_key=api_key,
-                api_base="https://api.deepseek.com",
-                temperature=0.1,
-                max_tokens=2500,
-                stream=True
+            full_prompt = f"{request.system_prompt}\n\n[KULLANICI]: {request.text}"
+            payload = json.dumps({"prompt": full_prompt, "model": "qwen"}).encode('utf-8')
+            
+            req = urllib.request.Request(
+                "https://inversioncore.com/api/chat", 
+                data=payload, 
+                headers={'Content-Type': 'application/json'}
             )
-            for chunk in response:
-                content = chunk.choices[0].delta.content
-                if content:
-                    escaped_content = json.dumps({"content": content})
-                    yield f"data: {escaped_content}\n\n"
+            
+            with urllib.request.urlopen(req, timeout=30) as f_res:
+                res_body = f_res.read().decode('utf-8')
+                res_data = json.loads(res_body)
+                alfa_text = res_data.get("response", "[Alfa'dan boş yanıt]")
+                
+                # Streaming (SSE) simülasyonu
+                chunk_size = 25
+                for i in range(0, len(alfa_text), chunk_size):
+                    chunk = alfa_text[i:i+chunk_size]
+                    yield f"data: {json.dumps({'content': chunk})}\n\n"
+                    time.sleep(0.01)
             yield "data: [DONE]\n\n"
-        except Exception as e:
-            # FALLBACK: DeepSeek patlarsa Alfa'dan beslen (https://inversioncore.com/api/chat)
-            import urllib.request
-            import urllib.error
-            import json
-            import time
+            return
+            
+        except Exception as alfa_err:
+            # 2. İKİNCİL MOTOR: DEEPSEEK API (Fallback)
             try:
-                yield f"data: {json.dumps({'content': '[DEEPSEEK CEVAP VERMİYOR - ALFA (inversioncore.com) YEDEK MOTORU DEVREDE]\n\n'})}\n\n"
+                yield f"data: {json.dumps({'content': f'[ALFA SUNUCUSUNA ULAŞILAMADI ({str(alfa_err)}) - DEEPSEEK YEDEK MOTORUNA GEÇİLİYOR...]\n\n'})}\n\n"
                 
-                full_prompt = f"{request.system_prompt}\n\n[KULLANICI]: {request.text}"
-                payload = json.dumps({"prompt": full_prompt, "model": "qwen"}).encode('utf-8')
-                
-                # Alfa sunucusuna HTTP POST
-                req = urllib.request.Request(
-                    "https://inversioncore.com/api/chat", 
-                    data=payload, 
-                    headers={'Content-Type': 'application/json'}
+                response = litellm.completion(
+                    model="deepseek/deepseek-flash",
+                    messages=messages,
+                    api_key=api_key,
+                    api_base="https://api.deepseek.com",
+                    temperature=0.1,
+                    max_tokens=2500,
+                    stream=True
                 )
-                
-                with urllib.request.urlopen(req, timeout=45) as f_res:
-                    res_body = f_res.read().decode('utf-8')
-                    res_data = json.loads(res_body)
-                    alfa_text = res_data.get("response", "[Alfa'dan boş yanıt]")
-                    
-                    # Streaming (SSE) simülasyonu
-                    chunk_size = 25
-                    for i in range(0, len(alfa_text), chunk_size):
-                        chunk = alfa_text[i:i+chunk_size]
-                        yield f"data: {json.dumps({'content': chunk})}\n\n"
-                        time.sleep(0.01)
+                for chunk in response:
+                    content = chunk.choices[0].delta.content
+                    if content:
+                        escaped_content = json.dumps({"content": content})
+                        yield f"data: {escaped_content}\n\n"
                 yield "data: [DONE]\n\n"
-                
-            except Exception as alfa_err:
-                err_content = json.dumps({"content": f"[HATA] DeepSeek başarısız ({str(e)}), Alfa Yedek Motoru da ulaşılamaz durumda: {str(alfa_err)}"})
+            except Exception as ds_err:
+                err_content = json.dumps({"content": f"[HATA] Tüm motorlar çöktü. Alfa Hatası: {str(alfa_err)} | DeepSeek Hatası: {str(ds_err)}"})
                 yield f"data: {err_content}\n\n"
 
     return StreamingResponse(token_generator(), media_type="text/event-stream")
