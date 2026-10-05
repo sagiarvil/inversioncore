@@ -11,12 +11,8 @@
     body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
     .font-mono { font-family: 'Fira Code', monospace; }
     .bento-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; }
-    
-    /* Upload Overlay */
     #dropOverlay { display: none; background: rgba(241, 245, 249, 0.9); border: 2px dashed #94a3b8; }
     .dragover #dropOverlay { display: flex; }
-
-    /* Terminal Output formatting on light theme */
     .hdr-danger { color: #be123c; font-weight: 600; margin-top: 1rem; border-bottom: 1px solid #fda4af; padding-bottom: 0.2rem; }
     .hdr-warning { color: #b45309; font-weight: 600; margin-top: 1rem; border-bottom: 1px solid #fcd34d; padding-bottom: 0.2rem; }
     .hdr-success { color: #15803d; font-weight: 600; margin-top: 1rem; border-bottom: 1px solid #86efac; padding-bottom: 0.2rem; }
@@ -26,6 +22,7 @@
     .body-text { color: #334155; margin-bottom: 0.4rem; }
     .blinking-cursor { display: inline-block; width: 8px; height: 16px; background: #0f172a; animation: blink 1s infinite; vertical-align: middle; margin-left: 4px; }
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    .hidden-panel { display: none; }
   </style>
 </head>
 <body class="min-h-screen flex flex-col antialiased">
@@ -38,16 +35,14 @@
     </div>
     <div class="flex items-center gap-2 text-xs font-medium text-slate-600">
       <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-      DEEPSEEK CODER
+      DEEPSEEK CODER (CACHED)
     </div>
   </header>
 
   <main class="flex-1 flex flex-col lg:flex-row p-4 gap-4 overflow-hidden h-[calc(100vh-56px)]">
-    
     <!-- LEFT PANE -->
     <section class="lg:w-[480px] flex flex-col gap-4 shrink-0 relative" id="dropZone">
       <div class="bento-card flex-1 flex flex-col overflow-hidden relative">
-        
         <div id="dropOverlay" class="absolute inset-0 z-10 rounded-lg flex-col items-center justify-center text-slate-500">
           <svg class="w-12 h-12 mb-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
           <span class="font-medium text-sm">Dosyayı Buraya Bırakın</span>
@@ -59,12 +54,35 @@
           <span class="text-[10px] text-slate-400 font-mono">TEXT OR DRAG FILE</span>
         </div>
         
-        <div class="p-3 border-b border-slate-100 flex flex-wrap gap-2 bg-white">
+        <div class="p-3 border-b border-slate-100 flex flex-wrap gap-2 bg-white items-center">
           <button class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition-colors" onclick="loadPreset('cafe')">Kahve (SME)</button>
           <button class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition-colors" onclick="loadPreset('saas')">B2B SaaS</button>
           <button class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition-colors" onclick="loadPreset('pazarlama')">E-Ticaret</button>
+          <div class="h-4 w-px bg-slate-300 mx-1"></div>
+          <button class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold px-3 py-1 rounded border border-indigo-200 transition-colors flex items-center gap-1" onclick="toggleDynamicPanel()">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+            BAŞLA (DİNAMİK)
+          </button>
         </div>
         
+        <!-- Dynamic Category Panel (Hidden by default) -->
+        <div id="dynamicPanel" class="hidden-panel bg-indigo-50/30 border-b border-slate-100 p-4">
+          <div class="text-xs font-medium text-slate-600 mb-3">Dinamik Ajan Yönlendirmesi (Zero-Shot Routing)</div>
+          <div class="grid grid-cols-2 gap-3 mb-3">
+            <div>
+              <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1">X Kategorisi (Sektör)</label>
+              <input type="text" id="catX" class="w-full text-sm p-2 border border-slate-200 rounded focus:border-indigo-400 focus:outline-none" placeholder="Örn: Finans, Savunma...">
+            </div>
+            <div>
+              <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1">Y Kategorisi (Bağlam/Hedef)</label>
+              <input type="text" id="catY" class="w-full text-sm p-2 border border-slate-200 rounded focus:border-indigo-400 focus:outline-none" placeholder="Örn: Güvenlik, Hızlı Büyüme...">
+            </div>
+          </div>
+          <button onclick="applyDynamic()" class="w-full bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold py-1.5 rounded">
+            AJANLARI X-Y MATRİSİNE GÖRE YAPILANDIR
+          </button>
+        </div>
+
         <textarea id="inputArea" class="flex-1 w-full resize-none p-4 text-sm text-slate-700 font-mono leading-relaxed focus:outline-none" placeholder="Senaryonuzu yazın veya txt/md/json dosyası sürükleyip bırakın..."></textarea>
         
         <div class="border-t border-slate-200 bg-slate-50/50 p-4 flex items-center justify-between">
@@ -83,7 +101,6 @@
           <h2 class="text-xs font-semibold text-slate-500 tracking-widest uppercase">Canlı Çözümleme Konsolu</h2>
           <span id="speedBadge" class="text-[10px] font-mono text-emerald-600 font-medium bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">BEKLEMEDE</span>
         </div>
-        
         <div id="terminalBox" class="flex-1 overflow-y-auto p-6 font-mono text-[13px] leading-relaxed text-slate-600 bg-white">
           <span class="text-slate-400">// Sistem hazır. Bir senaryo girin veya dosya sürükleyin.</span><br>
           <span class="text-slate-400">// Inversion Motoru sonuçları buraya yansıtacaktır.</span>
@@ -100,37 +117,34 @@
       pazarlama: `VENTURE: Yeni bir giyim e-ticaret markası kurmak.\nSERMAYE: 300.000 TL stok, 100.000 TL reklam bütçesi.\nHEDEF: ROAS 3x yakalayarak 6 ayda karlı ölçeklenmek.`
     };
 
-    function loadPreset(k) { document.getElementById('inputArea').value = presets[k] || ''; }
+    function loadPreset(k) { 
+      document.getElementById('inputArea').value = presets[k] || ''; 
+    }
     loadPreset('cafe');
 
-    // Drag and Drop Logic
+    function toggleDynamicPanel() {
+      const p = document.getElementById('dynamicPanel');
+      p.style.display = p.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function applyDynamic() {
+      const x = document.getElementById('catX').value.trim() || 'Genel';
+      const y = document.getElementById('catY').value.trim() || 'Strateji';
+      document.getElementById('inputArea').value = `[DİNAMİK AJAN YÖNLENDİRMESİ]\nSEKTÖR (X): ${x}\nBAĞLAM (Y): ${y}\n\nAjan Protokolü: Belirtilen X ve Y kesişimine göre domain-spesifik veri kullanarak tersine mühendislik uygulayın.\n\nSistematik Durum: (Buraya detay giriniz...)`;
+      toggleDynamicPanel();
+    }
+
     const dropZone = document.getElementById('dropZone');
     const inputArea = document.getElementById('inputArea');
 
-    dropZone.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      dropZone.classList.add('dragover');
-    });
-
-    dropZone.addEventListener('dragleave', (e) => {
-      e.preventDefault();
-      if (!dropZone.contains(e.relatedTarget)) {
-        dropZone.classList.remove('dragover');
-      }
-    });
-
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+    dropZone.addEventListener('dragleave', (e) => { e.preventDefault(); if (!dropZone.contains(e.relatedTarget)) dropZone.classList.remove('dragover'); });
     dropZone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      dropZone.classList.remove('dragover');
+      e.preventDefault(); dropZone.classList.remove('dragover');
       const file = e.dataTransfer.files[0];
       if (!file) return;
-
       const reader = new FileReader();
-      reader.onload = (evt) => {
-        const text = evt.target.result;
-        inputArea.value = `[DOSYA İÇERİĞİ: ${file.name}]\n\n` + text;
-      };
-      reader.onerror = () => alert("Dosya okunamadı. Yalnızca metin formatları desteklenmektedir.");
+      reader.onload = (evt) => { inputArea.value = `[DOSYA İÇERİĞİ: ${file.name}]\n\n` + evt.target.result; };
       reader.readAsText(file);
     });
 
@@ -139,66 +153,45 @@
       let html = "";
       for (let line of lines) {
         let trimmed = line.trim();
-        if (line.includes("1.") && (line.includes("ÇÖKÜŞ") || line.includes("İFLAS") || line.includes("FLAW"))) {
-          html += `<div class="hdr-danger">${escapeHtml(line)}</div>`;
-        } else if (line.includes("2.") && (line.includes("ANTİ-ŞARTLAR") || line.includes("KÖK NEDEN") || line.includes("VECTOR"))) {
-          html += `<div class="hdr-warning">${escapeHtml(line)}</div>`;
-        } else if (line.includes("3.") && (line.includes("VİA NEGATİVA") || line.includes("YAPILMAYACAKLAR") || line.includes("PROTOCOL"))) {
-          html += `<div class="hdr-success">${escapeHtml(line)}</div>`;
-        } else if (line.includes("4.") && (line.includes("HAYATTA KALMA") || line.includes("SINIRLAR") || line.includes("EŞİKLER") || line.includes("THRESHOLD"))) {
-          html += `<div class="hdr-info">${escapeHtml(line)}</div>`;
-        } else if (line.startsWith("###")) {
-          html += `<div class="hdr-info">${escapeHtml(line)}</div>`;
-        } else {
-          let processed = escapeHtml(line);
-          processed = processed.replace(/\*\*(.*?)\*\*/g, '<span class="item-title">$1</span>');
-          processed = processed.replace(/(\b\d+[\d\.,]*\s*(?:TL|USD|\$|€|ay|gün|dakika|saat|%)\b)/gi, '<span class="data-pill">$1</span>');
+        if (line.includes("1.") && (line.includes("ÇÖKÜŞ") || line.includes("İFLAS") || line.includes("FLAW"))) { html += `<div class="hdr-danger">${escapeHtml(line)}</div>`; }
+        else if (line.includes("2.") && (line.includes("ANTİ-ŞARTLAR") || line.includes("KÖK NEDEN") || line.includes("VECTOR"))) { html += `<div class="hdr-warning">${escapeHtml(line)}</div>`; }
+        else if (line.includes("3.") && (line.includes("VİA NEGATİVA") || line.includes("YAPILMAYACAKLAR") || line.includes("PROTOCOL"))) { html += `<div class="hdr-success">${escapeHtml(line)}</div>`; }
+        else if (line.includes("4.") && (line.includes("HAYATTA KALMA") || line.includes("SINIRLAR") || line.includes("EŞİKLER") || line.includes("THRESHOLD"))) { html += `<div class="hdr-info">${escapeHtml(line)}</div>`; }
+        else if (line.startsWith("###")) { html += `<div class="hdr-info">${escapeHtml(line)}</div>`; }
+        else {
+          let processed = escapeHtml(line).replace(/\*\*(.*?)\*\*/g, '<span class="item-title">$1</span>').replace(/(\b\d+[\d\.,]*\s*(?:TL|USD|\$|€|ay|gün|dakika|saat|%)\b)/gi, '<span class="data-pill">$1</span>');
           html += `<div class="body-text">${processed}</div>`;
         }
       }
       return html;
     }
 
-    function escapeHtml(str) {
-      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    }
+    function escapeHtml(str) { return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
 
     async function runStreamingInversion() {
       const input = inputArea.value.trim();
-      if (!input) return alert("Lütfen hedef senaryoyu girin veya bir dosya sürükleyin!");
+      if (!input) return alert("Lütfen hedef senaryoyu girin veya dosya sürükleyin!");
       const btn = document.getElementById('runBtn');
       btn.disabled = true;
-
       const termBox = document.getElementById('terminalBox');
       termBox.innerHTML = '<span class="blinking-cursor"></span>';
       document.getElementById('speedBadge').textContent = "ÇÖZÜMLENİYOR...";
-
       const t0 = performance.now();
       try {
-        const resp = await fetch("/api/inversion/stream", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ scenario: input })
-        });
-
+        const resp = await fetch("/api/inversion/stream", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ scenario: input }) });
         if (!resp.ok) {
-           // Fallback UI mock just for visual feedback if backend is disconnected
            termBox.innerHTML = `<span class="text-red-600 font-semibold">[HATA] Backend API yanıt vermedi veya bulunamadı (${resp.status}). Pre-mortem engine offline.</span>`;
            document.getElementById('speedBadge').textContent = "BAĞLANTI HATASI";
-           btn.disabled = false;
-           return;
+           btn.disabled = false; return;
         }
-
         const reader = resp.body.getReader();
         const decoder = new TextDecoder("utf-8");
         let accumulated = "";
-
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
           const chunk = decoder.decode(value, { stream: true });
           const lines = chunk.split("\n");
-
           for (const line of lines) {
             if (line.startsWith("data: ")) {
               const dataStr = line.slice(6).trim();
@@ -209,8 +202,7 @@
                 accumulated += delta;
                 termBox.innerHTML = formatHarmoniousColors(accumulated) + '<span class="blinking-cursor"></span>';
                 termBox.scrollTop = termBox.scrollHeight;
-                const elapsed = ((performance.now() - t0) / 1000).toFixed(1);
-                document.getElementById('speedBadge').textContent = `CANLI AKIŞ: ${elapsed}s`;
+                document.getElementById('speedBadge').textContent = `CANLI AKIŞ: ${((performance.now() - t0) / 1000).toFixed(1)}s`;
               } catch (e) {}
             }
           }
@@ -220,14 +212,9 @@
       } catch (err) {
         termBox.innerHTML = `<span class="text-red-600 font-semibold">[HATA] ${err.message}</span>`;
         document.getElementById('speedBadge').textContent = "HATA";
-      } finally {
-        btn.disabled = false;
-      }
+      } finally { btn.disabled = false; }
     }
-
-    document.addEventListener('keydown', (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') runStreamingInversion();
-    });
+    document.addEventListener('keydown', (e) => { if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') runStreamingInversion(); });
   </script>
 </body>
 </html>
