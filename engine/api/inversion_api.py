@@ -93,7 +93,7 @@ async def stream_text(request: StreamRequest):
     def token_generator():
         try:
             response = litellm.completion(
-                model="deepseek/deepseek-chat",
+                model="deepseek/deepseek-flash",
                 messages=messages,
                 api_key=api_key,
                 api_base="https://api.deepseek.com",
