@@ -34,8 +34,7 @@
       <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">PRE-MORTEM ENGINE</span>
     </div>
     <div class="flex items-center gap-2 text-xs font-medium text-slate-600">
-      <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-      DEEPSEEK CODER (CACHED)
+      <span id="statusDot" class="w-2 h-2 rounded-full bg-emerald-500" title="Sistem Aktif"></span>
     </div>
   </header>
 
@@ -177,11 +176,13 @@
       termBox.innerHTML = '<span class="blinking-cursor"></span>';
       document.getElementById('speedBadge').textContent = "ÇÖZÜMLENİYOR...";
       const t0 = performance.now();
+      document.getElementById('statusDot').className = "w-2 h-2 rounded-full bg-emerald-500";
       try {
         const resp = await fetch("/api/inversion/stream", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ scenario: input }) });
         if (!resp.ok) {
            termBox.innerHTML = `<span class="text-red-600 font-semibold">[HATA] Backend API yanıt vermedi veya bulunamadı (${resp.status}). Pre-mortem engine offline.</span>`;
            document.getElementById('speedBadge').textContent = "BAĞLANTI HATASI";
+           document.getElementById('statusDot').className = "w-2 h-2 rounded-full bg-red-500";
            btn.disabled = false; return;
         }
         const reader = resp.body.getReader();
@@ -212,6 +213,7 @@
       } catch (err) {
         termBox.innerHTML = `<span class="text-red-600 font-semibold">[HATA] ${err.message}</span>`;
         document.getElementById('speedBadge').textContent = "HATA";
+        document.getElementById('statusDot').className = "w-2 h-2 rounded-full bg-red-500";
       } finally { btn.disabled = false; }
     }
     document.addEventListener('keydown', (e) => { if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') runStreamingInversion(); });
