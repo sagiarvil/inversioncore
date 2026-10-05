@@ -32,6 +32,12 @@
   <style>
     .daktilo { font-family: 'Courier Prime', monospace; letter-spacing: -0.2px; }
   </style>
+
+  <!-- OCR ve Belge Okuma Motorları (GitHub) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.21/mammoth.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+
 </head>
 <body class="min-h-screen flex flex-col antialiased">
   
@@ -52,10 +58,17 @@
     <!-- LEFT PANE -->
     <section class="lg:w-[480px] flex flex-col gap-4 shrink-0 relative" id="dropZone">
       <div class="bento-card flex-1 flex flex-col overflow-hidden relative">
-        <div id="dropOverlay" class="absolute inset-0 z-10 rounded-lg flex-col items-center justify-center text-slate-500">
+        
+        <div id="fileLoadingIndicator" class="hidden absolute inset-0 z-20 bg-white/90 rounded-lg flex flex-col items-center justify-center text-indigo-600">
+          <svg class="animate-spin h-8 w-8 mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+          <span id="fileLoadingText" class="font-medium text-sm">Görsel / Belge Motoru Analiz Ediyor...</span>
+        </div>
+
+        <input type="file" id="fileUpload" class="hidden" accept=".txt,.csv,.json,.md,.pdf,.docx,.png,.jpg,.jpeg">
+        <div id="dropOverlay" onclick="document.getElementById('fileUpload').click()" class="absolute inset-0 z-10 rounded-lg flex-col items-center justify-center text-slate-500">
           <svg class="w-12 h-12 mb-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-          <span class="font-medium text-sm">Dosyayı Buraya Bırakın</span>
-          <span class="text-xs mt-1">.txt, .md, .csv, .json</span>
+          <span class="font-medium text-sm">Dosyayı Bırakın veya Tıklayıp Yükleyin</span>
+          <span class="text-xs mt-1">.txt, .pdf, .docx, .png, .jpg</span>
         </div>
 
         <div class="border-b border-slate-200 bg-slate-50/50 px-4 py-3 flex justify-between items-center">
@@ -226,6 +239,86 @@
     }
 
     function escapeHtml(str) { return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+
+    
+    // OCR & Belge Motorlari (PDF.js, Mammoth.js, Tesseract.js)
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+    document.getElementById('fileUpload').addEventListener('change', handleFileSelect, false);
+    
+    const dropZone = document.getElementById('dropOverlay').parentElement;
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); document.getElementById('dropOverlay').classList.add('bg-indigo-50/80'); });
+    dropZone.addEventListener('dragleave', () => { document.getElementById('dropOverlay').classList.remove('bg-indigo-50/80'); });
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      document.getElementById('dropOverlay').classList.remove('bg-indigo-50/80');
+      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        processFile(e.dataTransfer.files[0]);
+      }
+    });
+
+    function handleFileSelect(e) {
+      if (e.target.files && e.target.files.length > 0) {
+        processFile(e.target.files[0]);
+      }
+    }
+
+    async function processFile(file) {
+      const indicator = document.getElementById('fileLoadingIndicator');
+      const textElem = document.getElementById('fileLoadingText');
+      indicator.classList.remove('hidden');
+      document.getElementById('dropOverlay').classList.add('hidden');
+      
+      const ext = file.name.split('.').pop().toLowerCase();
+      try {
+        let extractedText = "";
+        
+        if (ext === 'txt' || ext === 'md' || ext === 'csv' || ext === 'json') {
+          textElem.innerText = "Metin dosyası okunuyor...";
+          extractedText = await file.text();
+        } 
+        else if (ext === 'docx') {
+          textElem.innerText = "Word motoru dosyayı ayrıştırıyor...";
+          const arrayBuffer = await file.arrayBuffer();
+          const result = await mammoth.extractRawText({arrayBuffer: arrayBuffer});
+          extractedText = result.value;
+        } 
+        else if (ext === 'pdf') {
+          textElem.innerText = "PDF motoru sayfaları okuyor...";
+          const arrayBuffer = await file.arrayBuffer();
+          const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+          let text = "";
+          for(let i = 1; i <= pdf.numPages; i++) {
+             const page = await pdf.getPage(i);
+             const content = await page.getTextContent();
+             text += content.items.map(s => s.str).join(' ') + "\n";
+          }
+          extractedText = text;
+        } 
+        else if (ext === 'png' || ext === 'jpg' || ext === 'jpeg') {
+          textElem.innerText = "Yapay Zeka Görsel Analizi (OCR) çalışıyor...";
+          const result = await Tesseract.recognize(file, 'tur+eng', {
+            logger: m => { if(m.status === "recognizing text") textElem.innerText = `Görsel Taranıyor: %${Math.round(m.progress * 100)}`; }
+          });
+          extractedText = result.data.text;
+          if (extractedText.trim().length < 5) {
+             extractedText = "[SİSTEM UYARISI]: Yüklenen fotoğrafta anlamlı bir metin veya sorun dizisi bulunamadı. Lütfen analiz edilecek net bir fotoğraf yükleyin.";
+          }
+        } 
+        else {
+          alert("Desteklenmeyen dosya formatı.");
+          return;
+        }
+
+        document.getElementById('inputArea').value = `[DOSYA ANALİZ SİSTEMİ]\n${file.name} belgesinden tersine mühendislik için elde edilen metin:\n\n` + extractedText;
+      } catch (err) {
+        console.error(err);
+        alert("Dosya ayrıştırma hatası: " + err.message);
+      } finally {
+        indicator.classList.add('hidden');
+        document.getElementById('dropOverlay').classList.remove('hidden');
+      }
+    }
 
     async function runStreamingInversion() {
       const input = inputArea.value.trim();
