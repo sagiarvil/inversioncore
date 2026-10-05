@@ -1,433 +1,275 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>InversionCore — Reality Pre-Mortem</title>
+  <title>InversionCore | Negatif Bilgi & Tersine Mühendislik</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
-    .font-mono { font-family: 'Fira Code', monospace; }
-    .bento-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; }
-    #dropOverlay { display: none; background: rgba(241, 245, 249, 0.9); border: 2px dashed #94a3b8; }
-    .dragover #dropOverlay { display: flex; }
-    .hdr-danger { color: #be123c; font-weight: 600; margin-top: 1rem; border-bottom: 1px solid #fda4af; padding-bottom: 0.2rem; }
-    .hdr-warning { color: #b45309; font-weight: 600; margin-top: 1rem; border-bottom: 1px solid #fcd34d; padding-bottom: 0.2rem; }
-    .hdr-success { color: #15803d; font-weight: 600; margin-top: 1rem; border-bottom: 1px solid #86efac; padding-bottom: 0.2rem; }
-    .hdr-info { color: #0369a1; font-weight: 600; margin-top: 1rem; border-bottom: 1px solid #7dd3fc; padding-bottom: 0.2rem; }
-    .item-title { color: #0f172a; font-weight: 600; }
-    .data-pill { background: #f1f5f9; padding: 0 4px; border-radius: 4px; border: 1px solid #cbd5e1; font-family: 'Fira Code', monospace; font-size: 0.85em; }
-    .body-text { color: #334155; margin-bottom: 0.4rem; }
-    .blinking-cursor { display: inline-block; width: 8px; height: 16px; background: #0f172a; animation: blink 1s infinite; vertical-align: middle; margin-left: 4px; }
-    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-    .hidden-panel { display: none; }
-  </style>
-<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-  <style>
-    .daktilo { font-family: 'Courier Prime', monospace; letter-spacing: -0.2px; }
-  </style>
-
-  <!-- OCR ve Belge Okuma Motorları (GitHub) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.21/mammoth.browser.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
-  <script src="vision_forensics.js"></script>
-
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+          colors: { 
+            brand: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a' },
+            slate: { 50: '#f8fafc', 800: '#1e293b', 900: '#0f172a' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #f8fafc; color: #0f172a; }
+    .blinking-cursor { display: inline-block; width: 8px; height: 16px; background-color: #2563eb; animation: blink 1s step-end infinite; margin-left: 4px; vertical-align: middle; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    .prose blockquote { border-left-color: #3b82f6; background-color: #eff6ff; padding: 1rem 1.5rem; border-radius: 0 0.5rem 0.5rem 0; font-style: normal; margin-top: 1.5rem; margin-bottom: 1.5rem; color: #1e3a8a; font-weight: 500; box-shadow: inset 2px 0 0 #2563eb; }
+    .prose strong { color: #1d4ed8; font-weight: 700; }
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  </style>
 </head>
-<body class="min-h-screen flex flex-col antialiased">
-  
-  <header class="h-14 border-b border-slate-200 bg-white flex items-center justify-between px-6 shrink-0">
-    <div class="flex items-center gap-3">
-      <div class="w-9 h-9 bg-white border border-slate-200 rounded-md shadow-sm flex items-center justify-center p-1 relative overflow-hidden">
-        <img src="/logo.png" alt="InversionCore Logo" class="w-full h-full object-contain drop-shadow-md contrast-125">
+<body class="flex flex-col min-h-screen">
+
+  <!-- Navbar -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <svg class="w-8 h-8 text-brand-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        <h1 class="text-xl font-bold tracking-tight text-slate-900">INVERSION<span class="text-brand-600">CORE</span></h1>
+        <span class="ml-4 px-2.5 py-1 bg-slate-100 text-slate-600 text-xs font-semibold rounded-md border border-slate-200 hidden sm:inline-block">Negatif Bilgi & Tersine Mühendislik Platformu</span>
       </div>
-      <span class="font-semibold tracking-wide text-slate-800 text-sm">INVERSIONCORE</span>
-      <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">Negatif Bilgi: Tersine Mühendislik Platformu</span>
-    </div>
-    <div class="flex items-center gap-2 text-xs font-medium text-slate-600">
-      <span id="statusDot" class="w-2 h-2 rounded-full bg-emerald-500" title="Sistem Aktif"></span>
+      <div class="flex items-center gap-6 text-sm font-medium text-slate-500 hidden md:flex">
+        <a href="#" class="hover:text-brand-600 transition-colors">Rehber</a>
+        <a href="#" class="hover:text-brand-600 transition-colors">Geçmiş</a>
+        <a href="#" class="hover:text-brand-600 transition-colors">Ayarlar</a>
+        <div class="w-8 h-8 bg-brand-600 text-white rounded-full flex items-center justify-center font-bold">AK</div>
+      </div>
     </div>
   </header>
 
-  <main class="flex-1 flex flex-col lg:flex-row p-4 gap-4 overflow-hidden h-[calc(100vh-56px)]">
-    <!-- LEFT PANE -->
-    <section class="lg:w-[480px] flex flex-col gap-4 shrink-0 relative" id="dropZone">
-      <div class="bento-card flex-1 flex flex-col overflow-hidden relative">
+  <!-- Main Layout -->
+  <div class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col lg:flex-row gap-8 items-start">
+    
+    <!-- Left Sidebar (Category Selection) -->
+    <aside class="w-full lg:w-72 flex-shrink-0 space-y-6">
+      <div>
+        <h2 class="text-lg font-bold text-slate-800 mb-1">Analiz Alanı</h2>
+        <p class="text-sm text-slate-500 mb-4">Bir alan seç veya senaryonu doğrudan gir.</p>
         
-        <div id="fileLoadingIndicator" class="hidden absolute inset-0 z-20 bg-white/90 rounded-lg flex flex-col items-center justify-center text-indigo-600">
-          <svg class="animate-spin h-8 w-8 mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-          <span id="fileLoadingText" class="font-medium text-sm">Görsel / Belge Motoru Analiz Ediyor...</span>
-        </div>
-
-        <input type="file" id="fileUpload" class="hidden" accept=".txt,.csv,.json,.md,.pdf,.docx,.png,.jpg,.jpeg">
-        <div id="dropOverlay" onclick="document.getElementById('fileUpload').click()" class="absolute inset-0 z-10 rounded-lg flex-col items-center justify-center text-slate-500">
-          <svg class="w-12 h-12 mb-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-          <span class="font-medium text-sm">Dosyayı Bırakın veya Tıklayıp Yükleyin</span>
-          <span class="text-xs mt-1">.txt, .pdf, .docx, .png, .jpg</span>
-        </div>
-
-        <div class="border-b border-slate-200 bg-slate-50/50 px-4 py-3 flex justify-between items-center">
-          <h2 class="text-xs font-semibold text-slate-500 tracking-widest uppercase">Karar Modeli / Girdi</h2>
-          <span class="text-[10px] text-slate-400 font-mono">METİN VEYA DOSYA SÜRÜKLEYİN</span>
-        </div>
-        
-        <div class="p-3 border-b border-slate-100 flex flex-wrap gap-2 bg-white items-center">
-          <button class="text-xs font-semibold bg-indigo-50 hover:bg-indigo-100 text-indigo-800 px-3 py-1.5 rounded border border-indigo-200 transition-colors shadow-sm" onclick="loadPreset('finans')">Maaşınızın Ömrünü Uzatma Protokolü</button>
-          <button class="text-xs font-semibold bg-indigo-50 hover:bg-indigo-100 text-indigo-800 px-3 py-1.5 rounded border border-indigo-200 transition-colors shadow-sm" onclick="loadPreset('zaman')">Zamanı Parçalama Analizi</button>
-          <button class="text-xs font-semibold bg-indigo-50 hover:bg-indigo-100 text-indigo-800 px-3 py-1.5 rounded border border-indigo-200 transition-colors shadow-sm" onclick="loadPreset('iliski')">İlişki Algoritması Revizyonu</button>
-          <button class="text-xs font-semibold bg-indigo-50 hover:bg-indigo-100 text-indigo-800 px-3 py-1.5 rounded border border-indigo-200 transition-colors shadow-sm" onclick="loadPreset('kariyer')">Kariyer Kaynak Kodunu Okuma</button>
-          <button class="text-xs font-semibold bg-indigo-50 hover:bg-indigo-100 text-indigo-800 px-3 py-1.5 rounded border border-indigo-200 transition-colors shadow-sm" onclick="loadPreset('erteleme')">Eylemsizlik Sistemini Hacklemek</button>
-          <div class="h-4 w-px bg-slate-300 mx-1"></div>
-          <button class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold px-3 py-1 rounded border border-indigo-200 transition-colors flex items-center gap-1" onclick="toggleDynamicPanel()">
-            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-            BAŞLA (DİNAMİK)
-          </button>
-        </div>
-        
-        <!-- Dynamic Category Panel (Hidden by default) -->
-        <div id="dynamicPanel" class="hidden-panel bg-indigo-50/30 border-b border-slate-100 p-4">
-          <div class="text-xs font-medium text-slate-600 mb-3">Dinamik Ajan Yönlendirmesi (Zero-Shot Routing)</div>
-          <div class="grid grid-cols-2 gap-3 mb-3">
-            <div>
-              <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1">X Kategorisi (Sektör)</label>
-              <input type="text" id="catX" class="w-full text-sm p-2 border border-slate-200 rounded focus:border-indigo-400 focus:outline-none" placeholder="Örn: Finans, Savunma...">
+        <div class="space-y-2">
+          <!-- Item 1 -->
+          <div class="group cursor-pointer flex items-center justify-between p-3 rounded-xl border border-brand-200 bg-brand-50 hover:border-brand-300 transition-all">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-white shadow-sm flex items-center justify-center text-brand-600 border border-brand-100">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+              </div>
+              <div>
+                <h3 class="text-sm font-semibold text-brand-900">Kurumsal Strateji</h3>
+                <p class="text-[11px] text-brand-600/80">Yatırım, büyüme, risk</p>
+              </div>
             </div>
-            <div>
-              <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1">Y Kategorisi (Bağlam/Hedef)</label>
-              <input type="text" id="catY" class="w-full text-sm p-2 border border-slate-200 rounded focus:border-indigo-400 focus:outline-none" placeholder="Örn: Güvenlik, Hızlı Büyüme...">
+            <span class="text-xs font-bold text-brand-600 bg-white px-2 py-1 rounded shadow-sm">%60</span>
+          </div>
+          <!-- Item 2 -->
+          <div class="group cursor-pointer flex items-center justify-between p-3 rounded-xl border border-slate-200 bg-white hover:border-slate-300 transition-all">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center text-slate-500 border border-slate-200 group-hover:text-brand-500">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+              </div>
+              <div>
+                <h3 class="text-sm font-semibold text-slate-700">Psikoloji & Davranış</h3>
+                <p class="text-[11px] text-slate-400">Karar, alışkanlık, yanılgı</p>
+              </div>
+            </div>
+          </div>
+          <!-- Item 3 -->
+          <div class="group cursor-pointer flex items-center justify-between p-3 rounded-xl border border-slate-200 bg-white hover:border-slate-300 transition-all">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center text-slate-500 border border-slate-200 group-hover:text-brand-500">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+              </div>
+              <div>
+                <h3 class="text-sm font-semibold text-slate-700">Finans & Ekonomi</h3>
+                <p class="text-[11px] text-slate-400">Para, piyasa, risk</p>
+              </div>
             </div>
           </div>
         </div>
+      </div>
+      
+      <div class="pt-4 border-t border-slate-200">
+         <h2 class="text-sm font-semibold text-slate-700 mb-3">Çalışma İlkesi</h2>
+         <p class="text-xs text-slate-500 leading-relaxed">Bir fikri savunmadan önce, onu öldürebilecek mekanizmayı bul. Sistem InversionCore algoritmaları üzerinden zayıflıkları test eder.</p>
+      </div>
+    </aside>
 
-        <textarea id="inputArea" class="flex-1 w-full resize-none p-4 text-sm text-slate-700 font-mono leading-relaxed focus:outline-none placeholder:italic placeholder:text-slate-400" placeholder="Herhangi bir problem. Herhangi bir sistem. Herhangi bir alan. Matematik, fizik, psikoloji, finans, sağlık, sosyal ilişkiler, hukuk, gündem... İnsan olan her şey. Negatif bilgi ile düşünce biçimini öğrenmek için yazmaya başla... (Umarım mantık hataların algoritmamı ağlatacak kadar vahim değildir.)"></textarea>
+    <!-- Center Content (Input & Output) -->
+    <main class="flex-1 flex flex-col gap-8 min-w-0">
+      
+      <!-- Input Card -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col focus-within:ring-2 focus-within:ring-brand-500 focus-within:border-brand-500 transition-all relative" id="dropZone">
         
-        <div class="border-t border-slate-200 bg-slate-50/50 p-4 flex items-center justify-between">
-          <span class="text-xs text-slate-400 font-mono">⌘ + Enter</span>
-          <button id="runBtn" onclick="runStreamingInversion()" class="bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold px-4 py-2 rounded shadow-sm transition-all disabled:opacity-50">
-            ÇÖKÜŞÜ MODELLE & TERSYÜZ ET
+        <!-- Header of Input -->
+        <div class="bg-slate-50 border-b border-slate-100 px-5 py-3 flex items-center justify-between">
+           <div class="flex items-center gap-2 text-sm font-semibold text-slate-700">
+             <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+             Çözümleme Konsolu
+           </div>
+           <div class="text-xs text-slate-400 font-mono">0 / 50.000</div>
+        </div>
+
+        <!-- Textarea -->
+        <textarea id="inputArea" class="w-full p-5 outline-none resize-none bg-transparent text-slate-800 placeholder-slate-400 text-[15px] leading-relaxed min-h-[160px]" placeholder="Detaylı olarak yazın...&#10;• Yaşadığınız durum / problem nedir?&#10;• Hangi alanlarda analiz edilmesini istiyorsunuz?&#10;• Varsa özel sorularınız, beklentileriniz veya kısıtlarınız neler?&#10;&#10;Ne kadar detay verirseniz, o kadar derin ve isabetli bir analiz alırsınız..."></textarea>
+        
+        <!-- Drag Drop Overlay -->
+        <div id="dropOverlay" class="absolute inset-0 bg-brand-50/90 backdrop-blur-sm border-2 border-dashed border-brand-400 hidden flex-col items-center justify-center z-10 rounded-2xl">
+          <svg class="w-12 h-12 text-brand-500 mb-2 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+          <span class="text-lg font-bold text-brand-700">Dosyayı Buraya Bırakın</span>
+          <span class="text-sm text-brand-600 mt-1">PDF, DOCX, TXT veya Görsel</span>
+        </div>
+        
+        <!-- Loading Indicator -->
+        <div id="loadingIndicator" class="absolute inset-0 bg-white/90 backdrop-blur-sm hidden flex-col items-center justify-center z-20 rounded-2xl">
+          <svg class="animate-spin w-8 h-8 text-brand-600 mb-3" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+          <span class="text-sm font-semibold text-slate-700">Doküman Çözümleniyor...</span>
+        </div>
+
+        <!-- Footer / Action -->
+        <div class="px-5 py-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white">
+          <div class="flex items-center gap-3">
+            <input type="file" id="fileInput" class="hidden" accept=".txt,.pdf,.png,.jpg,.jpeg,.csv,.docx">
+            <button onclick="document.getElementById('fileInput').click()" class="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-md transition-colors border border-slate-200">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
+              Dosya Ekle
+            </button>
+          </div>
+          <button id="runBtn" onclick="runStreamingInversion()" class="w-full sm:w-auto bg-brand-600 text-white px-8 py-2.5 rounded-lg font-bold text-sm tracking-wide shadow-sm hover:bg-brand-700 hover:shadow transition-all flex items-center justify-center gap-2">
+            ÇÖZÜMLEMEYİ BAŞLAT
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
           </button>
         </div>
       </div>
-    </section>
 
-    <!-- RIGHT PANE -->
-    <section class="flex-1 flex flex-col gap-4 min-w-0">
-      <div class="bento-card flex-1 flex flex-col overflow-hidden">
-        <div class="border-b border-slate-200 bg-slate-50/50 px-4 py-3 flex justify-between items-center">
-          <h2 class="text-xs font-semibold text-slate-500 tracking-widest uppercase">Canlı Çözümleme Konsolu</h2>
-          <span id="speedBadge" class="text-[10px] font-mono text-emerald-600 font-medium bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">BEKLEMEDE</span>
+      <!-- Output Analysis Card -->
+      <div id="outputContainer" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden hidden">
+        <div class="bg-slate-50 border-b border-slate-100 px-6 py-4 flex items-center justify-between">
+           <div class="flex items-center gap-3">
+             <div class="w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center text-brand-600">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+             </div>
+             <h3 class="font-bold text-lg text-slate-800 tracking-tight">Çözümleme Raporu</h3>
+           </div>
+           <div class="flex items-center gap-3">
+             <div class="flex items-center gap-1.5 px-2.5 py-1 bg-white border border-slate-200 rounded-md shadow-sm">
+                <div id="statusDot" class="w-2 h-2 rounded-full bg-slate-300"></div>
+                <span id="speedBadge" class="text-xs font-mono font-medium text-slate-500">BEKLENİYOR...</span>
+             </div>
+           </div>
         </div>
-        <div id="terminalBox" class="flex-1 overflow-y-auto p-6 font-mono text-[13px] leading-relaxed text-slate-600 bg-white">
-          <span class="text-slate-400">// Sistem hazır. Bir senaryo girin veya dosya sürükleyin.</span><br>
-          <span class="text-slate-400">// Inversion Motoru sonuçları buraya yansıtacaktır.</span>
+        <div class="p-6 md:p-8">
+          <div id="terminalBox" class="prose prose-slate prose-brand max-w-none text-[15px] leading-relaxed">
+            <!-- Content streams here -->
+          </div>
         </div>
       </div>
-    </section>
 
-  </main>
+    </main>
+  </div>
 
   <script>
-
-    
-        function generateEvidenceDossier(text) {
-      let category = "Genel Hayat Modülü (Standart Bug)";
-      let error_code = "ERR_UNKNOWN_0xFF";
-      
-      const t = text.toLowerCase();
-      if (t.includes("maaş") || t.includes("para") || t.includes("harcama") || t.includes("finans")) {
-        category = "Finansal Körlük (Maaşın Ömrünü Uzatma Protokolü)";
-        error_code = "ERR_BUDGET_OVERFLOW_0x1A";
-      } else if (t.includes("vakit") || t.includes("zaman") || t.includes("reels") || t.includes("saat")) {
-        category = "Zamanı Parçalama Analizi (24 Saati Çalanlar)";
-        error_code = "ERR_TIME_LOOP_PARADOX_0x2B";
-      } else if (t.includes("işten") || t.includes("kariyer") || t.includes("maaş") || t.includes("pazartesi")) {
-        category = "Kariyer Kaynak Kodu (Profesyonel Hata)";
-        error_code = "ERR_CAREER_COMFORT_ZONE_0x3C";
-      } else if (t.includes("erteleme") || t.includes("başarısızlık") || t.includes("kusursuz")) {
-        category = "Eylemsizlik Sistemi (Analysis Paralysis)";
-        error_code = "ERR_EXECUTION_BLOCKED_0x4D";
-      } else if (t.includes("ilişki") || t.includes("partner") || t.includes("toksik")) {
-        category = "İlişki Algoritması Revizyonu";
-        error_code = "ERR_TOXIC_SELECTION_LOOP_0x5E";
-      }
-
-      return `[SİSTEMİK İNSAN HATASI (MÜHENDİSLİK ANALİZİ)]\n1. MAVİ EKRAN (CRASH) BİLDİRİMİ: Sistemin çöküş aşamasına ulaştığı doğrulandı.\n2. TESPİT EDİLEN MODÜL: ${category}\n3. HATA KODU (BUG): ${error_code}\n4. KÖK NEDEN YAKLAŞIMI: Sen suçlu değilsin, sisteminde sadece bir mantık hatası (bug) var. Geriye dönük iz sürerek (Tersine Mühendislik) arızalı olan bu işletim sistemi adımını 'debug' (hata ayıklama) yapacağız.`;
-    }
-
-    const premiumResponses = {
-      finans: `[SİSTEM TEŞHİSİ: FİNANSAL YARI ÖMÜR ÇÖKÜŞÜ (LIQUIDITY ILLUSION)]
-======================================================
-1. MAVİ EKRAN (CRASH) BİLDİRİMİ: Nakit akışı (cash-flow) motoru her ayın 15'inde Kernel Panic veriyor.
-2. KÖK NEDEN: "Asimetrik Likidite Yanılsaması" ve "Nakit Akışı Gecikme Çarpanı (Latency Multiplier)".
-Maaş yattığında (T=0), beyin (işlemci) brüt bakiyeyi 'kullanılabilir serbest marj' (free margin) olarak işler. Oysa faturalar ve sabit giderler (zaman kilitli yükümlülükler) T+15'te tetiklenecektir. Bu T=0 ile T+15 arasındaki gecikme (latency), sistemin kendini sahte bir zenginlik içinde sanmasına (OOM - Out of Memory) neden olur.
-
-[SİSTEM YAMASI (Patch: Protokol F-01)]
-3. VİA NEGATİVA (YAPILMAYACAKLAR): Ay ortası sendromuna girildiğinde "Battı balık yan gider" (Sunk Cost Fallacy) algoritmasını tetikleyip kredi kartına yüklenmek YASAKTIR.
-4. HAYATTA KALMA SINIRLARI (THRESHOLD):
-- Sıfır-Güven Mimarisi (Zero-Trust Finance): Maaş hesabınızı 'güvenilmeyen dış ağ' kabul edin. Para yattığı an (T=0) bir otomatik talimat ile sabit giderler ve %15 birikim anında erişimi zor, kartı olmayan bir soğuk cüzdana (Vault) izole edilmelidir.
-- Micro-Batching Harcama: Aylık bütçeyi değil, 3 günlük mikro-bütçeleri serbest bırakın. Sistem bir defada en fazla 72 saatlik işlem (transaction) görebilmelidir.`,
-
-      zaman: `[SİSTEM TEŞHİSİ: KESİNTİ SARMALI (MEMORY LEAK & CONTEXT SWITCHING)]
-======================================================
-1. MAVİ EKRAN (CRASH) BİLDİRİMİ: Gün sonu suçluluk hissi ve sıfır kişisel çıktı (0 Byte Output).
-2. KÖK NEDEN: "Gündem Sahipliği Zafiyeti (Agenda Hijacking)" ve "Algoritmik Karar Yorgunluğu".
-İnsan beyni, dışarıdan gelen (push tabanlı) asenkron kesmelere (interrupts) karşı korumasız bir işletim sistemidir. Sosyal medya akışları ve başkalarının talepleri, beynin ana işlem birimini (CPU) sürekli kesintiye uğratarak (Context Switching) günün %80'ini başkalarının kodunu çalıştırarak harcamanıza neden olur.
-
-[SİSTEM YAMASI (Patch: Protokol Z-01)]
-3. VİA NEGATİVA (YAPILMAYACAKLAR): Gelen her çağrı veya daveti anında işleme almak (Synchronous Execution) YASAKTIR.
-4. HAYATTA KALMA SINIRLARI (THRESHOLD):
-- Senkron Bloklama (Thread Locking): Sabah ilk 2 saat (06:00-08:00) 'Air-Gapped' (İnternetsiz) modda çalışılmalı. Dış dünyadan gelen hiçbir API çağrısı (bildirim) kabul edilmez.
-- Varsayılanı Reddet (Default-Deny Policy): Dışarıdan gelen her talebe sistem otomatik olarak "HTTP 403 Forbidden (Hayır)" yanıtı vermelidir. İstisnalar (Whitelist) sadece 24 saat sonra, sistem yükü uygunsa işleme alınır.`,
-
-      iliski: `[SİSTEM TEŞHİSİ: DESTRUCTIVE SIGNAL OPTIMIZATION (YIKICI SİNYAL OPTİMİZASYONU)]
-======================================================
-1. MAVİ EKRAN (CRASH) BİLDİRİMİ: Sonsuz döngüde tekrarlanan bencil partner seçimi ve kimlik erimesi.
-2. KÖK NEDEN: "Hatalı Desen Tanıma (Flawed Pattern Matching)" ve "Onaylanma Zafiyeti".
-Sistem, çocukluk veya geçmiş travmalardan gelen 'tanıdık' toksik kod parçacıklarını güvenli (safe) olarak etiketlemiştir. Partnerdeki manipülatif dalgalanmalar (yüksek kortizol/dopamin döngüsü), sistem tarafından "tutku (high bandwidth)" olarak algılanır. Oysa bu bir DDoS (Hizmet Aksatma) saldırısıdır ve sinir sistemini çökertir.
-
-[SİSTEM YAMASI (Patch: Protokol R-01)]
-3. VİA NEGATİVA (YAPILMAYACAKLAR): Erken uyarı sistemlerini (Red flags) "ben değiştirebilirim" diyerek hata yönetimi (Error Handling) modunda yutmak KESİNLİKLE YASAKTIR.
-4. HAYATTA KALMA SINIRLARI (THRESHOLD):
-- Anomali Tespiti (Anomaly Detection): İlişkinin ilk 90 gününde partnerin sınır ihlalleri (Red Flags) loglanmalıdır. İhlal sayısı eşik değeri (threshold) geçerse, sistem işlemi manuel müdahaleye kapatmalı ve abort (terk) prosedürünü acilen başlatmalıdır.
-- Sıkıcı Olanı Optimize Et (Boring-is-Secure): Dopamin patlamaları yerine, düşük frekanslı ama kesintisiz veri iletimi (huzur ve güven) ana metrik (KPI) yapılmalıdır.`,
-
-      kariyer: `[SİSTEM TEŞHİSİ: LEGACY CODEBASE DEADLOCK (ESKİ SİSTEM KİLİTLENMESİ)]
-======================================================
-1. MAVİ EKRAN (CRASH) BİLDİRİMİ: Tükenmişlik sendromu (Burnout) ve pazartesi sabahı fiziksel ret (System Reject).
-2. KÖK NEDEN: "Sunk Cost Fallacy (Batık Maliyet Yanılgısı)" ve "Sistem Güncelleme Reddi".
-Mevcut kariyeriniz, başkaları (toplum/aile) tarafından derlenmiş eski bir işletim sistemidir (Legacy OS). Yeni yetenekler eklenmediği için piyasa (market) ile uyumluluk kaybolmuştur (Deprecation Warning). Sistem, 4 yıldır aynı kodu çalıştırdığı için yeni hiçbir çıktısı (output) yoktur, sadece döngüde (while loop) sıkışmıştır.
-
-[SİSTEM YAMASI (Patch: Protokol K-01)]
-3. VİA NEGATİVA (YAPILMAYACAKLAR): İstifa edip büyük, riskli ve desteksiz bir geçiş yapmak (Hard Reset) YASAKTIR.
-4. HAYATTA KALMA SINIRLARI (THRESHOLD):
-- Korumalı Alan Testleri (Sandboxing): Mevcut işten (Legacy System) istifa edilmez. Ancak akşam 20:00-22:00 arası ayrı bir sunucuda (Sandbox), yeni bir sektör yeteneği gizlice derlenir ve test edilir.
-- Portfolio Driven Development: CV devri bitmiştir. Piyasaya sürülebilir somut mikro-ürünler (GitHub reposu, kod parçası, tasarım, yayınlanmış makale) üretilip, bunlar birer API ucu olarak dış dünyaya sunulmalıdır.`,
-
-      erteleme: `[SİSTEM TEŞHİSİ: EYLEMSİZLİK FELCİ (INFINITE COMPILE-TIME EXPECTATION)]
-======================================================
-1. MAVİ EKRAN (CRASH) BİLDİRİMİ: Yıllardır biriken planlar, alınan kurslar ancak %0 icra (Execution Paralysis).
-2. KÖK NEDEN: "Sonsuz Derleme Beklentisi" ve "Hata Algılama Aşırı Yükü".
-Sistem, kodu çalıştırmak (Execution) yerine sürekli daha fazla kütüphane ekleme (araştırma yapma, mükemmel anı bekleme) döngüsüne girmiştir. Hata (Error) almaktan korktuğu için, programı asla başlatmaz (0 Byte Output). Bu, mükemmeliyetçilik değil, saf bir riskten kaçınma (Risk Aversion) güvenlik duvarıdır.
-
-[SİSTEM YAMASI (Patch: Protokol E-01)]
-3. VİA NEGATİVA (YAPILMAYACAKLAR): Kusursuz anı, doğru bütçeyi veya tüm şartların olgunlaşmasını beklemek (Infinite Wait State) KESİNLİKLE YASAKTIR.
-4. HAYATTA KALMA SINIRLARI (THRESHOLD):
-- MVP Kuralı (Minimum Viable Product): İlk çıktı (Output), kasıtlı olarak çirkin, hatalı ve eksik (Buggy) olmalıdır. 1. Versiyonun amacı kusursuz olmak değil, "çalışıyor (It runs)" olmaktır.
-- Fail-Fast (Erken Çöküş) Algoritması: Proje 48 saat içinde bir insan tarafından eleştirilecek hale (production) getirilmelidir. Alınan hata logları (gerçek dünya geri bildirimleri) ile ikinci versiyon yazılır. İlk vuruşu gerçeklik yapmalıdır.`
-    };
-
-    const presets = {
-      finans: `[SİSTEM TEŞHİSİ: FİNANSAL YARI ÖMÜR ÇÖKÜŞÜ (LIQUIDITY ILLUSION)]
-======================================================
-1. MAVİ EKRAN (CRASH) BİLDİRİMİ: Nakit akışı (cash-flow) motoru her ayın 15'inde Kernel Panic veriyor.
-2. KÖK NEDEN: "Asimetrik Likidite Yanılsaması" ve "Nakit Akışı Gecikme Çarpanı (Latency Multiplier)".
-Maaş yattığında (T=0), beyin (işlemci) brüt bakiyeyi 'kullanılabilir serbest marj' (free margin) olarak işler. Oysa faturalar ve sabit giderler (zaman kilitli yükümlülükler) T+15'te tetiklenecektir. Bu T=0 ile T+15 arasındaki gecikme (latency), sistemin kendini sahte bir zenginlik içinde sanmasına (OOM - Out of Memory) neden olur.
-
-[SİSTEM YAMASI (Patch: Protokol F-01)]
-3. VİA NEGATİVA (YAPILMAYACAKLAR): Ay ortası sendromuna girildiğinde "Battı balık yan gider" (Sunk Cost Fallacy) algoritmasını tetikleyip kredi kartına yüklenmek YASAKTIR.
-4. HAYATTA KALMA SINIRLARI (THRESHOLD):
-- Sıfır-Güven Mimarisi (Zero-Trust Finance): Maaş hesabınızı 'güvenilmeyen dış ağ' kabul edin. Para yattığı an (T=0) bir otomatik talimat ile sabit giderler ve %15 birikim anında erişimi zor, kartı olmayan bir soğuk cüzdana (Vault) izole edilmelidir.
-- Micro-Batching Harcama: Aylık bütçeyi değil, 3 günlük mikro-bütçeleri serbest bırakın. Sistem bir defada en fazla 72 saatlik işlem (transaction) görebilmelidir.`,
-      
-      zaman: `[SİSTEM TEŞHİSİ: KESİNTİ SARMALI (MEMORY LEAK & CONTEXT SWITCHING)]
-======================================================
-1. MAVİ EKRAN (CRASH) BİLDİRİMİ: Gün sonu suçluluk hissi ve sıfır kişisel çıktı (0 Byte Output).
-2. KÖK NEDEN: "Gündem Sahipliği Zafiyeti (Agenda Hijacking)" ve "Algoritmik Karar Yorgunluğu".
-İnsan beyni, dışarıdan gelen (push tabanlı) asenkron kesmelere (interrupts) karşı korumasız bir işletim sistemidir. Sosyal medya akışları ve başkalarının talepleri, beynin ana işlem birimini (CPU) sürekli kesintiye uğratarak (Context Switching) günün %80'ini başkalarının kodunu çalıştırarak harcamanıza neden olur.
-
-[SİSTEM YAMASI (Patch: Protokol Z-01)]
-3. VİA NEGATİVA (YAPILMAYACAKLAR): Gelen her çağrı veya daveti anında işleme almak (Synchronous Execution) YASAKTIR.
-4. HAYATTA KALMA SINIRLARI (THRESHOLD):
-- Senkron Bloklama (Thread Locking): Sabah ilk 2 saat (06:00-08:00) 'Air-Gapped' (İnternetsiz) modda çalışılmalı. Dış dünyadan gelen hiçbir API çağrısı (bildirim) kabul edilmez.
-- Varsayılanı Reddet (Default-Deny Policy): Dışarıdan gelen her talebe sistem otomatik olarak "HTTP 403 Forbidden (Hayır)" yanıtı vermelidir. İstisnalar (Whitelist) sadece 24 saat sonra, sistem yükü uygunsa işleme alınır.`,
-      
-      iliski: `[SİSTEM TEŞHİSİ: DESTRUCTIVE SIGNAL OPTIMIZATION (YIKICI SİNYAL OPTİMİZASYONU)]
-======================================================
-1. MAVİ EKRAN (CRASH) BİLDİRİMİ: Sonsuz döngüde tekrarlanan bencil partner seçimi ve kimlik erimesi.
-2. KÖK NEDEN: "Hatalı Desen Tanıma (Flawed Pattern Matching)" ve "Onaylanma Zafiyeti".
-Sistem, çocukluk veya geçmiş travmalardan gelen 'tanıdık' toksik kod parçacıklarını güvenli (safe) olarak etiketlemiştir. Partnerdeki manipülatif dalgalanmalar (yüksek kortizol/dopamin döngüsü), sistem tarafından "tutku (high bandwidth)" olarak algılanır. Oysa bu bir DDoS (Hizmet Aksatma) saldırısıdır ve sinir sistemini çökertir.
-
-[SİSTEM YAMASI (Patch: Protokol R-01)]
-3. VİA NEGATİVA (YAPILMAYACAKLAR): Erken uyarı sistemlerini (Red flags) "ben değiştirebilirim" diyerek hata yönetimi (Error Handling) modunda yutmak KESİNLİKLE YASAKTIR.
-4. HAYATTA KALMA SINIRLARI (THRESHOLD):
-- Anomali Tespiti (Anomaly Detection): İlişkinin ilk 90 gününde partnerin sınır ihlalleri (Red Flags) loglanmalıdır. İhlal sayısı eşik değeri (threshold) geçerse, sistem işlemi manuel müdahaleye kapatmalı ve abort (terk) prosedürünü acilen başlatmalıdır.
-- Sıkıcı Olanı Optimize Et (Boring-is-Secure): Dopamin patlamaları yerine, düşük frekanslı ama kesintisiz veri iletimi (huzur ve güven) ana metrik (KPI) yapılmalıdır.`,
-      
-      kariyer: `[SİSTEM TEŞHİSİ: LEGACY CODEBASE DEADLOCK (ESKİ SİSTEM KİLİTLENMESİ)]
-======================================================
-1. MAVİ EKRAN (CRASH) BİLDİRİMİ: Tükenmişlik sendromu (Burnout) ve pazartesi sabahı fiziksel ret (System Reject).
-2. KÖK NEDEN: "Sunk Cost Fallacy (Batık Maliyet Yanılgısı)" ve "Sistem Güncelleme Reddi".
-Mevcut kariyeriniz, başkaları (toplum/aile) tarafından derlenmiş eski bir işletim sistemidir (Legacy OS). Yeni yetenekler eklenmediği için piyasa (market) ile uyumluluk kaybolmuştur (Deprecation Warning). Sistem, 4 yıldır aynı kodu çalıştırdığı için yeni hiçbir çıktısı (output) yoktur, sadece döngüde (while loop) sıkışmıştır.
-
-[SİSTEM YAMASI (Patch: Protokol K-01)]
-3. VİA NEGATİVA (YAPILMAYACAKLAR): İstifa edip büyük, riskli ve desteksiz bir geçiş yapmak (Hard Reset) YASAKTIR.
-4. HAYATTA KALMA SINIRLARI (THRESHOLD):
-- Korumalı Alan Testleri (Sandboxing): Mevcut işten (Legacy System) istifa edilmez. Ancak akşam 20:00-22:00 arası ayrı bir sunucuda (Sandbox), yeni bir sektör yeteneği gizlice derlenir ve test edilir.
-- Portfolio Driven Development: CV devri bitmiştir. Piyasaya sürülebilir somut mikro-ürünler (GitHub reposu, kod parçası, tasarım, yayınlanmış makale) üretilip, bunlar birer API ucu olarak dış dünyaya sunulmalıdır.`,
-      
-      erteleme: `[SİSTEM TEŞHİSİ: EYLEMSİZLİK FELCİ (INFINITE COMPILE-TIME EXPECTATION)]
-======================================================
-1. MAVİ EKRAN (CRASH) BİLDİRİMİ: Yıllardır biriken planlar, alınan kurslar ancak %0 icra (Execution Paralysis).
-2. KÖK NEDEN: "Sonsuz Derleme Beklentisi" ve "Hata Algılama Aşırı Yükü".
-Sistem, kodu çalıştırmak (Execution) yerine sürekli daha fazla kütüphane ekleme (araştırma yapma, mükemmel anı bekleme) döngüsüne girmiştir. Hata (Error) almaktan korktuğu için, programı asla başlatmaz (0 Byte Output). Bu, mükemmeliyetçilik değil, saf bir riskten kaçınma (Risk Aversion) güvenlik duvarıdır.
-
-[SİSTEM YAMASI (Patch: Protokol E-01)]
-3. VİA NEGATİVA (YAPILMAYACAKLAR): Kusursuz anı, doğru bütçeyi veya tüm şartların olgunlaşmasını beklemek (Infinite Wait State) KESİNLİKLE YASAKTIR.
-4. HAYATTA KALMA SINIRLARI (THRESHOLD):
-- MVP Kuralı (Minimum Viable Product): İlk çıktı (Output), kasıtlı olarak çirkin, hatalı ve eksik (Buggy) olmalıdır. 1. Versiyonun amacı kusursuz olmak değil, "çalışıyor (It runs)" olmaktır.
-- Fail-Fast (Erken Çöküş) Algoritması: Proje 48 saat içinde bir insan tarafından eleştirilecek hale (production) getirilmelidir. Alınan hata logları (gerçek dünya geri bildirimleri) ile ikinci versiyon yazılır. İlk vuruşu gerçeklik yapmalıdır.`
-    };
-
-    
-    function typeEffect(element, text, speed, callback) {
-      let i = 0;
-      element.innerHTML = "";
-      function type() {
-        if (i < text.length) {
-          element.innerHTML += text.charAt(i) === '\n' ? '<br>' : text.charAt(i);
-          element.scrollTop = element.scrollHeight;
-          i++;
-          setTimeout(type, speed);
-        } else if(callback) {
-          callback();
-        }
-      }
-      type();
-    }
-
-        function loadPreset(k) { 
-      document.getElementById('inputArea').value = presets[k] || ''; 
-      
-      const termBox = document.getElementById('terminalBox');
-      const badge = document.getElementById('speedBadge');
-      const dot = document.getElementById('statusDot');
-      
-      termBox.innerHTML = '<span class="blinking-cursor"></span>';
-      badge.textContent = "SİSTEM ÖNBELLEĞİNDEN YÜKLENİYOR...";
-      dot.className = "w-2 h-2 rounded-full bg-emerald-500 animate-pulse";
-      
-      const responseText = premiumResponses[k] || "Veri bulunamadı.";
-      
-      setTimeout(() => {
-          termBox.innerHTML = formatHarmoniousColors(responseText);
-          badge.textContent = "TAMAMLANDI (SİSTEM ÖNBELLEĞİNDEN YÜKLENDİ)";
-          dot.className = "w-2 h-2 rounded-full bg-blue-500";
-      }, 300);
-    }
-
-    function toggleDynamicPanel() {
-      const p = document.getElementById('dynamicPanel');
-      p.style.display = p.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function applyDynamic() {
-      const x = document.getElementById('catX').value.trim() || 'Genel';
-      const y = document.getElementById('catY').value.trim() || 'Strateji';
-      document.getElementById('inputArea').value = `[DİNAMİK AJAN YÖNLENDİRMESİ]\nSEKTÖR (X): ${x}\nBAĞLAM (Y): ${y}\n\nAjan Protokolü: Belirtilen X ve Y kesişimine göre domain-spesifik veri kullanarak tersine mühendislik uygulayın.\n\nSistematik Durum: (Buraya detay giriniz...)`;
-      toggleDynamicPanel();
-    }
-
+    const dropZone = document.getElementById('dropZone');
     const inputArea = document.getElementById('inputArea');
+    const fileInput = document.getElementById('fileInput');
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(e => {
+      dropZone.addEventListener(e, preventDefaults, false);
+      document.body.addEventListener(e, preventDefaults, false);
+    });
+
+    function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
+
+    dropZone.addEventListener('dragenter', () => document.getElementById('dropOverlay').classList.remove('hidden'));
+    dropZone.addEventListener('dragleave', (e) => {
+      if (!dropZone.contains(e.relatedTarget)) document.getElementById('dropOverlay').classList.add('hidden');
+    });
+    dropZone.addEventListener('drop', (e) => { handleFileDrop(e.dataTransfer.files); });
+    fileInput.addEventListener('change', (e) => { handleFileDrop(e.target.files); });
+
+    function generateEvidenceDossier(text) {
+      return `[SİSTEMİK KANIT VE ÇELİŞKİ HARİTASI]
+- Analiz Edilen Metin Uzunluğu: ${text.length} karakter
+- Örtük Eğilim: Failin kendini haklı çıkarma veya erteleme rasyonalizasyonu.
+- Via Negativa Filtresi: Ne yapılması gerektiğinden çok, neyin ACİLEN BİTİRİLMESİ gerektiği üzerine odaklan.`;
+    }
 
     function formatHarmoniousColors(text) {
-      const lines = text.split("\n");
+      if (!text) return "";
+      let processed = text.replace(/\[(.*?)\]/g, (match, p1) => {
+        // Here we use text-white instead of text-rose-400! Premium look!
+        return `<span class="inline-flex items-center px-2 py-0.5 mx-1 rounded bg-slate-800 text-white font-mono text-xs font-medium tracking-widest shadow-sm">${p1}</span>`;
+      });
+      processed = processed.replace(/\*\*(.*?)\*\*/g, '<span class="font-bold text-brand-700">$1</span>');
       let html = "";
-      for (let line of lines) {
-        let trimmed = line.trim();
-        // Skip empty lines in some cases, but keep them for spacing
-        if (trimmed === "") { html += `<div class="mb-2"></div>`; continue; }
-        
-        let processed = escapeHtml(line);
-        // Markdown Bold to Crimson Red
-        processed = processed.replace(/\*\*(.*?)\*\*/g, '<span class="font-bold text-rose-600 tracking-wide">$1</span>');
-        
-        // Brackets to Premium Badges [SÖZCÜK] (only if it's not empty and doesn't span the whole huge line)
-        processed = processed.replace(/\[(.*?)\]/g, (match, p1) => {
-            if (p1.length > 50 || p1.includes('KÖK NEDEN') || p1.includes('VİA NEGATİVA')) return match; // don't replace headers
-            return `<span class="px-2 py-0.5 mx-1 rounded bg-slate-800 text-slate-100 font-mono text-[0.85em] tracking-widest shadow-inner">${p1}</span>`;
+      const blocks = processed.split('---');
+      blocks.forEach((block) => {
+        const lines = block.split('
+');
+        lines.forEach(line => {
+          if (line.trim() === '') { html += '<div class="h-4"></div>'; return; }
+          if (line.startsWith('# ')) { html += `<h1 class="text-2xl font-bold text-slate-900 mb-4 mt-6 tracking-tight">${line.substring(2)}</h1>`; }
+          else if (line.startsWith('## ')) { html += `<h2 class="text-xl font-bold text-slate-800 mb-3 mt-5">${line.substring(3)}</h2>`; }
+          else if (line.startsWith('### ')) {
+            const headingText = line.substring(4);
+            const badgeMatch = headingText.match(/^(BÖLÜM|ADIM) (.*?): (.*)/i);
+            if (badgeMatch) {
+              html += `<div class="mt-8 mb-4 border-b border-slate-200 pb-2 flex items-center gap-3">
+                         <span class="bg-brand-100 text-brand-700 px-2 py-1 rounded text-xs font-bold tracking-widest uppercase">${badgeMatch[1]} ${badgeMatch[2]}</span>
+                         <span class="text-slate-800 font-bold text-lg">${badgeMatch[3]}</span>
+                       </div>`;
+            } else {
+              html += `<div class="mt-6 mb-3 border-b border-slate-200 pb-2 text-slate-800 font-bold text-lg">${headingText}</div>`; 
+            }
+          }
+          else if (line.startsWith('> ')) {
+            const quoteText = line.substring(2);
+            html += `<blockquote>${quoteText}</blockquote>`;
+          }
+          else if (line.trim().match(/^[0-9]+\./)) {
+             html += `<div class="ml-4 mb-2 pl-2 border-l-2 border-slate-200"><span class="font-medium text-slate-800">${line}</span></div>`;
+          }
+          else if (line.trim().startsWith('- ')) {
+             html += `<div class="ml-4 mb-1 flex items-start gap-2"><div class="w-1.5 h-1.5 rounded-full bg-brand-400 mt-2 flex-shrink-0"></div><span>${line.substring(2)}</span></div>`;
+          }
+          else { html += `<p class="mb-3">${line}</p>`; }
         });
-        
-        // Data Pills
-        processed = processed.replace(/(\b\d+[\d\.,]*\s*(?:TL|USD|\$|€|ay|gün|dakika|saat|%)\b)/gi, '<span class="data-pill">$1</span>');
-
-        if (trimmed.startsWith("&gt;") || trimmed.startsWith(">")) {
-          let quoteText = trimmed.replace(/^&gt;\s*/, "").replace(/^>\s*/, "");
-          processed = escapeHtml(quoteText).replace(/\*\*(.*?)\*\*/g, '<span class="font-bold text-rose-600 tracking-wide">$1</span>');
-          html += `<div class="border-l-4 border-rose-500 bg-rose-50/50 p-4 my-4 italic text-slate-800 rounded-r-lg shadow-sm font-serif text-lg leading-relaxed">"${processed}"</div>`;
-        } 
-        else if (trimmed.includes("[1]") || trimmed.includes("KÖK NEDEN")) { 
-          html += `<div class="mt-6 mb-3 border-b border-rose-200 pb-2 text-rose-700 font-bold text-xl tracking-tight uppercase">${processed}</div>`; 
-        }
-        else if (trimmed.includes("[2]") || trimmed.includes("VİA NEGATİVA") || trimmed.includes("EŞİK")) { 
-          html += `<div class="mt-6 mb-3 border-b border-slate-200 pb-2 text-slate-800 font-bold text-xl tracking-tight uppercase">${processed}</div>`; 
-        }
-        else if (trimmed.startsWith("###") || trimmed.startsWith("##")) { 
-          let hText = trimmed.replace(/^#+\s*/, "");
-          html += `<div class="hdr-info mt-4">${hText}</div>`; 
-        }
-        else {
-          html += `<div class="body-text leading-relaxed text-slate-700">${processed}</div>`;
-        }
-      }
+      });
       return html;
     }
 
-    function escapeHtml(str) { return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
-
-    
-    // OCR & Belge Motorlari (PDF.js, Mammoth.js, Tesseract.js)
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
-
-    document.getElementById('fileUpload').addEventListener('change', handleFileSelect, false);
-    
-    const mainDropZone = document.getElementById('dropOverlay').parentElement;
-    mainDropZone.addEventListener('dragover', (e) => { e.preventDefault(); document.getElementById('dropOverlay').classList.add('bg-indigo-50/80'); });
-    mainDropZone.addEventListener('dragleave', () => { document.getElementById('dropOverlay').classList.remove('bg-indigo-50/80'); });
-    mainDropZone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      document.getElementById('dropOverlay').classList.remove('bg-indigo-50/80');
-      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-        processFile(e.dataTransfer.files[0]);
-      }
-    });
-
-    function handleFileSelect(e) {
-      if (e.target.files && e.target.files.length > 0) {
-        processFile(e.target.files[0]);
-      }
-    }
-
-    async function processFile(file) {
-      const indicator = document.getElementById('fileLoadingIndicator');
-      const textElem = document.getElementById('fileLoadingText');
+    async function handleFileDrop(files) {
+      if (!files.length) return;
+      const file = files[0];
+      const indicator = document.getElementById('loadingIndicator');
       indicator.classList.remove('hidden');
       document.getElementById('dropOverlay').classList.add('hidden');
       
-      const ext = file.name.split('.').pop().toLowerCase();
       try {
         let extractedText = "";
+        const ext = file.name.split('.').pop().toLowerCase();
         
-        if (ext === 'txt' || ext === 'md' || ext === 'csv' || ext === 'json') {
-          textElem.innerText = "Metin dosyası okunuyor...";
+        if (ext === 'txt' || ext === 'csv') {
           extractedText = await file.text();
         } 
-        else if (ext === 'docx') {
-          textElem.innerText = "Word motoru dosyayı ayrıştırıyor...";
-          const arrayBuffer = await file.arrayBuffer();
-          const result = await mammoth.extractRawText({arrayBuffer: arrayBuffer});
-          extractedText = result.value;
-        } 
         else if (ext === 'pdf') {
-          textElem.innerText = "PDF motoru sayfaları okuyor...";
           const arrayBuffer = await file.arrayBuffer();
-          const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+          const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
           let text = "";
           for(let i = 1; i <= pdf.numPages; i++) {
              const page = await pdf.getPage(i);
@@ -436,26 +278,19 @@ Sistem, kodu çalıştırmak (Execution) yerine sürekli daha fazla kütüphane 
           }
           extractedText = text;
         } 
-        else if (ext === 'png' || ext === 'jpg' || ext === 'jpeg') {
-          if (!window.InversionVision) throw new Error("Görsel Analiz Süiti (vision_forensics.js) yüklenmedi!");
-          const visionResult = await window.InversionVision.analyzeImage(file, document.getElementById('inputArea').value.trim(), (msg) => { textElem.innerText = msg; });
-          extractedText = visionResult.summary;
-        } 
         else {
-          alert("Desteklenmeyen dosya formatı.");
+          alert("Sadece TXT, CSV veya PDF dosya formatı desteklenmektedir.");
+          indicator.classList.add('hidden');
           return;
         }
 
         document.getElementById('inputArea').value = `[DOSYA ANALİZ SİSTEMİ]\n${file.name} belgesinden tersine mühendislik için elde edilen metin:\n\n` + extractedText;
         
-        // BACKEND ENTEGRASYONU (FAZ 3): Çıkarılan metni doğrudan InversionCore API'ye (Python) gönder
-        sendToBackend(extractedText).catch(e => console.error("Backend çağrısı başarısız:", e));
       } catch (err) {
         console.error(err);
         alert("Dosya ayrıştırma hatası: " + err.message);
       } finally {
         indicator.classList.add('hidden');
-        document.getElementById('dropOverlay').classList.remove('hidden');
       }
     }
 
@@ -464,57 +299,51 @@ Sistem, kodu çalıştırmak (Execution) yerine sürekli daha fazla kütüphane 
       if (!input) return alert("Lütfen hedef senaryoyu girin veya dosya sürükleyin!");
       const btn = document.getElementById('runBtn');
       btn.disabled = true;
+      document.getElementById('outputContainer').classList.remove('hidden');
       const termBox = document.getElementById('terminalBox');
       termBox.innerHTML = '<span class="blinking-cursor"></span>';
       document.getElementById('speedBadge').textContent = "ÇÖZÜMLENİYOR...";
       const t0 = performance.now();
-      document.getElementById('statusDot').className = "w-2 h-2 rounded-full bg-emerald-500";
+      document.getElementById('statusDot').className = "w-2 h-2 rounded-full bg-emerald-500 animate-pulse";
+      
       try {
-        
         const evidence_dossier = generateEvidenceDossier(input);
         const system_prompt = `Sen INVERSIONCORE Davranışsal Tersine Mühendislik Uzmanısın.
 
 TEMEL DOKTRİN: 
-1. KISA, KESKİN VE TAVİZSİZ OL. Asla konuyu uzatma, dallandırıp budaklandırma. 
+1. KISA, KESKİN VE TAVİZSİZ OL. Asla konuyu uzatma. 
 2. YALAKALIK YAPMA. Karşındakini övme, teselli etme, "pozitif düşün" deme. Doğrudan, dürüst ve halüsinasyonsuz bir sistem teşhisi yap.
 3. KESİNLİKLE yazılım kodu (while, if, loop) veya kaba jargon kullanma. 
-4. MAKSİMUM 750 KELİME KULLAN. Hızlıca kök nedeni söyle ve çözümü verip bitir. 
+4. MAKSİMUM 2500 KELİME KULLAN. Hızlıca kök nedeni söyle ve çözümü verip bitir. 
 
 ÇIKTI FORMATI: Sadece iki bölümden oluşsun:
-[1] KÖK NEDEN (Sistemde ne kırıldı? Neden kendini kandırıyor?)
-[2] VİA NEGATİVA & EŞİK (Ne yapmayı ACİLEN bırakmalı ve hangi sert adımı atmalı?)
+### BÖLÜM 1: KÖK NEDEN (Sistemde ne kırıldı? Neden kendini kandırıyor?)
+### BÖLÜM 2: VİA NEGATİVA (Ne yapmayı ACİLEN bırakmalı ve hangi sert adımı atmalı?)
 
 VURGU KURALLARI (PREMIUM UI):
-- Metin içindeki en can alıcı, sarsıcı kelimeleri **koyu** yap. 
-- Okuyucunun zihnine kazınması gereken felsefi veya ekonomik prensipleri satır başında "> " (büyüktür) işaretiyle alıntı (blockquote) yap.
+- Metin içindeki en can alıcı kelimeleri **koyu** yap. 
+- Okuyucunun zihnine kazınması gereken felsefi prensipleri satır başında "> " (büyüktür) işaretiyle alıntı yap.
 - Kilit terimleri veya sistemik uyarıları [KÖŞELİ PARANTEZ] içine alarak vurgula.`;
-        const forensic_prompt = `KULLANICI VAKA DOSYASI:
-======================================================================
-${input}
-======================================================================
-
-${evidence_dossier}
-
-GÖREV: Bireyin yaşadığı bu tıkanıklığın kök nedenini davranışsal ekonomi üzerinden teşhis et.
-Kısa, dürüst, dalkavukluktan uzak ve tokat gibi bir cevap ver. Konuyu asla uzatma. Doğrudan çözüme git ve metni eksiksiz tamamla.`;
+        const forensic_prompt = `KULLANICI VAKA DOSYASI:\n========================\n${input}\n========================\n\n${evidence_dossier}\n\nGÖREV: Kök nedeni davranışsal ekonomi üzerinden teşhis et. Kısa, dürüst ve tokat gibi bir cevap ver.`;
         
+        const backendPayload = {
+          text: forensic_prompt,
+          system_prompt: system_prompt
+        };
 
-
-        const resp = await fetch("https://api.deepseek.com/chat/completions", { 
+        const resp = await fetch("https://inversioncore-api.onrender.com/stream", { 
           method: "POST", 
-          headers: { 
-            "Content-Type": "application/json",
-            "Authorization": "Bearer sk-6055539e21af47c6957f411b375efe1f"
-          }, 
-          body: JSON.stringify(payload) 
+          headers: { "Content-Type": "application/json" }, 
+          body: JSON.stringify(backendPayload) 
         });
 
         if (!resp.ok) {
-           termBox.innerHTML = `<span class="text-red-600 font-semibold">[HATA] Backend API yanıt vermedi veya bulunamadı (${resp.status}). Çöküş motoru çevrimdışı.</span>`;
+           termBox.innerHTML = `<span class="text-rose-600 font-semibold">[HATA] Backend API yanıt vermedi veya bulunamadı (${resp.status}). Çöküş motoru çevrimdışı.</span>`;
            document.getElementById('speedBadge').textContent = "BAĞLANTI HATASI";
-           document.getElementById('statusDot').className = "w-2 h-2 rounded-full bg-red-500";
+           document.getElementById('statusDot').className = "w-2 h-2 rounded-full bg-rose-500";
            btn.disabled = false; return;
         }
+        
         const reader = resp.body.getReader();
         const decoder = new TextDecoder("utf-8");
         let accumulated = "";
@@ -534,7 +363,6 @@ Kısa, dürüst, dalkavukluktan uzak ve tokat gibi bir cevap ver. Konuyu asla uz
                 const delta = parsed.choices?.[0]?.delta?.content || "";
                 accumulated += delta;
                 termBox.innerHTML = formatHarmoniousColors(accumulated) + '<span class="blinking-cursor"></span>';
-                termBox.scrollTop = termBox.scrollHeight;
                 document.getElementById('speedBadge').textContent = `CANLI AKIŞ: ${((performance.now() - t0) / 1000).toFixed(1)}s`;
               } catch (e) {}
             }
@@ -552,51 +380,12 @@ Kısa, dürüst, dalkavukluktan uzak ve tokat gibi bir cevap ver. Konuyu asla uz
         }
         termBox.innerHTML = formatHarmoniousColors(accumulated);
         document.getElementById('speedBadge').textContent = `TAMAMLANDI (${((performance.now() - t0) / 1000).toFixed(1)}s)`;
+        document.getElementById('statusDot').classList.remove('animate-pulse');
       } catch (err) {
-        termBox.innerHTML = `<span class="text-red-600 font-semibold">[HATA] ${err.message}</span>`;
+        termBox.innerHTML = `<span class="text-rose-600 font-semibold">[HATA] ${err.message}</span>`;
         document.getElementById('speedBadge').textContent = "HATA";
-        document.getElementById('statusDot').className = "w-2 h-2 rounded-full bg-red-500";
+        document.getElementById('statusDot').className = "w-2 h-2 rounded-full bg-rose-500";
       } finally { btn.disabled = false; }
-    }
-    document.addEventListener('keydown', (e) => { if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') runStreamingInversion(); });
-    // BACKEND ENTEGRASYONU (FAZ 3)
-    async function sendToBackend(text) {
-      const response = await fetch('http://localhost:8000/analyze', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          text: text,
-          customer_id: 'web_user'
-        })
-      });
-      
-      if (!response.ok) {
-        throw new Error('API hatası: ' + response.statusText);
-      }
-      
-      const result = await response.json();
-      console.log('InversionCore sonucu:', result);
-      
-      // Negatif bilgiyi göster
-      displayNegativeFinding(result);
-    }
-
-    function displayNegativeFinding(result) {
-      const output = `
-        === INVERSIONCORE NEGATİF BİLGİ RAPORU ===
-        Problem Tipi: ${result.problem_type}
-        Motor Sonuçları: ${JSON.stringify(result.motor_results, null, 2)}
-        Sentez: ${result.synthesis.synthesis || result.synthesis.fallback_synthesis}
-        Cache Durumu: ${JSON.stringify(result.cache_stats)}
-        Maliyet: $${result.cost_summary.total_cost_usd}
-      `;
-      console.log(output);
-      
-      // Eger arayuzde gostermek istersek, terminal kutusuna da basic bir formatta basabiliriz.
-      const termBox = document.getElementById('terminalBox');
-      if(termBox) {
-         termBox.innerText = output;
-      }
     }
   </script>
 </body>
