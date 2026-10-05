@@ -65,7 +65,7 @@
         
         <div class="p-3 border-b border-slate-100 flex flex-wrap gap-2 bg-white items-center">
           <button class="text-xs font-semibold bg-indigo-50 hover:bg-indigo-100 text-indigo-800 px-3 py-1.5 rounded border border-indigo-200 transition-colors shadow-sm" onclick="loadPreset('finans')">Maaşınızın Ömrünü Uzatma Protokolü</button>
-          <button class="text-xs font-semibold bg-indigo-50 hover:bg-indigo-100 text-indigo-800 px-3 py-1.5 rounded border border-indigo-200 transition-colors shadow-sm" onclick="loadPreset('zaman')">Zaman Deconstruction Analizi</button>
+          <button class="text-xs font-semibold bg-indigo-50 hover:bg-indigo-100 text-indigo-800 px-3 py-1.5 rounded border border-indigo-200 transition-colors shadow-sm" onclick="loadPreset('zaman')">Zamanı Parçalama Analizi</button>
           <button class="text-xs font-semibold bg-indigo-50 hover:bg-indigo-100 text-indigo-800 px-3 py-1.5 rounded border border-indigo-200 transition-colors shadow-sm" onclick="loadPreset('iliski')">İlişki Algoritması Revizyonu</button>
           <button class="text-xs font-semibold bg-indigo-50 hover:bg-indigo-100 text-indigo-800 px-3 py-1.5 rounded border border-indigo-200 transition-colors shadow-sm" onclick="loadPreset('kariyer')">Kariyer Kaynak Kodunu Okuma</button>
           <button class="text-xs font-semibold bg-indigo-50 hover:bg-indigo-100 text-indigo-800 px-3 py-1.5 rounded border border-indigo-200 transition-colors shadow-sm" onclick="loadPreset('erteleme')">Eylemsizlik Sistemini Hacklemek</button>
@@ -130,7 +130,7 @@
         category = "Finansal Körlük (Maaşın Ömrünü Uzatma Protokolü)";
         error_code = "ERR_BUDGET_OVERFLOW_0x1A";
       } else if (t.includes("vakit") || t.includes("zaman") || t.includes("reels") || t.includes("saat")) {
-        category = "Zaman Deconstruction (24 Saati Çalanlar)";
+        category = "Zamanı Parçalama Analizi (24 Saati Çalanlar)";
         error_code = "ERR_TIME_LOOP_PARADOX_0x2B";
       } else if (t.includes("işten") || t.includes("kariyer") || t.includes("maaş") || t.includes("pazartesi")) {
         category = "Kariyer Kaynak Kodu (Profesyonel Hata)";
