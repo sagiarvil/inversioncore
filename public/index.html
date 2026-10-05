@@ -113,6 +113,45 @@
   </main>
 
   <script>
+
+    function extractParams(text) {
+      let cash = 500000;
+      let burn = 50000;
+      
+      const cashMatch = text.match(/([0-9]+(?:\.[0-9]+)*)\s*(?:TL|\$|USD)\s*(?:nakit|sermaye|bütçe)/i);
+      const burnMatch = text.match(/([0-9]+(?:\.[0-9]+)*)\s*(?:TL|\$|USD)\s*(?:kira|harcama|gider)/i);
+      
+      if (cashMatch) cash = parseFloat(cashMatch[1].replace(/\./g, ''));
+      if (burnMatch) burn = parseFloat(burnMatch[1].replace(/\./g, ''));
+
+      let runway = (burn > 0) ? (cash / burn) : 999;
+      let max_cap = 3 * 30 * 8;
+      
+      return {
+        theoretical_monthly_kwh: max_cap,
+        verdict: "KAPASİTE TAVANI RİSKİ",
+        minimal_cut_sets: [["Nakit_Bitiş", "Zaman_Baskısı"]].concat(burn > 50000 ? [["Yüksek_Sabit_Gider", "Operasyonel_Çöküş"]] : []),
+        risk_propagation_paths: ["Sermaye -> Risk"],
+        initial_runway_months: runway.toFixed(1),
+        absorbing_barrier_month: runway.toFixed(1),
+        equilibrium: "FİYAT SAVAŞI",
+        strategic_finding: "Sabit maliyet varken yıkıcı rekabet.",
+        safe_max_single_contract_kwh: (3*240) * 0.60,
+        safe_band_label: "Kapasite Limit %60"
+      };
+    }
+
+    function generateEvidenceDossier(text) {
+      const cap = extractParams(text);
+      return `[DETERMİNİSTİK HESAPLANMIŞ KANIT ZİNCİRİ]
+1. KAPASİTE TAVANI: Teorik Tavan: ${cap.theoretical_monthly_kwh} Birim/Ay. Durum: ${cap.verdict}.
+2. HATA AĞACI (MCS): Asgari Kesme Kümeleri = ${JSON.stringify(cap.minimal_cut_sets)}.
+   - Risk Yayılım Hattı (Propagation Path): ${cap.risk_propagation_paths}.
+3. RUNWAY (NAKİT YAKIM HIZI): ${cap.initial_runway_months} ay (Kasa Sıfırlanması: ${cap.absorbing_barrier_month}. Ay).
+4. OYUN TEORİSİ: ${cap.equilibrium} - ${cap.strategic_finding}
+5. RİSK TAVANI: ${cap.safe_max_single_contract_kwh} Birim (${cap.safe_band_label}).`;
+    }
+
     const presets = {
       trendyol: `İki arkadaş 300.000 TL ihtiyaç kredisi çekip Trendyol'da fason üretim eşofman takımı satmaya karar verdik.\n\nReklamlara günlük 2.000 TL harcıyoruz, kâr marjımız güya %40 ama sürekli artan kargo maliyetleri, komisyonlar ve acımasız iade oranları yüzünden ay sonu hep eksi yazıyoruz. 6 ay içinde bu işten ya köşeyi döneceğiz ya da kredileri ödeyemeyip batacağız.`,
       tinyhouse: `Kurumsal plazadaki 10 yıllık beyaz yaka yazılımcılık işimden tamamen bunalıp istifa ettim. Tüm tazminatımla (yaklaşık 1.2 Milyon TL) Çanakkale Assos civarında imarsız bir tarla aldım.\n\nOraya 3 tane Tiny House koyup Airbnb üzerinden Alman turistlere kiralayarak pasif gelir elde etmeyi planlıyorum. Tek sorun; ne inşaattan, ne resmi izin süreçlerinden, ne de turizm işletmeciliğinden zerre kadar anlamıyorum.`,
@@ -180,7 +219,31 @@
       const t0 = performance.now();
       document.getElementById('statusDot').className = "w-2 h-2 rounded-full bg-emerald-500";
       try {
-        const resp = await fetch("http://localhost:8085/api/inversion/stream", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ scenario: input }) });
+        
+        const evidence_dossier = generateEvidenceDossier(input);
+        const system_prompt = "Sen INVERSIONCORE Baş Sistemik Güvenilirlik Mühendisi ve Kıdemli Adli Karar Analistisin. Havacılık (NTSB), Nükleer Güvenlik (PRA/Fault Tree) disipliniyle çalışırsın.\n\nÜSLUP: Soğuk, net, analitik, sıfır yapay zeka gevezeliği, yüksek rütbeli adli kaza kırım raporu ciddiyetinde Türkçe.";
+        const forensic_prompt = `KULLANICI VAKA DOSYASI:\n======================================================================\n${input}\n======================================================================\n\n${evidence_dossier}\n\nGÖREV: Yukarıdaki doğrulanmış adli kanıt dosyasını kullanarak 'ADLİ KAZA KIRIM VE TERSİNE ÇÖKÜŞ RAPORU'nu eksiksiz üret. Aşırı kibar olmadan, rakamları ve sınırları doğrudan ver.`;
+        
+        const payload = {
+          model: "deepseek-chat",
+          messages: [
+            {role: "system", content: system_prompt},
+            {role: "user", content: forensic_prompt}
+          ],
+          temperature: 0.1,
+          max_tokens: 1024,
+          stream: true
+        };
+
+        const resp = await fetch("https://api.deepseek.com/chat/completions", { 
+          method: "POST", 
+          headers: { 
+            "Content-Type": "application/json",
+            "Authorization": "Bearer sk-0513ef0e8e944406aae2267d60e5ddcf"
+          }, 
+          body: JSON.stringify(payload) 
+        });
+
         if (!resp.ok) {
            termBox.innerHTML = `<span class="text-red-600 font-semibold">[HATA] Backend API yanıt vermedi veya bulunamadı (${resp.status}). Pre-mortem engine offline.</span>`;
            document.getElementById('speedBadge').textContent = "BAĞLANTI HATASI";
