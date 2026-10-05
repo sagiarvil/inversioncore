@@ -135,9 +135,9 @@
   <script>
 
     
-    function generateEvidenceDossier(text) {
-      let category = "Genel Yaşam Sistemi";
-      let error_code = "ERR_UNKNOWN_SYSTEM_FAULT";
+        function generateEvidenceDossier(text) {
+      let category = "Genel Hayat Modülü (Standart Bug)";
+      let error_code = "ERR_UNKNOWN_0xFF";
       
       const t = text.toLowerCase();
       if (t.includes("maaş") || t.includes("para") || t.includes("harcama") || t.includes("finans")) {
@@ -157,29 +157,9 @@
         error_code = "ERR_TOXIC_SELECTION_LOOP_0x5E";
       }
 
-      return `[SİSTEMİK İNSAN HATASI (MÜHENDİSLİK ANALİZİ)]
-1. MAVİ EKRAN (CRASH) BİLDİRİMİ: Sistemin çöküş aşamasına ulaştığı doğrulandı.
-2. TESPİT EDİLEN MODÜL: ${category}
-3. HATA KODU (BUG): ${error_code}
-4. KÖK NEDEN YAKLAŞIMI: Sen suçlu değilsin, sisteminde sadece bir mantık hatası (bug) var. Geriye dönük iz sürerek (Tersine Mühendislik) arızalı olan bu işletim sistemi adımını 'debug' (hata ayıklama) yapacağız.`;
+      return `[SİSTEMİK İNSAN HATASI (MÜHENDİSLİK ANALİZİ)]\n1. MAVİ EKRAN (CRASH) BİLDİRİMİ: Sistemin çöküş aşamasına ulaştığı doğrulandı.\n2. TESPİT EDİLEN MODÜL: ${category}\n3. HATA KODU (BUG): ${error_code}\n4. KÖK NEDEN YAKLAŞIMI: Sen suçlu değilsin, sisteminde sadece bir mantık hatası (bug) var. Geriye dönük iz sürerek (Tersine Mühendislik) arızalı olan bu işletim sistemi adımını 'debug' (hata ayıklama) yapacağız.`;
     }
 
-2. KÖK NEDEN (ROOT CAUSE) ANALİZİ:
-   - Başlangıç Hatası: ${p.risk_propagation_paths}
-3. ENERJİ/KAYNAK YAKIM HIZI (BURN RATE):
-   - ${p.burn_rate}
-4. SİSTEM ÇÖKÜŞÜ (OVERLOAD):
-   - Durum: ${p.overload_status}
-5. ÇÖZÜM PROTOKOLÜ: Kullanıcının sisteminde (hayatında) tespit edilen bu mantık hatasını (bug) yargılamadan 'debug' edin. Hata kodu ve mavi ekran metaforuyla, suçlama yapmadan, tersine mühendislikle sistemi yeniden inşa edin.`;
-    } Birim/Ay. Durum: ${cap.verdict}.
-2. HATA AĞACI (MCS): Asgari Kesme Kümeleri = ${JSON.stringify(cap.minimal_cut_sets)}.
-   - Risk Yayılım Hattı (Propagation Path): ${cap.risk_propagation_paths}.
-3. RUNWAY (NAKİT YAKIM HIZI): ${cap.initial_runway_months} ay (Kasa Sıfırlanması: ${cap.absorbing_barrier_month}. Ay).
-4. OYUN TEORİSİ: ${cap.equilibrium} - ${cap.strategic_finding}
-5. RİSK TAVANI: ${cap.safe_max_single_contract_kwh} Birim (${cap.safe_band_label}).`;
-    }
-
-    
     const premiumResponses = {
       finans: `[SİSTEM TEŞHİSİ: FİNANSAL YARI ÖMÜR ÇÖKÜŞÜ]
 ======================================================
@@ -276,8 +256,7 @@ Adım 1 (Kök Neden): Başarı tanımının hatalı olması. İlk denemenin kusu
       element.innerHTML = "";
       function type() {
         if (i < text.length) {
-          element.innerHTML += text.charAt(i) === '
-' ? '<br>' : text.charAt(i);
+          element.innerHTML += text.charAt(i) === '\n' ? '<br>' : text.charAt(i);
           element.scrollTop = element.scrollHeight;
           i++;
           setTimeout(type, speed);
@@ -288,29 +267,25 @@ Adım 1 (Kök Neden): Başarı tanımının hatalı olması. İlk denemenin kusu
       type();
     }
 
-    function loadPreset(k) { 
+        function loadPreset(k) { 
       document.getElementById('inputArea').value = presets[k] || ''; 
       
-      // Simulate backend generation to terminal box directly using embedded premium responses
       const termBox = document.getElementById('terminalBox');
       const badge = document.getElementById('speedBadge');
       const dot = document.getElementById('statusDot');
       
       termBox.innerHTML = '<span class="blinking-cursor"></span>';
-      badge.textContent = "HIZLI SİMÜLASYON BAŞLIYOR...";
+      badge.textContent = "SİSTEM ÖNBELLEĞİNDEN YÜKLENİYOR...";
       dot.className = "w-2 h-2 rounded-full bg-emerald-500 animate-pulse";
       
       const responseText = premiumResponses[k] || "Veri bulunamadı.";
       
-      // We format harmonious colors similar to runStreamingInversion but simple 
-      // or we can just apply typeEffect for cool visual
-      typeEffect(termBox, responseText, 5, () => {
-         termBox.innerHTML = formatHarmoniousColors(responseText);
-         badge.textContent = "TAMAMLANDI (SİSTEM ÖNBELLEĞİNDEN YÜKLENDİ)";
-         dot.className = "w-2 h-2 rounded-full bg-blue-500";
-      });
+      setTimeout(() => {
+          termBox.innerHTML = formatHarmoniousColors(responseText);
+          badge.textContent = "TAMAMLANDI (SİSTEM ÖNBELLEĞİNDEN YÜKLENDİ)";
+          dot.className = "w-2 h-2 rounded-full bg-blue-500";
+      }, 300);
     }
-
 
     function toggleDynamicPanel() {
       const p = document.getElementById('dynamicPanel');
