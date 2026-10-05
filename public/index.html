@@ -77,12 +77,9 @@
               <input type="text" id="catY" class="w-full text-sm p-2 border border-slate-200 rounded focus:border-indigo-400 focus:outline-none" placeholder="Örn: Güvenlik, Hızlı Büyüme...">
             </div>
           </div>
-          <button onclick="applyDynamic()" class="w-full bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold py-1.5 rounded">
-            AJANLARI X-Y MATRİSİNE GÖRE YAPILANDIR
-          </button>
         </div>
 
-        <textarea id="inputArea" class="flex-1 w-full resize-none p-4 text-sm text-slate-700 font-mono leading-relaxed focus:outline-none" placeholder="Fikrinizi, hedefinizi veya projenizi tamamen serbest ve doğal bir dille yazın. Veya txt/md/json formatında bir dosya sürükleyip bırakın..."></textarea>
+        <textarea id="inputArea" class="flex-1 w-full resize-none p-4 text-sm text-slate-700 font-mono leading-relaxed focus:outline-none placeholder:italic placeholder:text-slate-400" placeholder="İnsanlar üzerine yazarak oraya yazılı bir alan olduğunu anlasınlar"></textarea>
         
         <div class="border-t border-slate-200 bg-slate-50/50 p-4 flex items-center justify-between">
           <span class="text-xs text-slate-400 font-mono">⌘ + Enter</span>
@@ -119,7 +116,6 @@
     function loadPreset(k) { 
       document.getElementById('inputArea').value = presets[k] || ''; 
     }
-    loadPreset('cafe');
 
     function toggleDynamicPanel() {
       const p = document.getElementById('dynamicPanel');
