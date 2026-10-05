@@ -1,14 +1,8 @@
 """
 Faz 2 Demo v2.1 - FORENSIC FIX UYUMLU
-Degisiklikler:
-- Hit orani artik offline modda da dogru hesaplanir
-- OFFLINE senaryolar acikca etiketlenir
 """
-import sys
-import os
-
+import sys, os
 sys.path.insert(0, os.getcwd())
-
 from engine.orchestrator_v2 import InversionOrchestratorV2
 from engine.cache.deterministic_cache import get_cache
 from engine.cache.cost_ledger import get_ledger
@@ -26,56 +20,46 @@ def main():
     cache = get_cache()
     ledger = get_ledger()
 
+    # Onceki kayitlari temizle (ornek testin bagimsizligi icin)
+    import sqlite3
+    with sqlite3.connect(ledger.db_path) as conn:
+        conn.execute("DELETE FROM llm_calls")
+        conn.commit()
+
     banner("FAZ 2 v2.1: FORENSIC FIX SONRASI DOGRULAMA")
     print(f"Cache backend: {cache.stats()['backend']}")
     print(f"Cache TTL: {cache.stats()['ttl_seconds']} saniye")
 
-    # SENARYO 1: Ilk cagri (motor + sentez OFFLINE)
-    banner("SENARYO 1: ILK CAGRI (Motor MISS + Sentez OFFLINE/MISS)")
-    r1 = orch.auto_invert(
-        "Bu argumanda celiski var mi?",
-        {"statements": ["x > 0", "x < 0"]},
-        customer_id="demo_customer"
-    )
-    print(f"Problem tipi: {r1['problem_type']}")
-    print(f"Motor sonuclari: {r1['motor_results']}")
-    print(f"Sentez kaynagi: {r1['synthesis'].get('source', 'unknown')}")
-    print(f"Sentez offline: {r1['synthesis'].get('offline', False)}")
-    print(f"Motor cache: {r1['cache_stats']['motor']}")
-    print(f"Sentez cache: {r1['cache_stats']['synthesis']}")
+    banner("SENARYO 1: ILK CAGRI")
+    r1 = orch.auto_invert("Bu argumanda celiski var mi?",
+                          {"statements": ["x > 0", "x < 0"]},
+                          customer_id="demo_customer")
+    print(f"Motor cache: {r1['cache_stats']['motor']}  <- BEKLENTI: MISS")
+    print(f"Sentez cache: {r1['cache_stats']['synthesis']}  <- BEKLENTI: MISS")
 
-    # SENARYO 2: AYNI cagri -> IKI cache de HIT olmali
     banner("SENARYO 2: AYNI CAGRI (Cache HIT bekleniyor)")
-    r2 = orch.auto_invert(
-        "Bu argumanda celiski var mi?",
-        {"statements": ["x > 0", "x < 0"]},
-        customer_id="demo_customer"
-    )
+    r2 = orch.auto_invert("Bu argumanda celiski var mi?",
+                          {"statements": ["x > 0", "x < 0"]},
+                          customer_id="demo_customer")
     print(f"Motor cache: {r2['cache_stats']['motor']}  <- BEKLENTI: HIT")
     print(f"Sentez cache: {r2['cache_stats']['synthesis']}  <- BEKLENTI: HIT")
 
-    # SENARYO 3: Farkli cagri
-    banner("SENARYO 3: FARKLI CAGRI (Yeni motor + sentez)")
-    r3 = orch.auto_invert(
-        "Bu agda gizli araci var mi?",
-        {"nodes": ["A", "B", "C", "D"], "edges": [("A", "B"), ("B", "C"), ("C", "D"), ("A", "D")]},
-        customer_id="demo_customer"
-    )
-    print(f"Problem tipi: {r3['problem_type']}")
+    banner("SENARYO 3: FARKLI CAGRI")
+    r3 = orch.auto_invert("Bu agda gizli araci var mi?",
+                          {"nodes": ["A", "B", "C", "D"],
+                           "edges": [("A", "B"), ("B", "C"), ("C", "D"), ("A", "D")]},
+                          customer_id="demo_customer")
     print(f"Motor cache: {r3['cache_stats']['motor']}  <- BEKLENTI: MISS")
 
-    # SENARYO 4: Ayni ag cagrisi
     banner("SENARYO 4: AYNI AG CAGRISI (Cache HIT)")
-    r4 = orch.auto_invert(
-        "Bu agda gizli araci var mi?",
-        {"nodes": ["A", "B", "C", "D"], "edges": [("A", "B"), ("B", "C"), ("C", "D"), ("A", "D")]},
-        customer_id="demo_customer"
-    )
+    r4 = orch.auto_invert("Bu agda gizli araci var mi?",
+                          {"nodes": ["A", "B", "C", "D"],
+                           "edges": [("A", "B"), ("B", "C"), ("C", "D"), ("A", "D")]},
+                          customer_id="demo_customer")
     print(f"Motor cache: {r4['cache_stats']['motor']}  <- BEKLENTI: HIT")
     print(f"Sentez cache: {r4['cache_stats']['synthesis']}  <- BEKLENTI: HIT")
 
-    # MALIYET RAPORU
-    banner("MALIYET RAPORU (FORENSIC FIX SONRASI)")
+    banner("MALIYET RAPORU")
     summary = ledger.summary()
     print(f"Toplam LLM cagrisi: {summary['total_calls']}")
     print(f"Toplam token: {summary['total_tokens']}")
@@ -84,8 +68,7 @@ def main():
     print(f"Cache MISS: {summary['cache_misses']}")
     print(f"Hit orani: %{summary['hit_rate']}")
 
-    # BASARI KRITERLERI
-    banner("BASARI KRITERLERI KONTROL (v2.1)")
+    banner("BASARI KRITERLERI (v2.1)")
     checks = [
         ("Senaryo 2 motor cache HIT", r2["cache_stats"]["motor"] == "HIT"),
         ("Senaryo 2 sentez cache HIT", r2["cache_stats"]["synthesis"] == "HIT"),

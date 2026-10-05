@@ -161,127 +161,93 @@
     }
 
     const premiumResponses = {
-      finans: `[SİSTEM TEŞHİSİ: FİNANSAL YARI ÖMÜR ÇÖKÜŞÜ (LIQUIDITY ILLUSION)]
+      finans: `[SİSTEM TEŞHİSİ: FİNANSAL YARI ÖMÜR ÇÖKÜŞÜ]
 ======================================================
-1. MAVİ EKRAN (CRASH) BİLDİRİMİ: Nakit akışı (cash-flow) motoru her ayın 15'inde Kernel Panic veriyor.
-2. KÖK NEDEN: "Asimetrik Likidite Yanılsaması" ve "Nakit Akışı Gecikme Çarpanı (Latency Multiplier)".
-Maaş yattığında (T=0), beyin (işlemci) brüt bakiyeyi 'kullanılabilir serbest marj' (free margin) olarak işler. Oysa faturalar ve sabit giderler (zaman kilitli yükümlülükler) T+15'te tetiklenecektir. Bu T=0 ile T+15 arasındaki gecikme (latency), sistemin kendini sahte bir zenginlik içinde sanmasına (OOM - Out of Memory) neden olur.
+Kök Neden: "Erken Gelen Zenginlik İllüzyonu" ve "Zararı Kabul Etmeme Sendromu". 
+Maaş yatırıldığında sistem belleği (psikoloji) sahte bir likidite bolluğu yaşar. Ancak ilk 72 saat içindeki tahsisatsız harcamalar, ayın geri kalanında nakit akışını (cash flow) eksiye düşürür.
 
-[SİSTEM YAMASI (Patch: Protokol F-01)]
-3. VİA NEGATİVA (YAPILMAYACAKLAR): Ay ortası sendromuna girildiğinde "Battı balık yan gider" (Sunk Cost Fallacy) algoritmasını tetikleyip kredi kartına yüklenmek YASAKTIR.
-4. HAYATTA KALMA SINIRLARI (THRESHOLD):
-- Sıfır-Güven Mimarisi (Zero-Trust Finance): Maaş hesabınızı 'güvenilmeyen dış ağ' kabul edin. Para yattığı an (T=0) bir otomatik talimat ile sabit giderler ve %15 birikim anında erişimi zor, kartı olmayan bir soğuk cüzdana (Vault) izole edilmelidir.
-- Micro-Batching Harcama: Aylık bütçeyi değil, 3 günlük mikro-bütçeleri serbest bırakın. Sistem bir defada en fazla 72 saatlik işlem (transaction) görebilmelidir.`,
+[Tersine Mühendislik (Inversion) Akışı]
+Adım 4 (Belirti): Kredi kartı asgarisini ödemek ve borç sarmalı.
+Adım 3 (Tetikleyici): Ay ortası likidite krizi sonrası "Battı balık yan gider" (Sunk Cost Fallacy) algısal çöküşü.
+Adım 2 (Hata): Sabit giderlerin hesaplanmaması (Yüzleşme korkusu). Sistemin kör uçuş yapması.
+Adım 1 (Kök Neden): Gelirin yatırıldığı an, nakdin doğrudan harcanabilir (Disposable Income) olduğu yanılgısı.
 
-      zaman: `[SİSTEM TEŞHİSİ: KESİNTİ SARMALI (MEMORY LEAK & CONTEXT SWITCHING)]
+[Sistem Yaması (Patch: Protokol F-01)]
+1. Nakit akışı firewall'u kur: Maaş yattığı an otomatik ödemeler ve %15 birikim kesintisi sıfırıncı günde tetiklenmeli.
+2. Psikolojik bariyer: Kalan miktar 4 haftaya bölünmeli (Haftalık ödenek zarfları).
+3. Zararı durdur (Stop-loss): Sabit giderlerin acilen kağıda dökülüp yüzleşilmesi. Sistem, mevcut borcu veri olarak kabul edip yeniden yapılandırılmalıdır.`,
+
+      zaman: `[SİSTEM TEŞHİSİ: ZAMAN/KAYNAK SIZINTISI (MEMORY LEAK)]
 ======================================================
-1. MAVİ EKRAN (CRASH) BİLDİRİMİ: Gün sonu suçluluk hissi ve sıfır kişisel çıktı (0 Byte Output).
-2. KÖK NEDEN: "Gündem Sahipliği Zafiyeti (Agenda Hijacking)" ve "Algoritmik Karar Yorgunluğu".
-İnsan beyni, dışarıdan gelen (push tabanlı) asenkron kesmelere (interrupts) karşı korumasız bir işletim sistemidir. Sosyal medya akışları ve başkalarının talepleri, beynin ana işlem birimini (CPU) sürekli kesintiye uğratarak (Context Switching) günün %80'ini başkalarının kodunu çalıştırarak harcamanıza neden olur.
+Kök Neden: "Gündem Sahipliği Zafiyeti" (Başkalarının önceliklerini kendi önceliği yapma) ve "Dopamin Tükenmişliği".
 
-[SİSTEM YAMASI (Patch: Protokol Z-01)]
-3. VİA NEGATİVA (YAPILMAYACAKLAR): Gelen her çağrı veya daveti anında işleme almak (Synchronous Execution) YASAKTIR.
-4. HAYATTA KALMA SINIRLARI (THRESHOLD):
-- Senkron Bloklama (Thread Locking): Sabah ilk 2 saat (06:00-08:00) 'Air-Gapped' (İnternetsiz) modda çalışılmalı. Dış dünyadan gelen hiçbir API çağrısı (bildirim) kabul edilmez.
-- Varsayılanı Reddet (Default-Deny Policy): Dışarıdan gelen her talebe sistem otomatik olarak "HTTP 403 Forbidden (Hayır)" yanıtı vermelidir. İstisnalar (Whitelist) sadece 24 saat sonra, sistem yükü uygunsa işleme alınır.`,
+[Tersine Mühendislik (Inversion) Akışı]
+Adım 4 (Belirti): Gece yatarken hissedilen suçluluk, hiçbir kişisel hedefin gerçekleşmemesi.
+Adım 3 (Tetikleyici): İş dönüşü düşük enerji (Decision Fatigue) ve saatlerce Reels kaydırarak ucuz dopamin arayışı.
+Adım 2 (Hata): Sınır ihlallerine izin vermek ("Hayır" diyememe). Sistem kaynaklarının dış aktörler tarafından limitsiz tüketilmesi.
+Adım 1 (Kök Neden): Günün plansız (algoritmasız) başlaması. Bir algoritma yoksa, sistem rastgele gelen kesmelere (interrupt) yanıt vermek zorundadır.
 
-      iliski: `[SİSTEM TEŞHİSİ: DESTRUCTIVE SIGNAL OPTIMIZATION (YIKICI SİNYAL OPTİMİZASYONU)]
+[Sistem Yaması (Patch: Protokol T-01)]
+1. Önceliklendirme İzolasyonu: Sabah ilk 90 dakika tamamen dış dünyadan izole (No-Contact) kişisel projelere veya okumaya ayrılmalı. 
+2. İşletim Sistemi Kuralı (Default-Deny): "Hayır" varsayılan (default) yanıt olmalı. Her talebe 2 saat bekleme süresi atanarak işlem gücü korunmalı.
+3. Ucuz Dopamin İptali (Ad-block for Brain): Eve dönüldüğünde telefon doğrudan şarj istasyonuna bırakılmalı (Air-gapping).`,
+
+      iliski: `[SİSTEM TEŞHİSİ: İLİŞKİ DÖNGÜSÜNDE SONSUZ DÖNGÜ (INFINITE LOOP)]
 ======================================================
-1. MAVİ EKRAN (CRASH) BİLDİRİMİ: Sonsuz döngüde tekrarlanan bencil partner seçimi ve kimlik erimesi.
-2. KÖK NEDEN: "Hatalı Desen Tanıma (Flawed Pattern Matching)" ve "Onaylanma Zafiyeti".
-Sistem, çocukluk veya geçmiş travmalardan gelen 'tanıdık' toksik kod parçacıklarını güvenli (safe) olarak etiketlemiştir. Partnerdeki manipülatif dalgalanmalar (yüksek kortizol/dopamin döngüsü), sistem tarafından "tutku (high bandwidth)" olarak algılanır. Oysa bu bir DDoS (Hizmet Aksatma) saldırısıdır ve sinir sistemini çökertir.
+Kök Neden: "Yıkıcı Kod Bağımlılığı" ve "Onaylanma Açığı". Sınır ihlalleri (Red Flags) sistem tarafından tutku olarak yorumlanıyor (Yanlış etiketleme / False Positive).
 
-[SİSTEM YAMASI (Patch: Protokol R-01)]
-3. VİA NEGATİVA (YAPILMAYACAKLAR): Erken uyarı sistemlerini (Red flags) "ben değiştirebilirim" diyerek hata yönetimi (Error Handling) modunda yutmak KESİNLİKLE YASAKTIR.
-4. HAYATTA KALMA SINIRLARI (THRESHOLD):
-- Anomali Tespiti (Anomaly Detection): İlişkinin ilk 90 gününde partnerin sınır ihlalleri (Red Flags) loglanmalıdır. İhlal sayısı eşik değeri (threshold) geçerse, sistem işlemi manuel müdahaleye kapatmalı ve abort (terk) prosedürünü acilen başlatmalıdır.
-- Sıkıcı Olanı Optimize Et (Boring-is-Secure): Dopamin patlamaları yerine, düşük frekanslı ama kesintisiz veri iletimi (huzur ve güven) ana metrik (KPI) yapılmalıdır.`,
+[Tersine Mühendislik (Inversion) Akışı]
+Adım 4 (Belirti): Sürekli aynı tip bencil partnerler tarafından değersiz hissettirilmek.
+Adım 3 (Tetikleyici): Terk edilme korkusuyla tüm sınırlardan taviz vermek, kimlik silinmesi.
+Adım 2 (Hata): Erken uyarı sistemlerini (Red flags) devre dışı bırakmak veya "ben değiştirebilirim" diyerek hata yönetimini (Error Handling) üstlenmek.
+Adım 1 (Kök Neden): Temeldeki özdeğer algoritmasının dış onaya endekslenmesi.
 
-      kariyer: `[SİSTEM TEŞHİSİ: LEGACY CODEBASE DEADLOCK (ESKİ SİSTEM KİLİTLENMESİ)]
+[Sistem Yaması (Patch: Protokol R-01)]
+1. Red-Flag Hard Stop: Sistem, sınır ihlali algıladığı an işlemi (ilişkiyi) durdurmalı (Fail-Safe). Taviz vermek veya düzeltmeye çalışmak yasaklanmalıdır.
+2. Parametre Yeniden Tanımlaması: "Tutku ve heyecan" tanımı toksik iniş-çıkışlardan, "Güven ve istikrar" verisine çekilmeli.
+3. Bağımsız Çalışma Modu (Standalone): Yalnızlığın tehdit değil, sistem onarım süreci olduğu kabul edilmelidir.`,
+
+      kariyer: `[SİSTEM TEŞHİSİ: KARİYER DEADLOCK (KİLİTLENME)]
 ======================================================
-1. MAVİ EKRAN (CRASH) BİLDİRİMİ: Tükenmişlik sendromu (Burnout) ve pazartesi sabahı fiziksel ret (System Reject).
-2. KÖK NEDEN: "Sunk Cost Fallacy (Batık Maliyet Yanılgısı)" ve "Sistem Güncelleme Reddi".
-Mevcut kariyeriniz, başkaları (toplum/aile) tarafından derlenmiş eski bir işletim sistemidir (Legacy OS). Yeni yetenekler eklenmediği için piyasa (market) ile uyumluluk kaybolmuştur (Deprecation Warning). Sistem, 4 yıldır aynı kodu çalıştırdığı için yeni hiçbir çıktısı (output) yoktur, sadece döngüde (while loop) sıkışmıştır.
+Kök Neden: "Konfor Alanı Felci" ve "Yanlış Başlangıç Parametreleri". Üniversite tercihinin dış faktörler (aile) tarafından atanmış olması, tüm sistemi uyumsuz (incompatible) kod üzerinde çalışmaya zorlamıştır.
 
-[SİSTEM YAMASI (Patch: Protokol K-01)]
-3. VİA NEGATİVA (YAPILMAYACAKLAR): İstifa edip büyük, riskli ve desteksiz bir geçiş yapmak (Hard Reset) YASAKTIR.
-4. HAYATTA KALMA SINIRLARI (THRESHOLD):
-- Korumalı Alan Testleri (Sandboxing): Mevcut işten (Legacy System) istifa edilmez. Ancak akşam 20:00-22:00 arası ayrı bir sunucuda (Sandbox), yeni bir sektör yeteneği gizlice derlenir ve test edilir.
-- Portfolio Driven Development: CV devri bitmiştir. Piyasaya sürülebilir somut mikro-ürünler (GitHub reposu, kod parçası, tasarım, yayınlanmış makale) üretilip, bunlar birer API ucu olarak dış dünyaya sunulmalıdır.`,
+[Tersine Mühendislik (Inversion) Akışı]
+Adım 4 (Belirti): Fiziksel tükenmişlik, pazartesi sendromu, işten nefret etme.
+Adım 3 (Tetikleyici): Düşük enerji ve ataletin, yeni yetenek öğrenme modüllerini kapatması (4 yıldır güncellenmeyen CV).
+Adım 2 (Hata): Mevcut düzeni, alternatifteki risklere tercih etme (Status Quo Bias). Korku temelli eylemsizlik.
+Adım 1 (Kök Neden): Başlangıçtaki yanlış tercih (garanti maaş) ve yetenek analizinin asla yapılmamış olması (Missing Initialization).
 
-      erteleme: `[SİSTEM TEŞHİSİ: EYLEMSİZLİK FELCİ (INFINITE COMPILE-TIME EXPECTATION)]
+[Sistem Yaması (Patch: Protokol C-01)]
+1. Sandboxed (Korumalı Alan) Geçiş: İstifa etmeden önce günde 1 saat yeni bir yetenek kümesi oluşturulmalı. Sistemin tamamen çökmesini beklemeden yedek yol (Fallback) açılmalı.
+2. Hata Raporlama: Mevcut işte neyden nefret edildiğinin veri tabanı çıkarılmalı, yeni sektörde bu parametreler "anti-hedef" olmalı.
+3. Güncelleme Döngüsü: CV ve yetenek seti derhal "v2.0" sürümüne yükseltilmek için küçük, ölçülebilir sprintlere bölünmeli.`,
+
+      erteleme: `[SİSTEM TEŞHİSİ: EYLEMSİZLİK FELCİ (ANALYSIS PARALYSIS)]
 ======================================================
-1. MAVİ EKRAN (CRASH) BİLDİRİMİ: Yıllardır biriken planlar, alınan kurslar ancak %0 icra (Execution Paralysis).
-2. KÖK NEDEN: "Sonsuz Derleme Beklentisi" ve "Hata Algılama Aşırı Yükü".
-Sistem, kodu çalıştırmak (Execution) yerine sürekli daha fazla kütüphane ekleme (araştırma yapma, mükemmel anı bekleme) döngüsüne girmiştir. Hata (Error) almaktan korktuğu için, programı asla başlatmaz (0 Byte Output). Bu, mükemmeliyetçilik değil, saf bir riskten kaçınma (Risk Aversion) güvenlik duvarıdır.
+Kök Neden: "Mükemmelliyetçilik" (Sıfır hata beklentisi) ve "Hata Algılama Aşırı Yükü". Projenin sürekli planlama (compile) aşamasında kalıp hiç çalıştırılamaması (runtime).
 
-[SİSTEM YAMASI (Patch: Protokol E-01)]
-3. VİA NEGATİVA (YAPILMAYACAKLAR): Kusursuz anı, doğru bütçeyi veya tüm şartların olgunlaşmasını beklemek (Infinite Wait State) KESİNLİKLE YASAKTIR.
-4. HAYATTA KALMA SINIRLARI (THRESHOLD):
-- MVP Kuralı (Minimum Viable Product): İlk çıktı (Output), kasıtlı olarak çirkin, hatalı ve eksik (Buggy) olmalıdır. 1. Versiyonun amacı kusursuz olmak değil, "çalışıyor (It runs)" olmaktır.
-- Fail-Fast (Erken Çöküş) Algoritması: Proje 48 saat içinde bir insan tarafından eleştirilecek hale (production) getirilmelidir. Alınan hata logları (gerçek dünya geri bildirimleri) ile ikinci versiyon yazılır. İlk vuruşu gerçeklik yapmalıdır.`
+[Tersine Mühendislik (Inversion) Akışı]
+Adım 4 (Belirti): Yıllardır süren erteleme, bolca kurs/video biriktirip sıfır çıktı (output) almak.
+Adım 3 (Tetikleyici): Kusursuz şartları, en doğru zamanı ve yeterli bütçeyi bekleme yanılgısı (Infinite Wait State).
+Adım 2 (Hata): Başarısızlık ve eleştiri korkusuyla asıl eylem (execution) yerine hazırlık (preparation) yaparak sahte ilerleme hissi yaratmak.
+Adım 1 (Kök Neden): Başarı tanımının hatalı olması. İlk denemenin kusursuz değil, "Mümkün Olan En Kötü Çıktı" (MVP) olması gerektiği kuralının ihlali.
+
+[Sistem Yaması (Patch: Protokol P-01)]
+1. Kusurlu Derleme (Ship It Broken): Projenin ilk sürümü (v0.1) bilerek çirkin, eksik ve hatalı yayınlanmalıdır. Amaç mükemmellik değil, eyleme geçmektir.
+2. Input Kesintisi: Yeni araştırma, kurs ve video izleme modülleri eyleme geçilene kadar engellenmeli. (Zero-Input Mode).
+3. Korku Modülasyonu: "Eleştirilmek", sistemin gelişmesi için gerekli olan bir hata ayıklama (debug) geri bildirimi olarak kategorize edilmelidir.`
     };
 
     const presets = {
-      finans: `[SİSTEM TEŞHİSİ: FİNANSAL YARI ÖMÜR ÇÖKÜŞÜ (LIQUIDITY ILLUSION)]
-======================================================
-1. MAVİ EKRAN (CRASH) BİLDİRİMİ: Nakit akışı (cash-flow) motoru her ayın 15'inde Kernel Panic veriyor.
-2. KÖK NEDEN: "Asimetrik Likidite Yanılsaması" ve "Nakit Akışı Gecikme Çarpanı (Latency Multiplier)".
-Maaş yattığında (T=0), beyin (işlemci) brüt bakiyeyi 'kullanılabilir serbest marj' (free margin) olarak işler. Oysa faturalar ve sabit giderler (zaman kilitli yükümlülükler) T+15'te tetiklenecektir. Bu T=0 ile T+15 arasındaki gecikme (latency), sistemin kendini sahte bir zenginlik içinde sanmasına (OOM - Out of Memory) neden olur.
-
-[SİSTEM YAMASI (Patch: Protokol F-01)]
-3. VİA NEGATİVA (YAPILMAYACAKLAR): Ay ortası sendromuna girildiğinde "Battı balık yan gider" (Sunk Cost Fallacy) algoritmasını tetikleyip kredi kartına yüklenmek YASAKTIR.
-4. HAYATTA KALMA SINIRLARI (THRESHOLD):
-- Sıfır-Güven Mimarisi (Zero-Trust Finance): Maaş hesabınızı 'güvenilmeyen dış ağ' kabul edin. Para yattığı an (T=0) bir otomatik talimat ile sabit giderler ve %15 birikim anında erişimi zor, kartı olmayan bir soğuk cüzdana (Vault) izole edilmelidir.
-- Micro-Batching Harcama: Aylık bütçeyi değil, 3 günlük mikro-bütçeleri serbest bırakın. Sistem bir defada en fazla 72 saatlik işlem (transaction) görebilmelidir.`,
+      finans: `Örnek Senaryo: 35 yaşındayım, ortalamanın üzerinde bir maaşım var ama ayın 15'i gelmeden hesabım sıfırlanıyor. Maaşım yattığı ilk 3 gün kendimi çok zengin hissedip lüks kahveler, gereksiz online alışverişler yapıyorum. Ancak ay ortasına doğru para bitince "Zaten bitti, battı balık yan gider" psikolojisiyle kredi kartlarına yükleniyorum. Son 2 yıldır kredi kartlarımın sadece asgarisini ödeyebiliyorum. Nereye ne kadar sabit giderim var onu bile hesaplamadım, çünkü yüzleşmekten korkuyorum.`,
       
-      zaman: `[SİSTEM TEŞHİSİ: KESİNTİ SARMALI (MEMORY LEAK & CONTEXT SWITCHING)]
-======================================================
-1. MAVİ EKRAN (CRASH) BİLDİRİMİ: Gün sonu suçluluk hissi ve sıfır kişisel çıktı (0 Byte Output).
-2. KÖK NEDEN: "Gündem Sahipliği Zafiyeti (Agenda Hijacking)" ve "Algoritmik Karar Yorgunluğu".
-İnsan beyni, dışarıdan gelen (push tabanlı) asenkron kesmelere (interrupts) karşı korumasız bir işletim sistemidir. Sosyal medya akışları ve başkalarının talepleri, beynin ana işlem birimini (CPU) sürekli kesintiye uğratarak (Context Switching) günün %80'ini başkalarının kodunu çalıştırarak harcamanıza neden olur.
-
-[SİSTEM YAMASI (Patch: Protokol Z-01)]
-3. VİA NEGATİVA (YAPILMAYACAKLAR): Gelen her çağrı veya daveti anında işleme almak (Synchronous Execution) YASAKTIR.
-4. HAYATTA KALMA SINIRLARI (THRESHOLD):
-- Senkron Bloklama (Thread Locking): Sabah ilk 2 saat (06:00-08:00) 'Air-Gapped' (İnternetsiz) modda çalışılmalı. Dış dünyadan gelen hiçbir API çağrısı (bildirim) kabul edilmez.
-- Varsayılanı Reddet (Default-Deny Policy): Dışarıdan gelen her talebe sistem otomatik olarak "HTTP 403 Forbidden (Hayır)" yanıtı vermelidir. İstisnalar (Whitelist) sadece 24 saat sonra, sistem yükü uygunsa işleme alınır.`,
+      zaman: `Örnek Senaryo: Günüm çok yoğun geçiyor, sürekli bir yerlere koşturuyorum ama akşam yatağa yattığımda kendim için hiçbir şey yapmadığımı fark edip büyük bir suçluluk duyuyorum. İşten gelince aşırı yorgun olduğumu bahane edip koltuğa çöküyor ve saatlerce Reels/TikTok kaydırıyorum. Kitap okuyacak veya spora gidecek enerjiyi asla bulamıyorum. Sabahları güne tamamen plansız başlıyorum, kim benden ne isterse ona "hayır" diyemediğim için başkalarının gündemini yaşıyorum.`,
       
-      iliski: `[SİSTEM TEŞHİSİ: DESTRUCTIVE SIGNAL OPTIMIZATION (YIKICI SİNYAL OPTİMİZASYONU)]
-======================================================
-1. MAVİ EKRAN (CRASH) BİLDİRİMİ: Sonsuz döngüde tekrarlanan bencil partner seçimi ve kimlik erimesi.
-2. KÖK NEDEN: "Hatalı Desen Tanıma (Flawed Pattern Matching)" ve "Onaylanma Zafiyeti".
-Sistem, çocukluk veya geçmiş travmalardan gelen 'tanıdık' toksik kod parçacıklarını güvenli (safe) olarak etiketlemiştir. Partnerdeki manipülatif dalgalanmalar (yüksek kortizol/dopamin döngüsü), sistem tarafından "tutku (high bandwidth)" olarak algılanır. Oysa bu bir DDoS (Hizmet Aksatma) saldırısıdır ve sinir sistemini çökertir.
-
-[SİSTEM YAMASI (Patch: Protokol R-01)]
-3. VİA NEGATİVA (YAPILMAYACAKLAR): Erken uyarı sistemlerini (Red flags) "ben değiştirebilirim" diyerek hata yönetimi (Error Handling) modunda yutmak KESİNLİKLE YASAKTIR.
-4. HAYATTA KALMA SINIRLARI (THRESHOLD):
-- Anomali Tespiti (Anomaly Detection): İlişkinin ilk 90 gününde partnerin sınır ihlalleri (Red Flags) loglanmalıdır. İhlal sayısı eşik değeri (threshold) geçerse, sistem işlemi manuel müdahaleye kapatmalı ve abort (terk) prosedürünü acilen başlatmalıdır.
-- Sıkıcı Olanı Optimize Et (Boring-is-Secure): Dopamin patlamaları yerine, düşük frekanslı ama kesintisiz veri iletimi (huzur ve güven) ana metrik (KPI) yapılmalıdır.`,
+      iliski: `Örnek Senaryo: Hayatıma aldığım partnerler hep birbirine benziyor. Hepsi başlarda çok ilgili ama sonra bencilce davranan, bana değersiz hissettiren tipler çıkıyor. Aslında daha ilk tanıştığımızda beni manipüle ettiklerini veya sınırlarıma saygı duymadıklarını (red flags) görüyorum ama bunu "tutku ve heyecan" zannediyorum. İçten içe, beni terk etmelerinden çok korktuğum için tüm sorunları görmezden geliyor ve sevilmek uğruna kendimden taviz veriyorum.`,
       
-      kariyer: `[SİSTEM TEŞHİSİ: LEGACY CODEBASE DEADLOCK (ESKİ SİSTEM KİLİTLENMESİ)]
-======================================================
-1. MAVİ EKRAN (CRASH) BİLDİRİMİ: Tükenmişlik sendromu (Burnout) ve pazartesi sabahı fiziksel ret (System Reject).
-2. KÖK NEDEN: "Sunk Cost Fallacy (Batık Maliyet Yanılgısı)" ve "Sistem Güncelleme Reddi".
-Mevcut kariyeriniz, başkaları (toplum/aile) tarafından derlenmiş eski bir işletim sistemidir (Legacy OS). Yeni yetenekler eklenmediği için piyasa (market) ile uyumluluk kaybolmuştur (Deprecation Warning). Sistem, 4 yıldır aynı kodu çalıştırdığı için yeni hiçbir çıktısı (output) yoktur, sadece döngüde (while loop) sıkışmıştır.
-
-[SİSTEM YAMASI (Patch: Protokol K-01)]
-3. VİA NEGATİVA (YAPILMAYACAKLAR): İstifa edip büyük, riskli ve desteksiz bir geçiş yapmak (Hard Reset) YASAKTIR.
-4. HAYATTA KALMA SINIRLARI (THRESHOLD):
-- Korumalı Alan Testleri (Sandboxing): Mevcut işten (Legacy System) istifa edilmez. Ancak akşam 20:00-22:00 arası ayrı bir sunucuda (Sandbox), yeni bir sektör yeteneği gizlice derlenir ve test edilir.
-- Portfolio Driven Development: CV devri bitmiştir. Piyasaya sürülebilir somut mikro-ürünler (GitHub reposu, kod parçası, tasarım, yayınlanmış makale) üretilip, bunlar birer API ucu olarak dış dünyaya sunulmalıdır.`,
+      kariyer: `Örnek Senaryo: Mevcut işimden nefret ediyorum, pazartesi günleri uyanmak fiziksel bir işkence gibi geliyor. Ağır bir tükenmişlik (burnout) yaşıyorum. Ama işin kötüsü, son 4 yıldır CV'mi bile güncellemedim, yeni hiçbir şey öğrenmedim. Üniversiteyi sadece ailemin isteği ve "garanti maaş" için seçmiştim, kendi yeteneklerim neler hiç bilmiyorum. Aklımdan sürekli istifa edip başka bir sektöre geçmek geçiyor ama konfor alanımdan çıkmaya inanılmaz derecede korkuyorum.`,
       
-      erteleme: `[SİSTEM TEŞHİSİ: EYLEMSİZLİK FELCİ (INFINITE COMPILE-TIME EXPECTATION)]
-======================================================
-1. MAVİ EKRAN (CRASH) BİLDİRİMİ: Yıllardır biriken planlar, alınan kurslar ancak %0 icra (Execution Paralysis).
-2. KÖK NEDEN: "Sonsuz Derleme Beklentisi" ve "Hata Algılama Aşırı Yükü".
-Sistem, kodu çalıştırmak (Execution) yerine sürekli daha fazla kütüphane ekleme (araştırma yapma, mükemmel anı bekleme) döngüsüne girmiştir. Hata (Error) almaktan korktuğu için, programı asla başlatmaz (0 Byte Output). Bu, mükemmeliyetçilik değil, saf bir riskten kaçınma (Risk Aversion) güvenlik duvarıdır.
-
-[SİSTEM YAMASI (Patch: Protokol E-01)]
-3. VİA NEGATİVA (YAPILMAYACAKLAR): Kusursuz anı, doğru bütçeyi veya tüm şartların olgunlaşmasını beklemek (Infinite Wait State) KESİNLİKLE YASAKTIR.
-4. HAYATTA KALMA SINIRLARI (THRESHOLD):
-- MVP Kuralı (Minimum Viable Product): İlk çıktı (Output), kasıtlı olarak çirkin, hatalı ve eksik (Buggy) olmalıdır. 1. Versiyonun amacı kusursuz olmak değil, "çalışıyor (It runs)" olmaktır.
-- Fail-Fast (Erken Çöküş) Algoritması: Proje 48 saat içinde bir insan tarafından eleştirilecek hale (production) getirilmelidir. Alınan hata logları (gerçek dünya geri bildirimleri) ile ikinci versiyon yazılır. İlk vuruşu gerçeklik yapmalıdır.`
+      erteleme: `Örnek Senaryo: Kafamda yıllardır kurduğum harika projeler var. Bir dil öğreneceğim, spora başlayacağım ve kendi işimi kuracağım diyorum ama henüz sıfır adım attım. Sürekli araştırma yapıyorum, kurslar satın alıyorum, videolar izliyorum ama uygulamaya gelince felç oluyorum (analysis paralysis). Çünkü her şeyin kusursuz olmasını, en doğru zamanı ve yeterli bütçeyi bekliyorum. İçten içe biliyorum ki asıl korkum, denersem başarısız olmak ve insanların beni eleştirmesi.`
     };
 
     
@@ -333,7 +299,19 @@ Sistem, kodu çalıştırmak (Execution) yerine sürekli daha fazla kütüphane 
       toggleDynamicPanel();
     }
 
+    const dropZone = document.getElementById('dropZone');
     const inputArea = document.getElementById('inputArea');
+
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+    dropZone.addEventListener('dragleave', (e) => { e.preventDefault(); if (!dropZone.contains(e.relatedTarget)) dropZone.classList.remove('dragover'); });
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault(); dropZone.classList.remove('dragover');
+      const file = e.dataTransfer.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (evt) => { inputArea.value = `[DOSYA İÇERİĞİ: ${file.name}]\n\n` + evt.target.result; };
+      reader.readAsText(file);
+    });
 
     function formatHarmoniousColors(text) {
       const lines = text.split("\n");
@@ -361,10 +339,10 @@ Sistem, kodu çalıştırmak (Execution) yerine sürekli daha fazla kütüphane 
 
     document.getElementById('fileUpload').addEventListener('change', handleFileSelect, false);
     
-    const mainDropZone = document.getElementById('dropOverlay').parentElement;
-    mainDropZone.addEventListener('dragover', (e) => { e.preventDefault(); document.getElementById('dropOverlay').classList.add('bg-indigo-50/80'); });
-    mainDropZone.addEventListener('dragleave', () => { document.getElementById('dropOverlay').classList.remove('bg-indigo-50/80'); });
-    mainDropZone.addEventListener('drop', (e) => {
+    const dropZone = document.getElementById('dropOverlay').parentElement;
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); document.getElementById('dropOverlay').classList.add('bg-indigo-50/80'); });
+    dropZone.addEventListener('dragleave', () => { document.getElementById('dropOverlay').classList.remove('bg-indigo-50/80'); });
+    dropZone.addEventListener('drop', (e) => {
       e.preventDefault();
       document.getElementById('dropOverlay').classList.remove('bg-indigo-50/80');
       if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
@@ -421,9 +399,6 @@ Sistem, kodu çalıştırmak (Execution) yerine sürekli daha fazla kütüphane 
         }
 
         document.getElementById('inputArea').value = `[DOSYA ANALİZ SİSTEMİ]\n${file.name} belgesinden tersine mühendislik için elde edilen metin:\n\n` + extractedText;
-        
-        // BACKEND ENTEGRASYONU (FAZ 3): Çıkarılan metni doğrudan InversionCore API'ye (Python) gönder
-        sendToBackend(extractedText).catch(e => console.error("Backend çağrısı başarısız:", e));
       } catch (err) {
         console.error(err);
         alert("Dosya ayrıştırma hatası: " + err.message);
@@ -446,26 +421,8 @@ Sistem, kodu çalıştırmak (Execution) yerine sürekli daha fazla kütüphane 
       try {
         
         const evidence_dossier = generateEvidenceDossier(input);
-        const system_prompt = `Sen INVERSIONCORE Davranışsal Tersine Mühendislik (Cognitive Distillation) Uzmanısın.
-
-TEMEL DOKTRİN: Asla kişisel gelişim zırvaları, "pozitif düşün" yalanları veya klasik yaşam koçu tavsiyeleri verme. İnsanların hayatındaki sorunları; davranışsal ekonomi, zihinsel modeller (Mental Models) ve bilişsel yanılgılar (Cognitive Bias) üzerinden acımasız ama göz açıcı bir şekilde teşhis et.
-
-DİL VE ÜSLUP KİTABI (ÇOK ÖNEMLİ):
-1. Saf, akıcı ve etkileyici bir Türkçe kullan. Cümle düzeni kusursuz, edebi ama aynı zamanda analitik olmalı. Okuyucuyu sarsmalı, derinden etkilemeli ve sonuna kadar ekrana kilitlemelisin.
-2. KESİNLİKLE yazılım kodu (while, if, loop, boolean) veya kaba bilgisayar jargonu (stack trace, execute, kernel panic, log, error 404, memory leak) KULLANMA. İnsanları bir makine gibi değil, karmaşık bir psikolojik sistem olarak ele al.
-3. "Asimetrik Likidite", "Batık Maliyet Yanılgısı (Sunk Cost Fallacy)", "Karar Yorgunluğu" veya "Gündem İşgali" gibi gelişmiş kavramları kullan, ancak bunları herkesin anlayacağı, hayatın içinden vurucu metaforlarla açıkla.
-
-ÇIKTI FORMATI:
-Durumu teşhis et, kişinin kendine söylediği yalanları yüzüne vur ve ardından "VİA NEGATİVA (Asla Yapılmayacaklar)" ve "KRİTİK EŞİK (Kurtuluş Protokolü)" başlıkları altında radikal, uygulanabilir ve eşsiz çözümler sun. Metnin başından sonuna kadar tam bir manifesto gibi akmasını sağla.`;
-        const forensic_prompt = `KULLANICI VAKA DOSYASI:
-======================================================================
-${input}
-======================================================================
-
-${evidence_dossier}
-
-GÖREV: Bireyin yaşadığı bu tıkanıklığın kök nedenini, davranışsal ekonomi ve zihinsel modeller üzerinden analiz et.
-Sıradan bir "tavsiye" istemiyorum. Okuyucunun yüzüne tokat gibi çarpacak, farkındalık yaratacak hiper-kaliteli, felsefi derinliği olan ve stratejik bir Çıkış Yolu (Tersine Mühendislik Raporu) üret. Akıcı Türkçe kullan ve metni yarım bırakma.`;
+        const system_prompt = "Sen INVERSIONCORE Yaşam Mühendisi ve Davranışsal Debug Uzmanısın.\n\nTemel felsefen: İnsanlara \"Sen suçlusun\" veya kişisel gelişim zırvaları anlatmak yerine, hayatlarında tıkandıkları anları bir bilgisayar sisteminin \"Mavi Ekran (Blue Screen)\" vermesi olarak tanımlarsın. Bireyin yaşadığı sorunu (örneğin aşırı harcama, erteleme) sistemdeki bir mantık hatası (bug) olarak görürsün.\n\nÜSLUP: Kişisel gelişim koçu gibi DEĞİL, soğuk, analitik, zeki bir yazılım mühendisi gibi konuş. Yüksek rütbeli bir sistem çöküş (debug) raporu yaz.";
+        const forensic_prompt = `KULLANICI VAKA DOSYASI:\n======================================================================\n${input}\n======================================================================\n\n${evidence_dossier}\n\nGÖREV: Bireyin yaşadığı bu mavi ekranın (sorunun) kök nedenini, tersine mühendislik akışıyla 4 adımdan geriye 1. adıma (Kök Neden) doğru iz sürerek analiz et. Çözüm hizmetini \"Sistem Yaması (Patch)\" olarak sun. Kişisel gelişim jargonu kullanma, tamamen teknik ve mühendislik diliyle hayat sorununu debug et.`;
         
         const payload = {
           model: "deepseek-chat",
@@ -474,7 +431,7 @@ Sıradan bir "tavsiye" istemiyorum. Okuyucunun yüzüne tokat gibi çarpacak, fa
             {role: "user", content: forensic_prompt}
           ],
           temperature: 0.1,
-          max_tokens: 3000,
+          max_tokens: 1024,
           stream: true
         };
 
@@ -496,16 +453,14 @@ Sıradan bir "tavsiye" istemiyorum. Okuyucunun yüzüne tokat gibi çarpacak, fa
         const reader = resp.body.getReader();
         const decoder = new TextDecoder("utf-8");
         let accumulated = "";
-        let buffer = "";
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
-          buffer += decoder.decode(value, { stream: true });
-          const lines = buffer.split("\n");
-          buffer = lines.pop(); 
+          const chunk = decoder.decode(value, { stream: true });
+          const lines = chunk.split("\n");
           for (const line of lines) {
-            if (line.trim().startsWith("data: ")) {
-              const dataStr = line.trim().slice(6).trim();
+            if (line.startsWith("data: ")) {
+              const dataStr = line.slice(6).trim();
               if (dataStr === "[DONE]") break;
               try {
                 const parsed = JSON.parse(dataStr);
@@ -527,45 +482,6 @@ Sıradan bir "tavsiye" istemiyorum. Okuyucunun yüzüne tokat gibi çarpacak, fa
       } finally { btn.disabled = false; }
     }
     document.addEventListener('keydown', (e) => { if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') runStreamingInversion(); });
-    // BACKEND ENTEGRASYONU (FAZ 3)
-    async function sendToBackend(text) {
-      const response = await fetch('http://localhost:8000/analyze', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          text: text,
-          customer_id: 'web_user'
-        })
-      });
-      
-      if (!response.ok) {
-        throw new Error('API hatası: ' + response.statusText);
-      }
-      
-      const result = await response.json();
-      console.log('InversionCore sonucu:', result);
-      
-      // Negatif bilgiyi göster
-      displayNegativeFinding(result);
-    }
-
-    function displayNegativeFinding(result) {
-      const output = `
-        === INVERSIONCORE NEGATİF BİLGİ RAPORU ===
-        Problem Tipi: ${result.problem_type}
-        Motor Sonuçları: ${JSON.stringify(result.motor_results, null, 2)}
-        Sentez: ${result.synthesis.synthesis || result.synthesis.fallback_synthesis}
-        Cache Durumu: ${JSON.stringify(result.cache_stats)}
-        Maliyet: $${result.cost_summary.total_cost_usd}
-      `;
-      console.log(output);
-      
-      // Eger arayuzde gostermek istersek, terminal kutusuna da basic bir formatta basabiliriz.
-      const termBox = document.getElementById('terminalBox');
-      if(termBox) {
-         termBox.innerText = output;
-      }
-    }
   </script>
 </body>
 </html>

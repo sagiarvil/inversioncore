@@ -1,4 +1,58 @@
-"""
+import os
+
+FILES = {}
+
+# 1. FIREBASE.JSON GÜNCELLEMESI (functions ekleniyor)
+FILES["firebase.json"] = '''{
+  "hosting": {
+    "site": "inversioncore",
+    "public": "public",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "/api/**",
+        "function": "analyze"
+      }
+    ]
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": ["venv", ".git", "firebase-debug.log", "firebase-debug.*.log", "*.local"]
+    }
+  ]
+}
+'''
+
+# 2. FUNCTIONS KLASORU INIT
+FILES["functions/.gitignore"] = '''venv/
+*.pyc
+__pycache__/
+.env
+*.local
+firebase-debug.log
+'''
+
+FILES["functions/requirements.txt"] = '''firebase-functions==0.4.2
+firebase-admin==6.5.0
+flask==3.0.3
+z3-solver
+ortools
+networkx
+scipy
+SALib
+pysd
+nashpy
+dowhy
+numpy
+pandas
+litellm
+cachetools
+'''
+
+# 3. FIREBASE FUNCTIONS MAIN (FastAPI yerine Flask + Firebase HTTP trigger)
+FILES["functions/main.py"] = '''"""
 InversionCore Firebase Functions Backend
 """
 import os
@@ -184,7 +238,7 @@ def synthesize_with_deepseek(physical_findings, customer_id, problem_type):
         latency_ms = (time.time() - start) * 1000
         record_call(customer_id, problem_type, "offline-no-key", 0, 0, 0.0, "OFFLINE", latency_ms)
         return {
-            "synthesis": "\n".join(
+            "synthesis": "\\n".join(
                 ["[OFFLINE SENTEZ]"] +
                 [f"- {f.get('motor', '?')}: {f.get('negative_finding', '?')}" for f in physical_findings]
             ),
@@ -199,7 +253,7 @@ def synthesize_with_deepseek(physical_findings, customer_id, problem_type):
             "Sen InversionCore fiziksel motorlarının çıktısını insan diline çeviren bir sentez motorusun. "
             "ASLA yeni bilgi ekleme, ASLA hesaplama yapma. Sadece verilen bulguları özetle. Türkçe cevap ver."
         )
-        user_prompt = "Aşağıdaki fiziksel motor bulgularını sentezle:\n\n" + "\n".join(
+        user_prompt = "Aşağıdaki fiziksel motor bulgularını sentezle:\\n\\n" + "\\n".join(
             f"- {f.get('motor', '?')}: {f.get('negative_finding', '?')}" for f in physical_findings
         )
         response = litellm.completion(
@@ -225,7 +279,7 @@ def synthesize_with_deepseek(physical_findings, customer_id, problem_type):
         record_call(customer_id, problem_type, "deepseek/deepseek-chat", 0, 0, 0.0, "ERROR", latency_ms)
         return {
             "error": str(e),
-            "synthesis": "\n".join(
+            "synthesis": "\\n".join(
                 ["[HATA - Offline Fallback]"] +
                 [f"- {f.get('motor', '?')}: {f.get('negative_finding', '?')}" for f in physical_findings]
             )
@@ -293,8 +347,6 @@ def auto_invert(text: str, data: dict, customer_id: str = "default"):
 
 @https_fn.on_request(
     region=options.SupportedRegion.EUROPE_WEST1,
-    min_instances=0,
-    max_instances=1,
     cors=options.CorsOptions(cors_origins=["https://inversioncore.com", "https://inversioncore.web.app"],
                               cors_methods=["POST", "GET"])
 )
@@ -329,11 +381,81 @@ def analyze(req: flask.Request) -> flask.Response:
 
 @https_fn.on_request(
     region=options.SupportedRegion.EUROPE_WEST1,
-    min_instances=0,
-    max_instances=1,
     cors=options.CorsOptions(cors_origins=["https://inversioncore.com", "https://inversioncore.web.app"])
 )
 def health(req: flask.Request) -> flask.Response:
     return flask.jsonify({"status": "ok", "version": "2.1", "backend": "firebase-functions"}), 200
 
 init_db()
+'''
+
+FILES["public/js/inversion_api.js"] = '''const INVERSION_API_BASE = "/api";
+
+async function sendToBackend(extractedText, customerId = "web_user") {
+  if (!extractedText || extractedText.length < 10) {
+    throw new Error("Metin çok kısa (min 10 karakter)");
+  }
+
+  const response = await fetch(`${INVERSION_API_BASE}/analyze`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      text: extractedText,
+      customer_id: customerId
+    })
+  });
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err.error || `API hatası: ${response.status}`);
+  }
+
+  return await response.json();
+}
+
+function displayNegativeFinding(result) {
+  const termBox = document.getElementById("terminalBox") || document.getElementById("output");
+  if (!termBox) {
+    console.log("InversionCore Sonucu:", result);
+    return;
+  }
+
+  const synthesis = result.synthesis?.synthesis
+    || result.synthesis?.fallback_synthesis
+    || JSON.stringify(result.synthesis, null, 2);
+
+  const motorSummary = (result.motor_results || [])
+    .map(r => `▸ ${r.motor || "?"}: ${r.negative_finding || "?"}`)
+    .join("\\n");
+
+  const output = [
+    "╔══════════════════════════════════════════════════╗",
+    "║  INVERSIONCORE — NEGATİF BİLGİ RAPORU            ║",
+    "╚══════════════════════════════════════════════════╝",
+    "",
+    `Problem Tipi: ${result.problem_type}`,
+    "",
+    "── MOTOR BULGULARI ──",
+    motorSummary || "(bulgu yok)",
+    "",
+    "── SENTEZ ──",
+    synthesis,
+    "",
+    `Cache: motor=${result.cache_stats?.motor} | sentez=${result.cache_stats?.synthesis}`,
+    `Maliyet: $${(result.cost_summary?.total_cost_usd || 0).toFixed(6)}`,
+    `Hit Oranı: %${result.cost_summary?.hit_rate || 0}`
+  ].join("\\n");
+
+  termBox.innerText = output;
+}
+
+window.InversionAPI = { sendToBackend, displayNegativeFinding };
+'''
+
+for path, content in FILES.items():
+    directory = os.path.dirname(path)
+    if directory:
+        os.makedirs(directory, exist_ok=True)
+    with open(path, "w", encoding="utf-8") as fh:
+        fh.write(content)
+    print(f"Oluşturuldu: {path}")
