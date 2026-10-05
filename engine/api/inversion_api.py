@@ -91,6 +91,7 @@ async def stream_text(request: StreamRequest):
     ]
 
     def token_generator():
+        import json
         try:
             response = litellm.completion(
                 model="deepseek/deepseek-flash",
@@ -104,9 +105,11 @@ async def stream_text(request: StreamRequest):
             for chunk in response:
                 content = chunk.choices[0].delta.content
                 if content:
-                    yield f"data: {content}\n\n"
+                    escaped_content = json.dumps({"content": content})
+                    yield f"data: {escaped_content}\n\n"
             yield "data: [DONE]\n\n"
         except Exception as e:
-            yield f"data: [HATA] {str(e)}\n\n"
+            err_content = json.dumps({"content": f"[HATA] {str(e)}"})
+            yield f"data: {err_content}\n\n"
 
     return StreamingResponse(token_generator(), media_type="text/event-stream")
