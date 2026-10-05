@@ -1,0 +1,67 @@
+{
+  "inversioncore_version": "1.0.0",
+  "timestamp": "2026-10-04T20:17:35.170635+00:00",
+  "target": "/Users/macair1/projects/inversioncore/tests/sample_target.py",
+  "summary": {
+    "total_vulnerabilities": 1,
+    "engines_used": [
+      "Semgrep Physical v1.x",
+      "Tree-sitter AST Engine"
+    ]
+  },
+  "vulnerabilities": [
+    {
+      "vuln_id": "INV-0001",
+      "fingerprint": "fp_fb35e88f68761950",
+      "rule_id": "python.lang.security.deserialization.pickle.avoid-pickle",
+      "severity": "WARNING",
+      "message": "Avoid using `pickle`, which is known to lead to code execution vulnerabilities. When unpickling, the serialized data could be manipulated to run arbitrary code. Instead, consider serializing the relevant data as JSON or a similar text-based serialization format.",
+      "target_file": "/Users/macair1/projects/inversioncore/tests/sample_target.py",
+      "finding_location": {
+        "start_line": 18,
+        "code_snippet": "requires login"
+      },
+      "ast_scope": {
+        "status": "success",
+        "enclosing_symbol": "load_session_state",
+        "symbol_type": "function_definition",
+        "enclosing_class": "UserPortal",
+        "scope_range": {
+          "start_line": 17,
+          "end_line": 19,
+          "line_count": 3
+        },
+        "parameters": [
+          "self",
+          "raw_payload"
+        ],
+        "local_variables": [
+          "state"
+        ],
+        "enclosing_code": "    def load_session_state(self, raw_payload: bytes):\n        state = pickle.loads(raw_payload)\n        return state"
+      },
+      "agent_payloads": {
+        "red_team_qwen": {
+          "task": "EXPLOIT_PROOF_OF_CONCEPT",
+          "objective": "Prove exploitability for python.lang.security.deserialization.pickle.avoid-pickle in load_session_state.",
+          "scope_code": "    def load_session_state(self, raw_payload: bytes):\n        state = pickle.loads(raw_payload)\n        return state",
+          "parameters": [
+            "self",
+            "raw_payload"
+          ],
+          "target_snippet": "requires login"
+        },
+        "blue_team_deepseek": {
+          "task": "DETERMINISTIC_AST_PATCH",
+          "objective": "Remediate python.lang.security.deserialization.pickle.avoid-pickle in load_session_state preserving signatures.",
+          "scope_code": "    def load_session_state(self, raw_payload: bytes):\n        state = pickle.loads(raw_payload)\n        return state",
+          "required_signatures": [
+            "self",
+            "raw_payload"
+          ],
+          "remediation_guideline": "Generate pure code patch preserving AST shape."
+        }
+      }
+    }
+  ]
+}

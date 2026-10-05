@@ -1,0 +1,47 @@
+rules:
+  - id: inversioncore.python.injection.tainted-sql-injection
+    languages: [python]
+    severity: ERROR
+    message: "Tainted user input detected inside SQL query string execution."
+    metadata:
+      cwe: ["CWE-89"]
+      owasp: ["A03:2021-Injection"]
+      category: security
+      impact: HIGH
+      confidence: HIGH
+    patterns:
+      - pattern-either:
+          - pattern: $CURSOR.execute(f"...", ...)
+          - pattern: $CURSOR.execute("..." % (...), ...)
+          - pattern: $CURSOR.execute("..." + $X, ...)
+
+  - id: inversioncore.python.rce.unsafe-command-execution
+    languages: [python]
+    severity: ERROR
+    message: "Unsafe OS command concatenation detected leading to Command Injection / Remote Code Execution."
+    metadata:
+      cwe: ["CWE-78"]
+      owasp: ["A03:2021-Injection"]
+      category: security
+      impact: CRITICAL
+      confidence: HIGH
+    patterns:
+      - pattern-either:
+          - pattern: os.system("..." + $X)
+          - pattern: os.popen("..." + $X)
+          - pattern: subprocess.run("..." + $X, shell=True, ...)
+          - pattern: subprocess.Popen("..." + $X, shell=True, ...)
+
+  - id: inversioncore.python.deserialization.unsafe-pickle
+    languages: [python]
+    severity: ERROR
+    message: "Unsafe deserialization using pickle.loads allows arbitrary code execution."
+    metadata:
+      cwe: ["CWE-502"]
+      owasp: ["A08:2021-Software and Data Integrity Failures"]
+      category: security
+      impact: CRITICAL
+      confidence: HIGH
+    patterns:
+      - pattern: pickle.loads(...)
+      - pattern: _pickle.loads(...)

@@ -1,0 +1,8 @@
+{
+  "inversioncore_verification": "1.0.0",
+  "vuln_id": "INV-0001",
+  "original_rule": "python.lang.security.deserialization.pickle.avoid-pickle",
+  "static_rescan_vulnerabilities": 0,
+  "is_remediated": true,
+  "sandbox_execution": "EXECUTION_FAILED"
+}

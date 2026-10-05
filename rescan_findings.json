@@ -1,0 +1,13 @@
+{
+  "inversioncore_version": "1.0.0",
+  "timestamp": "2026-10-04T20:20:48.312466+00:00",
+  "target": "/Users/macair1/projects/inversioncore/tests/sample_target_patched.py",
+  "summary": {
+    "total_vulnerabilities": 0,
+    "engines_used": [
+      "Semgrep Physical v1.x",
+      "Tree-sitter AST Engine"
+    ]
+  },
+  "vulnerabilities": []
+}
