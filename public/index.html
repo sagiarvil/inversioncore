@@ -359,9 +359,8 @@ VURGU KURALLARI (PREMIUM UI):
               const dataStr = line.trim().slice(6).trim();
               if (dataStr === "[DONE]") break;
               try {
-                const parsed = JSON.parse(dataStr);
-                const delta = parsed.choices?.[0]?.delta?.content || "";
-                accumulated += delta;
+                // Backend raw text gonderiyor JSON degil
+                accumulated += dataStr;
                 termBox.innerHTML = formatHarmoniousColors(accumulated) + '<span class="blinking-cursor"></span>';
                 document.getElementById('speedBadge').textContent = `CANLI AKIŞ: ${((performance.now() - t0) / 1000).toFixed(1)}s`;
               } catch (e) {}
@@ -372,9 +371,7 @@ VURGU KURALLARI (PREMIUM UI):
           const dataStr = buffer.trim().slice(6).trim();
           if (dataStr !== "[DONE]") {
             try {
-              const parsed = JSON.parse(dataStr);
-              const delta = parsed.choices?.[0]?.delta?.content || "";
-              accumulated += delta;
+              accumulated += dataStr;
             } catch(e) {}
           }
         }
