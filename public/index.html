@@ -120,52 +120,36 @@
 
   <script>
 
-    function extractParams(text) {
-      let type = "BİLİNMEYEN HATA (KERNEL PANIC)";
-      let rootCause = "Sistemik Korku ve Yanlış Yönlendirme";
-      let burnMetric = "Enerji/Nakit Yakımı";
-      let overload = "Psikolojik/Finansal Aşırı Yükleme";
+    
+    function generateEvidenceDossier(text) {
+      let category = "Genel Yaşam Sistemi";
+      let error_code = "ERR_UNKNOWN_SYSTEM_FAULT";
       
       const t = text.toLowerCase();
-      if (t.includes("maaş") || t.includes("para") || t.includes("finans")) {
-        type = "FİNANSAL KÖRLÜK SARMALI";
-        rootCause = "Bütçe körlüğü ve yapay zenginlik hissi.";
-        burnMetric = "Maaşın %80'i ilk 5 günde buharlaşıyor.";
-        overload = "Asgari ödeme sarmalı (Debt Overload)";
-      } else if (t.includes("vakit") || t.includes("zaman") || t.includes("dopamin") || t.includes("hırsız")) {
-        type = "ZAMAN DECONSTRUCTION PARADOKSU";
-        rootCause = "Plansızlık ve başkalarının ajandasına teslimiyet.";
-        burnMetric = "Günde 4-5 saat algoritmik dopamin hırsızlığı.";
-        overload = "Tükenmişlik ve suçluluk hissi (Focus Crash)";
-      } else if (t.includes("ilişki") || t.includes("toksik") || t.includes("partner") || t.includes("insan")) {
-        type = "TOKSİK İLİŞKİ ALGORİTMASI";
-        rootCause = "Yalnızlık korkusu ve çocukluk kodlamaları.";
-        burnMetric = "Tüm duygusal enerjinin yanlış profile harcanması.";
-        overload = "Değersizlik hissi ve sınır (Boundary) ihlali.";
-      } else if (t.includes("kariyer") || t.includes("iş") || t.includes("pazartesi")) {
-        type = "KARİYER KAYNAK KODU ÇÖKÜŞÜ";
-        rootCause = "Konfor alanı tuzağı ve yetenek/değer haritası eksikliği.";
-        burnMetric = "Zihinsel enerjinin %90'ı mesai saatlerinde yok oluyor.";
-        overload = "Pazartesi Sendromu ve Burnout Mavi Ekranı.";
-      } else if (t.includes("erteleme") || t.includes("kararsızlık") || t.includes("adım")) {
-        type = "EYLEMSİZLİK SİSTEMİ (ANALYSIS PARALYSIS)";
-        rootCause = "Kusursuzluk arzusu ve eleştirilme korkusu.";
-        burnMetric = "Yıllardır süren zihinsel yük ve pasif pişmanlık.";
-        overload = "Potansiyelin sıfıra inmesi (Execution Fail).";
+      if (t.includes("maaş") || t.includes("para") || t.includes("harcama") || t.includes("finans")) {
+        category = "Finansal Körlük (Maaşın Ömrünü Uzatma Protokolü)";
+        error_code = "ERR_BUDGET_OVERFLOW_0x1A";
+      } else if (t.includes("vakit") || t.includes("zaman") || t.includes("reels") || t.includes("saat")) {
+        category = "Zaman Deconstruction (24 Saati Çalanlar)";
+        error_code = "ERR_TIME_LOOP_PARADOX_0x2B";
+      } else if (t.includes("işten") || t.includes("kariyer") || t.includes("maaş") || t.includes("pazartesi")) {
+        category = "Kariyer Kaynak Kodu (Profesyonel Hata)";
+        error_code = "ERR_CAREER_COMFORT_ZONE_0x3C";
+      } else if (t.includes("erteleme") || t.includes("başarısızlık") || t.includes("kusursuz")) {
+        category = "Eylemsizlik Sistemi (Analysis Paralysis)";
+        error_code = "ERR_EXECUTION_BLOCKED_0x4D";
+      } else if (t.includes("ilişki") || t.includes("partner") || t.includes("toksik")) {
+        category = "İlişki Algoritması Revizyonu";
+        error_code = "ERR_TOXIC_SELECTION_LOOP_0x5E";
       }
 
-      return {
-        verdict: type,
-        risk_propagation_paths: `${rootCause} -> Semptom -> MAVİ EKRAN`,
-        burn_rate: burnMetric,
-        overload_status: overload
-      };
+      return `[SİSTEMİK İNSAN HATASI (MÜHENDİSLİK ANALİZİ)]
+1. MAVİ EKRAN (CRASH) BİLDİRİMİ: Sistemin çöküş aşamasına ulaştığı doğrulandı.
+2. TESPİT EDİLEN MODÜL: ${category}
+3. HATA KODU (BUG): ${error_code}
+4. KÖK NEDEN YAKLAŞIMI: Sen suçlu değilsin, sisteminde sadece bir mantık hatası (bug) var. Geriye dönük iz sürerek (Tersine Mühendislik) arızalı olan bu işletim sistemi adımını 'debug' (hata ayıklama) yapacağız.`;
     }
 
-    function generateEvidenceDossier(text) {
-      const p = extractParams(text);
-      return `[SİSTEMİK ADLİ KANIT (MAVİ EKRAN) DOSYASI]
-1. TESPİT EDİLEN BUG: ${p.verdict}
 2. KÖK NEDEN (ROOT CAUSE) ANALİZİ:
    - Başlangıç Hatası: ${p.risk_propagation_paths}
 3. ENERJİ/KAYNAK YAKIM HIZI (BURN RATE):
@@ -182,51 +166,12 @@
     }
 
     const presets = {
-      finans: `[HATA KODU: 0x01 - FİNANSAL KÖRLÜK]
-Kronik "Ay Sonunu Getiremiyorum" Sendromu
+      finans: `Nihai Sorun (Çıktı): Ayın 15'inde maaşın bitmesi ve kredi kartı asgari tutarını ödeme sarmalı.\n\n"Zaten para bitti" psikolojisiyle kontrolsüz teselli harcamaları yapıyorum. Maaş günü zenginlik hissiyle lüks harcamalar yapıyorum ama sabit giderlerimi bile net bilmiyorum. Bütçe planım yok.`,
+      zaman: `Nihai Sorun (Çıktı): Gün bitiyor ama yapmak istediğim hiçbir şeye (kitap okuma, spor, eğitim) vakit bulamıyorum, çok yorgunum.\n\nGece geç saatte "Bugün de kendime hiçbir şey katamadım" suçluluğu geliyor. Akşam iş/okul dönüşü yorgunluk bahanesiyle saatlerce Reels kaydırıyorum. Güne plansız başlıyor ve hayır diyemiyorum.`,
 
-Çıktı (Mavi Ekran): Ayın 15'inde maaş biter, kredi kartı asgari tutarına sarılırım.
-Adım 3: "Zaten para bitti" diyerek teselli harcamaları yaparım (dışarıda yemek, kahve).
-Adım 2: Maaş yattığı günkü "zenginlik hissi" ile keyfi harcamalar yaparım.
-Adım 1 (Kök): Sabit giderlerimi bilmem, bütçe yapmam, "gelir kadar harcanır" yanılgısındayım.
-
-Maaşımın ömrünü uzatma protokolüne ihtiyacım var. Param nerede tasarım hatası veriyor?`,
-      zaman: `[HATA KODU: 0x02 - ZAMAN HIRSIZLARI]
-"Hiç Vaktim Yok" Paradoksu
-
-Çıktı (Mavi Ekran): Gün biter ama kendime zerre vakit ayıramadan tükenmiş hissederim.
-Adım 3: İş/okul dönüşü yorgunluk bahanesiyle saatlerce Reels/TikTok (Dopamin tuzağı) kaydırırım.
-Adım 2: Gün içinde işleri son dakikaya bırakıp yüksek stresle çalışırım.
-Adım 1 (Kök): Güne plansız başlar, "hayır" diyemediğim için başkalarının ajandasını yaşarım.
-
-24 saatimi kim çalıyor? Zaman deconstruction analizi yapın.`,
-      iliski: `[HATA KODU: 0x03 - TOKSİK DÖNGÜ]
-"İlişkilerimde Hep Aynı Tip İnsanları Seçiyorum" Döngüsü
-
-Çıktı (Mavi Ekran): Hep bencil, değersiz hissettiren insanlarla karşılaşır ve ayrılırım.
-Adım 3: Karşı tarafın kırmızı çizgilerimi (red flags) ihlal etmesine "düzelir" diye izin veririm.
-Adım 2: İlk tanışmadaki toksik sinyalleri "heyecan ve tutku" zannederim.
-Adım 1 (Kök): Yalnız kalma korkusu ve çocukluktan gelen "sevilmek için çok çabalamalıyım" kodlaması.
-
-Seçim kriterlerimi tersine mühendislikle yeniden yazmak için algoritma revizyonuna ihtiyacım var.`,
-      kariyer: `[HATA KODU: 0x04 - KARİYER SIKIŞMASI]
-Kariyer Sıkışması ve "Pazartesi Sendromu"
-
-Çıktı (Mavi Ekran): İşten nefret etme, sabahları uyanmak istememe, tam bir tükenmişlik (burnout).
-Adım 3: Son 3 yıldır sektörel trendleri takip etmemek, yeni yetkinlik (upskilling) kazanmamak.
-Adım 2: Kariyer seçiminde "garanti maaş" için hareket edip kendi yeteneklerini analiz etmemek.
-Adım 1 (Kök): Konfor alanından çıkma korkusu.
-
-Profesyonel hayatım nerede hata veriyor? Kariyer kaynak kodumu analiz et.`,
-      erteleme: `[HATA KODU: 0x05 - ANALYSIS PARALYSIS]
-Kararsızlık ve Hayatı Erteleme
-
-Çıktı (Mavi Ekran): Yıllardır dil öğreneceğim, iş kuracağım derim ama sıfır adım.
-Adım 3: Kusursuz anı, mükemmel bütçeyi (Mükemmeliyetçilik tuzağı) beklerim.
-Adım 2: Yapacağım işle ilgili aylarca sadece araştırma yapar ama asla eyleme geçmem.
-Adım 1 (Kök): Başarısız olma ve başkaları tarafından eleştirilme korkusu.
-
-Eylemsizlik sistemimi hacklemek ve erteleme döngümü tersine çevirmek istiyorum.`
+      iliski: `Nihai Sorun (Çıktı): Hep değersiz hissettiren, toksik veya bencil partnerlerle/arkadaşlarla karşılaşıyor ve hayal kırıklığı yaşıyorum.\n\nKarşı tarafın kırmızı çizgilerimi ihlal etmesine "düzelir" diyerek izin veriyorum. İlk tanıştığımdaki toksik sinyalleri "heyecan ve tutku" zannediyorum. Aslında yalnız kalmaktan çok korkuyorum ve sevilmek için çok çabalamam gerektiğine inanıyorum.`,
+      kariyer: `Nihai Sorun (Çıktı): İşten nefret etme, sabahları uyanmak istememe, tükenmişlik (burnout) yaşıyorum.\n\nMevcut işte mutsuzum ama mecbur hissediyorum. Yıllardır kendime yeni bir yetkinlik katmadım. Sadece "garanti maaş" için hareket ediyorum ve konfor alanımdan çıkmaya inanılmaz derecede korkuyorum.`,
+      erteleme: `Nihai Sorun (Çıktı): Yıllardır dil öğrenecek, spora başlayacak, bir iş kuracağım ama hala hiçbir adım atmadım.\n\n"Benden bir şey olmaz" diyerek vazgeçme noktasına geldim. Kusursuz anı, mükemmel bütçeyi bekliyorum. Aylarca sadece araştırma yapıyor, tonlarca bilgi yüklüyor ama başarısızlık korkusundan asla uygulamaya geçemiyorum.`
     };
 
     function loadPreset(k) { 
@@ -292,8 +237,8 @@ Eylemsizlik sistemimi hacklemek ve erteleme döngümü tersine çevirmek istiyor
       try {
         
         const evidence_dossier = generateEvidenceDossier(input);
-        const system_prompt = "Sen INVERSIONCORE Baş Sistemik Güvenilirlik Mühendisi ve Kıdemli Adli Karar Analistisin. Havacılık (NTSB), Nükleer Güvenlik (PRA/Fault Tree) disipliniyle çalışırsın.\n\nÜSLUP: Soğuk, net, analitik, sıfır yapay zeka gevezeliği, yüksek rütbeli adli kaza kırım raporu ciddiyetinde Türkçe.";
-        const forensic_prompt = `KULLANICI VAKA DOSYASI:\n======================================================================\n${input}\n======================================================================\n\n${evidence_dossier}\n\nGÖREV: Yukarıdaki doğrulanmış adli kanıt dosyasını kullanarak 'ADLİ KAZA KIRIM VE TERSİNE ÇÖKÜŞ RAPORU'nu eksiksiz üret. Aşırı kibar olmadan, rakamları ve sınırları doğrudan ver.`;
+        const system_prompt = "Sen INVERSIONCORE Yaşam Mühendisi ve Davranışsal Debug Uzmanısın.\n\nTemel felsefen: İnsanlara \"Sen suçlusun\" veya kişisel gelişim zırvaları anlatmak yerine, hayatlarında tıkandıkları anları bir bilgisayar sisteminin \"Mavi Ekran (Blue Screen)\" vermesi olarak tanımlarsın. Bireyin yaşadığı sorunu (örneğin aşırı harcama, erteleme) sistemdeki bir mantık hatası (bug) olarak görürsün.\n\nÜSLUP: Kişisel gelişim koçu gibi DEĞİL, soğuk, analitik, zeki bir yazılım mühendisi gibi konuş. Yüksek rütbeli bir sistem çöküş (debug) raporu yaz.";
+        const forensic_prompt = `KULLANICI VAKA DOSYASI:\n======================================================================\n${input}\n======================================================================\n\n${evidence_dossier}\n\nGÖREV: Bireyin yaşadığı bu mavi ekranın (sorunun) kök nedenini, tersine mühendislik akışıyla 4 adımdan geriye 1. adıma (Kök Neden) doğru iz sürerek analiz et. Çözüm hizmetini \"Sistem Yaması (Patch)\" olarak sun. Kişisel gelişim jargonu kullanma, tamamen teknik ve mühendislik diliyle hayat sorununu debug et.`;
         
         const payload = {
           model: "deepseek-chat",
