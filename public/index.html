@@ -299,19 +299,7 @@ Adım 1 (Kök Neden): Başarı tanımının hatalı olması. İlk denemenin kusu
       toggleDynamicPanel();
     }
 
-    const dropZone = document.getElementById('dropZone');
     const inputArea = document.getElementById('inputArea');
-
-    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
-    dropZone.addEventListener('dragleave', (e) => { e.preventDefault(); if (!dropZone.contains(e.relatedTarget)) dropZone.classList.remove('dragover'); });
-    dropZone.addEventListener('drop', (e) => {
-      e.preventDefault(); dropZone.classList.remove('dragover');
-      const file = e.dataTransfer.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (evt) => { inputArea.value = `[DOSYA İÇERİĞİ: ${file.name}]\n\n` + evt.target.result; };
-      reader.readAsText(file);
-    });
 
     function formatHarmoniousColors(text) {
       const lines = text.split("\n");
@@ -339,10 +327,10 @@ Adım 1 (Kök Neden): Başarı tanımının hatalı olması. İlk denemenin kusu
 
     document.getElementById('fileUpload').addEventListener('change', handleFileSelect, false);
     
-    const dropZone = document.getElementById('dropOverlay').parentElement;
-    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); document.getElementById('dropOverlay').classList.add('bg-indigo-50/80'); });
-    dropZone.addEventListener('dragleave', () => { document.getElementById('dropOverlay').classList.remove('bg-indigo-50/80'); });
-    dropZone.addEventListener('drop', (e) => {
+    const mainDropZone = document.getElementById('dropOverlay').parentElement;
+    mainDropZone.addEventListener('dragover', (e) => { e.preventDefault(); document.getElementById('dropOverlay').classList.add('bg-indigo-50/80'); });
+    mainDropZone.addEventListener('dragleave', () => { document.getElementById('dropOverlay').classList.remove('bg-indigo-50/80'); });
+    mainDropZone.addEventListener('drop', (e) => {
       e.preventDefault();
       document.getElementById('dropOverlay').classList.remove('bg-indigo-50/80');
       if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
