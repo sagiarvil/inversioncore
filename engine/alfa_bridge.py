@@ -45,11 +45,11 @@ class AlfaBridge:
     def analyze_vulnerability_poc(self, vuln_data: Dict[str, Any]) -> str:
         ast_scope = vuln_data.get("ast_scope", {})
         messages = [
-            {"role": "system", "content": "You are InversionCore Red Team Security Agent powered by Alfa. Analyze the AST scope and explain the vulnerability mechanics and exploit scenario conceptually."},
+            {"role": "system", "content": "You are InversionCore Red Team Security Agent powered by DeepSeek. Analyze the AST scope and explain the vulnerability mechanics and exploit scenario conceptually."},
             {"role": "user", "content": json.dumps({"rule_id": vuln_data.get("rule_id"), "symbol": ast_scope.get("enclosing_symbol"), "code": ast_scope.get("full_scope_code"), "params": ast_scope.get("parameters", [])})}
         ]
-        resp = self._call_llm(self.alfa_endpoint, messages, model="qwen2.5-coder-14b")
-        return resp.get("choices", [{}])[0].get("message", {}).get("content", f"[Alfa Red Error] {resp.get('error')}")
+        resp = self._call_llm(self.deepseek_endpoint, messages, model="deepseek-coder", api_key=self.deepseek_api_key)
+        return resp.get("choices", [{}])[0].get("message", {}).get("content", f"[DeepSeek Red Error] {resp.get('error')}")
 
     def generate_ast_patch(self, vuln_data: Dict[str, Any]) -> str:
         ast_scope = vuln_data.get("ast_scope", {})
@@ -57,11 +57,8 @@ class AlfaBridge:
             {"role": "system", "content": "You are InversionCore Blue Team Defense Agent. Provide a safe code patch preserving exact function signatures and eliminating the reported vulnerability."},
             {"role": "user", "content": json.dumps({"rule_id": vuln_data.get("rule_id"), "symbol": ast_scope.get("enclosing_symbol"), "code": ast_scope.get("full_scope_code"), "params": ast_scope.get("parameters", [])})}
         ]
-        if self.deepseek_api_key:
-            resp = self._call_llm(self.deepseek_endpoint, messages, model="deepseek-coder", api_key=self.deepseek_api_key)
-        else:
-            resp = self._call_llm(self.alfa_endpoint, messages, model="qwen2.5-coder-14b")
-        return resp.get("choices", [{}])[0].get("message", {}).get("content", f"[Alfa Blue Error] {resp.get('error')}")
+        resp = self._call_llm(self.deepseek_endpoint, messages, model="deepseek-coder", api_key=self.deepseek_api_key)
+        return resp.get("choices", [{}])[0].get("message", {}).get("content", f"[DeepSeek Blue Error] {resp.get('error')}")
 
     def process_findings_file(self, findings_json_path: str, output_path: str) -> Dict[str, Any]:
         p = Path(findings_json_path).resolve()

@@ -3,11 +3,22 @@ import sys, os, json, urllib.request, time
 from pathlib import Path
 from typing import Dict, Any
 
-ALFA_ENDPOINT = "http://localhost:8080/v1/chat/completions"
+DEEPSEEK_ENDPOINT = os.getenv("DEEPSEEK_ENDPOINT", "https://api.deepseek.com/v1/chat/completions")
 
 class RealityInversionEngine:
-    def __init__(self, endpoint: str = ALFA_ENDPOINT):
+    def __init__(self, endpoint: str = DEEPSEEK_ENDPOINT):
         self.endpoint = endpoint
+        self.api_key = self._load_env_key("/Users/macair1/lab/alfa/.env", "DEEPSEEK_API_KEY")
+
+    def _load_env_key(self, env_path: str, key_name: str):
+        p = Path(env_path)
+        if not p.exists(): return os.getenv(key_name)
+        try:
+            for line in p.read_text(encoding="utf-8").splitlines():
+                if line.strip().startswith(f"{key_name}="):
+                    return line.split("=", 1)[1].strip().strip('"').strip("'")
+        except: pass
+        return os.getenv(key_name)
 
     def invert_problem(self, context_description: str, domain: str = "business") -> Dict[str, Any]:
         system_prompt = (
@@ -40,7 +51,7 @@ class RealityInversionEngine:
         )
 
         payload = {
-            "model": "qwen2.5-coder-14b-abliterated",
+            "model": "deepseek-coder",
             "messages": [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}],
             "temperature": 0.1,
             "max_tokens": 750
@@ -49,6 +60,8 @@ class RealityInversionEngine:
         data = json.dumps(payload).encode("utf-8")
         req = urllib.request.Request(self.endpoint, data=data, method="POST")
         req.add_header("Content-Type", "application/json")
+        if self.api_key:
+            req.add_header("Authorization", f"Bearer {self.api_key}")
 
         t0 = time.time()
         try:
@@ -61,7 +74,7 @@ class RealityInversionEngine:
                 elapsed = round(time.time() - t0, 2)
                 return {"status": "SUCCESS", "elapsed_sec": elapsed, "analysis": parsed}
         except Exception as e:
-            return {"status": "ERROR", "error": f"Yerel Alfa (localhost:8080) hatası: {str(e)}"}
+            return {"status": "ERROR", "error": f"DeepSeek API hatası: {str(e)}"}
 
 if __name__ == "__main__":
     print(RealityInversionEngine().invert_problem("Test", "Business"))

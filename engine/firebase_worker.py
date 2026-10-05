@@ -44,7 +44,7 @@ class DualCoreWorker:
         print("==========================================================")
         print("    InversionCore - Dual-Core Alfa Worker Başlatıldı")
         print("    [Core 01]: Fiziksel Kod Güvenliği (Semgrep/Tree-sitter)")
-        print("    [Core 02]: İş ve Gerçeklik Pre-Mortem (Qwen 14B Abliterated)")
+        print("    [Core 02]: İş ve Gerçeklik Pre-Mortem (DeepSeek Coder)")
         print("    Durum: Görev kuyruğu dinleniyor...")
         print("==========================================================")
 
@@ -74,7 +74,7 @@ class DualCoreWorker:
 
     def process_reality_task(self, doc_name: str, text: str):
         self._http_patch(doc_name, {"status": {"stringValue": "ALFA_PROCESSING"}}, ["status"])
-        print("  -> Alfa Qwen2.5-Coder-14B (Abliterated) Pre-Mortem çöküş simülasyonu çalıştırıyor...")
+        print("  -> DeepSeek Coder Pre-Mortem çöküş simülasyonu çalıştırıyor...")
         analysis_res = self.premortem_engine.invert_problem(text, domain="Business & Strategy Inversion")
         if analysis_res.get("status") == "SUCCESS":
             analysis = analysis_res.get("analysis", {})

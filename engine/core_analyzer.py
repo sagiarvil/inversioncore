@@ -41,7 +41,7 @@ class InversionCoreAnalyzer:
                 "finding_location": {"start_line": line, "code_snippet": snippet},
                 "ast_scope": ast_ctx,
                 "agent_payloads": {
-                    "red_team_qwen": {
+                    "red_team_deepseek": {
                         "task": "EXPLOIT_PROOF_OF_CONCEPT",
                         "objective": f"Prove exploitability for {rule_id} in {symbol}.",
                         "scope_code": ast_ctx.get("enclosing_code", ""),
