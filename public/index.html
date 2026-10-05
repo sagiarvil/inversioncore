@@ -518,6 +518,16 @@ Sıradan bir "tavsiye" istemiyorum. Okuyucunun yüzüne tokat gibi çarpacak, fa
             }
           }
         }
+        if (buffer.trim().startsWith("data: ")) {
+          const dataStr = buffer.trim().slice(6).trim();
+          if (dataStr !== "[DONE]") {
+            try {
+              const parsed = JSON.parse(dataStr);
+              const delta = parsed.choices?.[0]?.delta?.content || "";
+              accumulated += delta;
+            } catch(e) {}
+          }
+        }
         termBox.innerHTML = formatHarmoniousColors(accumulated);
         document.getElementById('speedBadge').textContent = `TAMAMLANDI (${((performance.now() - t0) / 1000).toFixed(1)}s)`;
       } catch (err) {
