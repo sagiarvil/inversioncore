@@ -66,3 +66,47 @@ async def health():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
+
+from fastapi.responses import StreamingResponse
+import litellm
+import os
+
+class StreamRequest(BaseModel):
+    text: str
+    system_prompt: str
+
+@app.post("/stream")
+async def stream_text(request: StreamRequest):
+    if not request.text:
+        raise HTTPException(status_code=400, detail="Metin boş")
+        
+    api_key = os.environ.get("DEEPSEEK_API_KEY")
+    if not api_key:
+        raise HTTPException(status_code=500, detail="Backend'de DEEPSEEK_API_KEY bulunamadı!")
+
+    messages = [
+        {"role": "system", "content": request.system_prompt},
+        {"role": "user", "content": request.text}
+    ]
+
+    def token_generator():
+        try:
+            response = litellm.completion(
+                model="deepseek/deepseek-chat",
+                messages=messages,
+                api_key=api_key,
+                api_base="https://api.deepseek.com",
+                temperature=0.1,
+                max_tokens=750,
+                stream=True
+            )
+            for chunk in response:
+                content = chunk.choices[0].delta.content
+                if content:
+                    yield f"data: {content}\n\n"
+            yield "data: [DONE]\n\n"
+        except Exception as e:
+            yield f"data: [HATA] {str(e)}\n\n"
+
+    return StreamingResponse(token_generator(), media_type="text/event-stream")

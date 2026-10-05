@@ -497,16 +497,7 @@ ${evidence_dossier}
 GÖREV: Bireyin yaşadığı bu tıkanıklığın kök nedenini davranışsal ekonomi üzerinden teşhis et.
 Kısa, dürüst, dalkavukluktan uzak ve tokat gibi bir cevap ver. Konuyu asla uzatma. Doğrudan çözüme git ve metni eksiksiz tamamla.`;
         
-        const payload = {
-          model: "deepseek-chat",
-          messages: [
-            {role: "system", content: system_prompt},
-            {role: "user", content: forensic_prompt}
-          ],
-          temperature: 0.1,
-          max_tokens: 3000,
-          stream: true
-        };
+
 
         const resp = await fetch("https://api.deepseek.com/chat/completions", { 
           method: "POST", 
