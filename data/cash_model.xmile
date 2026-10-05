@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmile version="1.0" xmlns="http://docs.oasis-open.org/xmile/ns/XMILE/v1.0">
+  <header>
+    <product version="1.0">InversionCore</product>
+  </header>
+  <sim_specs>
+    <start>0</start>
+    <stop>20</stop>
+    <dt>1</dt>
+  </sim_specs>
+  <model>
+    <variables>
+      <stock name="cash">
+        <eqn>500000</eqn>
+        <inflow>net_flow</inflow>
+      </stock>
+      <flow name="net_flow">
+        <eqn>-burn</eqn>
+      </flow>
+      <aux name="burn">
+        <eqn>50000</eqn>
+      </aux>
+    </variables>
+  </model>
+</xmile>

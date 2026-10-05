@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "inversioncore",
     "public": "public",
     "ignore": [
       "firebase.json",

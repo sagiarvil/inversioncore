@@ -1,0 +1,10 @@
+z3-solver
+ortools
+networkx
+scipy
+SALib
+pysd
+nashpy
+dowhy
+numpy
+pandas

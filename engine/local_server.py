@@ -6,7 +6,7 @@ import urllib.request
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from engine.inversion_physics_suite import InversionPhysicsSuite
 
-PORT = 80
+PORT = 8085
 MODEL_ENDPOINT = "http://localhost:8080/v1/chat/completions"
 SUITE = InversionPhysicsSuite()
 
@@ -35,7 +35,16 @@ class ForensicStreamHandler(SimpleHTTPRequestHandler):
             return os.path.abspath("public/logo.png")
         return super().translate_path(path)
 
+
+    def do_OPTIONS(self):
+        self.send_response(204)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.end_headers()
+
     def do_POST(self):
+
         if self.path == "/api/inversion/stream":
             content_length = int(self.headers.get("Content-Length", 0))
             body = self.rfile.read(content_length).decode("utf-8")
