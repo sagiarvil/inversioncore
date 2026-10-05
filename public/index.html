@@ -56,9 +56,9 @@
         </div>
         
         <div class="p-3 border-b border-slate-100 flex flex-wrap gap-2 bg-white items-center">
-          <button class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition-colors" onclick="loadPreset('cafe')">Kahve (SME)</button>
-          <button class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition-colors" onclick="loadPreset('saas')">B2B SaaS</button>
-          <button class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition-colors" onclick="loadPreset('pazarlama')">E-Ticaret</button>
+          <button class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition-colors" onclick="loadPreset('trendyol')">Trendyol Satıcısı</button>
+          <button class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition-colors" onclick="loadPreset('tinyhouse')">Ege'de Tiny House</button>
+          <button class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition-colors" onclick="loadPreset('oyun')">Mobil Oyun Stüdyosu</button>
           <div class="h-4 w-px bg-slate-300 mx-1"></div>
           <button class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold px-3 py-1 rounded border border-indigo-200 transition-colors flex items-center gap-1" onclick="toggleDynamicPanel()">
             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
@@ -110,9 +110,9 @@
 
   <script>
     const presets = {
-      cafe: `İzmir Alsancak'ta, yaya trafiğinin çok yoğun olduğu ama aylık kiraların 70.000 TL'yi bulduğu bir lokasyonda yeni nesil butik kahve dükkanı açmak istiyoruz.\n\nİki kurucu ortağız, toplam 1.500.000 TL nakit sermayemiz var ve 3 personel çalıştıracağız. Çevrede 4 tane rakip güçlü kafe var. En büyük hedefimiz ilk 12 ayın sonunda kendi maliyetini çeviren ve kâra geçen bir yapı kurabilmek.`,
-      saas: `Sadece bir part-time geliştirici ile B2B alanında mikro bir SaaS ürünü piyasaya süreceğim.\n\nElimde sunucu ve ilk reklam kampanyaları için toplam 5.000 dolar bütçe var. Hedefim, ürünü yayına aldıktan sonraki ilk 90 gün içinde aylık aboneliklerden 3.000$ (MRR) gelir elde edecek 30 kurumsal müşteriye ulaşmak.`,
-      pazarlama: `Tamamen yeni, markasız bir giyim e-ticaret şirketi kuruyoruz.\n\nBaşlangıç için 300.000 TL'lik stok çektik ve elimizde dijital pazarlamada harcamak üzere 100.000 TL net reklam bütçesi var. Hedefimiz reklamlardan 3x ROAS (yatırım getirisi) elde edip 6. ayın sonunda işi sürdürülebilir şekilde kârlı olarak ölçeklendirmek.`
+      trendyol: `İki arkadaş 300.000 TL ihtiyaç kredisi çekip Trendyol'da fason üretim eşofman takımı satmaya karar verdik.\n\nReklamlara günlük 2.000 TL harcıyoruz, kâr marjımız güya %40 ama sürekli artan kargo maliyetleri, komisyonlar ve acımasız iade oranları yüzünden ay sonu hep eksi yazıyoruz. 6 ay içinde bu işten ya köşeyi döneceğiz ya da kredileri ödeyemeyip batacağız.`,
+      tinyhouse: `Kurumsal plazadaki 10 yıllık beyaz yaka yazılımcılık işimden tamamen bunalıp istifa ettim. Tüm tazminatımla (yaklaşık 1.2 Milyon TL) Çanakkale Assos civarında imarsız bir tarla aldım.\n\nOraya 3 tane Tiny House koyup Airbnb üzerinden Alman turistlere kiralayarak pasif gelir elde etmeyi planlıyorum. Tek sorun; ne inşaattan, ne resmi izin süreçlerinden, ne de turizm işletmeciliğinden zerre kadar anlamıyorum.`,
+      oyun: `Türkiye'deki enflasyon sarmalından kurtulup doğrudan dolar kazanmak için üç üniversite öğrencisi bir araya gelip bir mobil oyun stüdyosu kurduk.\n\nElimizde sermaye olarak sadece birikmiş KYK kredilerimiz ve iki tane eski model laptobumuz var. Hedefimiz 3 ay içinde global pazarda patlayacak bir hyper-casual oyun yapıp yurt dışındaki yayıncı bir şirketten (publisher) dev bir yatırım almak.`
     };
 
     function loadPreset(k) { 
