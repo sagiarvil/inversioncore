@@ -300,6 +300,22 @@
       document.getElementById('inputArea').focus();
     }
 
+    // Klavye Kısayolu: Enter ile Gönder
+    document.addEventListener('DOMContentLoaded', function() {
+      const input = document.getElementById('inputArea');
+      if (input) {
+        input.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            const text = input.value.trim();
+            if (text.length > 5) {
+              runStreamingInversion();
+            }
+          }
+        });
+      }
+    });
+
     function generateEvidenceDossier(text) {
       return `[SİSTEMİK KANIT VE ÇELİŞKİ HARİTASI]\n- Metin: ${text.length} karakter\n- Via Negativa: Neyin bırakılması gerektiği üzerine odaklan.`;
     }
