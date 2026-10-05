@@ -340,14 +340,39 @@ Sistem, kodu çalıştırmak (Execution) yerine sürekli daha fazla kütüphane 
       let html = "";
       for (let line of lines) {
         let trimmed = line.trim();
-        if (line.includes("1.") && (line.includes("ÇÖKÜŞ") || line.includes("İFLAS") || line.includes("FLAW"))) { html += `<div class="hdr-danger">${escapeHtml(line)}</div>`; }
-        else if (line.includes("2.") && (line.includes("ANTİ-ŞARTLAR") || line.includes("KÖK NEDEN") || line.includes("VECTOR"))) { html += `<div class="hdr-warning">${escapeHtml(line)}</div>`; }
-        else if (line.includes("3.") && (line.includes("VİA NEGATİVA") || line.includes("YAPILMAYACAKLAR") || line.includes("PROTOCOL"))) { html += `<div class="hdr-success">${escapeHtml(line)}</div>`; }
-        else if (line.includes("4.") && (line.includes("HAYATTA KALMA") || line.includes("SINIRLAR") || line.includes("EŞİKLER") || line.includes("THRESHOLD"))) { html += `<div class="hdr-info">${escapeHtml(line)}</div>`; }
-        else if (line.startsWith("###")) { html += `<div class="hdr-info">${escapeHtml(line)}</div>`; }
+        // Skip empty lines in some cases, but keep them for spacing
+        if (trimmed === "") { html += `<div class="mb-2"></div>`; continue; }
+        
+        let processed = escapeHtml(line);
+        // Markdown Bold to Crimson Red
+        processed = processed.replace(/\*\*(.*?)\*\*/g, '<span class="font-bold text-rose-600 tracking-wide">$1</span>');
+        
+        // Brackets to Premium Badges [SÖZCÜK] (only if it's not empty and doesn't span the whole huge line)
+        processed = processed.replace(/\[(.*?)\]/g, (match, p1) => {
+            if (p1.length > 50 || p1.includes('KÖK NEDEN') || p1.includes('VİA NEGATİVA')) return match; // don't replace headers
+            return `<span class="px-2 py-0.5 mx-1 rounded bg-slate-800 text-rose-400 font-mono text-[0.85em] tracking-widest shadow-inner">${p1}</span>`;
+        });
+        
+        // Data Pills
+        processed = processed.replace(/(\b\d+[\d\.,]*\s*(?:TL|USD|\$|€|ay|gün|dakika|saat|%)\b)/gi, '<span class="data-pill">$1</span>');
+
+        if (trimmed.startsWith("&gt;") || trimmed.startsWith(">")) {
+          let quoteText = trimmed.replace(/^&gt;\s*/, "").replace(/^>\s*/, "");
+          processed = escapeHtml(quoteText).replace(/\*\*(.*?)\*\*/g, '<span class="font-bold text-rose-600 tracking-wide">$1</span>');
+          html += `<div class="border-l-4 border-rose-500 bg-rose-50/50 p-4 my-4 italic text-slate-800 rounded-r-lg shadow-sm font-serif text-lg leading-relaxed">"${processed}"</div>`;
+        } 
+        else if (trimmed.includes("[1]") || trimmed.includes("KÖK NEDEN")) { 
+          html += `<div class="mt-6 mb-3 border-b border-rose-200 pb-2 text-rose-700 font-bold text-xl tracking-tight uppercase">${processed}</div>`; 
+        }
+        else if (trimmed.includes("[2]") || trimmed.includes("VİA NEGATİVA") || trimmed.includes("EŞİK")) { 
+          html += `<div class="mt-6 mb-3 border-b border-slate-200 pb-2 text-slate-800 font-bold text-xl tracking-tight uppercase">${processed}</div>`; 
+        }
+        else if (trimmed.startsWith("###") || trimmed.startsWith("##")) { 
+          let hText = trimmed.replace(/^#+\s*/, "");
+          html += `<div class="hdr-info mt-4">${hText}</div>`; 
+        }
         else {
-          let processed = escapeHtml(line).replace(/\*\*(.*?)\*\*/g, '<span class="item-title">$1</span>').replace(/(\b\d+[\d\.,]*\s*(?:TL|USD|\$|€|ay|gün|dakika|saat|%)\b)/gi, '<span class="data-pill">$1</span>');
-          html += `<div class="body-text">${processed}</div>`;
+          html += `<div class="body-text leading-relaxed text-slate-700">${processed}</div>`;
         }
       }
       return html;
@@ -454,10 +479,14 @@ TEMEL DOKTRİN:
 3. KESİNLİKLE yazılım kodu (while, if, loop) veya kaba jargon kullanma. 
 4. MAKSİMUM 750 KELİME KULLAN. Hızlıca kök nedeni söyle ve çözümü verip bitir. 
 
-ÇIKTI FORMATI:
-Sadece iki bölümden oluşsun:
+ÇIKTI FORMATI: Sadece iki bölümden oluşsun:
 [1] KÖK NEDEN (Sistemde ne kırıldı? Neden kendini kandırıyor?)
-[2] VİA NEGATİVA & EŞİK (Ne yapmayı ACİLEN bırakmalı ve hangi sert adımı atmalı?)`;
+[2] VİA NEGATİVA & EŞİK (Ne yapmayı ACİLEN bırakmalı ve hangi sert adımı atmalı?)
+
+VURGU KURALLARI (PREMIUM UI):
+- Metin içindeki en can alıcı, sarsıcı kelimeleri **koyu** yap. 
+- Okuyucunun zihnine kazınması gereken felsefi veya ekonomik prensipleri satır başında "> " (büyüktür) işaretiyle alıntı (blockquote) yap.
+- Kilit terimleri veya sistemik uyarıları [KÖŞELİ PARANTEZ] içine alarak vurgula.`;
         const forensic_prompt = `KULLANICI VAKA DOSYASI:
 ======================================================================
 ${input}
