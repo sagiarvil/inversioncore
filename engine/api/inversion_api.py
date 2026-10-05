@@ -109,7 +109,39 @@ async def stream_text(request: StreamRequest):
                     yield f"data: {escaped_content}\n\n"
             yield "data: [DONE]\n\n"
         except Exception as e:
-            err_content = json.dumps({"content": f"[HATA] {str(e)}"})
-            yield f"data: {err_content}\n\n"
+            # FALLBACK: DeepSeek patlarsa Alfa'dan beslen (https://inversioncore.com/api/chat)
+            import urllib.request
+            import urllib.error
+            import json
+            import time
+            try:
+                yield f"data: {json.dumps({'content': '[DEEPSEEK CEVAP VERMİYOR - ALFA (inversioncore.com) YEDEK MOTORU DEVREDE]\n\n'})}\n\n"
+                
+                full_prompt = f"{request.system_prompt}\n\n[KULLANICI]: {request.text}"
+                payload = json.dumps({"prompt": full_prompt, "model": "qwen"}).encode('utf-8')
+                
+                # Alfa sunucusuna HTTP POST
+                req = urllib.request.Request(
+                    "https://inversioncore.com/api/chat", 
+                    data=payload, 
+                    headers={'Content-Type': 'application/json'}
+                )
+                
+                with urllib.request.urlopen(req, timeout=45) as f_res:
+                    res_body = f_res.read().decode('utf-8')
+                    res_data = json.loads(res_body)
+                    alfa_text = res_data.get("response", "[Alfa'dan boş yanıt]")
+                    
+                    # Streaming (SSE) simülasyonu
+                    chunk_size = 25
+                    for i in range(0, len(alfa_text), chunk_size):
+                        chunk = alfa_text[i:i+chunk_size]
+                        yield f"data: {json.dumps({'content': chunk})}\n\n"
+                        time.sleep(0.01)
+                yield "data: [DONE]\n\n"
+                
+            except Exception as alfa_err:
+                err_content = json.dumps({"content": f"[HATA] DeepSeek başarısız ({str(e)}), Alfa Yedek Motoru da ulaşılamaz durumda: {str(alfa_err)}"})
+                yield f"data: {err_content}\n\n"
 
     return StreamingResponse(token_generator(), media_type="text/event-stream")
