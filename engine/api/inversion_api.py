@@ -71,6 +71,9 @@ if __name__ == "__main__":
 from fastapi.responses import StreamingResponse
 import litellm
 import os
+import json
+import time
+from engine.api.langgraph_psychopath import run_psychopath_analysis
 
 class StreamRequest(BaseModel):
     text: str
@@ -91,58 +94,40 @@ async def stream_text(request: StreamRequest):
     ]
 
     def token_generator():
-        import json
-        import urllib.request
-        import urllib.error
-        import time
-        
-        # 1. BİRİNCİL MOTOR: ALFA (inversioncore.com/api/chat)
+        # 1. BİRİNCİL MOTOR: LANGGRAPH (Reflexion Loop)
         try:
-            full_prompt = f"{request.system_prompt}\n\n[KULLANICI]: {request.text}"
-            payload = json.dumps({"prompt": full_prompt, "model": "qwen"}).encode('utf-8')
+            yield f"data: {json.dumps({'content': '> Nöral Ağ Başlatıldı. LangGraph Kritik Denetim Döngüsü Devrede...\n\n'})}\n\n"
             
-            req = urllib.request.Request(
-                "https://inversioncore.com/api/chat", 
-                data=payload, 
-                headers={'Content-Type': 'application/json'}
-            )
+            final_text = run_psychopath_analysis(request.text, request.system_prompt)
             
-            with urllib.request.urlopen(req, timeout=30) as f_res:
-                res_body = f_res.read().decode('utf-8')
-                res_data = json.loads(res_body)
-                alfa_text = res_data.get("response", "[Alfa'dan boş yanıt]")
+            # SSE Simülasyonu (Akıcı Yazma)
+            chunk_size = 15
+            for i in range(0, len(final_text), chunk_size):
+                chunk = final_text[i:i+chunk_size]
+                yield f"data: {json.dumps({'content': chunk})}\n\n"
+                time.sleep(0.01)
                 
-                # Streaming (SSE) simülasyonu
-                chunk_size = 25
-                for i in range(0, len(alfa_text), chunk_size):
-                    chunk = alfa_text[i:i+chunk_size]
-                    yield f"data: {json.dumps({'content': chunk})}\n\n"
-                    time.sleep(0.01)
             yield "data: [DONE]\n\n"
-            return
             
-        except Exception as alfa_err:
-            # 2. İKİNCİL MOTOR: DEEPSEEK API (Fallback)
+        except Exception as lg_err:
             try:
-                yield f"data: {json.dumps({'content': f'[ALFA SUNUCUSUNA ULAŞILAMADI ({str(alfa_err)}) - DEEPSEEK YEDEK MOTORUNA GEÇİLİYOR...]\n\n'})}\n\n"
+                yield f"data: {json.dumps({'content': f'[LANGGRAPH ÇÖKTÜ ({str(lg_err)}) - DEEPSEEK YEDEK MOTORUNA GEÇİLİYOR...]\n\n'})}\n\n"
                 
                 response = litellm.completion(
                     model="deepseek/deepseek-flash",
                     messages=messages,
                     api_key=api_key,
                     api_base="https://api.deepseek.com",
-                    temperature=0.1,
+                    temperature=0.8,
                     max_tokens=2500,
                     stream=True
                 )
                 for chunk in response:
                     content = chunk.choices[0].delta.content
                     if content:
-                        escaped_content = json.dumps({"content": content})
-                        yield f"data: {escaped_content}\n\n"
+                        yield f"data: {json.dumps({'content': content})}\n\n"
                 yield "data: [DONE]\n\n"
             except Exception as ds_err:
-                err_content = json.dumps({"content": f"[HATA] Tüm motorlar çöktü. Alfa Hatası: {str(alfa_err)} | DeepSeek Hatası: {str(ds_err)}"})
-                yield f"data: {err_content}\n\n"
+                yield f"data: {json.dumps({'content': f'[HATA] Motorlar çöktü: {str(ds_err)}'})}\n\n"
 
     return StreamingResponse(token_generator(), media_type="text/event-stream")
