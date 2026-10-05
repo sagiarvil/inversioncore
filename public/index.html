@@ -3,93 +3,94 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>InversionCore — Terminal Pre-Mortem Engine</title>
+  <title>InversionCore — Reality Pre-Mortem</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg-base: #07090e; --bg-surface: #0c1017; --bg-subtle: #131924; --border: #1e2638;
-      --green-main: #4ade80; --green-soft: #86efac;
-      --red-alert: #f43f5e; --orange-warn: #fbbf24; --cyan-data: #38bdf8;
-      --color-white: #f8fafc; --text-muted: #64748b;
-      --font-mono: 'Fira Code', monospace; --font-ui: 'Inter', sans-serif;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background-color: var(--bg-base); color: var(--green-soft); font-family: var(--font-ui); font-size: 13px; min-height: 100vh; display: flex; flex-direction: column; }
-    .topbar { height: 48px; background: var(--bg-surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 1.25rem; font-family: var(--font-mono); font-size: 12px; }
-    .brand { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; letter-spacing: 0.04em; }
-    .brand-title { color: var(--color-white); }
-    .badge-core { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px; background: rgba(56, 189, 248, 0.1); color: var(--cyan-data); border: 1px solid rgba(56, 189, 248, 0.3); }
-    .status-indicator { display: flex; align-items: center; gap: 0.5rem; color: var(--green-main); font-size: 11px; }
-    .dot-green { width: 8px; height: 8px; border-radius: 50%; background: var(--green-main); box-shadow: 0 0 8px var(--green-main); }
-    .cockpit { flex: 1; display: grid; grid-template-columns: 460px 1fr; height: calc(100vh - 48px); }
-    @media (max-width: 1024px) { .cockpit { grid-template-columns: 1fr; height: auto; } }
-    .left-pane { background: var(--bg-surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
-    .pane-header { padding: 0.65rem 1rem; background: var(--bg-subtle); border-bottom: 1px solid var(--border); font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; display: flex; justify-content: space-between; }
-    .presets-bar { padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); display: flex; gap: 0.5rem; flex-wrap: wrap; background: var(--bg-surface); }
-    .btn-preset { background: var(--bg-subtle); border: 1px solid var(--border); color: var(--color-white); font-family: var(--font-mono); font-size: 11px; padding: 4px 10px; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
-    .btn-preset:hover { border-color: var(--cyan-data); color: var(--cyan-data); background: rgba(56, 189, 248, 0.08); }
-    .input-box { flex: 1; width: 100%; background: transparent; border: none; color: var(--color-white) !important; font-family: var(--font-mono); font-size: 13px; line-height: 1.6; padding: 1.25rem; resize: none; outline: none; }
-    .input-box::placeholder { color: #475569; }
-    .action-bar { padding: 0.75rem 1rem; border-top: 1px solid var(--border); background: var(--bg-subtle); display: flex; justify-content: space-between; align-items: center; }
-    .btn-invert { background: linear-gradient(135deg, #e11d48, #be123c); color: #ffffff; border: 1px solid #f43f5e; font-family: var(--font-mono); font-size: 12px; font-weight: 600; padding: 0.6rem 1.3rem; border-radius: 6px; cursor: pointer; box-shadow: 0 0 12px rgba(244, 63, 94, 0.25); }
-    .btn-invert:hover { box-shadow: 0 0 18px rgba(244, 63, 94, 0.45); filter: brightness(1.1); }
-    .btn-invert:disabled { opacity: 0.4; cursor: not-allowed; }
-    .right-pane { background: var(--bg-base); display: flex; flex-direction: column; padding: 1.25rem; gap: 0.75rem; overflow: hidden; }
-    .terminal-top { display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 11px; font-weight: 600; }
-    .terminal-box { flex: 1; background: #040609; border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; overflow-y: auto; font-family: var(--font-mono); font-size: 13px; line-height: 1.75; color: var(--green-soft); white-space: pre-wrap; word-break: break-word; box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.95); }
-    .hdr-danger { color: var(--red-alert) !important; font-weight: 700; margin: 1.25rem 0 0.4rem 0; padding-bottom: 0.25rem; border-bottom: 1px solid rgba(244, 63, 94, 0.25); font-size: 13px; }
-    .hdr-warning { color: var(--orange-warn) !important; font-weight: 700; margin: 1.25rem 0 0.4rem 0; padding-bottom: 0.25rem; border-bottom: 1px solid rgba(251, 191, 36, 0.25); font-size: 13px; }
-    .hdr-success { color: var(--green-main) !important; font-weight: 700; margin: 1.25rem 0 0.4rem 0; padding-bottom: 0.25rem; border-bottom: 1px solid rgba(74, 222, 128, 0.25); font-size: 13px; }
-    .hdr-info { color: var(--cyan-data) !important; font-weight: 700; margin: 1.25rem 0 0.4rem 0; padding-bottom: 0.25rem; border-bottom: 1px solid rgba(56, 189, 248, 0.25); font-size: 13px; }
-    .item-title { color: var(--orange-warn); font-weight: 600; }
-    .data-pill { color: var(--cyan-data); font-weight: 500; }
-    .body-green { color: var(--green-soft); }
-    .cursor { display: inline-block; width: 9px; height: 16px; background: var(--green-main); box-shadow: 0 0 10px var(--green-main); animation: blink 1s infinite; vertical-align: middle; margin-left: 2px; }
+    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
+    .font-mono { font-family: 'Fira Code', monospace; }
+    .bento-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; }
+    
+    /* Upload Overlay */
+    #dropOverlay { display: none; background: rgba(241, 245, 249, 0.9); border: 2px dashed #94a3b8; }
+    .dragover #dropOverlay { display: flex; }
+
+    /* Terminal Output formatting on light theme */
+    .hdr-danger { color: #be123c; font-weight: 600; margin-top: 1rem; border-bottom: 1px solid #fda4af; padding-bottom: 0.2rem; }
+    .hdr-warning { color: #b45309; font-weight: 600; margin-top: 1rem; border-bottom: 1px solid #fcd34d; padding-bottom: 0.2rem; }
+    .hdr-success { color: #15803d; font-weight: 600; margin-top: 1rem; border-bottom: 1px solid #86efac; padding-bottom: 0.2rem; }
+    .hdr-info { color: #0369a1; font-weight: 600; margin-top: 1rem; border-bottom: 1px solid #7dd3fc; padding-bottom: 0.2rem; }
+    .item-title { color: #0f172a; font-weight: 600; }
+    .data-pill { background: #f1f5f9; padding: 0 4px; border-radius: 4px; border: 1px solid #cbd5e1; font-family: 'Fira Code', monospace; font-size: 0.85em; }
+    .body-text { color: #334155; margin-bottom: 0.4rem; }
+    .blinking-cursor { display: inline-block; width: 8px; height: 16px; background: #0f172a; animation: blink 1s infinite; vertical-align: middle; margin-left: 4px; }
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
   </style>
 </head>
-<body>
-  <header class="topbar">
-    <div class="brand">
-      <img src="logo.png" alt="InversionCore Logo" style="height: 40px; width: auto; object-fit: contain; filter: drop-shadow(0 0 2px rgba(255,255,255,0.2));">
-      <span class="brand-title">INVERSIONCORE</span>
-      <span class="badge-core">PRE-MORTEM & VIA NEGATIVA</span>
+<body class="min-h-screen flex flex-col antialiased">
+  
+  <header class="h-14 border-b border-slate-200 bg-white flex items-center justify-between px-6 shrink-0">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 bg-slate-100 border border-slate-200 rounded flex items-center justify-center font-bold text-slate-800">IC</div>
+      <span class="font-semibold tracking-wide text-slate-800 text-sm">INVERSIONCORE</span>
+      <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">PRE-MORTEM ENGINE</span>
     </div>
-    <div class="status-indicator">
-      <span class="dot-green"></span>
-      <span>DEEPSEEK CODER</span>
+    <div class="flex items-center gap-2 text-xs font-medium text-slate-600">
+      <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+      DEEPSEEK CODER
     </div>
   </header>
 
-  <main class="cockpit">
-    <section class="left-pane">
-      <div class="pane-header">
-        <span>Hedef Girişim & Karar Modeli</span>
-        <span style="color: #94a3b8;">[KULLANICI GİRDİSİ]</span>
-      </div>
-      <div class="presets-bar">
-        <button class="btn-preset" onclick="loadPreset('cafe')">Kahve Dükkanı (SME)</button>
-        <button class="btn-preset" onclick="loadPreset('saas')">B2B SaaS Lansmanı</button>
-        <button class="btn-preset" onclick="loadPreset('pazarlama')">E-Ticaret Batışı</button>
-      </div>
-      <textarea id="inputArea" class="input-box" spellcheck="false" placeholder="Senaryonuzu veya sorunuzu buraya yazın..."></textarea>
-      <div class="action-bar">
-        <span style="font-family: var(--font-mono); font-size: 11px; color: #64748b;">⌘ + Enter to execute</span>
-        <button class="btn-invert" id="runBtn" onclick="runStreamingInversion()">
-          <span>ÇÖKÜŞÜ MODELLE & TERSYÜZ ET</span>
-        </button>
+  <main class="flex-1 flex flex-col lg:flex-row p-4 gap-4 overflow-hidden h-[calc(100vh-56px)]">
+    
+    <!-- LEFT PANE -->
+    <section class="lg:w-[480px] flex flex-col gap-4 shrink-0 relative" id="dropZone">
+      <div class="bento-card flex-1 flex flex-col overflow-hidden relative">
+        
+        <div id="dropOverlay" class="absolute inset-0 z-10 rounded-lg flex-col items-center justify-center text-slate-500">
+          <svg class="w-12 h-12 mb-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+          <span class="font-medium text-sm">Dosyayı Buraya Bırakın</span>
+          <span class="text-xs mt-1">.txt, .md, .csv, .json</span>
+        </div>
+
+        <div class="border-b border-slate-200 bg-slate-50/50 px-4 py-3 flex justify-between items-center">
+          <h2 class="text-xs font-semibold text-slate-500 tracking-widest uppercase">Karar Modeli / Girdi</h2>
+          <span class="text-[10px] text-slate-400 font-mono">TEXT OR DRAG FILE</span>
+        </div>
+        
+        <div class="p-3 border-b border-slate-100 flex flex-wrap gap-2 bg-white">
+          <button class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition-colors" onclick="loadPreset('cafe')">Kahve (SME)</button>
+          <button class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition-colors" onclick="loadPreset('saas')">B2B SaaS</button>
+          <button class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded border border-slate-200 transition-colors" onclick="loadPreset('pazarlama')">E-Ticaret</button>
+        </div>
+        
+        <textarea id="inputArea" class="flex-1 w-full resize-none p-4 text-sm text-slate-700 font-mono leading-relaxed focus:outline-none" placeholder="Senaryonuzu yazın veya txt/md/json dosyası sürükleyip bırakın..."></textarea>
+        
+        <div class="border-t border-slate-200 bg-slate-50/50 p-4 flex items-center justify-between">
+          <span class="text-xs text-slate-400 font-mono">⌘ + Enter</span>
+          <button id="runBtn" onclick="runStreamingInversion()" class="bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold px-4 py-2 rounded shadow-sm transition-all disabled:opacity-50">
+            ÇÖKÜŞÜ MODELLE & TERSYÜZ ET
+          </button>
+        </div>
       </div>
     </section>
 
-    <section class="right-pane">
-      <div class="terminal-top">
-        <span style="color: var(--cyan-data);">PRE-MORTEM CANLI ÇÖZÜMLEME KONSOLU</span>
-        <span id="speedBadge" style="color: var(--green-main);">BEKLEMEDE</span>
+    <!-- RIGHT PANE -->
+    <section class="flex-1 flex flex-col gap-4 min-w-0">
+      <div class="bento-card flex-1 flex flex-col overflow-hidden">
+        <div class="border-b border-slate-200 bg-slate-50/50 px-4 py-3 flex justify-between items-center">
+          <h2 class="text-xs font-semibold text-slate-500 tracking-widest uppercase">Canlı Çözümleme Konsolu</h2>
+          <span id="speedBadge" class="text-[10px] font-mono text-emerald-600 font-medium bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">BEKLEMEDE</span>
+        </div>
+        
+        <div id="terminalBox" class="flex-1 overflow-y-auto p-6 font-mono text-[13px] leading-relaxed text-slate-600 bg-white">
+          <span class="text-slate-400">// Sistem hazır. Bir senaryo girin veya dosya sürükleyin.</span><br>
+          <span class="text-slate-400">// Inversion Motoru sonuçları buraya yansıtacaktır.</span>
+        </div>
       </div>
-      <div class="terminal-box" id="terminalBox">// Senaryoyu seçip 'ÇÖKÜŞÜ MODELLE & TERSYÜZ ET' butonuna basın...
-// Metin ağırlıklı olarak göz yormayan açık yeşil, başlıklar turuncu/turkuaz/kırmızı akacaktır.</div>
     </section>
+
   </main>
 
   <script>
@@ -102,19 +103,49 @@
     function loadPreset(k) { document.getElementById('inputArea').value = presets[k] || ''; }
     loadPreset('cafe');
 
+    // Drag and Drop Logic
+    const dropZone = document.getElementById('dropZone');
+    const inputArea = document.getElementById('inputArea');
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', (e) => {
+      e.preventDefault();
+      if (!dropZone.contains(e.relatedTarget)) {
+        dropZone.classList.remove('dragover');
+      }
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+      const file = e.dataTransfer.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        const text = evt.target.result;
+        inputArea.value = `[DOSYA İÇERİĞİ: ${file.name}]\n\n` + text;
+      };
+      reader.onerror = () => alert("Dosya okunamadı. Yalnızca metin formatları desteklenmektedir.");
+      reader.readAsText(file);
+    });
+
     function formatHarmoniousColors(text) {
       const lines = text.split("\n");
       let html = "";
-
       for (let line of lines) {
         let trimmed = line.trim();
-        if (line.includes("1.") && (line.includes("ÇÖKÜŞ") || line.includes("İFLAS"))) {
+        if (line.includes("1.") && (line.includes("ÇÖKÜŞ") || line.includes("İFLAS") || line.includes("FLAW"))) {
           html += `<div class="hdr-danger">${escapeHtml(line)}</div>`;
-        } else if (line.includes("2.") && (line.includes("ANTİ-ŞARTLAR") || line.includes("KÖK NEDEN"))) {
+        } else if (line.includes("2.") && (line.includes("ANTİ-ŞARTLAR") || line.includes("KÖK NEDEN") || line.includes("VECTOR"))) {
           html += `<div class="hdr-warning">${escapeHtml(line)}</div>`;
-        } else if (line.includes("3.") && (line.includes("VİA NEGATİVA") || line.includes("YAPILMAYACAKLAR"))) {
+        } else if (line.includes("3.") && (line.includes("VİA NEGATİVA") || line.includes("YAPILMAYACAKLAR") || line.includes("PROTOCOL"))) {
           html += `<div class="hdr-success">${escapeHtml(line)}</div>`;
-        } else if (line.includes("4.") && (line.includes("HAYATTA KALMA") || line.includes("SINIRLAR") || line.includes("EŞİKLER"))) {
+        } else if (line.includes("4.") && (line.includes("HAYATTA KALMA") || line.includes("SINIRLAR") || line.includes("EŞİKLER") || line.includes("THRESHOLD"))) {
           html += `<div class="hdr-info">${escapeHtml(line)}</div>`;
         } else if (line.startsWith("###")) {
           html += `<div class="hdr-info">${escapeHtml(line)}</div>`;
@@ -122,13 +153,7 @@
           let processed = escapeHtml(line);
           processed = processed.replace(/\*\*(.*?)\*\*/g, '<span class="item-title">$1</span>');
           processed = processed.replace(/(\b\d+[\d\.,]*\s*(?:TL|USD|\$|€|ay|gün|dakika|saat|%)\b)/gi, '<span class="data-pill">$1</span>');
-          processed = processed.replace(/(\(.*?\))/g, '<span style="color: #6ee7b7;">$1</span>');
-
-          if (trimmed.startsWith("1.") || trimmed.startsWith("2.") || trimmed.startsWith("3.") || trimmed.startsWith("-") || trimmed.startsWith("*")) {
-            html += `<div class="body-green" style="margin-bottom: 0.6rem; padding-left: 0.5rem;">${processed}</div>`;
-          } else {
-            html += `<div class="body-green">${processed}</div>`;
-          }
+          html += `<div class="body-text">${processed}</div>`;
         }
       }
       return html;
@@ -139,13 +164,13 @@
     }
 
     async function runStreamingInversion() {
-      const input = document.getElementById('inputArea').value.trim();
-      if (!input) return alert("Lütfen hedef senaryoyu girin!");
+      const input = inputArea.value.trim();
+      if (!input) return alert("Lütfen hedef senaryoyu girin veya bir dosya sürükleyin!");
       const btn = document.getElementById('runBtn');
       btn.disabled = true;
 
       const termBox = document.getElementById('terminalBox');
-      termBox.innerHTML = '<span class="cursor"></span>';
+      termBox.innerHTML = '<span class="blinking-cursor"></span>';
       document.getElementById('speedBadge').textContent = "ÇÖZÜMLENİYOR...";
 
       const t0 = performance.now();
@@ -155,6 +180,14 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ scenario: input })
         });
+
+        if (!resp.ok) {
+           // Fallback UI mock just for visual feedback if backend is disconnected
+           termBox.innerHTML = `<span class="text-red-600 font-semibold">[HATA] Backend API yanıt vermedi veya bulunamadı (${resp.status}). Pre-mortem engine offline.</span>`;
+           document.getElementById('speedBadge').textContent = "BAĞLANTI HATASI";
+           btn.disabled = false;
+           return;
+        }
 
         const reader = resp.body.getReader();
         const decoder = new TextDecoder("utf-8");
@@ -174,7 +207,7 @@
                 const parsed = JSON.parse(dataStr);
                 const delta = parsed.choices?.[0]?.delta?.content || "";
                 accumulated += delta;
-                termBox.innerHTML = formatHarmoniousColors(accumulated) + '<span class="cursor"></span>';
+                termBox.innerHTML = formatHarmoniousColors(accumulated) + '<span class="blinking-cursor"></span>';
                 termBox.scrollTop = termBox.scrollHeight;
                 const elapsed = ((performance.now() - t0) / 1000).toFixed(1);
                 document.getElementById('speedBadge').textContent = `CANLI AKIŞ: ${elapsed}s`;
@@ -185,7 +218,7 @@
         termBox.innerHTML = formatHarmoniousColors(accumulated);
         document.getElementById('speedBadge').textContent = `TAMAMLANDI (${((performance.now() - t0) / 1000).toFixed(1)}s)`;
       } catch (err) {
-        termBox.innerHTML = `<span style="color: var(--red-alert);">[HATA] ${err.message}</span>`;
+        termBox.innerHTML = `<span class="text-red-600 font-semibold">[HATA] ${err.message}</span>`;
         document.getElementById('speedBadge').textContent = "HATA";
       } finally {
         btn.disabled = false;
