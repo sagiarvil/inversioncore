@@ -802,11 +802,12 @@
       let html = "";
       const lines = text.split("\n");
 
-      lines.forEach((line) => {
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
         const trimmed = line.trim();
         if (trimmed === "") {
           html += '<div class="h-2"></div>';
-          return;
+          continue;
         }
 
         // 1. BARS SEVİYE ETİKETİ -> Aydınlık, Net & Yüksek Kontrastlı Kart
@@ -833,7 +834,7 @@
                        SEVİYE ${lvl} / 5
                      </div>
                    </div>`;
-          return;
+          continue;
         }
 
         // 2. BARS ÇIPA ETİKETİ -> Aydınlık Kehribar Vurgu Kutusu
@@ -844,7 +845,7 @@
                      <span class="text-amber-800 font-black text-xs font-mono shrink-0">⚓ TESPİT EDİLEN ÇIPA:</span>
                      <span class="font-bold text-slate-900 text-xs sm:text-[13px]">"${cipa}"</span>
                    </div>`;
-          return;
+          continue;
         }
 
         // Güvenli Satır İçi Biçimlendirme (Bold ve Anahtar Kavram Rozetleri)
@@ -853,58 +854,77 @@
           .replace(/\[([A-Z0-9_\-\s:ığüşöçİĞÜŞÖÇ]{2,35})\]/g, '<span class="inline-flex items-center px-2 py-0.5 mx-0.5 rounded-md bg-brand-50 text-brand-800 border border-brand-200 font-mono text-[11px] font-bold tracking-wider">$1</span>');
 
         // --- BÖLÜM 1: TERSİNE SİMÜLASYON BAŞLIĞI ---
-        if (trimmed.match(/^(?:#+|d+.)s*(?:BİRİNCİ DERECEDEN|TERSİNE SİMÜLASYON|1.s*TERSİNE|1.s*BİRİNCİ)/i) || trimmed.includes("BİRİNCİ DERECEDEN RİSK VE TERSİNE SİMÜLASYON")) {
+        if (trimmed.match(/^(?:#+|\d+\.)\s*(?:BİRİNCİ DERECEDEN|TERSİNE SİMÜLASYON|1\.\s*TERSİNE|1\.\s*BİRİNCİ)/i) || trimmed.includes("BİRİNCİ DERECEDEN RİSK VE TERSİNE SİMÜLASYON")) {
           html += `<div class="mt-8 mb-4 p-4 rounded-xl bg-rose-50/70 border-l-4 border-rose-600 border-t border-r border-b border-rose-200 shadow-xs flex items-center gap-3">
                      <div class="w-8 h-8 rounded-lg bg-rose-600 text-white flex items-center justify-center font-black text-xs shadow-xs shrink-0">01</div>
                      <div>
                        <span class="text-[10px] font-mono font-black tracking-widest text-rose-700 uppercase">TERSİNE RİSK SİMÜLASYONU</span>
-                       <h3 class="text-base font-black text-slate-900 tracking-tight">${trimmed.replace(/^[#d.s]+/, '')}</h3>
+                       <h3 class="text-base font-black text-slate-900 tracking-tight">${trimmed.replace(/^[#\d\.\s]+/, '')}</h3>
                      </div>
                    </div>`;
         }
         // --- BÖLÜM 2: BİLİŞSEL SAVUNMA / KÖK YANILGI BAŞLIĞI ---
-        else if (trimmed.match(/^(?:#+|d+.)s*(?:BİLİŞSEL SAVUNMA|KÖK YANILGI|2.s*BİLİŞSEL)/i) || trimmed.includes("BİLİŞSEL SAVUNMA MEKANİZMASI VE KÖK YANILGI")) {
+        else if (trimmed.match(/^(?:#+|\d+\.)\s*(?:BİLİŞSEL SAVUNMA|KÖK YANILGI|2\.\s*BİLİŞSEL)/i) || trimmed.includes("BİLİŞSEL SAVUNMA MEKANİZMASI VE KÖK YANILGI")) {
           html += `<div class="mt-8 mb-4 p-4 rounded-xl bg-indigo-50/70 border-l-4 border-indigo-600 border-t border-r border-b border-indigo-200 shadow-xs flex items-center gap-3">
                      <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-black text-xs shadow-xs shrink-0">02</div>
                      <div>
                        <span class="text-[10px] font-mono font-black tracking-widest text-indigo-700 uppercase">EGO ZIRHI & KÖK YANILGI</span>
-                       <h3 class="text-base font-black text-slate-900 tracking-tight">${trimmed.replace(/^[#d.s]+/, '')}</h3>
+                       <h3 class="text-base font-black text-slate-900 tracking-tight">${trimmed.replace(/^[#\d\.\s]+/, '')}</h3>
                      </div>
                    </div>`;
         }
         // --- BÖLÜM 3: BARS DAVRANIŞ ÇIPASI BAŞLIĞI ---
-        else if (trimmed.match(/^(?:#+|d+.)s*(?:DAVRANIŞA DAYALI|BARS|3.s*DAVRANIŞA)/i) || trimmed.includes("DAVRANIŞA DAYALI DERECELENDİRME ÖLÇEĞİ (BARS)")) {
+        else if (trimmed.match(/^(?:#+|\d+\.)\s*(?:DAVRANIŞA DAYALI|BARS|3\.\s*DAVRANIŞA)/i) || trimmed.includes("DAVRANIŞA DAYALI DERECELENDİRME ÖLÇEĞİ (BARS)")) {
           html += `<div class="mt-8 mb-4 p-4 rounded-xl bg-amber-50/70 border-l-4 border-amber-600 border-t border-r border-b border-amber-200 shadow-xs flex items-center gap-3">
                      <div class="w-8 h-8 rounded-lg bg-amber-600 text-white flex items-center justify-center font-black text-xs shadow-xs shrink-0">03</div>
                      <div>
                        <span class="text-[10px] font-mono font-black tracking-widest text-amber-700 uppercase">DAVRANIŞ ÇIPASI ÖLÇEĞİ</span>
-                       <h3 class="text-base font-black text-slate-900 tracking-tight">${trimmed.replace(/^[#d.s]+/, '')}</h3>
+                       <h3 class="text-base font-black text-slate-900 tracking-tight">${trimmed.replace(/^[#\d\.\s]+/, '')}</h3>
                      </div>
                    </div>`;
         }
         // --- BÖLÜM 4: VİA NEGATİVA BAŞLIĞI ---
-        else if (trimmed.match(/^(?:#+|d+.)s*(?:VİA NEGATİVA|ASALAK YÜK|4.s*VİA)/i) || trimmed.includes("VİA NEGATİVA: SİSTEMDEN DERHAL SÖKÜLÜP ATILACAK 3 ASALAK YÜK")) {
+        else if (trimmed.match(/^(?:#+|\d+\.)\s*(?:VİA NEGATİVA|ASALAK YÜK|4\.\s*VİA)/i) || trimmed.includes("VİA NEGATİVA: SİSTEMDEN DERHAL SÖKÜLÜP ATILACAK 3 ASALAK YÜK")) {
           html += `<div class="mt-8 mb-4 p-4 rounded-xl bg-slate-900 border-l-4 border-rose-500 text-white shadow-md flex items-center gap-3">
                      <div class="w-8 h-8 rounded-lg bg-rose-600 text-white flex items-center justify-center font-black text-xs shadow-xs shrink-0">✕</div>
                      <div>
                        <span class="text-[10px] font-mono font-black tracking-widest text-rose-300 uppercase">VİA NEGATİVA (EKSİLTME SANATI)</span>
-                       <h3 class="text-base font-black text-white tracking-tight">${trimmed.replace(/^[#d.s]+/, '')}</h3>
+                       <h3 class="text-base font-black text-white tracking-tight">${trimmed.replace(/^[#\d\.\s]+/, '')}</h3>
                      </div>
                    </div>`;
         }
         // --- BÖLÜM 5: ANTİ-KIRILGAN EYLEM REÇETESİ BAŞLIĞI ---
-        else if (trimmed.match(/^(?:#+|d+.)s*(?:ANTİ-KIRILGAN|EYLEM REÇETESİ|5.s*ANTİ)/i) || trimmed.includes("ANTİ-KIRILGAN VE GERÇEK EYLEM REÇETESİ")) {
+        else if (trimmed.match(/^(?:#+|\d+\.)\s*(?:ANTİ-KIRILGAN|EYLEM REÇETESİ|5\.\s*ANTİ)/i) || trimmed.includes("ANTİ-KIRILGAN VE GERÇEK EYLEM REÇETESİ")) {
           html += `<div class="mt-8 mb-4 p-4 rounded-xl bg-emerald-50/70 border-l-4 border-emerald-600 border-t border-r border-b border-emerald-200 shadow-xs flex items-center gap-3">
                      <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-black text-xs shadow-xs shrink-0">⚡</div>
                      <div>
                        <span class="text-[10px] font-mono font-black tracking-widest text-emerald-700 uppercase">ANTİ-KIRILGAN İCRA PROTOKOLÜ</span>
-                       <h3 class="text-base font-black text-slate-900 tracking-tight">${trimmed.replace(/^[#d.s]+/, '')}</h3>
+                       <h3 class="text-base font-black text-slate-900 tracking-tight">${trimmed.replace(/^[#\d\.\s]+/, '')}</h3>
                      </div>
                    </div>`;
         }
-        // --- TAVİZSİZ GERÇEKLİK HÜKMÜ (Yüksek Kontrastlı, Asla Koyu/Görünmez Olmayan Şık Mühür) ---
+        // --- TAVİZSİZ GERÇEKLİK HÜKMÜ (MÜHÜR) ---
         else if (trimmed.includes('TAVİZSİZ GERÇEKLİK HÜKMÜ') || trimmed.startsWith('> TAVİZSİZ')) {
-          const sentence = trimmed.replace(/^[>#\s\*]*TAVİZSİZ GERÇEKLİK HÜKMÜ[:\s\-]*/i, '') || "Kaçtığın bedel, ödeyeceğin en hafif faturadır.";
+          let sentence = trimmed.replace(/^[>#\s\*]*TAVİZSİZ GERÇEKLİK HÜKMÜ[:\s\-]*/i, '').replace(/^[\s\*\"\']+|[\s\*\"\']+$/g, '').trim();
+          
+          // Eğer bu satırda sadece başlık kaldıysa veya sadece yıldız/tırnak varsa, sonraki dolu satırdan cümleyi çek
+          if (!sentence || sentence === '**' || sentence === '*') {
+            let nextIdx = i + 1;
+            while (nextIdx < lines.length) {
+              const cand = lines[nextIdx].trim().replace(/^[>#\s\*]*/, '').replace(/^[\s\*\"\']+|[\s\*\"\']+$/g, '').trim();
+              if (cand.length > 0 && cand !== '**' && cand !== '*') {
+                sentence = cand;
+                i = nextIdx; // Sonraki satırı tükettik
+                break;
+              }
+              nextIdx++;
+            }
+          }
+
+          if (!sentence || sentence === '**' || sentence === '*') {
+            sentence = "Kaçtığın bedel, ödeyeceğin en hafif faturadır.";
+          }
+
           html += `<div class="my-6 p-5 rounded-xl bg-gradient-to-r from-amber-500 via-amber-600 to-amber-700 text-white shadow-lg border-2 border-amber-400">
                      <div class="flex items-center gap-2 mb-2 text-amber-100 text-[10px] font-mono font-black tracking-widest uppercase">
                        <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
@@ -946,7 +966,7 @@
         else {
           html += `<p class="mb-3.5 text-slate-800 text-[13.5px] leading-relaxed font-normal">${processedLine}</p>`;
         }
-      });
+      }
 
       return html;
     }
