@@ -226,10 +226,11 @@
             </div>
           </div>
 
-          <!-- KULLANICI PROFİL BİLGİLERİ (İSTEĞE BAĞLI) -->
-          <div class="flex gap-2 p-2 px-3 bg-slate-50 border-b border-slate-200">
-             <input type="text" id="isimInput" placeholder="Adınız (İsteğe bağlı)" class="text-xs p-1.5 border border-slate-200 rounded w-1/3 bg-white outline-none focus:border-brand-500 text-slate-700">
-             <input type="text" id="profilDetayInput" placeholder="Yaş / Meslek / Sektör (İsteğe bağlı)" class="text-xs p-1.5 border border-slate-200 rounded w-1/2 bg-white outline-none focus:border-brand-500 text-slate-700">
+          <!-- BİYOGRAFİK & KİŞİLİK PROFİL BİLGİLERİ -->
+          <div class="flex flex-wrap sm:flex-nowrap gap-2 p-2 px-3 bg-slate-50 border-b border-slate-200">
+             <input type="text" id="isimInput" placeholder="Adınız Soyadınız" class="text-xs p-1.5 border border-slate-200 rounded w-full sm:w-1/3 bg-white outline-none focus:border-brand-500 text-slate-700">
+             <input type="text" id="anneIsmiInput" placeholder="Anne Adı (Karakter Kökü)" class="text-xs p-1.5 border border-slate-200 rounded w-full sm:w-1/3 bg-white outline-none focus:border-brand-500 text-slate-700">
+             <input type="text" id="dogumTarihiInput" placeholder="Doğum Tarihi (GG.AA.YYYY)" class="text-xs p-1.5 border border-slate-200 rounded w-full sm:w-1/3 bg-white outline-none focus:border-brand-500 text-slate-700 font-mono">
           </div>
           
           <textarea id="inputArea" rows="3" class="w-full p-3.5 pr-32 bg-transparent outline-none resize-none text-slate-800 placeholder-slate-400 text-sm leading-relaxed max-h-48 overflow-y-auto" placeholder="Vakanızı veya takip sorunuzu yazın (Enter ile gönder)..." oninput="this.style.height = '';this.style.height = this.scrollHeight + 'px'"></textarea>
@@ -631,7 +632,8 @@
     async function runStreamingInversion() {
       const input = inputArea.value.trim();
       const isim = document.getElementById('isimInput')?.value.trim() || "";
-      const profilDetay = document.getElementById('profilDetayInput')?.value.trim() || "";
+      const anneIsmi = document.getElementById('anneIsmiInput')?.value.trim() || "";
+      const dogumTarihi = document.getElementById('dogumTarihiInput')?.value.trim() || "";
 
       if (!input && !currentAttachedFile && !window.pendingImagePayload) return alert("Lütfen hedef senaryoyu girin veya dosya sürükleyin!");
       
@@ -686,7 +688,11 @@
       try {
         const evidence_dossier = generateEvidenceDossier(input);
         
-      let metaPrefix = isim ? `[Kullanıcı: ${isim}${profilDetay ? " / " + profilDetay : ""}]\n\n` : "";
+      let bioList = [];
+      if (isim) bioList.push(`Ad-Soyad: ${isim}`);
+      if (anneIsmi) bioList.push(`Anne Adı: ${anneIsmi}`);
+      if (dogumTarihi) bioList.push(`Doğum Tarihi: ${dogumTarihi}`);
+      let metaPrefix = bioList.length > 0 ? `[BİYOGRAFİK KİMLİK & KARAKTER KOORDİNATLARI: ${bioList.join(' | ')}]\n\n` : "";
       let finalPrompt = metaPrefix + input;
 
       // ---------------------------------------------------------
