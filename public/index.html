@@ -310,6 +310,37 @@
          </div>
       </div>
 
+      <!-- BARS DAVRANIŞA DAYALI DERECELENDİRME KARTI (AIHR & PSİKOLOJİ SÖZLÜĞÜ STANDARDI) -->
+      <div id="barsCard" class="bg-white rounded-xl shadow-card border border-slate-200 p-4">
+        <div class="flex items-center justify-between mb-2">
+          <h4 class="text-xs font-bold text-slate-800 uppercase tracking-widest flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+            Davranış Çıpası (BARS)
+          </h4>
+          <span id="barsLevelBadge" class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-bold border border-slate-200">SEVİYE ?</span>
+        </div>
+        <p class="text-[11px] text-slate-500 mb-2.5">Soyut niyet değil; gözlemlenen fiziksel eylem ölçeği.</p>
+        
+        <!-- 5 Seviyeli Segmentli Skala -->
+        <div class="grid grid-cols-5 gap-1 mb-2">
+          <div id="barsSeg1" class="h-2 rounded-sm bg-slate-200 transition-all" title="Seviye 1: Kronik Sabotaj & Kaçış"></div>
+          <div id="barsSeg2" class="h-2 rounded-sm bg-slate-200 transition-all" title="Seviye 2: Pasif Direnç & Sahte Meşguliyet"></div>
+          <div id="barsSeg3" class="h-2 rounded-sm bg-slate-200 transition-all" title="Seviye 3: Kritik Eşik & Asgari Gerçeklik"></div>
+          <div id="barsSeg4" class="h-2 rounded-sm bg-slate-200 transition-all" title="Seviye 4: Anti-Kırılgan İcra"></div>
+          <div id="barsSeg5" class="h-2 rounded-sm bg-slate-200 transition-all" title="Seviye 5: Stratejik Ustalık"></div>
+        </div>
+        <div class="flex justify-between text-[9px] text-slate-400 font-mono mb-2.5">
+          <span>1: Sabotaj</span>
+          <span>3: Eşik</span>
+          <span>5: Ustalık</span>
+        </div>
+
+        <div class="p-2 rounded bg-slate-50 border border-slate-200 text-[11px]">
+          <div class="text-[9px] uppercase tracking-wider text-slate-500 font-bold">Tespit Edilen Çıpa:</div>
+          <div id="barsAnchorText" class="text-slate-700 font-medium italic mt-0.5">Analizle birlikte hesaplanacak...</div>
+        </div>
+      </div>
+
       <!-- SOKRATİK YÜZLEŞME SORULARI -->
       <div id="socraticSection" class="bg-white rounded-xl shadow-card border border-slate-200 p-4 flex-1">
         <div class="flex items-center justify-between mb-2.5">
@@ -409,6 +440,52 @@
         flowBadge.className = "text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold";
       }
 
+      // --- BARS (DAVRANIŞ ÇIPASI) OTOMATİK SKORLAMA & GÖSTERGE GÜNCELLEMESİ ---
+      const barsLevelBadge = document.getElementById('barsLevelBadge');
+      const barsAnchorText = document.getElementById('barsAnchorText');
+      const barsMatch = rawText.match(/\[BARS_SEVIYE:\s*([1-5])\]/i);
+      
+      let level = 2; // Varsayılan pasif direnç
+      if (barsMatch && barsMatch[1]) {
+        level = parseInt(barsMatch[1]);
+      } else {
+        // Otomatik sezgisel tespit
+        if (rawText.toLowerCase().includes('seviye 1') || rawText.toLowerCase().includes('sabotaj')) level = 1;
+        else if (rawText.toLowerCase().includes('seviye 3') || rawText.toLowerCase().includes('eşik')) level = 3;
+        else if (rawText.toLowerCase().includes('seviye 4')) level = 4;
+        else if (rawText.toLowerCase().includes('seviye 5')) level = 5;
+      }
+
+      const levelDescriptions = {
+        1: { title: 'SEVİYE 1: KRONİK SABOTAJ', desc: 'Mış gibi yaşama, suçu dış dünyaya atma, sıfır yeni eylem.', color: 'bg-rose-500' },
+        2: { title: 'SEVİYE 2: PASİF DİRENÇ', desc: 'Sürekli plan yapıp erteleme, konforlu sahte meşguliyet.', color: 'bg-amber-500' },
+        3: { title: 'SEVİYE 3: KRİTİK EŞİK', desc: 'Mazereti bırakıp asgari risk alma ve doğrudan deneme.', color: 'bg-blue-500' },
+        4: { title: 'SEVİYE 4: ANTİ-KIRILGAN İCRA', desc: 'Haftalık somut red toplama, doğrudan temas, düzenli icra.', color: 'bg-emerald-500' },
+        5: { title: 'SEVİYE 5: STRATEJİK USTALIK', desc: 'Geri bildirim döngüsünü tam yönetme, radikal şeffaflık.', color: 'bg-indigo-600' }
+      };
+
+      if (barsLevelBadge) {
+        barsLevelBadge.textContent = levelDescriptions[level].title;
+        barsLevelBadge.className = "text-[10px] font-mono px-2 py-0.5 rounded text-white font-bold " + levelDescriptions[level].color + " shadow-sm";
+      }
+
+      if (barsAnchorText) {
+        barsAnchorText.textContent = levelDescriptions[level].desc;
+        barsAnchorText.className = "text-slate-800 font-semibold mt-0.5 text-[11px]";
+      }
+
+      // 5 Kademeli Skalayı Boya
+      for (let i = 1; i <= 5; i++) {
+        const seg = document.getElementById("barsSeg" + i);
+        if (seg) {
+          if (i <= level) {
+            seg.className = "h-2 rounded-sm " + levelDescriptions[level].color + " transition-all shadow-sm";
+          } else {
+            seg.className = "h-2 rounded-sm bg-slate-200 transition-all";
+          }
+        }
+      }
+
       if (socraticContainer) {
         socraticContainer.innerHTML = `
           <button onclick="injectSocraticPrompt(this.innerText)" class="w-full text-left p-2.5 rounded-lg bg-slate-50 border border-slate-200 hover:border-brand-500 hover:bg-brand-50/60 text-slate-700 text-xs font-medium transition-all shadow-sm">
@@ -449,8 +526,14 @@
     function formatHarmoniousColors(text) {
       if (!text) return "";
       
-      // Inline Code / Badges
-      let processed = text.replace(/\[(.*?)\]/g, (match, p1) => {
+      // Inline Code / Badges & BARS Özel Rozeti
+      let processed = text.replace(/\[BARS_SEVIYE:\s*([1-5])\]/gi, (match, lvl) => {
+        const colors = { 1: 'bg-rose-600', 2: 'bg-amber-500', 3: 'bg-blue-600', 4: 'bg-emerald-600', 5: 'bg-indigo-600' };
+        const c = colors[lvl] || 'bg-slate-800';
+        return `<div class="my-3 p-3 bg-slate-900 text-white rounded-xl border border-slate-700 shadow-md flex items-center justify-between"><div class="flex items-center gap-2.5"><span class="w-3 h-3 rounded-full ${c} animate-pulse"></span><span class="font-bold text-xs uppercase tracking-widest text-slate-200">GÖZLEMLENEN DAVRANIŞ ÇIPASI</span></div><span class="px-2.5 py-1 ${c} text-white font-mono text-xs font-black rounded-lg shadow">SEVİYE ${lvl} / 5</span></div>`;
+      });
+
+      processed = processed.replace(/\[(.*?)\]/g, (match, p1) => {
         return `<span class="inline-flex items-center px-2 py-0.5 mx-0.5 rounded bg-slate-800 text-white font-mono text-xs font-semibold tracking-wider shadow-sm">${p1}</span>`;
       });
       // Bold
