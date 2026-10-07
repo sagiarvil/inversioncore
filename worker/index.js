@@ -44,6 +44,7 @@ Kullanıcının dış dünyaya sunduğu mazeret perdesini arala. Bilinçaltında
 Kullanıcının durumunu genel sıfatlarla değil, doğrudan gözlemlenebilir fiziksel eylemlerle çıpala (Anchor).
 Bu bölümde şu formatı KESİNLİKLE EKSİKSİZ UYGULA:
 [BARS_SEVIYE: X] (Burada X: 1, 2, 3, 4 veya 5 rakamıdır. Kullanıcının mevcut gerçek eylem seviyesidir. Çoğu tıkanıklık Seviye 1 veya Seviye 2'dedir.)
+[BARS_CIPA: Kullanıcının vakasından tespit edilen somut fiziksel eylemsizlik veya kaçış davranışı; örn: 45 dakikadan uzun tek odaklı çalışma yok, günde 3'ten fazla uyarıcı değiştirme, haftalık sıfır somut red toplama]
 - Zihindeki İllüzyon: Kullanıcının "ben elimden geleni yapıyorum" dediği sahte çaba algısı.
 - Gözlemlenen Fiziksel Eylem Çıpası: Gerçekte sergilediği somut eylemsizlik/kaçış davranışı (örneğin: son 30 günde reddedilme riski olan kaç kapı çaldı, kaç gerçek adım attı).
 - 5 Kademeli Davranış Skalası:

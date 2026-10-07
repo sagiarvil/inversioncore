@@ -329,8 +329,8 @@
          </div>
       </div>
 
-      <!-- BARS DAVRANIŞA DAYALI DERECELENDİRME KARTI (AIHR & PSİKOLOJİ SÖZLÜĞÜ STANDARDI) -->
-      <div id="barsCard" class="bg-white rounded-xl shadow-card border border-slate-200 p-4">
+      <!-- BARS DAVRANIŞA DAYALI DERECELENDİRME KARTI (AIHR & PSİKOLOJİ SÖZLÜĞÜ STANDARDI - İNTERAKTİF MOTOR) -->
+      <div id="barsCard" class="bg-white rounded-xl shadow-card border border-slate-200 p-4 transition-all">
         <div class="flex items-center justify-between mb-2">
           <h4 class="text-xs font-bold text-slate-800 uppercase tracking-widest flex items-center gap-1.5">
             <svg class="w-3.5 h-3.5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
@@ -338,25 +338,34 @@
           </h4>
           <span id="barsLevelBadge" class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-bold border border-slate-200">SEVİYE ?</span>
         </div>
-        <p class="text-[11px] text-slate-500 mb-2.5">Soyut niyet değil; gözlemlenen fiziksel eylem ölçeği.</p>
+        <p class="text-[11px] text-slate-500 mb-2.5">Soyut niyet değil; gözlemlenen fiziksel eylem ölçeği. <span class="text-indigo-600 font-semibold cursor-pointer" onclick="showToast('Seviyelere tıklayarak geçiş hedefini görebilirsiniz.')">(Tıklanabilir)</span></p>
         
-        <!-- 5 Seviyeli Segmentli Skala -->
+        <!-- 5 Seviyeli Segmentli Skala (Tıklanabilir İnteraktif Simülatör) -->
         <div class="grid grid-cols-5 gap-1 mb-2">
-          <div id="barsSeg1" class="h-2 rounded-sm bg-slate-200 transition-all" title="Seviye 1: Kronik Sabotaj & Kaçış"></div>
-          <div id="barsSeg2" class="h-2 rounded-sm bg-slate-200 transition-all" title="Seviye 2: Pasif Direnç & Sahte Meşguliyet"></div>
-          <div id="barsSeg3" class="h-2 rounded-sm bg-slate-200 transition-all" title="Seviye 3: Kritik Eşik & Asgari Gerçeklik"></div>
-          <div id="barsSeg4" class="h-2 rounded-sm bg-slate-200 transition-all" title="Seviye 4: Anti-Kırılgan İcra"></div>
-          <div id="barsSeg5" class="h-2 rounded-sm bg-slate-200 transition-all" title="Seviye 5: Stratejik Ustalık"></div>
+          <div id="barsSeg1" onclick="selectBarsLevelManually(1)" class="h-2.5 rounded-sm bg-slate-200 cursor-pointer hover:opacity-80 transition-all" title="Seviye 1: Kronik Sabotaj & Kaçış"></div>
+          <div id="barsSeg2" onclick="selectBarsLevelManually(2)" class="h-2.5 rounded-sm bg-slate-200 cursor-pointer hover:opacity-80 transition-all" title="Seviye 2: Pasif Direnç & Sahte Meşguliyet"></div>
+          <div id="barsSeg3" onclick="selectBarsLevelManually(3)" class="h-2.5 rounded-sm bg-slate-200 cursor-pointer hover:opacity-80 transition-all" title="Seviye 3: Kritik Eşik & Asgari Gerçeklik"></div>
+          <div id="barsSeg4" onclick="selectBarsLevelManually(4)" class="h-2.5 rounded-sm bg-slate-200 cursor-pointer hover:opacity-80 transition-all" title="Seviye 4: Anti-Kırılgan İcra"></div>
+          <div id="barsSeg5" onclick="selectBarsLevelManually(5)" class="h-2.5 rounded-sm bg-slate-200 cursor-pointer hover:opacity-80 transition-all" title="Seviye 5: Stratejik Ustalık"></div>
         </div>
         <div class="flex justify-between text-[9px] text-slate-400 font-mono mb-2.5">
-          <span>1: Sabotaj</span>
-          <span>3: Eşik</span>
-          <span>5: Ustalık</span>
+          <span class="cursor-pointer hover:text-slate-600" onclick="selectBarsLevelManually(1)">1: Sabotaj</span>
+          <span class="cursor-pointer hover:text-slate-600" onclick="selectBarsLevelManually(3)">3: Eşik</span>
+          <span class="cursor-pointer hover:text-slate-600" onclick="selectBarsLevelManually(5)">5: Ustalık</span>
         </div>
 
-        <div class="p-2 rounded bg-slate-50 border border-slate-200 text-[11px]">
-          <div class="text-[9px] uppercase tracking-wider text-slate-500 font-bold">Tespit Edilen Çıpa:</div>
-          <div id="barsAnchorText" class="text-slate-700 font-medium italic mt-0.5">Analizle birlikte hesaplanacak...</div>
+        <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 text-[11px] space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-[9px] uppercase tracking-wider text-slate-500 font-bold">VAKADAN TESPİT EDİLEN ÇIPA:</span>
+            <span id="barsLiveIndicator" class="text-[9px] font-mono text-slate-400">CANLI HESAPLAMA</span>
+          </div>
+          <div id="barsAnchorText" class="text-slate-800 font-medium italic leading-snug">Analiz metninden somut fiziksel eylem çıkarılacak...</div>
+          
+          <!-- Hızlı İlerleme Hedefi (Seviye Atlama Eylemi) -->
+          <div id="barsNextStepBox" class="hidden pt-1.5 border-t border-slate-200/80 text-[10px] text-slate-600 flex items-center justify-between">
+            <span id="barsNextStepText" class="font-semibold text-indigo-700"></span>
+            <button id="barsNextStepBtn" onclick="" class="ml-2 px-1.5 py-0.5 rounded bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-[9px] border border-indigo-200 shrink-0">Sor ↪</button>
+          </div>
         </div>
       </div>
 
@@ -561,9 +570,14 @@
         flowBadge.className = "text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold";
       }
 
-      // --- BARS (DAVRANIŞ ÇIPASI) OTOMATİK SKORLAMA & GÖSTERGE GÜNCELLEMESİ ---
+      // --- BARS (DAVRANIŞ ÇIPASI) OTOMATİK SKORLAMA & DİNAMİK VAKA ÇIKARIMI ---
       const barsLevelBadge = document.getElementById('barsLevelBadge');
       const barsAnchorText = document.getElementById('barsAnchorText');
+      const barsLiveIndicator = document.getElementById('barsLiveIndicator');
+      const nextStepBox = document.getElementById('barsNextStepBox');
+      const nextStepText = document.getElementById('barsNextStepText');
+      const nextStepBtn = document.getElementById('barsNextStepBtn');
+      
       const barsMatch = rawText.match(/\[BARS_SEVIYE:\s*([1-5])\]/i);
       
       let level = 2; // Varsayılan pasif direnç
@@ -573,16 +587,31 @@
         // Otomatik sezgisel tespit
         if (rawText.toLowerCase().includes('seviye 1') || rawText.toLowerCase().includes('sabotaj')) level = 1;
         else if (rawText.toLowerCase().includes('seviye 3') || rawText.toLowerCase().includes('eşik')) level = 3;
-        else if (rawText.toLowerCase().includes('seviye 4')) level = 4;
-        else if (rawText.toLowerCase().includes('seviye 5')) level = 5;
+        else if (rawText.toLowerCase().includes('seviye 4') || rawText.toLowerCase().includes('icra')) level = 4;
+        else if (rawText.toLowerCase().includes('seviye 5') || rawText.toLowerCase().includes('ustalık')) level = 5;
+      }
+
+      // 1. ÖNCELİK: [BARS_CIPA: ...] etiketini yakala
+      const cipaTagMatch = rawText.match(/\[BARS_CIPA:\s*([^\]]+)\]/i);
+      
+      // 2. ÖNCELİK: Metindeki 'Gerçek Davranış Çıpası:' veya 'Gözlemlenen Davranış Çıpası:' altındaki maddeleri yakala
+      let dynamicAnchor = "";
+      if (cipaTagMatch && cipaTagMatch[1]) {
+        dynamicAnchor = cipaTagMatch[1].trim();
+      } else {
+        const anchorRegex = /(?:Gerçek Davranış Çıpası|Gözlemlenen Fiziksel Eylem Çıpası|Gözlemlenen Davranış Çıpası)[\s\:\*\-]+([^\n\r]{10,250})/i;
+        const anchorMatch = rawText.match(anchorRegex);
+        if (anchorMatch && anchorMatch[1]) {
+          dynamicAnchor = anchorMatch[1].replace(/^[\s\:\*\-•]+/, '').trim();
+        }
       }
 
       const levelDescriptions = {
-        1: { title: 'SEVİYE 1: KRONİK SABOTAJ', desc: 'Mış gibi yaşama, suçu dış dünyaya atma, sıfır yeni eylem.', color: 'bg-rose-500' },
-        2: { title: 'SEVİYE 2: PASİF DİRENÇ', desc: 'Sürekli plan yapıp erteleme, konforlu sahte meşguliyet.', color: 'bg-amber-500' },
-        3: { title: 'SEVİYE 3: KRİTİK EŞİK', desc: 'Mazereti bırakıp asgari risk alma ve doğrudan deneme.', color: 'bg-blue-500' },
-        4: { title: 'SEVİYE 4: ANTİ-KIRILGAN İCRA', desc: 'Haftalık somut red toplama, doğrudan temas, düzenli icra.', color: 'bg-emerald-500' },
-        5: { title: 'SEVİYE 5: STRATEJİK USTALIK', desc: 'Geri bildirim döngüsünü tam yönetme, radikal şeffaflık.', color: 'bg-indigo-600' }
+        1: { title: 'SEVİYE 1: KRONİK SABOTAJ', defaultDesc: 'Mış gibi yaşama, suçu dış dünyaya atma, sıfır yeni eylem.', next: 'Seviye 2\'ye geçiş: Bahane üretmeyi bırakıp günlük 1 somut aksiyon al.', color: 'bg-rose-500', nextQ: 'Seviye 1 sabotaj döngüsünden çıkmak için bugün atacağım tek somut fiziksel adım ne?' },
+        2: { title: 'SEVİYE 2: PASİF DİRENÇ', defaultDesc: 'Sürekli plan yapıp erteleme, konforlu sahte meşguliyet.', next: 'Seviye 3\'e geçiş: 45 dk boyunca telefonsuz tek bir göreve kilitlen.', color: 'bg-amber-500', nextQ: 'Seviye 2 pasif direnci kırmak için hemen hangi riski almalıyım?' },
+        3: { title: 'SEVİYE 3: KRİTİK EŞİK', defaultDesc: 'Mazereti bırakıp asgari risk alma ve doğrudan deneme.', next: 'Seviye 4\'e geçiş: Haftada en az 2 gerçek red/itiraz göğüsle.', color: 'bg-blue-500', nextQ: 'Seviye 3 eşiğini aşıp düzenli icraya geçmemi engelleyen korku ne?' },
+        4: { title: 'SEVİYE 4: ANTİ-KIRILGAN İCRA', defaultDesc: 'Haftalık somut red toplama, doğrudan temas, düzenli icra.', next: 'Seviye 5\'e geçiş: Tüm süreci ölçülebilir sistem ve delegeye bağla.', color: 'bg-emerald-500', nextQ: 'Mevcut eylemlerimi Seviye 5 ustalığa dönüştürecek sistemik kaldıraç nedir?' },
+        5: { title: 'SEVİYE 5: STRATEJİK USTALIK', defaultDesc: 'Geri bildirim döngüsünü tam yönetme, radikal şeffaflık.', next: 'Zirve: Kör noktaları sürekli tersine mühendislikle tara.', color: 'bg-indigo-600', nextQ: 'Ustalık seviyesinde beni bekleyen en tehlikeli gizli kibir kör noktası nerede?' }
       };
 
       if (barsLevelBadge) {
@@ -591,8 +620,21 @@
       }
 
       if (barsAnchorText) {
-        barsAnchorText.textContent = levelDescriptions[level].desc;
-        barsAnchorText.className = "text-slate-800 font-semibold mt-0.5 text-[11px]";
+        // Eğer metinden kullanıcıya özel fiziksel çıpa çekildiyse ONU BAS, yoksa varsayılan açıklamayı bas
+        const finalAnchorDesc = dynamicAnchor ? dynamicAnchor : levelDescriptions[level].defaultDesc;
+        barsAnchorText.innerHTML = `<span class="text-slate-900 font-bold">"${finalAnchorDesc}"</span>`;
+      }
+
+      if (barsLiveIndicator) {
+        barsLiveIndicator.textContent = dynamicAnchor ? "VAKADAN ÇIKARILDI ✓" : "SKORLANDI";
+        barsLiveIndicator.className = "text-[9px] font-mono " + (dynamicAnchor ? "text-emerald-600 font-bold" : "text-slate-400");
+      }
+
+      // Seviye Atlama Hedef Kutusunu Göster
+      if (nextStepBox && nextStepText && nextStepBtn) {
+        nextStepBox.classList.remove('hidden');
+        nextStepText.textContent = levelDescriptions[level].next;
+        nextStepBtn.onclick = () => injectSocraticPrompt(levelDescriptions[level].nextQ);
       }
 
       // 5 Kademeli Skalayı Boya
@@ -600,9 +642,9 @@
         const seg = document.getElementById("barsSeg" + i);
         if (seg) {
           if (i <= level) {
-            seg.className = "h-2 rounded-sm " + levelDescriptions[level].color + " transition-all shadow-sm";
+            seg.className = "h-2.5 rounded-sm " + levelDescriptions[level].color + " cursor-pointer transition-all shadow-sm";
           } else {
-            seg.className = "h-2 rounded-sm bg-slate-200 transition-all";
+            seg.className = "h-2.5 rounded-sm bg-slate-200 cursor-pointer transition-all hover:bg-slate-300";
           }
         }
       }
@@ -617,6 +659,53 @@
           </button>
         `;
       }
+    }
+
+    // Kullanıcı çubuklara manuel tıkladığında seviye simülasyonunu çalıştır
+    function selectBarsLevelManually(lvl) {
+      const levelDescriptions = {
+        1: { title: 'SEVİYE 1: KRONİK SABOTAJ', desc: 'Mış gibi yaşama, suçu dış dünyaya atma, sıfır yeni eylem.', next: 'Seviye 2\'ye geçiş: Bahane üretmeyi bırakıp günlük 1 somut aksiyon al.', color: 'bg-rose-500', nextQ: 'Seviye 1 sabotaj döngüsünden çıkmak için bugün atacağım tek somut fiziksel adım ne?' },
+        2: { title: 'SEVİYE 2: PASİF DİRENÇ', desc: 'Sürekli plan yapıp erteleme, konforlu sahte meşguliyet.', next: 'Seviye 3\'e geçiş: 45 dk boyunca telefonsuz tek bir göreve kilitlen.', color: 'bg-amber-500', nextQ: 'Seviye 2 pasif direnci kırmak için hemen hangi riski almalıyım?' },
+        3: { title: 'SEVİYE 3: KRİTİK EŞİK', desc: 'Mazereti bırakıp asgari risk alma ve doğrudan deneme.', next: 'Seviye 4\'e geçiş: Haftada en az 2 gerçek red/itiraz göğüsle.', color: 'bg-blue-500', nextQ: 'Seviye 3 eşiğini aşıp düzenli icraya geçmemi engelleyen korku ne?' },
+        4: { title: 'SEVİYE 4: ANTİ-KIRILGAN İCRA', desc: 'Haftalık somut red toplama, doğrudan temas, düzenli icra.', next: 'Seviye 5\'e geçiş: Tüm süreci ölçülebilir sistem ve delegeye bağla.', color: 'bg-emerald-500', nextQ: 'Mevcut eylemlerimi Seviye 5 ustalığa dönüştürecek sistemik kaldıraç nedir?' },
+        5: { title: 'SEVİYE 5: STRATEJİK USTALIK', desc: 'Geri bildirim döngüsünü tam yönetme, radikal şeffaflık.', next: 'Zirve: Kör noktaları sürekli tersine mühendislikle tara.', color: 'bg-indigo-600', nextQ: 'Ustalık seviyesinde beni bekleyen en tehlikeli gizli kibir kör noktası nerede?' }
+      };
+
+      const info = levelDescriptions[lvl];
+      if (!info) return;
+
+      const badge = document.getElementById('barsLevelBadge');
+      if (badge) {
+        badge.textContent = info.title;
+        badge.className = "text-[10px] font-mono px-2 py-0.5 rounded text-white font-bold " + info.color + " shadow-sm";
+      }
+
+      const txt = document.getElementById('barsAnchorText');
+      if (txt) {
+        txt.innerHTML = `<span class="text-slate-900 font-bold">${info.desc}</span>`;
+      }
+
+      const ind = document.getElementById('barsLiveIndicator');
+      if (ind) ind.textContent = "MANUEL SİMÜLASYON";
+
+      const nextBox = document.getElementById('barsNextStepBox');
+      const nextTxt = document.getElementById('barsNextStepText');
+      const nextBtn = document.getElementById('barsNextStepBtn');
+      if (nextBox && nextTxt && nextBtn) {
+        nextBox.classList.remove('hidden');
+        nextTxt.textContent = info.next;
+        nextBtn.onclick = () => injectSocraticPrompt(info.nextQ);
+      }
+
+      for (let i = 1; i <= 5; i++) {
+        const seg = document.getElementById("barsSeg" + i);
+        if (seg) {
+          seg.className = (i <= lvl) 
+            ? "h-2.5 rounded-sm " + info.color + " cursor-pointer transition-all shadow-sm"
+            : "h-2.5 rounded-sm bg-slate-200 cursor-pointer transition-all hover:bg-slate-300";
+        }
+      }
+      showToast(`Seviye ${lvl} seçildi. Geçiş reçetesi altta hazırlandı.`);
     }
 
     // Klavye Kısayolu: Enter ile Gönder (Direct Binding)
