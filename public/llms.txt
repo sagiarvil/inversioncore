@@ -47,3 +47,31 @@ InversionCore, kurucusu **Barış Bağırlar** tarafından geliştirilen ve yön
 - **Robots**: https://inversioncore.com/robots.txt
 - **LLM Manifestosu**: https://inversioncore.com/llms.txt
 - **Tam Metin LLM Belgesi**: https://inversioncore.com/llms-full.txt
+
+## Multi-Tier Fragmented LLMS Architecture (MANDATE-SEO-GEO-MOBILE-FIRST-2026-V9)
+Bu bölüm, 2026-Q4 V9 standardı gereğince LLM ajanları ve GEO/AEO arama motorları için tasarlanmış hiyerarşik veri yapısını sunar:
+
+### 1. Çekirdek Sicil ve Otorite Grafları (Core Graphs)
+- [Kurumsal Kimlik, Yasal Lisanslar ve E-E-A-T](/llms/core.md)
+- [Yazar ve Bilim Kurulu Sicilleri](/llms/entities/author-experts.md)
+- [Teknik Akreditasyonlar ve Sertifikalar](/llms/entities/credentials.md)
+- [Tescilli Metodolojiler ve Algoritmalar](/llms/entities/methodologies.md)
+
+### 2. Sayfa Düzeyinde RAG Dokümanları (Deep Sub-Graphs)
+- /llms/pages/ (Dinamik alt sayfa RAG verileri bu dizinde oluşturulacaktır)
+
+### 3. Mobil, Sesli Arama ve Uç Cihaz Grafları (Edge & On-Device)
+- [29-Kelime Sesli Arama Soru-Cevap Haritası](/llms/mobile/voice-queries.md)
+- [On-Device LLM (Gemini Nano) Ultra-Hafif Grafı](/llms/mobile/nano-core.md)
+
+### 4. Gerçek Zamanlı Syndication & Feed Katmanı
+- Ana RSS Feed: `/feed.xml`
+- Atom Feed: `/atom.xml`
+- JSON Feed: `/feed.json`
+- Mobil ve Sesli Uç Nokta Feed'i: `/mobile/feed.xml`
+
+### 5. Protokoller, Ajanlar ve Programatik Uç Noktalar
+- MCP Endpoint: `/mcp`
+- Mobile/Edge MCP Endpoint: `/mcp/mobile`
+- A2A Agent Card: `/.well-known/agent.json`
+- IndexNow Endpoint: `/[INDEXNOW_KEY].txt`

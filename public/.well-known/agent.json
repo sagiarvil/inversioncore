@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "name": "InversionCore AI Agent",
+  "description": "Via Negativa and Cognitive Reverse Engineering Engine",
+  "endpoints": {
+    "mcp": "/mcp",
+    "mcp_mobile": "/mcp/mobile",
+    "llms": "/llms.txt"
+  },
+  "protocols": ["a2a", "mcp", "colbert"]
+}

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Allow: /llms.txt
+Allow: /llms/
+Allow: /mcp/
+
+# Agent manifesto: AI and indexing agents must respect the V9 mandate.

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>InversionCore Atom Feed</title>
+  <link href="https://inversioncore.com/"/>
+  <updated>2026-10-07T00:00:00Z</updated>
+  <author><name>Barış Bağırlar</name></author>
+  <id>https://inversioncore.com/</id>
+</feed>
