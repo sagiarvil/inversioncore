@@ -1027,13 +1027,38 @@
              if (s2) s2.textContent = 'LOCKED';
              if (s3) s3.textContent = 'LOCKED';
              if (s4) s4.textContent = 'LOCKED';
+
+             // Teşhis log kutusunu güncelle
+             const edgeSensorStatus = document.getElementById('edgeSensorStatus');
+             if (edgeSensorStatus) {
+               edgeSensorStatus.innerHTML = '<span class="text-emerald-400 font-bold">✓ BİYOMETRİK TEŞHİS KİLİTLENDİ</span>';
+             }
+
              let bioDetay = [];
              if (anneIsmi) bioDetay.push(`Anne: ${anneIsmi}`);
              if (dogumTarihi) bioDetay.push(`D.Tarihi: ${dogumTarihi}`);
              const profilDetayStr = bioDetay.length > 0 ? ` (${bioDetay.join(', ')})` : "";
 
              if (vData.status === 'success' && vData.report) {
-                 finalPrompt = `[BİYOMETRİK ÇEHRE & MORFO-PSİKOLOJİK ANALİZ]\nDosya: ${fileName}\nBiyometrik Asimetri & Gerilim Raporu: ${vData.report.substring(0, 350)}\n${isim ? "Kullanıcı: " + isim + profilDetayStr + "\n" : ""}Kullanıcı İtirafı / Vaka: "${input}"\n\nBu biyometrik çehre verilerini ve itirafı; adli morfo-psikoloji, Paul Ekman FACS gerilim hatları, savunma kalkanları ve Carl Jung gölge arketipi ile analiz et. Karakterin maskesini düşür, asıl kaçtığı zayıflığı ve döngüyü kırma reçetesini çıkar.`;
+                 // Görsel teşhis kartını siber kutunun hemen altına şık bir adli profil kartı olarak bas
+                 const biometricReportHtml = `
+                   <div class="mt-4 pt-4 border-t border-red-500/30 text-slate-300 font-sans text-xs space-y-2">
+                     <div class="flex items-center gap-2 text-red-400 font-mono font-bold tracking-wider text-[11px]">
+                       <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                       ADLİ BİYOMETRİ & MORFO-PSİKOLOJİK TEŞHİS RAPORU
+                     </div>
+                     <div class="bg-black/60 p-3 rounded-lg border border-red-500/20 text-slate-300 leading-relaxed font-mono text-[11px] whitespace-pre-line">
+${vData.report}
+                     </div>
+                   </div>
+                 `;
+                 const cyberBoxInner = document.querySelector('#scannedFacePreview')?.closest('.p-6');
+                 if (cyberBoxInner) {
+                   cyberBoxInner.insertAdjacentHTML('beforeend', biometricReportHtml);
+                 }
+
+                 // 350 karakter sınırını tamamen kaldır: Tam raporu ana motora besle
+                 finalPrompt = `[BİYOMETRİK ÇEHRE & MORFO-PSİKOLOJİK ANALİZ]\nDosya: ${fileName}\nBiyometrik Asimetri & Gerilim Raporunun Tamamı:\n${vData.report}\n\n${isim ? "Kullanıcı: " + isim + profilDetayStr + "\n" : ""}Kullanıcı İtirafı / Vaka: "${input}"\n\nBu biyometrik çehre verilerini, yüzdeki mikro-gerilim hatlarını ve itirafı; adli morfo-psikoloji, Paul Ekman FACS gerilim hatları, savunma kalkanları ve Carl Jung gölge arketipi ile derinlemesine analiz et. Karakterin maskesini düşür, asıl kaçtığı zayıflığı ve döngüyü kırma reçetesini çıkar.`;
              } else {
                  finalPrompt = `[BİYOMETRİK ÇEHRE & KARAKTER ANALİZİ]\nDosya: ${fileName}\n${isim ? "Kullanıcı: " + isim + profilDetayStr + "\n" : ""}Kullanıcı İtirafı / Vaka: "${input}"\n\nGörsel üzerinde mikro-gerilim taraması tamamlandı. Kullanıcının beyan ettiği zaaflar ve direnç noktaları üzerinden adli karakter otopsisi ve tersine mühendislik çözümlemesi yap.`;
              }
@@ -1077,6 +1102,38 @@
         const decoder = new TextDecoder("utf-8");
         let accumulated = "";
         let buffer = "";
+
+        // -------------------------------------------------------------
+        // 60 FPS PÜRÜZSÜZ AKIŞ VE KADEMELİ RENDER MOTORU (SMOOTH STREAM BUFFER)
+        // -------------------------------------------------------------
+        let displayAccumulated = "";
+        let incomingQueue = "";
+        let isStreamFinished = false;
+        let animationFrameId = null;
+
+        function renderSmoothLoop() {
+          if (incomingQueue.length > 0) {
+            // Ağdan veya kuyruktan parça çek; birikme varsa hızlandır, yoksa yumuşak akıt
+            const step = Math.max(1, Math.min(8, Math.ceil(incomingQueue.length / 4)));
+            displayAccumulated += incomingQueue.slice(0, step);
+            incomingQueue = incomingQueue.slice(step);
+
+            const streamBlock = document.getElementById('activeStreamBlock');
+            if (streamBlock) {
+              streamBlock.innerHTML = formatHarmoniousColors(displayAccumulated) + '<span class="blinking-cursor"></span>';
+            } else {
+              termBox.innerHTML = formatHarmoniousColors(displayAccumulated) + '<span class="blinking-cursor"></span>';
+            }
+            const feedContainer = document.getElementById('chatFeedContainer');
+            if (feedContainer) feedContainer.scrollTop = feedContainer.scrollHeight;
+          }
+
+          if (!isStreamFinished || incomingQueue.length > 0) {
+            animationFrameId = requestAnimationFrame(renderSmoothLoop);
+          }
+        }
+        animationFrameId = requestAnimationFrame(renderSmoothLoop);
+
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
@@ -1092,15 +1149,7 @@
                 const chunk = parsed.chunk || parsed.content;
                 if (chunk) {
                   accumulated += chunk;
-                  // Anlık harf harf ekrana akıtma + otomatik scroll (Görseli ezmemek için sadece stream bloğunu güncelle)
-                  const streamBlock = document.getElementById('activeStreamBlock');
-                  if (streamBlock) {
-                    streamBlock.innerHTML = formatHarmoniousColors(accumulated) + '<span class="blinking-cursor"></span>';
-                  } else {
-                    termBox.innerHTML = formatHarmoniousColors(accumulated) + '<span class="blinking-cursor"></span>';
-                  }
-                  const feedContainer = document.getElementById('chatFeedContainer');
-                  if (feedContainer) feedContainer.scrollTop = feedContainer.scrollHeight;
+                  incomingQueue += chunk;
                 }
                 if (parsed.status && parsed.status !== 'DONE') {
                   const sBadge = document.getElementById('speedBadge');
@@ -1108,7 +1157,7 @@
                 }
               } catch (e) {
                 accumulated += dataStr;
-                termBox.innerHTML = formatHarmoniousColors(accumulated) + '<span class="blinking-cursor"></span>';
+                incomingQueue += dataStr;
               }
             }
           }
@@ -1118,10 +1167,22 @@
           if (dataStr !== "[DONE]") {
              try {
                 const parsed = JSON.parse(dataStr);
-                if (parsed.content) accumulated += parsed.content;
+                if (parsed.content) {
+                  accumulated += parsed.content;
+                  incomingQueue += parsed.content;
+                }
              } catch(e){}
           }
         }
+
+        isStreamFinished = true;
+        // Kalan kuyruğun ekrana boşalmasını bekle (en fazla 1.5 saniye)
+        let drainWait = 0;
+        while (incomingQueue.length > 0 && drainWait < 60) {
+          await new Promise(r => setTimeout(r, 25));
+          drainWait++;
+        }
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
         
         // Penetrasyon & Yönlendirme Kartı (Kullanıcıyı sitede tutan derinleşme motoru)
         const penetrationBox = `

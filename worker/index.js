@@ -228,6 +228,7 @@ export default {
           const decoder = new TextDecoder("utf-8");
           let buffer = "";
 
+          let pendingChunk = "";
           while (true) {
             const { done, value } = await reader.read();
             if (done) break;
@@ -245,11 +246,21 @@ export default {
                   const token = parsed.choices?.[0]?.delta?.content || "";
                   if (token) {
                     const cleanToken = token.replace(/[\u0600-\u06FF]/g, "");
-                    await writer.write(encoder.encode(`data: {"chunk": ${JSON.stringify(cleanToken)}}\n\n`));
+                    pendingChunk += cleanToken;
+                    // Mikro-parçalanmayı engelle: Kelime boşluğu, satır sonu veya 6 karakterde bir gönder
+                    if (pendingChunk.length >= 6 || pendingChunk.includes(" ") || pendingChunk.includes("\n")) {
+                      await writer.write(encoder.encode(`data: {"chunk": ${JSON.stringify(pendingChunk)}}\n\n`));
+                      pendingChunk = "";
+                    }
                   }
                 } catch (e) {}
               }
             }
+          }
+
+          if (pendingChunk.length > 0) {
+            await writer.write(encoder.encode(`data: {"chunk": ${JSON.stringify(pendingChunk)}}\n\n`));
+            pendingChunk = "";
           }
 
           await writer.write(encoder.encode("data: [DONE]\n\n"));
