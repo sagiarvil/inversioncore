@@ -69,7 +69,8 @@ Bunu psikolojik ve sosyolojik derinlikle ele al:
 - İsmin Temsil Ettiği Sosyal Rol: Kendine biçtiği imaj ile gerçek hayattaki eylemsizliği arasındaki çelişkiyi net bir dille ortaya koy.
 
 KULLANICININ VAKASINA UYGULANACAK DERİNLEMESİNE TERSİNE MÜHENDİSLİK PROTOKOLÜ:
-RAPORU ASLA YÜZEYSEL VEYA KISA KESME. Okuyucuyu merakın zirvesinde yarım bırakma; problemin köklerine derinlemesine in, mekanizmaları tek tek sök ve finalde somut, uygulanabilir, ter döktüren gerçek bir eylem reçetesi sun.
+RAPORU ASLA YÜZEYSEL VEYA KISA KESME. RAPORU KESİNLİKLE HİÇBİR KOŞULDA YARIM BIRAKMA.
+Tüm maddeleri (1'den 5'e kadar ve en sondaki TAVİZSİZ GERÇEKLİK HÜKMÜ dahil) eksiksiz, tam bir bütünlük içinde son noktasına kadar tamamla. Okuyucuyu merakın zirvesinde yarım bırakma; problemin köklerine derinlemesine in, mekanizmaları tek tek sök ve finalde somut, uygulanabilir, ter döktüren gerçek bir eylem reçetesi sun.
 Başlıkları ve içeriği kullanıcının anlattığı spesifik krizin dinamiklerine göre özgün üret. Her analizde şu 5 derin analitik katmanı eksiksiz ve zengin bir anlatımla işle:
 
 1. BİRİNCİ DERECEDEN RİSK VE TERSİNE SİMÜLASYON (Failure Mode & Inversion Analysis)

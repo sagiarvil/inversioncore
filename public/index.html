@@ -982,7 +982,13 @@
           }
         }
         
-        termBox.innerHTML = formatHarmoniousColors(accumulated);
+        const finalStreamBlock = document.getElementById('activeStreamBlock');
+        if (finalStreamBlock) {
+          finalStreamBlock.innerHTML = formatHarmoniousColors(accumulated);
+          finalStreamBlock.removeAttribute('id');
+        } else {
+          termBox.innerHTML = formatHarmoniousColors(accumulated);
+        }
         updateDecisionFlowFromText(accumulated, input);
         
         // ChatGPT/Claude tarzı otomatik aşağı kaydırma
