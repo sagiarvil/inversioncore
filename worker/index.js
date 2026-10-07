@@ -166,29 +166,54 @@ export default {
 
         const openrouterKey = env.OPENROUTER_API_KEY || "";
 
-        const orResp = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${openrouterKey}`,
-            "Content-Type": "application/json",
-            "HTTP-Referer": "https://inversioncore.local",
-            "X-Title": "InversionCore"
-          },
-          body: JSON.stringify({
-            model: "deepseek/deepseek-chat",
-            messages: [
-              { role: "system", content: MASTER_SYSTEM_PROMPT },
-              { role: "user", content: userInput }
-            ],
-            max_tokens: 4000,
-            temperature: 0.55,
-            stream: true
-          })
-        });
+        // Çoklu Sağlayıcı ve Akıllı Fallback Listesi (Rate-Limit ve 502 Çökme Koruması)
+        const candidateModels = [
+          "deepseek/deepseek-chat",
+          "meta-llama/llama-3.3-70b-instruct",
+          "qwen/qwen-2.5-72b-instruct",
+          "mistralai/mistral-large-2407"
+        ];
 
-        if (!orResp.ok) {
-          const errTxt = await orResp.text();
-          throw new Error(`OpenRouter HTTP ${orResp.status}: ${errTxt}`);
+        let orResp = null;
+        let lastErrorMsg = "";
+
+        for (const modelName of candidateModels) {
+          try {
+            const resp = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+              method: "POST",
+              headers: {
+                "Authorization": `Bearer ${openrouterKey}`,
+                "Content-Type": "application/json",
+                "HTTP-Referer": "https://inversioncore.local",
+                "X-Title": "InversionCore"
+              },
+              body: JSON.stringify({
+                model: modelName,
+                messages: [
+                  { role: "system", content: MASTER_SYSTEM_PROMPT },
+                  { role: "user", content: userInput }
+                ],
+                max_tokens: 4000,
+                temperature: 0.55,
+                stream: true
+              })
+            });
+
+            if (resp.ok) {
+              orResp = resp;
+              break;
+            } else {
+              const errTxt = await resp.text();
+              lastErrorMsg = `${modelName} (${resp.status}): ${errTxt}`;
+              console.warn(`Model ${modelName} hata verdi (${resp.status}), yedek modele geçiliyor...`);
+            }
+          } catch (e) {
+            lastErrorMsg = `${modelName} fetch hatası: ${e.message}`;
+          }
+        }
+
+        if (!orResp) {
+          throw new Error(`Tüm modeller geçici olarak meşgul: ${lastErrorMsg}`);
         }
 
         const { readable, writable } = new TransformStream();
