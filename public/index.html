@@ -75,11 +75,11 @@
     </div>
   </header>
 
-  <!-- 3-SÜTUNLU CHATGPT / CLAUDE DÜZENİ -->
-  <div class="flex-1 w-full max-w-[1700px] mx-auto p-3 lg:p-4 flex flex-col lg:flex-row gap-4 items-stretch relative z-10 h-[calc(100vh-4rem)] overflow-hidden">
+  <!-- 3-SÜTUNLU CHATGPT / CLAUDE DÜZENİ (Mobilde Öncelik Doğrudan Chat) -->
+  <div class="flex-1 w-full max-w-[1700px] mx-auto p-2 sm:p-3 lg:p-4 flex flex-col lg:flex-row gap-3 lg:gap-4 items-stretch relative z-10 h-[calc(100dvh-4rem)] overflow-hidden">
     
-    <!-- SOL PANEL: CANLI ÇÖZÜMLEME + SENARYO ŞABLONLARI + DOSYA YÜKLEME (Sol Üste Taşındı) -->
-    <aside class="w-full lg:w-72 flex flex-col gap-3 shrink-0 h-full overflow-y-auto pr-1">
+    <!-- SOL PANEL: Masaüstünde sabit, mobilde gizli (Hızlı açılır modal/çekmece olarak erişilebilir) -->
+    <aside id="leftSidebar" class="hidden lg:flex w-72 flex-col gap-3 shrink-0 h-full overflow-y-auto pr-1">
       
       <!-- CANLI ÇÖZÜMLEME AKIŞI (Kullanıcı talimatıyla sağdan sol üste taşındı) -->
       <div class="bg-white rounded-xl shadow-card border border-slate-200 p-4">
@@ -182,79 +182,88 @@
     <main class="flex-1 min-w-0 flex flex-col bg-white rounded-2xl shadow-card border border-slate-200 overflow-hidden relative h-full">
       
       <!-- Üst Header Bar -->
-      <div class="bg-white border-b border-slate-100 px-6 py-3.5 flex items-center justify-between shrink-0">
-        <div class="flex items-center gap-3">
-           <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-700 border border-slate-200">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+      <div class="bg-white border-b border-slate-100 px-3 sm:px-6 py-2.5 sm:py-3.5 flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-2.5">
+           <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-700 border border-slate-200 shrink-0">
+              <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
            </div>
            <div>
-             <h2 class="font-bold text-base text-slate-900 tracking-tight">Gerçeklerle Yüzleşme Masası</h2>
-             <p class="text-[11px] text-slate-500">Kendini kandırmayı bırak, asıl tıkanıklığı gör</p>
+             <h2 class="font-bold text-sm sm:text-base text-slate-900 tracking-tight">Gerçeklerle Yüzleşme Masası</h2>
+             <p class="text-[10px] sm:text-[11px] text-slate-500 hidden xs:block">Kendini kandırmayı bırak, asıl tıkanıklığı gör</p>
            </div>
         </div>
         
-        <div class="flex items-center gap-3">
-           <span class="text-xs text-slate-500 font-mono hidden sm:inline-block">Analiz zamanı: <span id="timeBadge">--</span></span>
-           <div class="flex items-center gap-2 px-2.5 py-1 bg-slate-50 border border-slate-200 rounded-md shadow-sm">
+        <div class="flex items-center gap-2 sm:gap-3">
+           <!-- Mobilde Hızlı Senaryo Açma Butonu -->
+           <button onclick="openMobileScenarios()" class="lg:hidden px-2.5 py-1 bg-brand-50 border border-brand-200 text-brand-700 rounded-md text-[11px] font-bold flex items-center gap-1 hover:bg-brand-100 transition-colors">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+              <span>Örnekler</span>
+           </button>
+           <span class="text-xs text-slate-500 font-mono hidden md:inline-block">Analiz: <span id="timeBadge">--</span></span>
+           <div class="flex items-center gap-1.5 px-2 py-0.5 sm:px-2.5 sm:py-1 bg-slate-50 border border-slate-200 rounded-md shadow-sm">
               <div id="statusDot" class="w-2 h-2 rounded-full bg-slate-300"></div>
-              <span id="speedBadge" class="text-xs font-bold text-slate-600">SİSTEM HAZIR</span>
+              <span id="speedBadge" class="text-[10px] sm:text-xs font-bold text-slate-600">HAZIR</span>
            </div>
         </div>
       </div>
 
       <!-- SOHBET MESAJLARI AKIŞ ALANI (ÜSTTE AKAN BÖLÜM) -->
-      <div id="chatFeedContainer" class="flex-1 p-6 overflow-y-auto space-y-6">
-        <div id="terminalBox" class="prose prose-slate max-w-none text-[14px] leading-relaxed">
-          <div class="flex flex-col items-center justify-center py-20 text-slate-500 text-center">
-             <svg class="w-12 h-12 text-slate-200 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
-             <p class="font-semibold text-slate-700">Analiz bekleniyor...</p>
-             <p class="text-xs text-slate-400 mt-1">Alttaki konsoldan sorunuzu veya vakanızı girin. Ardışık sorularla konuyu derinleştirebilirsiniz.</p>
+      <div id="chatFeedContainer" class="flex-1 p-3 sm:p-6 overflow-y-auto space-y-4 sm:space-y-6">
+        <div id="terminalBox" class="prose prose-slate max-w-none text-[13px] sm:text-[14px] leading-relaxed">
+          <div class="flex flex-col items-center justify-center py-12 sm:py-20 text-slate-500 text-center">
+             <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center mb-3 shadow-inner">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+             </div>
+             <p class="font-bold text-sm sm:text-base text-slate-800">Tersine Mühendislik Masası Hazır</p>
+             <p class="text-xs text-slate-400 mt-1 max-w-md px-4">Tıkandığın konuyu, mazeretlerini veya ikilemini yaz. Zihnindeki sahte kabulleri ve asıl kaçtığın bedeli görelim.</p>
           </div>
         </div>
       </div>
 
       <!-- ALTTAN GİRDİ ÇUBUĞU (CHATGPT / CLAUDE STİLİ SABİT KONSOL) -->
-      <div class="border-t border-slate-200 bg-slate-50/70 p-4 shrink-0">
+      <div class="border-t border-slate-200 bg-white sm:bg-slate-50/70 p-2 sm:p-4 shrink-0 shadow-sm sm:shadow-none">
         <div class="relative bg-white rounded-xl border border-slate-300 focus-within:border-brand-500 focus-within:ring-2 focus-within:ring-brand-500/20 shadow-sm transition-all overflow-hidden">
           
           <!-- IMAGE ATTACHMENT BADGE -->
-          <div id="imageAttachmentBadge" class="flex items-center gap-3 p-2 bg-slate-100 border-b border-slate-200" style="display: none;">
-            <img id="attachedThumb" src="" class="w-10 h-10 object-cover rounded shadow-sm border border-slate-300">
+          <div id="imageAttachmentBadge" class="flex items-center gap-2 p-1.5 sm:p-2 bg-slate-100 border-b border-slate-200" style="display: none;">
+            <img id="attachedThumb" src="" class="w-8 h-8 sm:w-10 sm:h-10 object-cover rounded shadow-sm border border-slate-300">
             <div>
-               <div class="text-[11px] font-bold text-slate-700" id="attachedName">Dosya</div>
-               <div class="text-[9px] font-mono text-emerald-600 font-bold uppercase tracking-widest">Sisteme Yüklendi ✓</div>
+               <div class="text-[10px] sm:text-[11px] font-bold text-slate-700" id="attachedName">Dosya</div>
+               <div class="text-[8px] sm:text-[9px] font-mono text-emerald-600 font-bold uppercase tracking-widest">Yüklendi ✓</div>
             </div>
           </div>
 
           <!-- BİYOGRAFİK & KİŞİLİK PROFİL BİLGİLERİ -->
-          <div class="flex flex-wrap sm:flex-nowrap gap-2 p-2 px-3 bg-slate-50 border-b border-slate-200">
-             <input type="text" id="isimInput" placeholder="Adınız Soyadınız" class="text-xs p-1.5 border border-slate-200 rounded w-full sm:w-1/3 bg-white outline-none focus:border-brand-500 text-slate-700">
-             <input type="text" id="anneIsmiInput" placeholder="Anne Adı (Karakter Kökü)" class="text-xs p-1.5 border border-slate-200 rounded w-full sm:w-1/3 bg-white outline-none focus:border-brand-500 text-slate-700">
-             <input type="text" id="dogumTarihiInput" placeholder="Doğum Tarihi (GG.AA.YYYY)" class="text-xs p-1.5 border border-slate-200 rounded w-full sm:w-1/3 bg-white outline-none focus:border-brand-500 text-slate-700 font-mono">
+          <div class="flex flex-col sm:flex-row gap-1.5 sm:gap-2 p-1.5 sm:p-2 px-2.5 sm:px-3 bg-slate-50 border-b border-slate-200 text-xs">
+             <input type="text" id="isimInput" placeholder="Ad Soyad" class="text-xs p-1 sm:p-1.5 border border-slate-200 rounded w-full sm:w-1/3 bg-white outline-none focus:border-brand-500 text-slate-700">
+             <input type="text" id="anneIsmiInput" placeholder="Anne Adı" class="text-xs p-1 sm:p-1.5 border border-slate-200 rounded w-full sm:w-1/3 bg-white outline-none focus:border-brand-500 text-slate-700">
+             <input type="text" id="dogumTarihiInput" placeholder="Doğum Tarihi (GG.AA.YYYY)" class="text-xs p-1 sm:p-1.5 border border-slate-200 rounded w-full sm:w-1/3 bg-white outline-none focus:border-brand-500 text-slate-700 font-mono">
           </div>
           
-          <textarea id="inputArea" rows="3" class="w-full p-3.5 pr-32 bg-transparent outline-none resize-none text-slate-800 placeholder-slate-400 text-sm leading-relaxed max-h-48 overflow-y-auto" placeholder="Vakanızı veya takip sorunuzu yazın (Enter ile gönder)..." oninput="this.style.height = '';this.style.height = this.scrollHeight + 'px'"></textarea>
-          
-          <div class="absolute right-2.5 bottom-2.5 flex items-center gap-2">
-            <button id="runBtn" onclick="runStreamingInversion()" class="bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-lg font-bold text-xs tracking-wide shadow transition-all flex items-center gap-1.5 group">
-              <span>Gönder</span>
-              <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-            </button>
+          <div class="relative">
+            <textarea id="inputArea" rows="2" class="w-full p-2.5 sm:p-3.5 pr-20 sm:pr-32 bg-transparent outline-none resize-none text-slate-800 placeholder-slate-400 text-xs sm:text-sm leading-relaxed max-h-36 sm:max-h-48 overflow-y-auto" placeholder="Vakanızı veya sorunuzu yazın..." oninput="this.style.height = '';this.style.height = this.scrollHeight + 'px'"></textarea>
+            
+            <div class="absolute right-1.5 sm:right-2.5 bottom-1.5 sm:bottom-2.5 flex items-center gap-1.5 sm:gap-2">
+              <button id="runBtn" onclick="runStreamingInversion()" class="bg-brand-600 hover:bg-brand-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-bold text-xs tracking-wide shadow transition-all flex items-center gap-1 sm:gap-1.5 group">
+                <span>Gönder</span>
+                <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+              </button>
+            </div>
           </div>
         </div>
-        <div class="flex items-center justify-between mt-2 px-1 text-[11px] text-slate-500">
-          <div class="flex items-center gap-3">
-             <button onclick="stopStream()" class="text-rose-500 hover:text-rose-700 font-bold transition-colors flex items-center gap-1"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10h6v4H9z"></path></svg> Akışı Durdur</button>
-             <button onclick="clearChat()" class="text-slate-500 hover:text-slate-700 font-bold transition-colors flex items-center gap-1"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg> Ekranı Temizle</button>
+        <div class="flex items-center justify-between mt-1.5 sm:mt-2 px-1 text-[10px] sm:text-[11px] text-slate-500">
+          <div class="flex items-center gap-2 sm:gap-3">
+             <button onclick="stopStream()" class="text-rose-500 hover:text-rose-700 font-bold transition-colors flex items-center gap-1"><svg class="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10h6v4H9z"></path></svg> Durdur</button>
+             <button onclick="clearChat()" class="text-slate-500 hover:text-slate-700 font-bold transition-colors flex items-center gap-1"><svg class="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg> Temizle</button>
           </div>
-          <span>Enter = Gönder | Shift+Enter = Yeni Satır</span>
+          <span class="hidden sm:inline">Enter = Gönder | Shift+Enter = Yeni Satır</span>
         </div>
       </div>
 
     </main>
 
-    <!-- SAĞ PANEL: DİNAMİK KARAR AĞI + SOKRATİK YÜZLEŞME SORULARI -->
-    <aside class="w-full lg:w-72 flex flex-col gap-3 shrink-0 h-full overflow-y-auto pr-1">
+    <!-- SAĞ PANEL: Masaüstünde sabit, mobilde gizli -->
+    <aside id="rightSidebar" class="hidden lg:flex w-72 flex-col gap-3 shrink-0 h-full overflow-y-auto pr-1">
       
       <!-- DİNAMİK KARAR HARİTASI -->
       <div id="dynamicDecisionFlow" class="bg-white rounded-xl shadow-card border border-slate-200 p-4">
@@ -1029,7 +1038,45 @@
       el.querySelector('div').classList.add('scale-95');
       setTimeout(() => el.classList.add('hidden'), 300);
     }
+    function openMobileScenarios() {
+      openModal('mobileScenariosModal');
+    }
+    function selectMobileScenario(text) {
+      closeModal('mobileScenariosModal');
+      loadScenario(text);
+    }
   </script>
+
+  <!-- MOBİL SENARYO MODALI -->
+  <div id="mobileScenariosModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden opacity-0 transition-opacity flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="bg-white rounded-t-2xl sm:rounded-2xl max-w-md w-full p-5 shadow-2xl scale-95 transition-transform max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+        <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+          <svg class="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          Örnek Çözümleme Senaryoları
+        </h3>
+        <button onclick="closeModal('mobileScenariosModal')" class="text-slate-400 hover:text-slate-600 p-1 text-lg leading-none">&times;</button>
+      </div>
+      <div class="flex flex-col gap-2.5">
+        <button onclick="selectMobileScenario('İlişkilerimde hep aynı tip insanlara denk geliyorum. Başta her şey harika giderken bir süre sonra yine aynı tartışmalar, ilgisizlik ve yıpratıcı döngü başlıyor. Sorun bende mi, neden hep aynı yerde tıkanıyorum?')" class="p-3 border border-brand-200 bg-brand-50/50 rounded-xl text-left hover:bg-brand-50 transition-all">
+          <div class="font-bold text-xs text-brand-800">İlişkilerde Kısır Döngü</div>
+          <div class="text-[11px] text-slate-500 mt-1">Aynı hatalar, hayal kırıklığı ve tıkanma</div>
+        </button>
+        <button onclick="selectMobileScenario('İşimde yıllardır aynı yerde sayıyorum. Ne terfi alabiliyorum ne de maaşım yetiyor. Ayrılmaya cesaretim yok, kalsam her gün ayaklarım geri geri gidiyor. Bu bataklıktan nasıl çıkarım?')" class="p-3 border border-slate-200 bg-slate-50/50 rounded-xl text-left hover:bg-slate-100 transition-all">
+          <div class="font-bold text-xs text-slate-800">İşte Yerinde Sayma ve Tıkanma</div>
+          <div class="text-[11px] text-slate-500 mt-1">Maaş, cesaretsizlik, gelecek kaygısı</div>
+        </button>
+        <button onclick="selectMobileScenario('Sabahtan akşama kadar deli gibi koşturuyorum ama gün bittiğinde hiçbir şeye yetişememiş hissediyorum. Zaman nereye gidiyor anlamıyorum, kafam sürekli dolu ama ortada elle tutulur bir sonuç yok.')" class="p-3 border border-slate-200 bg-slate-50/50 rounded-xl text-left hover:bg-slate-100 transition-all">
+          <div class="font-bold text-xs text-slate-800">Koşturup Hiçbir Şeye Yetişememe</div>
+          <div class="text-[11px] text-slate-500 mt-1">Zaman yetmiyor, zihinsel dağınıklık</div>
+        </button>
+        <button onclick="selectMobileScenario('Yapmam gereken önemli şeyleri sürekli erteliyorum. Başlayacağım diyorum ama telefona dalıyorum veya önemsiz işlerle oyalanıyorum. Son gün panik yapıp kendime kızıyorum, bu erteleme huyundan nasıl kurtulurum?')" class="p-3 border border-slate-200 bg-slate-50/50 rounded-xl text-left hover:bg-slate-100 transition-all">
+          <div class="font-bold text-xs text-slate-800">Sürekli Erteleme ve Üşengeçlik</div>
+          <div class="text-[11px] text-slate-500 mt-1">Son dakikaya bırakma, konfor tuzağı</div>
+        </button>
+      </div>
+    </div>
+  </div>
 
   <style>
     #toast {

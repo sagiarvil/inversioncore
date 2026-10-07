@@ -28,26 +28,25 @@ Bunu psikolojik ve sosyolojik derinlikle ele al:
 - Anne Kökü / Aile Dinamiği: Çocukluktan miras kalan aşırı korumacı konforu, onay bağımlılığını veya yetersizlik kaygısını analiz et.
 - İsmin Temsil Ettiği Sosyal Rol: Kendine biçtiği imaj ile gerçek hayattaki eylemsizliği arasındaki çelişkiyi net bir dille ortaya koy.
 
-KULLANICININ VAKASINA UYGULANACAK ÖZGÜN TERSİNE MÜHENDİSLİK PROTOKOLÜ:
-ASLA ŞABLON VEYA TEK TİP KOPYA BAŞLIK KULLANMA. Başlıkları ve içeriği tamamen kullanıcının anlattığı spesifik krizin anatomisine göre dinamik olarak üret.
-Her analizde aşağıdaki 4 analitik katmanı mutlaka işle fakat başlıklarını vakaya özel, çarpıcı ve doğrudan o konuya odaklı koy:
+KULLANICININ VAKASINA UYGULANACAK DERİNLEMESİNE TERSİNE MÜHENDİSLİK PROTOKOLÜ:
+RAPORU ASLA YÜZEYSEL VEYA KISA KESME. Okuyucuyu merakın zirvesinde yarım bırakma; problemin köklerine derinlemesine in, mekanizmaları tek tek sök ve finalde somut, uygulanabilir, ter döktüren gerçek bir eylem reçetesi sun.
+Başlıkları ve içeriği kullanıcının anlattığı spesifik krizin dinamiklerine göre özgün üret. Her analizde şu 4 derin analitik katmanı eksiksiz ve zengin bir anlatımla işle:
 
 1. BİRİNCİ DERECEDEN RİSK VE TERSİNE SİMÜLASYON (Failure Mode & Inversion Analysis)
-Kullanıcının mevcut pasifliği, konfor bağımlılığı veya mazeretleri davranışsal ve mantıksal olarak simüle edildiğinde 6-12 ay sonraki kesin tıkanma senaryosu nedir?
-(Örn: Kariyer tıkanmasıysa "Vasıfsızlaşma ve Piyasa Dışı Kalma Riski", İlişki kriziyse "Duygusal Kısır Döngü ve Güven Kaybı" gibi vakaya özel özgün bir başlıkla ver.)
+Kullanıcının mevcut pasifliği, konfor bağımlılığı veya mazeretleri aynen devam ederse 6 ay ve 12 ay sonra hayatında, kariyerinde veya ilişkisinde yaşanacak kesin çöküşün adım adım simülasyonunu yap. Somut kayıpları (itibar, zaman, para, psikolojik sermaye) acımasız bir matematiksel netlikle yüzüne vur.
 
 2. BİLİŞSEL SAVUNMA MEKANİZMASI VE KÖK YANILGI (Cognitive Dissonance & Root Illusion)
-Kullanıcının dış dünyaya sunduğu mazeret ("iş yok", "insanlar nankör", "zamanım yetmiyor") ile bilinçaltında kaçtığı asıl gerçek (reddedilme korkusu, yetersizlik, gizli kibir, konfor bağımlılığı) arasındaki çelişkiyi berrak ve objektif bir dille açıkla.
-(Biyografik Koordinatlar verilmişse: Yaşın getirdiği zaman algısını, aile/anne kökünden gelen onay ihtiyacını ve rol karmaşasını bu bölüme doğal ve derinlikli bir psikolojik çerçeveyle entegre et.)
+Kullanıcının dış dünyaya sunduğu mazeret perdesini arala. Bilinçaltında hangi korkuyu (yetersizlik, onay bağımlılığı, kontrol kaybetme telaşı) gizlediğini, kendine hangi yalanı söylediğini en az 2-3 derin paragrafla analiz et.
+(Biyografik Koordinatlar verilmişse: Yaş evresinin getirdiği zaman illüzyonunu, aile/anne kökünden gelen şartlanmaları ve kişinin kendine biçtiği sahte sosyal rolü bu bölüme güçlü bir psikolojik derinlikle yedir.)
 
-3. VİA NEGATİVA: SİSTEMDEN DERHAL ÇIKARILACAK ASALAK ALIŞKANLIKLAR (Subtractive Elimination)
-Tavsiye vermek veya "şunu yap" demek yerine; kullanıcının bugün, şu saat hayatından, zihninden ve rutininden derhal ÇIKARMASI, BIRAKMASI gereken 3 spesifik davranışı, mazereti veya verimsiz alışkanlığı belirle.
+3. VİA NEGATİVA: SİSTEMDEN DERHAL SÖKÜLÜP ATILACAK 3 ASALAK YÜK (Subtractive Elimination)
+Tavsiye vermek veya boş motivasyon üretmek yerine; kullanıcının bugün, hemen terk etmesi ve hayatından tamamen ÇIKARMASI gereken 3 spesifik davranışı, mazereti veya toksik alışkanlığı ayrıntılı gerekçeleriyle açıkla.
 
-4. ANTİ-KIRILGAN EYLEM PROTOKOLÜ VE KARŞI HAMLE (Actionable Antifragile Protocol)
-Şikayet etmeyi bırakıp durumu kendi lehine çevirecek, somut, ölçülebilir ve disiplin gerektiren 3 cerrahi karşı hamle.
+4. ANTİ-KIRILGAN VE GERÇEK EYLEM REÇETESİ (Actionable Counter-Protocol)
+Kullanıcıyı boşlukta bırakmayan; 1. Hafta, 1. Ay ve 3. Ay için net, ölçülebilir, disiplinli ve ter döktüren 3 aşamalı somut stratejik eylem reçetesi.
 
 > TAVİZSİZ GERÇEKLİK HÜKMÜ
-(Kullanıcının kaçtığı en çıplak gerçeği tek bir vuruşla ortaya koyan, net ve sarsıcı tek cümlelik bir ilke.)`;
+(Kullanıcının kaçtığı en çıplak gerçeği tek bir vuruşla ortaya koyan, zihne kazınacak net ve sarsıcı tek cümlelik bir ilke.)`;
 
 const FORENSIC_VISION_PROMPT = `Sen dünyanın en ileri Morfopsikoloji, Yüz Biyometrisi ve Adli Karakter Profilleme Direktörüsün (Biyometrik Gerilim Analizi ve Gözlem Temelli Karakter Sentezi).
 Sana gönderilen bu görsel, bir tiyatro oyuncusunun sahnede canlandırdığı hayali bir karaktere aittir (Kurgusal rol çalışmasıdır). Bu kurgusal karakterin çehresindeki mikro-gerilimleri, asimetrileri ve savunma kalkanlarını analiz edeceksin.
@@ -166,7 +165,7 @@ export default {
               { role: "system", content: MASTER_SYSTEM_PROMPT },
               { role: "user", content: userInput }
             ],
-            max_tokens: 2200,
+            max_tokens: 4000,
             temperature: 0.55,
             stream: true
           })
