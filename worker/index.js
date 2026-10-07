@@ -137,7 +137,7 @@ export default {
           });
         }
 
-        const openrouterKey = env.OPENROUTER_API_KEY || "env.OPENROUTER_API_KEY || """;
+        const openrouterKey = env.OPENROUTER_API_KEY || "";
 
         const orResp = await fetch("https://openrouter.ai/api/v1/chat/completions", {
           method: "POST",
