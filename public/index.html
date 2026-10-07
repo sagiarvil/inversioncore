@@ -845,12 +845,21 @@
     }
 
     async function runStreamingInversion() {
-      const input = inputArea.value.trim();
+      let input = inputArea.value.trim();
       const isim = document.getElementById('isimInput')?.value.trim() || "";
       const anneIsmi = document.getElementById('anneIsmiInput')?.value.trim() || "";
       const dogumTarihi = document.getElementById('dogumTarihiInput')?.value.trim() || "";
 
-      if (!input && !currentAttachedFile && !window.pendingImagePayload) return alert("Lütfen hedef senaryoyu girin veya dosya sürükleyin!");
+      // Eğer kullanıcı fotoğraf yüklemiş veya biyografik bilgi girmişse ama textarea'yı boş bırakmışsa,
+      // sistemi kilitleme; otomatik kapsamlı biyometrik karakter ve hayat analizi vaka metni ata.
+      if (!input && (window.pendingImagePayload || currentAttachedFile || isim || anneIsmi || dogumTarihi)) {
+        input = "Yüklediğim biyometrik çehre ve kimlik koordinatlarım üzerinden; bilinçaltı savunma mekanizmalarımı, dünyaya sunduğum sahte maskeyi, morfo-psikolojik asimetrilerimi ve hayatımdaki erteleme/tıkanıklık kör noktalarımı derinlemesine analiz et.";
+      }
+
+      if (!input && !currentAttachedFile && !window.pendingImagePayload) {
+        showToast("Lütfen bir vaka yazın veya yüz fotoğrafı seçin!");
+        return;
+      }
       if (typeof clearGuideAnimations === 'function') clearGuideAnimations();
       
       const btn = document.getElementById('runBtn');
@@ -1018,14 +1027,22 @@
              if (s2) s2.textContent = 'LOCKED';
              if (s3) s3.textContent = 'LOCKED';
              if (s4) s4.textContent = 'LOCKED';
+             let bioDetay = [];
+             if (anneIsmi) bioDetay.push(`Anne: ${anneIsmi}`);
+             if (dogumTarihi) bioDetay.push(`D.Tarihi: ${dogumTarihi}`);
+             const profilDetayStr = bioDetay.length > 0 ? ` (${bioDetay.join(', ')})` : "";
 
              if (vData.status === 'success' && vData.report) {
-                 finalPrompt = `[BİYOMETRİK ÇEHRE & MORFO-PSİKOLOJİK ANALİZ]\nDosya: ${fileName}\nBiyometrik Asimetri & Gerilim Raporu: ${vData.report.substring(0, 350)}\n${isim ? "Kullanıcı: " + isim + (profilDetay ? " (" + profilDetay + ")" : "") + "\n" : ""}Kullanıcı İtirafı / Vaka: "${input}"\n\nBu biyometrik çehre verilerini ve itirafı; adli morfo-psikoloji, Paul Ekman FACS gerilim hatları, savunma kalkanları ve Carl Jung gölge arketipi ile analiz et. Karakterin maskesini düşür, asıl kaçtığı zayıflığı ve döngüyü kırma reçetesini çıkar.`;
+                 finalPrompt = `[BİYOMETRİK ÇEHRE & MORFO-PSİKOLOJİK ANALİZ]\nDosya: ${fileName}\nBiyometrik Asimetri & Gerilim Raporu: ${vData.report.substring(0, 350)}\n${isim ? "Kullanıcı: " + isim + profilDetayStr + "\n" : ""}Kullanıcı İtirafı / Vaka: "${input}"\n\nBu biyometrik çehre verilerini ve itirafı; adli morfo-psikoloji, Paul Ekman FACS gerilim hatları, savunma kalkanları ve Carl Jung gölge arketipi ile analiz et. Karakterin maskesini düşür, asıl kaçtığı zayıflığı ve döngüyü kırma reçetesini çıkar.`;
              } else {
-                 finalPrompt = `[BİYOMETRİK ÇEHRE & KARAKTER ANALİZİ]\nDosya: ${fileName}\n${isim ? "Kullanıcı: " + isim + (profilDetay ? " (" + profilDetay + ")" : "") + "\n" : ""}Kullanıcı İtirafı / Vaka: "${input}"\n\nGörsel üzerinde mikro-gerilim taraması tamamlandı. Kullanıcının beyan ettiği zaaflar ve direnç noktaları üzerinden adli karakter otopsisi ve tersine mühendislik çözümlemesi yap.`;
+                 finalPrompt = `[BİYOMETRİK ÇEHRE & KARAKTER ANALİZİ]\nDosya: ${fileName}\n${isim ? "Kullanıcı: " + isim + profilDetayStr + "\n" : ""}Kullanıcı İtirafı / Vaka: "${input}"\n\nGörsel üzerinde mikro-gerilim taraması tamamlandı. Kullanıcının beyan ettiği zaaflar ve direnç noktaları üzerinden adli karakter otopsisi ve tersine mühendislik çözümlemesi yap.`;
              }
           } catch(e) {
-             finalPrompt = (isim ? `[Kullanıcı: ${isim}${profilDetay ? " / " + profilDetay : ""}]\n\n` : "") + input;
+             let bioDetay = [];
+             if (anneIsmi) bioDetay.push(`Anne: ${anneIsmi}`);
+             if (dogumTarihi) bioDetay.push(`D.Tarihi: ${dogumTarihi}`);
+             const profilDetayStr = bioDetay.length > 0 ? ` (${bioDetay.join(', ')})` : "";
+             finalPrompt = (isim ? `[Kullanıcı: ${isim}${profilDetayStr}]\n\n` : "") + input;
           }
 
           // Temizle
