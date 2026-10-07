@@ -409,6 +409,35 @@
       runStreamingInversion();
     }
 
+    // --- PENETRASYON VE YÖNLENDİRME AKSİYONLARI ---
+    function triggerBiometricUpload() {
+      const fileInp = document.getElementById('fileInput');
+      if (fileInp) {
+        showToast('Biyometrik Profilleme için yüz fotoğrafınızı seçin.');
+        fileInp.click();
+      }
+    }
+
+    function scrollToBarsCard() {
+      const card = document.getElementById('barsCard');
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        card.classList.add('ring-2', 'ring-indigo-500', 'ring-offset-2');
+        setTimeout(() => card.classList.remove('ring-2', 'ring-indigo-500', 'ring-offset-2'), 2500);
+        showToast('Sağ paneldeki BARS Davranış Çıpanız vurgulandı.');
+      }
+    }
+
+    function injectNextSocratic() {
+      const buttons = document.querySelectorAll('#socraticButtons button');
+      if (buttons && buttons.length > 0) {
+        const randomBtn = buttons[Math.floor(Math.random() * buttons.length)];
+        injectSocraticPrompt(randomBtn.innerText);
+      } else {
+        injectSocraticPrompt('Bu döngüyü kırmak için hemen bugün hayatımdan çıkarmam gereken en büyük yalan ne?');
+      }
+    }
+
     function updateDecisionFlowFromText(rawText, userGoal) {
       const flowBadge = document.getElementById('flowBadge');
       const node1 = document.getElementById('flowNode1');
@@ -982,12 +1011,74 @@
           }
         }
         
+        // Penetrasyon & Yönlendirme Kartı (Kullanıcıyı sitede tutan derinleşme motoru)
+        const penetrationBox = `
+          <div class="mt-8 pt-6 border-t-2 border-slate-200/80 space-y-4 font-sans">
+            <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl p-5 sm:p-6 shadow-xl border border-slate-700/80 relative overflow-hidden">
+              <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-brand-500/10 rounded-full blur-2xl pointer-events-none"></div>
+              
+              <div class="flex items-center gap-2.5 mb-3">
+                <span class="px-2.5 py-1 rounded bg-brand-500 text-white text-[10px] font-black tracking-widest uppercase">SIRADAKİ DERİNLEŞME ADIMI</span>
+                <span class="text-xs text-slate-400">Analiz tamamlandı. Şimdi yüzleşmeyi derinleştirin:</span>
+              </div>
+
+              <h4 class="text-base sm:text-lg font-bold text-white mb-2 tracking-tight">Daha Derin Bir Yüzleşme İster misin?</h4>
+              <p class="text-xs sm:text-[13px] text-slate-300 leading-relaxed mb-4">
+                Zihnindeki mazeret perdesini araladık. Ancak gerçek karakter direncin çehrende, mikro-gerilimlerinde ve bilinçaltı kaçışlarında saklıdır.
+              </p>
+
+              <!-- 2 Adımlı Aksiyon Izgarası -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                
+                <!-- Aksiyon 1: Biyometrik Görsel Analiz (Penetrasyon & Kalıcılık) -->
+                <div class="p-3.5 rounded-xl bg-slate-800/90 border border-slate-700 hover:border-brand-500 transition-all flex flex-col justify-between group">
+                  <div>
+                    <div class="flex items-center gap-2 text-brand-400 font-bold text-xs mb-1.5">
+                      <svg class="w-4 h-4 text-brand-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                      1. Görsel Biyometri ile Yüzleş
+                    </div>
+                    <p class="text-[11px] text-slate-300 leading-normal mb-3">
+                      Yüz fotoğrafını yükle; mikro-gerilim hatları, morfo-psikolojik asimetri ve ego kalkanların analiz edilsin.
+                    </p>
+                  </div>
+                  <button onclick="triggerBiometricUpload()" class="w-full py-2 px-3 bg-brand-600 hover:bg-brand-500 text-white rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-md shadow-brand-600/30">
+                    <span>Fotoğraf Seç / Tara</span>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                  </button>
+                </div>
+
+                <!-- Aksiyon 2: Sağ Paneldeki Çıpa & Sokratik Sorular -->
+                <div class="p-3.5 rounded-xl bg-slate-800/90 border border-slate-700 hover:border-amber-500 transition-all flex flex-col justify-between group">
+                  <div>
+                    <div class="flex items-center gap-2 text-amber-400 font-bold text-xs mb-1.5">
+                      <svg class="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                      2. Davranış Çıpanı İncele & Sor
+                    </div>
+                    <p class="text-[11px] text-slate-300 leading-normal mb-3">
+                      Sağ paneldeki BARS Davranış Çıpanı gör veya tek tıkla yeni bir yüzleşme sorusu fırlat.
+                    </p>
+                  </div>
+                  <div class="flex gap-2">
+                    <button onclick="scrollToBarsCard()" class="flex-1 py-2 px-2.5 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-lg text-xs font-semibold transition-all text-center">
+                      Çıpaya Git (BARS)
+                    </button>
+                    <button onclick="injectNextSocratic()" class="flex-1 py-2 px-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-xs font-bold transition-all text-center shadow-md shadow-amber-600/30">
+                      Sokratik Soru Sor
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        `;
+
         const finalStreamBlock = document.getElementById('activeStreamBlock');
         if (finalStreamBlock) {
-          finalStreamBlock.innerHTML = formatHarmoniousColors(accumulated);
+          finalStreamBlock.innerHTML = formatHarmoniousColors(accumulated) + penetrationBox;
           finalStreamBlock.removeAttribute('id');
         } else {
-          termBox.innerHTML = formatHarmoniousColors(accumulated);
+          termBox.innerHTML = formatHarmoniousColors(accumulated) + penetrationBox;
         }
         updateDecisionFlowFromText(accumulated, input);
         
