@@ -1323,6 +1323,7 @@
     function renderInteractiveSocraticCard(rawLine, idx) {
       let qText = rawLine
         .replace(/^(?:-|\*|•)?\s*\[YÜZLEŞME SORUSU\s*\d*\]:?\s*/i, '')
+        .replace(/\[YÜZLEŞME SORUSU\s*\d*\]:?\s*/gi, '')
         .replace(/^[0-9]+[\.\)\s]+/, '')
         .replace(/^["'\*]+|["'\*]+$/g, '')
         .trim();
@@ -1330,27 +1331,31 @@
       const lower = qText.toLowerCase();
       let pills = [];
 
-      // Sorunun semantiğine göre özel seçenekler
-      if (lower.includes('korku') || lower.includes('pranga') || lower.includes('karakter') || lower.includes('yüzleş')) {
-        pills = ['Kalıcı Yetersizlik Hissi', 'Başarısız Olup Rezil Olmak', 'Geri Dönüşü Olmayan Zaman Kaybı', 'Hak Ettiğim Hayatı Yaşayamamak'];
-      } else if (lower.includes('engel') || lower.includes('responsibility') || lower.includes('sorumluluk') || lower.includes('adım')) {
-        pills = ['Mükemmel Anı Bekleme Tuzağı', 'Konfor Alanını Terk Edememek', 'Reddedilme ve Eleştiri Korkusu', 'Nereden Başlayacağını Bilememek'];
-      } else if (lower.includes('kaç') || lower.includes('dikkat') || lower.includes('odak') || lower.includes('dağıl')) {
-        pills = ['Yetersizlik Korkusu', 'Sonucun Beğenilmemesi', 'Zorlanmaktan Kaçış', 'Dopamin Bağımlılığı'];
-      } else if (lower.includes('değiş') || lower.includes('saat') || lower.includes('zaman') || lower.includes('hayat')) {
-        pills = ['Somut İlerleme Sağlardım', 'Zihnim Berraklaşırdı', 'Pişmanlığım Azalırdı', 'Özgüvenim Tazelenirdi'];
-      } else if (lower.includes('suç') || lower.includes('kendi') || lower.includes('başkası') || lower.includes('kurban')) {
-        pills = ['Kurban Rolünü Bırakmak', 'Kendi Tembelliğimle Yüzleşmek', 'Mazeret Üretmeyi Kesmek'];
-      } else if (lower.includes('en küçük') || lower.includes('23:59') || lower.includes('eylem') || lower.includes('şimdi') || lower.includes('somut')) {
-        pills = ['Tek Bir Net Göreve Odaklanmak', 'Ertelediğim Görüşmeyi Yapmak', 'Yarım Kalan İşi Tamamlamak'];
+      // Her kart indeksi için KESİN VE BENZERSİZ 3 FARKLI İTİRAF KATEGORİSİ:
+      if (idx === 1) {
+        // Kart 1: Konfor, Gizli Bedel, Maddi/Manevi İhmal
+        if (lower.includes('hastane') || lower.includes('borç') || lower.includes('sağlık') || lower.includes('bedel')) {
+          pills = ['Gelecekteki Ağır Borç Yükü', 'Tükenmişlik ve Sağlık Kaybı', 'Geri Dönüşü Olmayan Zaman İsrafı'];
+        } else {
+          pills = ['Ertelemenin Gizli Maliyeti', 'Konfor Uğruna Geleceği Yakmak', 'Yüzleşmekten Kaçtığım Ağır Borç'];
+        }
+      } else if (idx === 2) {
+        // Kart 2: 5 Yıllık Gelecek, Pişmanlık, Karakter ve Özsaygı
+        if (lower.includes('yıl') || lower.includes('pişman') || lower.includes('kendinize') || lower.includes('gelecek')) {
+          pills = ['Keşke Zamanında Cesaretim Olsaydı', 'Kendi Potansiyelimi Çöpe Attım', 'Başkalarını Suçlamaktan Bıkmadım'];
+        } else {
+          pills = ['Kronik Pişmanlık Sermayesi', 'Hak Ettiğim Hayatı Yaşayamamak', 'Kendi Özsaygımı Kaybetmek'];
+        }
+      } else if (idx === 3) {
+        // Kart 3: 23:59 Eylemi, CV, Belge, Başvuru, Fiziksel İcra
+        if (lower.includes('cv') || lower.includes('belge') || lower.includes('başvuru') || lower.includes('23:59') || lower.includes('gönder')) {
+          pills = ['CV/Belgeyi Bugün Tamamlayıp İletmek', 'Korkmadan İlk Başvuruyu Yapmak', 'Reddedilmeyi Göze Alarak Adım Atmak'];
+        } else {
+          pills = ['Bugün Saat 23:59\'a Kadar İlk Adım', 'Yarım Kalan İşi Bitirip Teslim Etmek', 'Mazeretleri Masadan Kesin Silmek'];
+        }
       } else {
-        // Genel durumlarda birbirini tekrar etmeyen 3 ayrı derin yüzleşme seçeneği
-        const fallbacksByCard = {
-          1: ['Kaçtığım Ağır Bedel', 'Ertelemenin Gizli Konforu', 'Yüzleşmediğim Yetersizlik'],
-          2: ['Kontrolü Kaybetme Korkusu', 'Gelecekteki Kronik Pişmanlık', 'Statü ve İtibar Endişesi'],
-          3: ['Bugün 1 Sayfa/1 Adım Atmak', 'Mazeretleri Masadan Silmek', 'Kendi Kendime Verdiğim Sözü Tutmak']
-        };
-        pills = fallbacksByCard[idx] || ['Kendi Kendimi Kandırmak', 'Ertelemenin Getirdiği Sahte Güven', 'Radikal Karar Alma Korkusu'];
+        // Yedek ek kartlar gelirse
+        pills = ['Konforlu Bahaneleri Yıkmak', 'Kendi Sorumluluğumu Almak', 'Eyleme Geçme Cesareti'];
       }
 
       const inputId = `socraticInput_${idx}`;
