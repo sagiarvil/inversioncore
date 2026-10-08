@@ -868,14 +868,22 @@
       });
       const bar = document.getElementById('socraticMultiActionBar');
       const badge = document.getElementById('socraticMultiCount');
+      const masterBtn = document.getElementById('socraticMasterSubmitBtn');
       if (bar) {
+        bar.classList.remove('hidden');
+        bar.classList.add('flex');
         if (totalSelected > 0) {
-          bar.classList.remove('hidden');
-          bar.classList.add('flex');
-          if (badge) badge.textContent = `${totalSelected} Neden Seçildi (${questionCount} Soru)`;
+          if (badge) badge.innerHTML = `<span class="text-amber-300 font-bold">${totalSelected} Neden / İtiraf Seçildi</span> (${questionCount} Ayrı Sorudan)`;
+          if (masterBtn) {
+            masterBtn.innerHTML = `<span>⚡ Seçilen ${totalSelected} Nedeni Birlikte Analiz Et</span><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>`;
+            masterBtn.classList.add('ring-2', 'ring-amber-400', 'animate-pulse');
+          }
         } else {
-          bar.classList.add('hidden');
-          bar.classList.remove('flex');
+          if (badge) badge.textContent = `Yukarıdaki 3 sorudan dilediğin nedenleri seç veya kendi cevabını yaz`;
+          if (masterBtn) {
+            masterBtn.innerHTML = `<span>⚡ Seçilen Tüm Nedenleri Birlikte Analiz Et</span><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>`;
+            masterBtn.classList.remove('ring-2', 'ring-amber-400', 'animate-pulse');
+          }
         }
       }
     }
@@ -1638,20 +1646,21 @@
       // Eğer sayfada Sokratik kartlar varsa, birden fazla sorudan nedenler seçildiğinde beliren toplu analiz çubuğu
       if (socraticCardCounter > 0) {
         html += `
-          <div id="socraticMultiActionBar" class="hidden mt-4 p-3.5 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border border-indigo-500 shadow-xl flex-col sm:flex-row items-center justify-between gap-3 animate-fade-in font-sans">
-            <div class="flex items-center gap-2.5 min-w-0">
-              <span class="w-7 h-7 rounded-full bg-gradient-to-r from-amber-400 to-indigo-500 text-slate-950 font-black text-xs flex items-center justify-center shrink-0 shadow">✦</span>
+          <div id="socraticMultiActionBar" class="mt-4 p-4 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border-2 border-indigo-500 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-3 animate-fade-in font-sans">
+            <div class="flex items-center gap-3 min-w-0">
+              <span class="w-8 h-8 rounded-full bg-gradient-to-r from-amber-400 to-indigo-500 text-slate-950 font-black text-sm flex items-center justify-center shrink-0 shadow">⚡</span>
               <div>
-                <div class="text-[11px] font-mono font-bold text-amber-400 uppercase tracking-wider">ÇOKLU İÇSEL ENGEL MATRİSİ</div>
-                <div id="socraticMultiCount" class="text-xs font-semibold text-white">Nedenler Seçildi</div>
+                <div class="text-[11px] font-mono font-bold text-amber-400 uppercase tracking-wider">BİLEŞİK YÜZLEŞME VE ÇIKIŞ MATRİSİ</div>
+                <div id="socraticMultiCount" class="text-xs font-semibold text-white">Yukarıdaki 3 sorudan dilediğin nedenleri seç veya kendi cevabını yaz</div>
               </div>
             </div>
             <div class="flex items-center gap-2 w-full sm:w-auto shrink-0">
               <button type="button" 
+                      id="socraticMasterSubmitBtn"
                       onclick="submitAllSocraticSelections()" 
-                      class="flex-1 sm:flex-initial px-4 py-2 bg-gradient-to-r from-amber-500 to-indigo-600 hover:from-amber-600 hover:to-indigo-700 text-white font-bold text-xs rounded-lg transition-all shadow-md flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer">
+                      class="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-amber-500 via-indigo-600 to-indigo-700 hover:from-amber-600 hover:to-indigo-800 text-white font-bold text-xs sm:text-sm rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 active:scale-95 cursor-pointer">
                 <span>⚡ Seçilen Tüm Nedenleri Birlikte Analiz Et</span>
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
               </button>
             </div>
           </div>
