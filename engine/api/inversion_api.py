@@ -126,10 +126,10 @@ Kullanıcıyı Seviye 1-2 konforundan Seviye 3-4 icrasına sıçratacak operasyo
 > TAVİZSİZ GERÇEKLİK HÜKMÜ: Kullanıcının kaçtığı en çıplak gerçeği tek ve sarsıcı bir cümleyle doğrudan bu başlığın yanına yaz. Asla boşluk bırakma!
 
 6. SOKRATİK DERİNLEŞME VE MIKNATIS SORULARI:
-Analizin sonuna, kullanıcının kaçamayacağı ve ekranda kalmasını sağlayacak 3 adet sarsıcı Sokratik soru ekle:
-- [YÜZLEŞME SORUSU 1]: (Doğrudan kullanıcının anlattığı olaydaki kaçtığı bedelle ilgili soru)
-- [YÜZLEŞME SORUSU 2]: (En çok korktuğu senaryo gerçekleşirse ne yapacağıyla ilgili soru)
-- [YÜZLEŞME SORUSU 3]: (Bugün saat 23:59'a kadar atması gereken ilk somut adım sorusu)
+Analizin sonuna, kullanıcının kaçamayacağı, her biri tamamen farklı bir boyutu deşen (%100 Türkçe, asla İngilizce kelime içermeyen) 3 adet sarsıcı Sokratik soru ekle:
+- [YÜZLEŞME SORUSU 1]: (Doğrudan kullanıcının anlattığı olaydaki kaçtığı en ağır bedelle ve ego yanılgısıyla ilgili soru)
+- [YÜZLEŞME SORUSU 2]: (En çok korktuğu çöküş/kayıp senaryosu gerçekleştiğinde yüzleşeceği kalıcı pişmanlıkla ilgili soru)
+- [YÜZLEŞME SORUSU 3]: (Bugün saat 23:59'a kadar ertelemeyi bırakıp atması gereken tekil, net ve geri dönülmez fiziksel adımla ilgili soru)
 """
 
 def sanitize_output_chunk(chunk: str) -> str:

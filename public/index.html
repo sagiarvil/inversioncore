@@ -1329,16 +1329,28 @@
 
       const lower = qText.toLowerCase();
       let pills = [];
-      if (lower.includes('kaç') || lower.includes('dikkat') || lower.includes('odak') || lower.includes('dağıl')) {
-        pills = ['Yetersizlik Korkusu', 'Sonucun Beğenilmemesi', 'Zorlanmaktan Kaçış'];
+
+      // Sorunun semantiğine göre özel seçenekler
+      if (lower.includes('korku') || lower.includes('pranga') || lower.includes('karakter') || lower.includes('yüzleş')) {
+        pills = ['Kalıcı Yetersizlik Hissi', 'Başarısız Olup Rezil Olmak', 'Geri Dönüşü Olmayan Zaman Kaybı', 'Hak Ettiğim Hayatı Yaşayamamak'];
+      } else if (lower.includes('engel') || lower.includes('responsibility') || lower.includes('sorumluluk') || lower.includes('adım')) {
+        pills = ['Mükemmel Anı Bekleme Tuzağı', 'Konfor Alanını Terk Edememek', 'Reddedilme ve Eleştiri Korkusu', 'Nereden Başlayacağını Bilememek'];
+      } else if (lower.includes('kaç') || lower.includes('dikkat') || lower.includes('odak') || lower.includes('dağıl')) {
+        pills = ['Yetersizlik Korkusu', 'Sonucun Beğenilmemesi', 'Zorlanmaktan Kaçış', 'Dopamin Bağımlılığı'];
       } else if (lower.includes('değiş') || lower.includes('saat') || lower.includes('zaman') || lower.includes('hayat')) {
-        pills = ['Somut İlerleme Sağlardım', 'Zihnim Berraklaşırdı', 'Pişmanlığım Azalırdı'];
-      } else if (lower.includes('en küçük') || lower.includes('adım') || lower.includes('eylem') || lower.includes('şimdi') || lower.includes('bugün')) {
-        pills = ['Telefonu Başka Odaya Bırakmak', 'İlk 25 Dk Blok Açmak', 'Karar Verip 1 Adım Atmak'];
-      } else if (lower.includes('suç') || lower.includes('kendi') || lower.includes('başkası') || lower.includes('pay')) {
-        pills = ['Kurban Rolünü Bırakmak', 'Kendi Tembelliğim', 'Mazeret Üretmeyi Kesmek'];
+        pills = ['Somut İlerleme Sağlardım', 'Zihnim Berraklaşırdı', 'Pişmanlığım Azalırdı', 'Özgüvenim Tazelenirdi'];
+      } else if (lower.includes('suç') || lower.includes('kendi') || lower.includes('başkası') || lower.includes('kurban')) {
+        pills = ['Kurban Rolünü Bırakmak', 'Kendi Tembelliğimle Yüzleşmek', 'Mazeret Üretmeyi Kesmek'];
+      } else if (lower.includes('en küçük') || lower.includes('23:59') || lower.includes('eylem') || lower.includes('şimdi') || lower.includes('somut')) {
+        pills = ['Tek Bir Net Göreve Odaklanmak', 'Ertelediğim Görüşmeyi Yapmak', 'Yarım Kalan İşi Tamamlamak'];
       } else {
-        pills = ['Yüzleşmekten Kaçtığım Gerçek', 'Konforlu Bahanem', 'Hemen Başlamam Gereken Adım'];
+        // Genel durumlarda birbirini tekrar etmeyen 3 ayrı derin yüzleşme seçeneği
+        const fallbacksByCard = {
+          1: ['Kaçtığım Ağır Bedel', 'Ertelemenin Gizli Konforu', 'Yüzleşmediğim Yetersizlik'],
+          2: ['Kontrolü Kaybetme Korkusu', 'Gelecekteki Kronik Pişmanlık', 'Statü ve İtibar Endişesi'],
+          3: ['Bugün 1 Sayfa/1 Adım Atmak', 'Mazeretleri Masadan Silmek', 'Kendi Kendime Verdiğim Sözü Tutmak']
+        };
+        pills = fallbacksByCard[idx] || ['Kendi Kendimi Kandırmak', 'Ertelemenin Getirdiği Sahte Güven', 'Radikal Karar Alma Korkusu'];
       }
 
       const inputId = `socraticInput_${idx}`;
@@ -1374,9 +1386,9 @@
             </div>
           </div>
 
-          <!-- Akıllı Mikro-İtiraf Çipleri (Çoklu Seçilebilir) -->
+          <!-- Akıllı Mikro-İtiraf Çipleri (Soruya Göre Dinamik) -->
           <div class="mt-3 pt-2.5 border-t border-indigo-100 flex flex-wrap items-center gap-1.5">
-            <span class="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider mr-1">Olası Nedenler:</span>
+            <span class="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider mr-1">Olası İtiraflar:</span>
             ${pillsHtml}
           </div>
 
@@ -1385,7 +1397,7 @@
             <div class="relative flex-1">
               <input type="text" 
                      id="${inputId}" 
-                     placeholder="İsteğe bağlı ek itiraf veya notun... (Enter ↵)" 
+                     placeholder="Kendi dürüst cevabını yaz... (Enter ↵)" 
                      oninput="updateSocraticActionState(${idx})"
                      onkeydown="if(event.key==='Enter') submitSocraticFromCard(${idx}, '${escapedQ}')"
                      class="w-full text-xs sm:text-[12.5px] px-3 py-2 bg-white rounded-lg border border-indigo-200 focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 outline-none text-slate-900 placeholder-slate-400 transition-all shadow-inner">
