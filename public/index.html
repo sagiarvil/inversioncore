@@ -802,13 +802,62 @@
       area.style.height = area.scrollHeight + 'px';
     }
 
+    function focusSocraticInput(inputId) {
+      const inp = document.getElementById(inputId);
+      if (inp) {
+        inp.focus();
+        inp.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
+    function handleSocraticPillClick(questionText, pillText, inputId) {
+      const inp = document.getElementById(inputId);
+      if (inp) {
+        inp.value = pillText;
+      }
+      submitSocraticAnswer(questionText, pillText);
+    }
+
+    function submitSocraticFromInput(inputId, questionText) {
+      const inp = document.getElementById(inputId);
+      if (inp && inp.value.trim()) {
+        submitSocraticAnswer(questionText, inp.value.trim());
+      } else {
+        showToast("Lütfen cevabınızı yazın veya yukarıdaki çiplerden birini seçin.");
+        if (inp) inp.focus();
+      }
+    }
+
+    function submitSocraticAnswer(questionText, answerText) {
+      if (!answerText || !answerText.trim()) {
+        showToast("Lütfen bir yanıt yazın veya bir mikro-itiraf çipi seçin.");
+        return;
+      }
+      const cleanA = answerText.trim();
+      const cleanQ = questionText.replace(/^["'\s]+|["'\s]+$/g, '').trim();
+
+      const formattedPrompt = `[SOKRATİK YÜZLEŞME VE DÜRÜST İTİRAF]\nSoru: "${cleanQ}"\nDürüst Cevabım / İtirafım: "${cleanA}"\n\nBu samimi itirafım üzerinden; bilinçaltı savunma kalkanımı, kaçtığım asıl bedeli ve bu kilitlenmeyi kıracak somut tersine eylem reçetesini derinlemesine analiz et.`;
+
+      const area = document.getElementById('inputArea');
+      if (area) {
+        area.value = formattedPrompt;
+        area.style.height = 'auto';
+        area.style.height = area.scrollHeight + 'px';
+      }
+      showToast(`"${cleanA.length > 25 ? cleanA.substring(0, 23) + '...' : cleanA}" yanıtı işleniyor...`);
+      runStreamingInversion();
+    }
+
     function injectSocraticPrompt(btnText) {
       const cleanPrompt = btnText.replace(/^[↪\s"']+|["'\s]+$/g, '').trim();
       const area = document.getElementById('inputArea');
-      area.value = cleanPrompt;
-      area.focus();
-      showToast("Yüzleşme sorusu yüklendi. Analiz başlatılıyor...");
-      runStreamingInversion();
+      if (area) {
+        area.value = `> Yüzleşme Sorusu: "${cleanPrompt}"\n\nBu soru karşısında dürüst itirafım: `;
+        area.focus();
+        area.style.height = 'auto';
+        area.style.height = area.scrollHeight + 'px';
+      }
+      showToast("Soru metin alanına yüklendi. Cevabınızı yazıp Gönder'e basın.");
     }
 
     // --- PENETRASYON VE YÖNLENDİRME AKSİYONLARI ---
@@ -1107,12 +1156,89 @@
       return `[SİSTEMİK KANIT VE ÇELİŞKİ HARİTASI]\n- Metin: ${text.length} karakter\n- Via Negativa: Neyin bırakılması gerektiği üzerine odaklan.`;
     }
 
-            // --- YENİ NESİL KURUMSAL TİPOGRAFİ & YÜKSEK KONTRASTLI RENDER MOTORU ---
+    function renderInteractiveSocraticCard(rawLine, idx) {
+      let qText = rawLine
+        .replace(/^(?:-|\*|•)?\s*\[YÜZLEŞME SORUSU\s*\d*\]:?\s*/i, '')
+        .replace(/^[0-9]+[\.\)\s]+/, '')
+        .replace(/^["'\*]+|["'\*]+$/g, '')
+        .trim();
+
+      const lower = qText.toLowerCase();
+      let pills = [];
+      if (lower.includes('kaç') || lower.includes('dikkat') || lower.includes('odak') || lower.includes('dağıl')) {
+        pills = ['Yetersizlik Korkusu', 'Sonucun Beğenilmemesi', 'Zorlanmaktan Kaçış'];
+      } else if (lower.includes('değiş') || lower.includes('saat') || lower.includes('zaman') || lower.includes('hayat')) {
+        pills = ['Somut İlerleme Sağlardım', 'Zihnim Berraklaşırdı', 'Pişmanlığım Azalırdı'];
+      } else if (lower.includes('en küçük') || lower.includes('adım') || lower.includes('eylem') || lower.includes('şimdi') || lower.includes('bugün')) {
+        pills = ['Telefonu Başka Odaya Bırakmak', 'İlk 25 Dk Blok Açmak', 'Karar Verip 1 Adım Atmak'];
+      } else if (lower.includes('suç') || lower.includes('kendi') || lower.includes('başkası') || lower.includes('pay')) {
+        pills = ['Kurban Rolünü Bırakmak', 'Kendi Tembelliğim', 'Mazeret Üretmeyi Kesmek'];
+      } else {
+        pills = ['Yüzleşmekten Kaçtığım Gerçek', 'Konforlu Bahanem', 'Hemen Başlamam Gereken Adım'];
+      }
+
+      const inputId = `socraticInput_${idx}`;
+      const escapedQ = qText.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+      const pillsHtml = pills.map(p => {
+        const escapedP = p.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        return `<button type="button" 
+                        onclick="handleSocraticPillClick('${escapedQ}', '${escapedP}', '${inputId}')" 
+                        class="px-2.5 py-1 rounded-full bg-white hover:bg-indigo-600 hover:text-white text-indigo-900 border border-indigo-200 text-[11px] font-semibold transition-all shadow-2xs hover:scale-102 flex items-center gap-1 active:scale-95 cursor-pointer">
+                  <span class="text-indigo-500">⚡</span>
+                  <span>${p}</span>
+                </button>`;
+      }).join(' ');
+
+      return `
+        <div class="socratic-interactive-card my-3.5 p-3.5 sm:p-4 rounded-xl bg-gradient-to-b from-white to-indigo-50/40 border border-indigo-200 shadow-sm hover:border-indigo-400 hover:shadow-md transition-all font-sans">
+          <div class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-md bg-indigo-600 text-white font-mono font-black text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-xs">${idx}</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-[10px] font-mono font-bold uppercase text-indigo-700 tracking-wider">SOKRATİK YÜZLEŞME</span>
+                <span class="text-[10px] text-slate-400 font-medium hidden sm:inline">Tek tıkla çip seç veya yaz</span>
+              </div>
+              <div class="text-slate-900 font-bold text-[13px] sm:text-[14px] leading-snug mt-1 cursor-pointer hover:text-indigo-700 transition-colors" onclick="focusSocraticInput('${inputId}')">
+                "${qText}"
+              </div>
+            </div>
+          </div>
+
+          <!-- Akıllı Mikro-İtiraf Çipleri -->
+          <div class="mt-3 pt-2.5 border-t border-indigo-100 flex flex-wrap items-center gap-1.5">
+            <span class="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider mr-1">Hızlı İtiraf:</span>
+            ${pillsHtml}
+          </div>
+
+          <!-- Kart İçi Doğrudan Mini-Cevap Kutusu -->
+          <div class="mt-2.5 flex items-center gap-2">
+            <div class="relative flex-1">
+              <input type="text" 
+                     id="${inputId}" 
+                     placeholder="Kendi dürüst cevabını yaz... (Enter ↵)" 
+                     onkeydown="if(event.key==='Enter') submitSocraticFromInput('${inputId}', '${escapedQ}')"
+                     class="w-full text-xs sm:text-[12.5px] px-3 py-2 bg-white rounded-lg border border-indigo-200 focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 outline-none text-slate-900 placeholder-slate-400 transition-all shadow-inner">
+            </div>
+            <button type="button" 
+                    onclick="submitSocraticFromInput('${inputId}', '${escapedQ}')" 
+                    class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold text-xs rounded-lg transition-all shadow-sm flex items-center gap-1.5 shrink-0 cursor-pointer">
+              <span>Yanıtla</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // --- YENİ NESİL KURUMSAL TİPOGRAFİ & YÜKSEK KONTRASTLI RENDER MOTORU ---
     function formatHarmoniousColors(text) {
       if (!text) return "";
       
       let html = "";
       const lines = text.split("\n");
+      let inSocraticSection = false;
+      let socraticCardCounter = 0;
 
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
@@ -1260,6 +1386,40 @@
                      "${processedLine.substring(2)}"
                    </div>`;
         }
+        // --- BÖLÜM 6: SOKRATİK DERİNLEŞME VE MIKNATIS SORULARI BAŞLIĞI ---
+        else if (trimmed.match(/^(?:#+|\d+\.)\s*(?:SOKRATİK|MIKNATIS|YÜZLEŞME SORULARI|6\.\s*SOKRATİK|5\.\s*SOKRATİK)/i) || trimmed.includes("SOKRATİK SORULAR") || trimmed.includes("SOKRATİK DERİNLEŞME")) {
+          inSocraticSection = true;
+          html += `<div class="mt-7 mb-4 p-4 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white shadow-md border border-indigo-500/40 flex items-center justify-between gap-3 font-sans">
+                     <div class="flex items-center gap-3">
+                       <span class="w-8 h-8 rounded-lg bg-indigo-600/40 border border-indigo-400 text-indigo-300 flex items-center justify-center font-black text-sm shrink-0">?</span>
+                       <div>
+                         <div class="text-[10px] font-mono tracking-widest text-indigo-300 uppercase font-black">RADİKAL YÜZLEŞME KAPISI</div>
+                         <h3 class="text-xs sm:text-sm font-bold text-white tracking-tight">Sokratik Yüzleşme & İtiraf Soruları</h3>
+                       </div>
+                     </div>
+                     <span class="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-950/80 px-2.5 py-1 rounded-full border border-emerald-700/60 shrink-0 flex items-center gap-1.5">
+                       <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                       <span>İNTERAKTİF YANIT MODU</span>
+                     </span>
+                   </div>`;
+        }
+        // --- MATEMATİKSEL MOTOR VERİSİ / TELEMETRİ GEÇİŞİ ---
+        else if (trimmed.includes("Matematiksel Motor Verisi") || trimmed.includes("DETERMINISTIC SUITE") || trimmed.includes("FİZİKSEL VE FORMEL")) {
+          inSocraticSection = false;
+          html += `<div class="mt-5 mb-2.5 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-700 font-mono text-xs font-bold flex items-center gap-2">
+                     <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
+                     <span>${trimmed}</span>
+                   </div>`;
+        }
+        // --- MIKNATIS ETKİSİ: TIKLANABİLİR İNTERAKTİF SOKRATİK YÜZLEŞME SORULARI (SMART PILLS + INLINE INPUT) ---
+        else if (
+          trimmed.includes('[YÜZLEŞME SORUSU') || 
+          trimmed.match(/^(?:-|\*|•)?\s*\[YÜZLEŞME SORUSU/i) ||
+          (inSocraticSection && (trimmed.includes('?') || trimmed.startsWith('"') || trimmed.match(/^[0-9]+[\.\)\s]/)))
+        ) {
+          socraticCardCounter++;
+          html += renderInteractiveSocraticCard(trimmed, socraticCardCounter);
+        }
         // --- Numaralandırılmış Maddeler (1. 2. 3.) ---
         else if (trimmed.match(/^[0-9]+\.\s*/)) {
           const numMatch = trimmed.match(/^([0-9]+)\.\s*(.*)/);
@@ -1271,20 +1431,6 @@
           html += `<div class="my-2.5 p-3 rounded-xl bg-white border border-slate-200 hover:border-brand-300 transition-all shadow-xs flex items-start gap-3">
                      <span class="w-6 h-6 rounded-md bg-brand-100 text-brand-800 font-mono font-black text-xs flex items-center justify-center shrink-0 mt-0.5">${num}</span>
                      <div class="text-slate-800 text-[13px] leading-relaxed flex-1">${processedRest}</div>
-                   </div>`;
-        }
-        // --- MIKNATIS ETKİSİ: TIKLANABİLİR SOKRATİK YÜZLEŞME SORULARI ---
-        else if (trimmed.includes('[YÜZLEŞME SORUSU') || trimmed.match(/^(?:-|\*|•)?\s*\[YÜZLEŞME SORUSU\s*\d*\]/i)) {
-          const qText = trimmed.replace(/^(?:-|\*|•)?\s*\[YÜZLEŞME SORUSU\s*\d*\]:?\s*/i, '').replace(/^["'\*]+|["'\*]+$/g, '').trim();
-          html += `<div class="my-1.5 p-2.5 rounded-lg bg-indigo-50/60 border border-indigo-200/80 hover:border-indigo-400 hover:bg-indigo-50 transition-all flex items-center justify-between gap-2.5 group cursor-pointer" onclick="injectSocraticPrompt('${qText.replace(/'/g, "\'")}')">
-                     <div class="flex items-center gap-2 min-w-0">
-                       <span class="w-5 h-5 rounded bg-indigo-600 text-white font-mono font-bold text-[10px] flex items-center justify-center shrink-0">?</span>
-                       <span class="text-indigo-950 font-semibold text-[12px] leading-snug group-hover:text-indigo-700">"${qText}"</span>
-                     </div>
-                     <span class="shrink-0 px-2 py-0.5 rounded bg-indigo-600 text-white font-bold text-[10px] tracking-wide shadow-xs opacity-90 group-hover:opacity-100 flex items-center gap-1">
-                       <span>Cevapla</span>
-                       <span>↪</span>
-                     </span>
                    </div>`;
         }
         // --- Madde İşaretleri (- veya • veya *) ---
