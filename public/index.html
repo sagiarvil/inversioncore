@@ -197,6 +197,45 @@
       transform: translateY(-1px);
       box-shadow: 0 2px 6px -1px rgba(0, 0, 0, 0.08);
     }
+    
+    /* Premium Magnetic Atmosphere & Cards */
+    body {
+      background: radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.05) 0px, transparent 50%),
+                  radial-gradient(at 100% 0%, rgba(124, 58, 237, 0.04) 0px, transparent 50%),
+                  radial-gradient(at 50% 100%, rgba(14, 165, 233, 0.03) 0px, transparent 50%),
+                  #f8fafc;
+      color: #0f172a;
+    }
+    .magnet-card {
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+    }
+    .magnet-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px -6px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(37, 99, 235, 0.35);
+      border-color: rgba(37, 99, 235, 0.4);
+      background: #ffffff;
+    }
+    .magnet-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.7), transparent);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .magnet-card:hover::before {
+      opacity: 1;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(226, 232, 240, 0.85);
+    }
   </style>
 </head>
 <body class="h-screen overflow-hidden bg-slate-50 flex flex-col font-sans">
@@ -365,13 +404,77 @@
       <!-- SOHBET MESAJLARI AKIŞ ALANI (ÜSTTE AKAN BÖLÜM) -->
       <div id="chatFeedContainer" class="flex-1 p-3 sm:p-6 overflow-y-auto space-y-4 sm:space-y-6">
         <div id="terminalBox" class="prose prose-slate max-w-none text-[13px] sm:text-[14px] leading-relaxed">
-          <div class="flex flex-col items-center justify-center py-12 sm:py-20 text-slate-500 text-center">
-             <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center mb-3 shadow-inner">
-                <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-             </div>
-             <p class="font-bold text-sm sm:text-base text-slate-800">Tersine Mühendislik Masası Hazır</p>
-             <p class="text-xs text-slate-400 mt-1 max-w-md px-4">Tıkandığın konuyu, mazeretlerini veya ikilemini yaz. Zihnindeki sahte kabulleri ve asıl kaçtığın bedeli görelim.</p>
+          
+          <div class="magnet-hero-stage flex flex-col items-center justify-center py-6 sm:py-10 text-center max-w-3xl mx-auto px-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-brand-50 to-indigo-50 border border-brand-200 text-brand-700 text-[11px] font-bold font-mono tracking-wider uppercase mb-3 shadow-2xs">
+              <span class="w-2 h-2 rounded-full bg-brand-500 animate-ping"></span>
+              ✦ TERSİNE MÜHENDİSLİK // VIA NEGATIVA MOTORU
+            </div>
+            <h2 class="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 tracking-tight leading-tight">
+              Kendini Kandırmayı Bırak.<br>
+              <span class="bg-gradient-to-r from-brand-600 via-indigo-600 to-rose-600 bg-clip-text text-transparent">Asıl Kaçtığın Bedelle Yüzleş.</span>
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-500 max-w-xl mx-auto mt-2 leading-relaxed">
+              Sıradan motivasyon masalları yok. Tıkandığın noktayı, ertelediğin kararı veya içindeki tanımsız ağırlığı yaz; zihnindeki sahte kabulleri söküp hakiki kök nedeni açığa çıkaralım.
+            </p>
+
+            <!-- 4 Büyük Manyetik Zihin Kapısı (Interactive Cards) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 mt-6 w-full text-left">
+              
+              <div onclick="loadScenarioAndRun('Bugün kendimi nedensizce keyifsiz ve enerjisiz hissediyorum. Kafam dolu ama hiçbir şeye odaklanamıyorum. Bu zihinsel sisi ve ataleti aşmak için asıl görmediğim kör nokta nedir?')" class="magnet-card glass-card p-3.5 sm:p-4 rounded-xl cursor-pointer group">
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="text-xs font-bold text-slate-900 group-hover:text-brand-600 transition-colors flex items-center gap-1.5">
+                    <span class="text-sm">⚡</span> Zihinsel Sis & Keyifsizlik
+                  </span>
+                  <span class="text-[10px] font-mono text-brand-600 font-bold opacity-0 group-hover:opacity-100 transition-opacity">Başlat ↪</span>
+                </div>
+                <p class="text-[11px] text-slate-500 leading-snug">"Bugün keyifsiz ve enerjisiz hissediyorum..." — Tükenmişlik mi, zihnini kemiren gizli bir erteleme mi? 1 tıkla kök sebebi teşhis et.</p>
+              </div>
+
+              <div onclick="loadScenarioAndRun('Sürekli bir şeyler planlıyorum ama asla harekete geçmiyorum. Kendimi meşgul sanıp günün sonunda hiçbir şey üretmemiş oluyorum. Bu sahte meşguliyet döngüsünü nasıl kırarım?')" class="magnet-card glass-card p-3.5 sm:p-4 rounded-xl cursor-pointer group">
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="text-xs font-bold text-slate-900 group-hover:text-amber-600 transition-colors flex items-center gap-1.5">
+                    <span class="text-sm">⏳</span> Sahte Meşguliyet & Erteleme
+                  </span>
+                  <span class="text-[10px] font-mono text-amber-600 font-bold opacity-0 group-hover:opacity-100 transition-opacity">Başlat ↪</span>
+                </div>
+                <p class="text-[11px] text-slate-500 leading-snug">"Sürekli planlıyorum ama başlayamıyorum..." — Kendini meşgul sanıp sıfır sonuç üretme döngüsünün tersine analizi.</p>
+              </div>
+
+              <div onclick="loadScenarioAndRun('İşimde hak ettiğim değeri görmüyorum ama ayrılmaya da cesaretim yok. Konforlu sefaletimde oturup dış dünyayı suçluyorum. Asıl korktuğum gerçek ne?')" class="magnet-card glass-card p-3.5 sm:p-4 rounded-xl cursor-pointer group">
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="text-xs font-bold text-slate-900 group-hover:text-rose-600 transition-colors flex items-center gap-1.5">
+                    <span class="text-sm">🛡️</span> Konforlu Sefalet & Kurban Rolü
+                  </span>
+                  <span class="text-[10px] font-mono text-rose-600 font-bold opacity-0 group-hover:opacity-100 transition-opacity">Başlat ↪</span>
+                </div>
+                <p class="text-[11px] text-slate-500 leading-snug">"Hak ettiğim yerde değilim ama ayrılamıyorum..." — Dış dünyayı suçlama ve konfor alanında çürümenin rasyonel otopsisi.</p>
+              </div>
+
+              <div onclick="triggerBiometricUpload()" class="magnet-card glass-card p-3.5 sm:p-4 rounded-xl cursor-pointer group border-indigo-200/80 bg-indigo-50/20">
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="text-xs font-bold text-slate-900 group-hover:text-indigo-600 transition-colors flex items-center gap-1.5">
+                    <span class="text-sm">👁️</span> Biyometrik Savunma Zırhı
+                  </span>
+                  <span class="text-[10px] font-mono text-indigo-600 font-bold opacity-0 group-hover:opacity-100 transition-opacity">Fotoğraf Seç ↪</span>
+                </div>
+                <p class="text-[11px] text-slate-500 leading-snug">"Yüzümdeki mikro-gerilimi ve maskeyi tara..." — Görsel morfo-psikoloji ile bilinçaltı savunma kalkanlarını deşifre et.</p>
+              </div>
+
+            </div>
+
+            <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-6 text-[10px] sm:text-[11px] font-mono text-slate-600">
+              <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> VIA NEGATİVA</span>
+              <span class="text-slate-300">•</span>
+              <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> BARS DAVRANIŞ ÇIPASI</span>
+              <span class="text-slate-300">•</span>
+              <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> 18 MOTORLU SİMÜLASYON</span>
+              <span class="text-slate-300">•</span>
+              <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span> SOKRATİK DERİNLİK</span>
+            </div>
+
           </div>
+
         </div>
       </div>
 
@@ -397,6 +500,10 @@
             <svg class="w-3 h-3 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path></svg>
             <span>Yüz Tara</span>
           </button>
+          <button type="button" onclick="toggleBioCoordinates()" id="bioToggleBtn" class="quick-chip shrink-0 px-2.5 py-1 rounded-full bg-white border border-slate-200 hover:border-brand-500 hover:text-brand-600 text-slate-700 shadow-xs flex items-center gap-1.5 font-medium transition-all">
+            <span>👤 Kimlik Koordinatları</span>
+            <svg id="bioToggleChevron" class="w-3 h-3 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </button>
         </div>
 
         <div class="elite-input-panel relative rounded-2xl border border-slate-300/90 shadow-md overflow-hidden">
@@ -421,9 +528,9 @@
             <button onclick="removeAttachedImage()" class="text-slate-400 hover:text-rose-400 p-1.5 rounded-lg hover:bg-slate-700/50 transition-colors" title="Kaldır">✕</button>
           </div>
 
-          <!-- BİYOGRAFİK & KİŞİLİK PROFİL BİLGİLERİ (MODERN CHIP BAR) -->
-          <div class="flex flex-col sm:flex-row gap-1.5 sm:gap-2.5 p-2 px-3 bg-slate-100/70 border-b border-slate-200/80 text-xs items-center">
-             <div class="hidden sm:flex items-center gap-1.5 text-slate-400 text-[10px] font-mono font-bold uppercase tracking-wider shrink-0">
+          <!-- BİYOGRAFİK & KİŞİLİK PROFİL BİLGİLERİ (AKILLI KATLANABİLİR ÇEKMECE) -->
+          <div id="bioCoordinatesBar" class="hidden flex-col sm:flex-row gap-1.5 sm:gap-2.5 p-2 px-3 bg-gradient-to-r from-slate-50 to-indigo-50/40 border-b border-slate-200 text-xs items-center transition-all">
+             <div class="hidden sm:flex items-center gap-1.5 text-slate-500 text-[10px] font-mono font-bold uppercase tracking-wider shrink-0">
                <svg class="w-3.5 h-3.5 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                KOORDİNATLAR:
              </div>
@@ -439,6 +546,7 @@
                <input type="text" id="dogumTarihiInput" placeholder="Doğum Tarihi (GG.AA.YYYY)" class="text-xs py-1.5 px-2.5 pl-7 border border-slate-200 rounded-lg w-full bg-white outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500/20 text-slate-800 placeholder-slate-400 shadow-2xs font-mono transition-all">
                <span class="absolute left-2.5 top-2 text-slate-400 text-[10px]">🗓️</span>
              </div>
+             <button type="button" onclick="toggleBioCoordinates(false)" class="text-slate-400 hover:text-slate-700 text-xs px-1 font-bold" title="Kapat">✕</button>
           </div>
           
           <!-- ANA İTİRAF VE VAKA METNİ ALANI -->
@@ -679,6 +787,7 @@
 
     function startBiometricGuidedInputs() {
       clearGuideAnimations();
+      toggleBioCoordinates(true);
       
       const isim = document.getElementById('isimInput');
       const anne = document.getElementById('anneIsmiInput');
@@ -934,6 +1043,11 @@
         const trimmed = line.trim();
         if (trimmed === "") {
           html += '<div class="h-2"></div>';
+          continue;
+        }
+
+        // Boş veya sahte biyografik koordinat başlıklarını temizle
+        if (trimmed.includes("[BİYOGRAFİK KİMLİK") && (trimmed.includes("...") || trimmed.endsWith(":]") || trimmed.endsWith(": ]"))) {
           continue;
         }
 
@@ -1237,14 +1351,104 @@
       }
     }
 
-    function clearChat() {
-       document.getElementById('terminalBox').innerHTML = `
-          <div class="flex flex-col items-center justify-center py-20 text-slate-500 text-center">
-             <svg class="w-12 h-12 text-slate-200 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
-             <p class="font-semibold text-slate-700">Analiz bekleniyor...</p>
-             <p class="text-xs text-slate-400 mt-1">Alttaki konsoldan sorunuzu veya vakanızı girin. Ardışık sorularla konuyu derinleştirebilirsiniz.</p>
+    function getMagneticHeroHtml() {
+      return `
+        <div class="magnet-hero-stage flex flex-col items-center justify-center py-6 sm:py-10 text-center max-w-3xl mx-auto px-2">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-brand-50 to-indigo-50 border border-brand-200 text-brand-700 text-[11px] font-bold font-mono tracking-wider uppercase mb-3 shadow-2xs">
+            <span class="w-2 h-2 rounded-full bg-brand-500 animate-ping"></span>
+            ✦ TERSİNE MÜHENDİSLİK // VIA NEGATIVA MOTORU
           </div>
-       `;
+          <h2 class="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 tracking-tight leading-tight">
+            Kendini Kandırmayı Bırak.<br>
+            <span class="bg-gradient-to-r from-brand-600 via-indigo-600 to-rose-600 bg-clip-text text-transparent">Asıl Kaçtığın Bedelle Yüzleş.</span>
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 max-w-xl mx-auto mt-2 leading-relaxed">
+            Sıradan motivasyon masalları yok. Tıkandığın noktayı, ertelediğin kararı veya içindeki tanımsız ağırlığı yaz; zihnindeki sahte kabulleri söküp hakiki kök nedeni açığa çıkaralım.
+          </p>
+
+          <!-- 4 Büyük Manyetik Zihin Kapısı (Interactive Cards) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 mt-6 w-full text-left">
+            <div onclick="loadScenarioAndRun('Bugün kendimi nedensizce keyifsiz ve enerjisiz hissediyorum. Kafam dolu ama hiçbir şeye odaklanamıyorum. Bu zihinsel sisi ve ataleti aşmak için asıl görmediğim kör nokta nedir?')" class="magnet-card glass-card p-3.5 sm:p-4 rounded-xl cursor-pointer group">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-xs font-bold text-slate-900 group-hover:text-brand-600 transition-colors flex items-center gap-1.5">
+                  <span class="text-sm">⚡</span> Zihinsel Sis & Keyifsizlik
+                </span>
+                <span class="text-[10px] font-mono text-brand-600 font-bold opacity-0 group-hover:opacity-100 transition-opacity">Başlat ↪</span>
+              </div>
+              <p class="text-[11px] text-slate-500 leading-snug">"Bugün keyifsiz ve enerjisiz hissediyorum..." — Tükenmişlik mi, zihnini kemiren gizli bir erteleme mi? 1 tıkla kök sebebi teşhis et.</p>
+            </div>
+
+            <div onclick="loadScenarioAndRun('Sürekli bir şeyler planlıyorum ama asla harekete geçmiyorum. Kendimi meşgul sanıp günün sonunda hiçbir şey üretmemiş oluyorum. Bu sahte meşguliyet döngüsünü nasıl kırarım?')" class="magnet-card glass-card p-3.5 sm:p-4 rounded-xl cursor-pointer group">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-xs font-bold text-slate-900 group-hover:text-amber-600 transition-colors flex items-center gap-1.5">
+                  <span class="text-sm">⏳</span> Sahte Meşguliyet & Erteleme
+                </span>
+                <span class="text-[10px] font-mono text-amber-600 font-bold opacity-0 group-hover:opacity-100 transition-opacity">Başlat ↪</span>
+              </div>
+              <p class="text-[11px] text-slate-500 leading-snug">"Sürekli planlıyorum ama başlayamıyorum..." — Kendini meşgul sanıp sıfır sonuç üretme döngüsünün tersine analizi.</p>
+            </div>
+
+            <div onclick="loadScenarioAndRun('İşimde hak ettiğim değeri görmüyorum ama ayrılmaya da cesaretim yok. Konforlu sefaletimde oturup dış dünyayı suçluyorum. Asıl korktuğum gerçek ne?')" class="magnet-card glass-card p-3.5 sm:p-4 rounded-xl cursor-pointer group">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-xs font-bold text-slate-900 group-hover:text-rose-600 transition-colors flex items-center gap-1.5">
+                  <span class="text-sm">🛡️</span> Konforlu Sefalet & Kurban Rolü
+                </span>
+                <span class="text-[10px] font-mono text-rose-600 font-bold opacity-0 group-hover:opacity-100 transition-opacity">Başlat ↪</span>
+              </div>
+              <p class="text-[11px] text-slate-500 leading-snug">"Hak ettiğim yerde değilim ama ayrılamıyorum..." — Dış dünyayı suçlama ve konfor alanında çürümenin rasyonel otopsisi.</p>
+            </div>
+
+            <div onclick="triggerBiometricUpload()" class="magnet-card glass-card p-3.5 sm:p-4 rounded-xl cursor-pointer group border-indigo-200/80 bg-indigo-50/20">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-xs font-bold text-slate-900 group-hover:text-indigo-600 transition-colors flex items-center gap-1.5">
+                  <span class="text-sm">👁️</span> Biyometrik Savunma Zırhı
+                </span>
+                <span class="text-[10px] font-mono text-indigo-600 font-bold opacity-0 group-hover:opacity-100 transition-opacity">Fotoğraf Seç ↪</span>
+              </div>
+              <p class="text-[11px] text-slate-500 leading-snug">"Yüzümdeki mikro-gerilimi ve maskeyi tara..." — Görsel morfo-psikoloji ile bilinçaltı savunma kalkanlarını deşifre et.</p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-6 text-[10px] sm:text-[11px] font-mono text-slate-600">
+            <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> VIA NEGATİVA</span>
+            <span class="text-slate-300">•</span>
+            <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> BARS DAVRANIŞ ÇIPASI</span>
+            <span class="text-slate-300">•</span>
+            <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> 18 MOTORLU SİMÜLASYON</span>
+            <span class="text-slate-300">•</span>
+            <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span> SOKRATİK DERİNLİK</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function toggleBioCoordinates(forceOpen) {
+      const bar = document.getElementById('bioCoordinatesBar');
+      const chev = document.getElementById('bioToggleChevron');
+      if (!bar) return;
+      const willOpen = forceOpen !== undefined ? forceOpen : bar.classList.contains('hidden');
+      if (willOpen) {
+        bar.classList.remove('hidden');
+        bar.classList.add('flex');
+        if (chev) chev.style.transform = 'rotate(180deg)';
+      } else {
+        bar.classList.add('hidden');
+        bar.classList.remove('flex');
+        if (chev) chev.style.transform = 'rotate(0deg)';
+      }
+    }
+
+    function loadScenarioAndRun(text) {
+      const area = document.getElementById('inputArea');
+      if (!area) return;
+      area.value = text;
+      area.style.height = 'auto';
+      area.style.height = area.scrollHeight + 'px';
+      runStreamingInversion();
+    }
+
+    function clearChat() {
+       document.getElementById('terminalBox').innerHTML = getMagneticHeroHtml();
        document.getElementById('inputArea').value = '';
        document.getElementById('imageAttachmentBadge').style.display = 'none';
        currentAttachedFile = null;
