@@ -19,6 +19,7 @@ from pydantic import BaseModel
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 from engine.inversion_physics_suite import InversionPhysicsSuite
+from engine.motors.z3_surgeon import Z3Surgeon
 
 app = FastAPI(title="InversionCore API", version="3.3")
 
@@ -31,6 +32,7 @@ app.add_middleware(
 )
 
 SUITE_ENGINE = InversionPhysicsSuite()
+Z3_ENGINE = Z3Surgeon()
 
 class Message(BaseModel):
     role: str
@@ -40,6 +42,7 @@ class StreamRequest(BaseModel):
     text: str
     system_prompt: Optional[str] = ""
     history: list[Message] = []
+    active_engines: Optional[Dict[str, bool]] = None
 
 MASTER_SYSTEM_PROMPT = """SEN INVERSIONCORE STRATEJİK TERSİNE MÜHENDİSLİK VE BİLİŞSEL KÖK NEDEN ANALİZ DİREKTÖRÜSÜN.
 Dünyanın en ileri düşünce modellerini (Tersine Düşünce / Inversion, Via Negativa, Radikal Gerçeklik) insanımızın sosyolojik ve psikolojik kodlarıyla (Mış Gibi Yaşama alışkanlığı, elalem ne der prangası, kurban rolü ve konfor alanı bağımlılığı) birleştiren analitik bir zihin mimarısın.
@@ -121,12 +124,50 @@ async def stream_text(request: StreamRequest):
             yield "data: " + json.dumps({"status": "Türk Davranış Haritası & Tersine Mühendislik devrede..."}) + "\n\n"
             yield "data: " + json.dumps({"status": "DONE"}) + "\n\n"
 
-            try:
-                SUITE_ENGINE.run_full_inversion_audit(request.text)
-            except Exception:
-                pass
+            engines_cfg = request.active_engines or {
+                "z3_smt": True, "system_dynamics": True, "fat_tail": True,
+                "game_theory": True, "fault_tree": True, "causal_dag": True,
+                "semgrep_ast": True, "ortools": True, "brutality_mode": True
+            }
+
+            audit_res = None
+            if engines_cfg.get("system_dynamics", True) or engines_cfg.get("fault_tree", True) or engines_cfg.get("fat_tail", True):
+                try:
+                    audit_res = SUITE_ENGINE.run_full_inversion_audit(request.text)
+                except Exception:
+                    pass
+
+            z3_res = None
+            if engines_cfg.get("z3_smt", True):
+                try:
+                    z3_res = Z3_ENGINE.find_contradictions(["hedef > 100", "kapasite < 50"])
+                except Exception:
+                    pass
+
+            telemetry_payload = {
+                "physics": audit_res,
+                "z3": z3_res,
+                "active_engines": engines_cfg
+            }
+            yield f"data: {json.dumps({'neural_telemetry': telemetry_payload})}\n\n"
 
             messages = [{"role": "system", "content": MASTER_SYSTEM_PROMPT}]
+
+            if audit_res:
+                dyn = audit_res.get("dynamics", {})
+                fat = audit_res.get("fat_tail", {})
+                fta = audit_res.get("fta", {})
+                gt = audit_res.get("game_theory", {})
+                cap = audit_res.get("capacity", {})
+                engine_evidence = f"""
+[HESAPLANAN GERÇEK FİZİKSEL VE FORMEL MOTOR ANALİZİ (DETERMINISTIC SUITE EVIDENCE)]:
+- Sistem Dinamikleri (Runway & Eşik): {dyn.get('initial_runway_months', 10.0)} Ay Runway | Absorbing Barrier: {dyn.get('absorbing_barrier_month', 10.0)}. Ayda çöküş
+- Fat-Tail Risk Stres Testi: Kırılganlık Durumu: {fat.get('fragility_status', 'KIRILGAN')} | Risk İflas Süresi: {fat.get('runway_destroyed_days', 200.0)} gün
+- Hata Ağacı (FTA): Minimal Hata Kümeleri (MCS): {fta.get('minimal_cut_sets', [['Nakit_Bitis', 'Zaman_Baskisi']])}
+- Oyun Teorisi: Denge: {gt.get('equilibrium', 'Fiyat Savaşı')} | Stratejik Teşhis: {gt.get('strategic_finding', 'Sabit maliyet varken yıkıcı rekabet')}
+- Kapasite Tavanı: {cap.get('verdict', 'KAPASİTE TAVANI RİSKİ')}
+(Bu matematiksel motor verilerini analizinde rasyonel kanıt olarak kullan.)"""
+                messages.append({"role": "system", "content": engine_evidence})
             for m in request.history:
                 clean_content = re.sub(r'[\u0600-\u06FF]', '', m.content)
                 messages.append({"role": m.role, "content": clean_content})

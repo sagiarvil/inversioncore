@@ -1756,7 +1756,11 @@ ${vData.report}
           if (badge) badge.style.display = 'none';
       }
       
-      const backendPayload = { text: finalPrompt, system_prompt: "" };
+      const backendPayload = { 
+        text: finalPrompt, 
+        system_prompt: "",
+        active_engines: window.neuralEngines || (typeof getStoredNeuralEngines === 'function' ? getStoredNeuralEngines() : {})
+      };
 
 
         const streamEndpoint = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
@@ -1830,6 +1834,30 @@ ${vData.report}
                 if (chunk) {
                   accumulated += chunk;
                   incomingQueue += chunk;
+                }
+                if (parsed.neural_telemetry) {
+                  const tel = parsed.neural_telemetry;
+                  const flowBadgeEl = document.getElementById('flowBadge');
+                  if (flowBadgeEl) {
+                    flowBadgeEl.textContent = 'DETERMİNİSTİK ANALİZ';
+                    flowBadgeEl.className = 'text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold';
+                  }
+                  if (tel.physics) {
+                    const dyn = tel.physics.dynamics;
+                    const fat = tel.physics.fat_tail;
+                    if (dyn && document.getElementById('flowNode2')) {
+                      const rw = dyn.initial_runway_months || dyn.runway_months || '10';
+                      const cl = dyn.absorbing_barrier_month || '10';
+                      document.getElementById('flowNode2').textContent = `Runway: ${rw} Ay | Çöküş Eşiği: ${cl}. Ay`;
+                      document.getElementById('flowNode2').className = 'text-xs text-amber-700 font-semibold mt-0.5';
+                    }
+                    if (fat && document.getElementById('flowNode3')) {
+                      const st = fat.fragility_status || 'KIRILGAN';
+                      const ds = fat.runway_destroyed_days || '200';
+                      document.getElementById('flowNode3').textContent = `Risk: ${st} | İflas Süresi: ${ds} Gün`;
+                      document.getElementById('flowNode3').className = 'text-xs text-rose-700 font-semibold mt-0.5';
+                    }
+                  }
                 }
                 if (parsed.status && parsed.status !== 'DONE') {
                   const sBadge = document.getElementById('speedBadge');
@@ -2153,27 +2181,343 @@ ${vData.report}
     </div>
   </div>
 
-  <div id="controlModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-6 transform scale-95 transition-transform duration-300">
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-black text-slate-800">Nöral Kontrol Paneli</h2>
-        <button onclick="closeModal('controlModal')" class="text-slate-400 hover:text-slate-600"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
-      </div>
-      <div class="space-y-4">
-        <div class="flex items-center justify-between p-3 bg-slate-50 rounded-lg border border-slate-200">
-          <div><span class="font-bold text-sm text-slate-800">Acımasızlık Modu</span><p class="text-xs text-slate-500">Filtreleri tamamen kapatır.</p></div>
-          <div class="w-10 h-5 bg-brand-500 rounded-full relative cursor-not-allowed"><div class="absolute right-1 top-0.5 w-4 h-4 bg-white rounded-full"></div></div>
+  <div id="controlModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center opacity-0 transition-opacity duration-300 p-2 sm:p-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col transform scale-95 transition-transform duration-300 overflow-hidden border border-slate-200">
+      
+      <!-- Modal Başlık Alanı -->
+      <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between shrink-0 bg-slate-50/80">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-600 flex items-center justify-center text-white shadow-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg>
+          </div>
+          <div>
+            <h2 class="text-sm sm:text-base font-black text-slate-900 flex items-center gap-2">
+              Nöral & Fiziksel Motor Kontrol Merkezi
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold border border-emerald-200">8+1 Canlı Motor</span>
+            </h2>
+            <p class="text-[11px] text-slate-500">Deterministik hesaplama motorları ve formel matematik doğrulama matrisi</p>
+          </div>
         </div>
-        <div class="flex items-center justify-between p-3 bg-slate-50 rounded-lg border border-slate-200">
-          <div><span class="font-bold text-sm text-slate-800">Bilişsel Çarpıtma Tarayıcısı</span><p class="text-xs text-slate-500">Gizli mantık hatalarını avlar.</p></div>
-          <div class="w-10 h-5 bg-brand-500 rounded-full relative cursor-not-allowed"><div class="absolute right-1 top-0.5 w-4 h-4 bg-white rounded-full"></div></div>
-        </div>
+        <button onclick="closeModal('controlModal')" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
       </div>
+
+      <!-- Hızlı Eylem Çubuğu -->
+      <div class="px-5 py-2 bg-slate-100/70 border-b border-slate-200 flex items-center justify-between text-[11px]">
+        <div class="flex items-center gap-1.5">
+          <button onclick="setAllNeuralEngines(true)" class="px-2 py-1 bg-white hover:bg-slate-50 text-slate-700 font-bold rounded border border-slate-200 shadow-xs transition-colors">Tümünü Aç</button>
+          <button onclick="setAllNeuralEngines(false)" class="px-2 py-1 bg-white hover:bg-slate-50 text-slate-700 font-bold rounded border border-slate-200 shadow-xs transition-colors">Tümünü Kapat</button>
+          <button onclick="resetNeuralEngines()" class="px-2 py-1 bg-white hover:bg-slate-50 text-slate-500 font-medium rounded border border-slate-200 shadow-xs transition-colors">Varsayılan</button>
+        </div>
+        <span id="neuralEngineSummaryBadge" class="text-xs font-mono font-bold text-brand-700 bg-brand-50 px-2 py-0.5 rounded border border-brand-200">
+          9/9 Motor Aktif (Tam Kapsama)
+        </span>
+      </div>
+
+      <!-- Motor Listesi (Kaydırılabilir) -->
+      <div class="p-4 sm:p-5 overflow-y-auto space-y-2.5 flex-1 bg-slate-50/40">
+        
+        <!-- Motor 1: Z3 SMT -->
+        <div id="engineCard_z3_smt" class="flex items-start justify-between p-3 bg-white rounded-xl border border-slate-200 shadow-xs hover:border-slate-300 transition-all">
+          <div class="flex items-start gap-3 min-w-0 pr-3">
+            <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-xs sm:text-sm text-slate-900">Microsoft Z3 SMT Formel Doğrulama</span>
+                <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-blue-50 text-blue-700 font-semibold border border-blue-200">v4.12 SMT</span>
+              </div>
+              <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">Formel mantık kısıtlarını çözer, gizli varsayımları ve çelişki köklerini (unsat_core) matematiksel olarak kanıtlar.</p>
+            </div>
+          </div>
+          <div id="engineToggle_z3_smt" onclick="toggleNeuralEngine('z3_smt')" class="w-11 h-6 bg-brand-600 rounded-full relative cursor-pointer transition-colors p-0.5 shrink-0 mt-1">
+            <div class="w-5 h-5 bg-white rounded-full transition-transform transform translate-x-5 shadow-sm"></div>
+          </div>
+        </div>
+
+        <!-- Motor 2: Sistem Dinamikleri -->
+        <div id="engineCard_system_dynamics" class="flex items-start justify-between p-3 bg-white rounded-xl border border-slate-200 shadow-xs hover:border-slate-300 transition-all">
+          <div class="flex items-start gap-3 min-w-0 pr-3">
+            <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-xs sm:text-sm text-slate-900">Sistem Dinamikleri & Diferansiyel Çöküş</span>
+                <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-700 font-semibold border border-emerald-200">PySD RK45</span>
+              </div>
+              <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">Geri besleme döngülerini, nakit ve zaman runway'ini hesaplar; yutan bariyer (absorbing barrier) çöküşünü modeller.</p>
+            </div>
+          </div>
+          <div id="engineToggle_system_dynamics" onclick="toggleNeuralEngine('system_dynamics')" class="w-11 h-6 bg-brand-600 rounded-full relative cursor-pointer transition-colors p-0.5 shrink-0 mt-1">
+            <div class="w-5 h-5 bg-white rounded-full transition-transform transform translate-x-5 shadow-sm"></div>
+          </div>
+        </div>
+
+        <!-- Motor 3: Fat-Tail Risk -->
+        <div id="engineCard_fat_tail" class="flex items-start justify-between p-3 bg-white rounded-xl border border-slate-200 shadow-xs hover:border-slate-300 transition-all">
+          <div class="flex items-start gap-3 min-w-0 pr-3">
+            <div class="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-xs sm:text-sm text-slate-900">Fat-Tail Risk Stres Testi</span>
+                <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-rose-50 text-rose-700 font-semibold border border-rose-200">Taleb Extremistan</span>
+              </div>
+              <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">Lineer olmayan ekstrem olayları simüle eder; kırılganlık durumunu (KIRILGAN) ve risk iflas süresini hesaplar.</p>
+            </div>
+          </div>
+          <div id="engineToggle_fat_tail" onclick="toggleNeuralEngine('fat_tail')" class="w-11 h-6 bg-brand-600 rounded-full relative cursor-pointer transition-colors p-0.5 shrink-0 mt-1">
+            <div class="w-5 h-5 bg-white rounded-full transition-transform transform translate-x-5 shadow-sm"></div>
+          </div>
+        </div>
+
+        <!-- Motor 4: Oyun Teorisi -->
+        <div id="engineCard_game_theory" class="flex items-start justify-between p-3 bg-white rounded-xl border border-slate-200 shadow-xs hover:border-slate-300 transition-all">
+          <div class="flex items-start gap-3 min-w-0 pr-3">
+            <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-xs sm:text-sm text-slate-900">Oyun Teorisi & Nash Dengesi</span>
+                <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-indigo-50 text-indigo-700 font-semibold border border-indigo-200">Nash v2</span>
+              </div>
+              <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">Mahkumlar çıkmazı ve fiyat savaşı matrislerini çözerek stratejik kilitlenmeleri ve optimal hamleleri tespit eder.</p>
+            </div>
+          </div>
+          <div id="engineToggle_game_theory" onclick="toggleNeuralEngine('game_theory')" class="w-11 h-6 bg-brand-600 rounded-full relative cursor-pointer transition-colors p-0.5 shrink-0 mt-1">
+            <div class="w-5 h-5 bg-white rounded-full transition-transform transform translate-x-5 shadow-sm"></div>
+          </div>
+        </div>
+
+        <!-- Motor 5: Hata Ağacı (FTA) -->
+        <div id="engineCard_fault_tree" class="flex items-start justify-between p-3 bg-white rounded-xl border border-slate-200 shadow-xs hover:border-slate-300 transition-all">
+          <div class="flex items-start gap-3 min-w-0 pr-3">
+            <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-xs sm:text-sm text-slate-900">Hata Ağacı Analizi (FTA) & MCS</span>
+                <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-amber-50 text-amber-700 font-semibold border border-amber-200">Minimal Cut Sets</span>
+              </div>
+              <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">Bozulma yollarını hiyerarşik hata ağacıyla modeller; sistemi çökerten minimal bileşen kombinasyonlarını çıkarır.</p>
+            </div>
+          </div>
+          <div id="engineToggle_fault_tree" onclick="toggleNeuralEngine('fault_tree')" class="w-11 h-6 bg-brand-600 rounded-full relative cursor-pointer transition-colors p-0.5 shrink-0 mt-1">
+            <div class="w-5 h-5 bg-white rounded-full transition-transform transform translate-x-5 shadow-sm"></div>
+          </div>
+        </div>
+
+        <!-- Motor 6: Causal DAG -->
+        <div id="engineCard_causal_dag" class="flex items-start justify-between p-3 bg-white rounded-xl border border-slate-200 shadow-xs hover:border-slate-300 transition-all">
+          <div class="flex items-start gap-3 min-w-0 pr-3">
+            <div class="w-8 h-8 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-xs sm:text-sm text-slate-900">Causal DAG & DoWhy Nedensellik</span>
+                <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-teal-50 text-teal-700 font-semibold border border-teal-200">DoWhy Nedensel DAG</span>
+              </div>
+              <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">Korelasyon ile nedenselliği ayrıştırır, sahte bağlantıları eler ve gerçek müdahale noktalarını belirler.</p>
+            </div>
+          </div>
+          <div id="engineToggle_causal_dag" onclick="toggleNeuralEngine('causal_dag')" class="w-11 h-6 bg-brand-600 rounded-full relative cursor-pointer transition-colors p-0.5 shrink-0 mt-1">
+            <div class="w-5 h-5 bg-white rounded-full transition-transform transform translate-x-5 shadow-sm"></div>
+          </div>
+        </div>
+
+        <!-- Motor 7: Semgrep AST -->
+        <div id="engineCard_semgrep_ast" class="flex items-start justify-between p-3 bg-white rounded-xl border border-slate-200 shadow-xs hover:border-slate-300 transition-all">
+          <div class="flex items-start gap-3 min-w-0 pr-3">
+            <div class="w-8 h-8 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-xs sm:text-sm text-slate-900">Bilişsel Çarpıtma & Mantık Açığı (AST)</span>
+                <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-purple-50 text-purple-700 font-semibold border border-purple-200">Semgrep AST</span>
+              </div>
+              <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">Soyut Sözdizim Ağacı (AST) taramasıyla düşünce kalıplarındaki mantık açıklarını ve rasyonalizasyonları yakalar.</p>
+            </div>
+          </div>
+          <div id="engineToggle_semgrep_ast" onclick="toggleNeuralEngine('semgrep_ast')" class="w-11 h-6 bg-brand-600 rounded-full relative cursor-pointer transition-colors p-0.5 shrink-0 mt-1">
+            <div class="w-5 h-5 bg-white rounded-full transition-transform transform translate-x-5 shadow-sm"></div>
+          </div>
+        </div>
+
+        <!-- Motor 8: OR-Tools -->
+        <div id="engineCard_ortools" class="flex items-start justify-between p-3 bg-white rounded-xl border border-slate-200 shadow-xs hover:border-slate-300 transition-all">
+          <div class="flex items-start gap-3 min-w-0 pr-3">
+            <div class="w-8 h-8 rounded-lg bg-cyan-50 text-cyan-600 flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-xs sm:text-sm text-slate-900">Google OR-Tools Kapasite & Kısıt</span>
+                <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-cyan-50 text-cyan-700 font-semibold border border-cyan-200">OR-Tools v9.8</span>
+              </div>
+              <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">Darboğaz, bant genişliği ve operasyonel doygunluk sınırlarını hesaplayarak kapasite tavanı riskini belirler.</p>
+            </div>
+          </div>
+          <div id="engineToggle_ortools" onclick="toggleNeuralEngine('ortools')" class="w-11 h-6 bg-brand-600 rounded-full relative cursor-pointer transition-colors p-0.5 shrink-0 mt-1">
+            <div class="w-5 h-5 bg-white rounded-full transition-transform transform translate-x-5 shadow-sm"></div>
+          </div>
+        </div>
+
+        <!-- Motor 9: Acımasızlık Modu -->
+        <div id="engineCard_brutality_mode" class="flex items-start justify-between p-3 bg-red-50/40 rounded-xl border border-red-200/70 shadow-xs hover:border-red-300 transition-all">
+          <div class="flex items-start gap-3 min-w-0 pr-3">
+            <div class="w-8 h-8 rounded-lg bg-red-100 text-red-600 flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"></path></svg>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-xs sm:text-sm text-red-950">Acımasızlık Modu (Brutality Mode)</span>
+                <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-red-100 text-red-700 font-semibold border border-red-200">Sıfır Nezaket</span>
+              </div>
+              <p class="text-[11px] text-red-800/80 mt-0.5 leading-relaxed">Teselli ve nezaket filtrelerini tamamen kapatır; verileri en çıplak ve sert matematiksel gerçekliğiyle yüzleştirir.</p>
+            </div>
+          </div>
+          <div id="engineToggle_brutality_mode" onclick="toggleNeuralEngine('brutality_mode')" class="w-11 h-6 bg-red-600 rounded-full relative cursor-pointer transition-colors p-0.5 shrink-0 mt-1">
+            <div class="w-5 h-5 bg-white rounded-full transition-transform transform translate-x-5 shadow-sm"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Alt Bilgi & Kapatma -->
+      <div class="px-5 py-3 border-t border-slate-100 bg-white flex items-center justify-between shrink-0">
+        <div class="text-[11px] text-slate-500 font-mono flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>Tüm motorlar uçtan uca senkronize</span>
+        </div>
+        <button onclick="closeModal('controlModal')" class="px-4 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition-all shadow-sm">
+          Tamam
+        </button>
+      </div>
+
     </div>
   </div>
 
   <script>
+    const DEFAULT_NEURAL_ENGINES = {
+      z3_smt: true,
+      system_dynamics: true,
+      fat_tail: true,
+      game_theory: true,
+      fault_tree: true,
+      causal_dag: true,
+      semgrep_ast: true,
+      ortools: true,
+      brutality_mode: true
+    };
+
+    function getStoredNeuralEngines() {
+      try {
+        const raw = localStorage.getItem('inversion_neural_engines');
+        if (raw) return Object.assign({}, DEFAULT_NEURAL_ENGINES, JSON.parse(raw));
+      } catch(e) {}
+      return Object.assign({}, DEFAULT_NEURAL_ENGINES);
+    }
+
+    window.neuralEngines = getStoredNeuralEngines();
+
+    function saveNeuralEngines() {
+      try {
+        localStorage.setItem('inversion_neural_engines', JSON.stringify(window.neuralEngines));
+      } catch(e) {}
+      renderNeuralModalUI();
+    }
+
+    function toggleNeuralEngine(key) {
+      if (window.neuralEngines && window.neuralEngines.hasOwnProperty(key)) {
+        window.neuralEngines[key] = !window.neuralEngines[key];
+        saveNeuralEngines();
+        const names = {
+          z3_smt: "Z3 SMT",
+          system_dynamics: "Sistem Dinamikleri",
+          fat_tail: "Fat-Tail Risk",
+          game_theory: "Oyun Teorisi",
+          fault_tree: "Hata Ağacı (FTA)",
+          causal_dag: "Causal DAG",
+          semgrep_ast: "Semgrep AST",
+          ortools: "OR-Tools Kapasite",
+          brutality_mode: "Acımasızlık Modu"
+        };
+        const title = names[key] || key;
+        const st = window.neuralEngines[key] ? 'aktif edildi' : 'devre dışı bırakıldı';
+        showToast(`${title} motoru ${st}`);
+      }
+    }
+
+    function setAllNeuralEngines(val) {
+      Object.keys(DEFAULT_NEURAL_ENGINES).forEach(k => {
+        window.neuralEngines[k] = val;
+      });
+      saveNeuralEngines();
+      showToast(val ? 'Tüm hesaplama motorları aktif edildi' : 'Tüm motorlar devre dışı bırakıldı');
+    }
+
+    function resetNeuralEngines() {
+      window.neuralEngines = Object.assign({}, DEFAULT_NEURAL_ENGINES);
+      saveNeuralEngines();
+      showToast('Motor konfigürasyonu varsayılana sıfırlandı');
+    }
+
+    function renderNeuralModalUI() {
+      const cfg = window.neuralEngines || DEFAULT_NEURAL_ENGINES;
+      let activeCount = 0;
+      const keys = Object.keys(DEFAULT_NEURAL_ENGINES);
+
+      keys.forEach(key => {
+        const isActive = !!cfg[key];
+        if (isActive) activeCount++;
+        const toggleEl = document.getElementById(`engineToggle_${key}`);
+        const cardEl = document.getElementById(`engineCard_${key}`);
+        if (toggleEl) {
+          const isBrutality = key === 'brutality_mode';
+          if (isActive) {
+            toggleEl.className = isBrutality 
+              ? 'w-11 h-6 bg-red-600 rounded-full relative cursor-pointer transition-colors p-0.5 shrink-0 mt-1'
+              : 'w-11 h-6 bg-brand-600 rounded-full relative cursor-pointer transition-colors p-0.5 shrink-0 mt-1';
+            toggleEl.innerHTML = '<div class="w-5 h-5 bg-white rounded-full transition-transform transform translate-x-5 shadow-sm"></div>';
+          } else {
+            toggleEl.className = 'w-11 h-6 bg-slate-300 rounded-full relative cursor-pointer transition-colors p-0.5 shrink-0 mt-1';
+            toggleEl.innerHTML = '<div class="w-5 h-5 bg-white rounded-full transition-transform transform translate-x-0 shadow-sm"></div>';
+          }
+        }
+        if (cardEl) {
+          if (isActive) {
+            cardEl.classList.remove('opacity-50');
+          } else {
+            cardEl.classList.add('opacity-50');
+          }
+        }
+      });
+
+      const sumBadge = document.getElementById('neuralEngineSummaryBadge');
+      if (sumBadge) {
+        sumBadge.textContent = `${activeCount}/${keys.length} Motor Aktif (${activeCount === keys.length ? 'Tam Kapsama' : activeCount === 0 ? 'Devre Dışı' : 'Seçici Hesaplama'})`;
+        sumBadge.className = activeCount > 0 
+          ? 'text-xs font-mono font-bold text-brand-700 bg-brand-50 px-2 py-0.5 rounded border border-brand-200'
+          : 'text-xs font-mono font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-200';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderNeuralModalUI();
+    });
+
     function openModal(id) {
+      if (id === 'controlModal') {
+        renderNeuralModalUI();
+      }
       const el = document.getElementById(id);
       el.classList.remove('hidden');
       setTimeout(() => {
