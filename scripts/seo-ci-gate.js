@@ -41,6 +41,19 @@ assertCheck('G5', 'Kök dizinde geçerli IndexNow anahtar dosyası mevcut', fs.e
 assertCheck('G8', 'og:title, og:image ve twitter:card mevcut',
   htmlContent.includes('property="og:title"') && htmlContent.includes('property="og:image"') && htmlContent.includes('name="twitter:card"'));
 
+// G_SITEMAP: Çok Katmanlı Sitemap Index Kontrolü
+assertCheck('G_SITEMAP_INDEX', 'Sitemap Index (/sitemap.xml) mevcut ve çok katmanlı',
+  fs.existsSync('public/sitemap.xml') && fs.readFileSync('public/sitemap.xml', 'utf8').includes('<sitemapindex'));
+
+assertCheck('G_SITEMAP_PAGES', 'Alt Sitemap (/sitemaps/sitemap-pages.xml) mevcut',
+  fs.existsSync('public/sitemaps/sitemap-pages.xml'));
+
+assertCheck('G_SITEMAP_LLMS', 'Alt Sitemap (/sitemaps/sitemap-llms.xml) mevcut',
+  fs.existsSync('public/sitemaps/sitemap-llms.xml'));
+
+assertCheck('G_SITEMAP_MOBILE', 'Alt Sitemap (/sitemaps/sitemap-mobile.xml) mevcut',
+  fs.existsSync('public/sitemaps/sitemap-mobile.xml'));
+
 // G9: Syndication Dosyaları
 assertCheck('G9', 'feed.xml, atom.xml ve feed.json dosyaları mevcut',
   fs.existsSync('public/feed.xml') && fs.existsSync('public/atom.xml') && fs.existsSync('public/feed.json'));

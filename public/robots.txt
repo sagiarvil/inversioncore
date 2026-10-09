@@ -33,3 +33,8 @@ User-agent: Omgilibot
 Allow: /
 
 Sitemap: https://inversioncore.com/sitemap.xml
+Sitemap: https://inversioncore.com/sitemaps/sitemap-pages.xml
+Sitemap: https://inversioncore.com/sitemaps/sitemap-llms.xml
+Sitemap: https://inversioncore.com/sitemaps/sitemap-mobile.xml
+Sitemap: https://inversioncore.com/sitemaps/sitemap-feeds.xml
+Sitemap: https://inversioncore.com/sitemaps/sitemap-agents.xml

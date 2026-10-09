@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://inversioncore.com/</loc>
-    <lastmod>2026-10-07</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://inversioncore.com/llms.txt</loc>
-    <lastmod>2026-10-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://inversioncore.com/llms-full.txt</loc>
-    <lastmod>2026-10-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-</urlset>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
+    <loc>https://inversioncore.com/sitemaps/sitemap-pages.xml</loc>
+    <lastmod>2026-10-09T12:00:35+00:00</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://inversioncore.com/sitemaps/sitemap-llms.xml</loc>
+    <lastmod>2026-10-09T12:00:35+00:00</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://inversioncore.com/sitemaps/sitemap-mobile.xml</loc>
+    <lastmod>2026-10-09T12:00:35+00:00</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://inversioncore.com/sitemaps/sitemap-feeds.xml</loc>
+    <lastmod>2026-10-09T12:00:35+00:00</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://inversioncore.com/sitemaps/sitemap-agents.xml</loc>
+    <lastmod>2026-10-09T12:00:35+00:00</lastmod>
+  </sitemap>
+</sitemapindex>
