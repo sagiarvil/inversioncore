@@ -15,14 +15,27 @@ export const GlobalSeoRegistry: Record<string, SeoPageRecord> = {
       id: 'https://inversioncore.com/#organization',
       name: 'InversionCore',
       type: 'Organization',
-      sameAs: ['https://barisbagirlar.com']
+      sameAs: [
+        'https://drfin.com.tr',
+        'https://excelarsiv.com',
+        'https://degerlet.com',
+        'https://skdmhesapla.com',
+        'https://karbonfiyat.com',
+        'https://inversioncore.com',
+        'https://belginkuyumculuk.com',
+        'https://saatchi.com.tr',
+        'https://dilekceyazdir.com.tr',
+        'https://htmlandhtml.com'
+      ]
     },
     semanticTriples: [
-      { subject: 'InversionCore', predicate: 'providesService', object: 'Bilişsel Tersine Mühendislik' }
+      { subject: 'InversionCore', predicate: 'providesService', object: 'Bilişsel Tersine Mühendislik' },
+      { subject: 'InversionCore', predicate: 'partOfEcosystem', object: 'Barış Bağırlar Stratejik Karar Platformları' },
+      { subject: 'InversionCore', predicate: 'compliesWith', object: 'MANDATE-SEO-GEO-MOBILE-FIRST-2026-V9' }
     ],
     heroAnswerEngine: 'InversionCore, bireylerin ve şirketlerin bilişsel kör noktalarını, rasyonelleştirilmiş mazeretlerini ve karar mekanizmalarındaki asalak yükleri açığa çıkaran Davranışsal Tersine Mühendislik ve Negatif Bilgi (Via Negativa) platformudur.',
     publishedAt: '2026-10-01T00:00:00Z',
-    modifiedAt: '2026-10-07T00:00:00Z',
+    modifiedAt: '2026-10-09T12:00:00Z',
     bodyContentHash: 'a591a6d40bf420404a011733cfb7b190d62c65bf0bc9c24db3370e75b70d4812',
     llmSubGraphRoute: '/llms/pages/home.md',
     mobileSubGraphRoute: '/llms/mobile/home.md',
@@ -35,7 +48,7 @@ export const GlobalSeoRegistry: Record<string, SeoPageRecord> = {
       touchTargetsValidated: true,
       horizontalScrollFree: true,
       thumbSafeHeroAnswer: true,
-      voiceQueryPatterns: ['InversionCore nedir?'],
+      voiceQueryPatterns: ['InversionCore nedir?', 'Tersine mühendislik karar motoru nasıl çalışır?'],
       speakableSelectors: ['#aeo-answer-block'],
       pwaInstallable: true
     },
