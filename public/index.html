@@ -638,6 +638,32 @@
     }
 
     // Sokratik Çoklu Seçim Deposu: { [cardIndex]: { question: "...", pills: Set(), customText: "..." } }
+    
+    // Kullanıcının okuma özgürlüğü: Yukarı kaydırdığında oto-scroll'u engelle
+    window._userIsScrollingUp = false;
+    document.addEventListener('DOMContentLoaded', () => {
+      const feed = document.getElementById('chatFeedContainer');
+      if (feed) {
+        feed.addEventListener('scroll', () => {
+          const dist = feed.scrollHeight - feed.scrollTop - feed.clientHeight;
+          // Kullanıcı dipten 60px'den fazla yukarıdaysa okuma modundadır, oto-scroll kilitlenir
+          window._userIsScrollingUp = dist > 60;
+        }, { passive: true });
+
+        // Fare tekeri veya dokunma ile yukarı kaydırma yapıldığı an kilit aç
+        feed.addEventListener('wheel', (e) => {
+          if (e.deltaY < 0) {
+            window._userIsScrollingUp = true;
+          }
+        }, { passive: true });
+
+        feed.addEventListener('touchmove', () => {
+          const dist = feed.scrollHeight - feed.scrollTop - feed.clientHeight;
+          window._userIsScrollingUp = dist > 60;
+        }, { passive: true });
+      }
+    });
+
     window.socraticSelections = window.socraticSelections || {};
     window._socraticQuestions = window._socraticQuestions || {};
 
@@ -2058,7 +2084,14 @@ ${vData.report}
               termBox.innerHTML = formatHarmoniousColors(displayAccumulated) + '<span class="blinking-cursor"></span>';
             }
             const feedContainer = document.getElementById('chatFeedContainer');
-            if (feedContainer) feedContainer.scrollTop = feedContainer.scrollHeight;
+            if (feedContainer && !window._userIsScrollingUp) {
+              const distanceFromBottom = feedContainer.scrollHeight - feedContainer.scrollTop - feedContainer.clientHeight;
+              // Sadece kullanıcı zaten en dipteyse (bottom threshold < 80px) yumuşak takip et;
+              // Kullanıcı yukarı çıkmış veya başa almışsa asla aşağı zorlama!
+              if (distanceFromBottom < 80) {
+                feedContainer.scrollTop = feedContainer.scrollHeight;
+              }
+            }
           }
 
           if (!isStreamFinished || incomingQueue.length > 0) {
@@ -2184,6 +2217,7 @@ ${vData.report}
         updateDecisionFlowFromText(accumulated, input);
         
         // ChatGPT/Claude tarzı otomatik aşağı kaydırma
+        window._userIsScrollingUp = false;
         const feedContainer = document.getElementById('chatFeedContainer');
         if (feedContainer) feedContainer.scrollTop = feedContainer.scrollHeight;
         
