@@ -428,7 +428,7 @@
 
       <!-- DOSYA YÜKLEME KUTUSU (DROPZONE) -->
       <div id="dropZone" class="bg-white rounded-xl shadow-card border border-slate-200 p-4 relative overflow-hidden flex flex-col gap-2">
-        <input type="file" id="fileInput" class="hidden" accept=".txt,.pdf,.png,.jpg,.jpeg,.csv,.docx">
+        <input type="file" id="fileInput" class="hidden" accept="image/*,.png,.jpg,.jpeg,.webp,.txt,.pdf,.csv,.docx">
         <div class="flex items-start justify-between border-b border-slate-100 pb-2 mb-1">
           <div>
             <div class="text-[13px] font-black text-slate-800 tracking-tight flex items-center gap-1.5">
@@ -642,7 +642,7 @@
             <textarea id="inputArea" rows="2" class="w-full p-3 sm:p-4 pr-24 sm:pr-36 bg-transparent outline-none resize-none text-slate-900 placeholder-slate-400 text-xs sm:text-sm leading-relaxed max-h-36 sm:max-h-48 overflow-y-auto font-normal" placeholder="Kaçtığın gerçeği, mazeretlerini veya içindeki açmazı yaz..." oninput="this.style.height = '';this.style.height = this.scrollHeight + 'px'"></textarea>
             
             <div class="absolute right-2 sm:right-3 bottom-2 sm:bottom-3 flex items-center gap-1.5 sm:gap-2">
-              <button type="button" onclick="document.getElementById('fileInput').click()" class="hidden xs:flex p-2 text-slate-400 hover:text-brand-600 hover:bg-slate-100 rounded-lg transition-all" title="Yüz Fotoğrafı Yükle">
+              <button type="button" onclick="document.getElementById('fileInput').click()" class="flex items-center justify-center p-2 text-slate-400 hover:text-brand-600 hover:bg-slate-100 rounded-lg transition-all cursor-pointer" title="Görsel / Fotoğraf Yükle">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
               </button>
               
@@ -2397,172 +2397,208 @@ ${vData.report}
   </script>
 
   <!-- MODALS -->
-  <!-- EKOSİSTEM 8 BÜYÜK PLATFORM MODALI -->
-  <div id="ecosystemModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[85vh] overflow-y-auto transform scale-95 transition-transform duration-300 border border-slate-200">
-      <div class="sticky top-0 bg-white/95 backdrop-blur border-b border-slate-100 px-6 py-4 flex items-center justify-between z-10">
-        <div>
-          <h2 class="text-lg font-black text-slate-800 tracking-tight flex items-center gap-2">
-            <svg class="w-5 h-5 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-            Barış Bağırlar — 10 Büyük Web Ekosistem Platformu
-          </h2>
-          <p class="text-xs text-slate-500 mt-0.5">Kurucumuzun portföyündeki küresel AI, Finans, Hukuk ve Regülasyon mimarisi</p>
+  <!-- EKOSİSTEM 10 BÜYÜK PLATFORM MODALI (PREMIUM EXECUTIVE SUITE) -->
+  <div id="ecosystemModal" onclick="if(event.target === this) closeModal('ecosystemModal')" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-200 items-center justify-center p-3 sm:p-6" style="display: none;">
+    <div class="modal-box bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 text-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col border border-slate-800 scale-95 transition-all duration-200">
+      
+      <!-- MODAL ÜST HEADER -->
+      <div class="p-5 sm:p-6 border-b border-slate-800/90 flex items-center justify-between shrink-0 bg-slate-900/90 backdrop-blur">
+        <div class="flex items-center gap-3.5">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-500 via-indigo-500 to-cyan-400 p-0.5 shadow-lg shadow-brand-500/25 flex items-center justify-center shrink-0">
+            <div class="w-full h-full bg-slate-900 rounded-[14px] flex items-center justify-center">
+              <svg class="w-6 h-6 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+            </div>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 class="text-base sm:text-lg font-black tracking-tight text-white">Barış Bağırlar Stratejik Karar Ekosistemi</h2>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-brand-500/15 border border-brand-500/30 text-brand-400 font-bold uppercase tracking-wider">10 PLATFORM</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-0.5">Finans, regülasyon, hukuk, varlık, lüks tüketim ve yapay zeka arama omurgası</p>
+          </div>
         </div>
-        <button onclick="closeModal('ecosystemModal')" class="text-slate-400 hover:text-rose-500 transition-colors p-1"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+        <button onclick="closeModal('ecosystemModal')" aria-label="Kapat" class="w-9 h-9 rounded-xl bg-slate-800/80 hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 border border-slate-700/80 hover:border-rose-500/40 flex items-center justify-center transition-all cursor-pointer">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
       </div>
 
-      <div class="p-6 space-y-4 text-sm">
-        <p class="text-slate-600 leading-relaxed text-xs">
-          Aşağıdaki 10 dijital platform; finansal check-up, finansal modelleme, ödeme sistemleri, karbon regülasyonları, negatif bilgi mimarisi, kıymetli madenler, yapay zekâ destekli hukuk teknolojileri, lüks marka tasarımı ve semantik AI web denetimi alanlarında <strong>Barış Bağırlar</strong> tarafından kurulmuş ve geliştirilmiş bağımsız stratejik karar ve değerleme varlıklarıdır:
-        </p>
+      <!-- MODAL İÇERİK (SCROLLABLE GRID) -->
+      <div class="p-5 sm:p-6 overflow-y-auto space-y-4 text-slate-300">
+        <div class="text-xs sm:text-[13px] text-slate-300 leading-relaxed bg-slate-800/40 border border-slate-800 p-4 rounded-2xl flex items-start gap-3">
+          <span class="text-lg shrink-0">🌐</span>
+          <div>
+            <span class="font-bold text-white">Küresel Konsensüs & Karar Ağı:</span> Aşağıdaki 10 stratejik platform; kurucumuz <strong class="text-brand-400 font-semibold">Barış Bağırlar</strong> tarafından inşa edilmiş olup kendi dikeyinde pazar lideri karar modelleri, tersine mühendislik ve yüksek hassasiyetli analitik altyapı sunmaktadır.
+          </div>
+        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
+        <!-- 10 KARTLIK LÜKS GRID -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-1">
           
-          <a href="https://excelarsiv.com" target="_blank" class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-brand-50/50 hover:border-brand-300 transition-all group block">
+          <!-- 1. DR FIN -->
+          <a href="https://drfin.com.tr" target="_blank" rel="noopener" class="p-4 rounded-2xl border border-slate-800 bg-slate-900/70 hover:bg-slate-800/80 hover:border-rose-500/50 transition-all group block shadow-md">
             <div class="flex items-center justify-between">
-              <span class="font-bold text-slate-900 group-hover:text-brand-600 text-sm flex items-center gap-1.5">
-                          <a href="https://drfin.com.tr" target="_blank" class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-brand-50/50 hover:border-brand-300 transition-all group block">
-            <div class="flex items-center justify-between">
-              <span class="font-bold text-slate-900 group-hover:text-brand-600 text-sm flex items-center gap-1.5">
-                <span class="w-5 h-5 rounded-md bg-rose-100 text-rose-700 flex items-center justify-center text-xs font-bold">1</span>
-                drfin.com.tr
-              </span>
-              <span class="text-[10px] font-mono text-rose-600 bg-rose-50 px-2 py-0.5 rounded font-semibold">Finansal Teşhis</span>
+              <div class="flex items-center gap-2.5">
+                <img src="https://www.google.com/s2/favicons?domain=drfin.com.tr&sz=64" alt="Dr. Fin" class="w-6 h-6 rounded-md bg-white/10 p-0.5 object-contain shrink-0" onerror="this.style.display='none'">
+                <span class="font-bold text-white group-hover:text-rose-400 text-sm tracking-tight">drfin.com.tr</span>
+              </div>
+              <span class="text-[10px] font-mono text-rose-400 bg-rose-500/10 border border-rose-500/30 px-2 py-0.5 rounded-md font-semibold">Finansal Teşhis</span>
             </div>
-            <p class="text-[11px] text-slate-600 mt-1.5 leading-relaxed">
-              Kurumsal Finansal Sağlık, Kredi Derecelendirme, İflas Riski & Bilanço Teşhis Motoru. Likidite stres testi ve check-up.
-            </p>
-          </a>
-          <a href="https://excelarsiv.com" target="_blank" class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-brand-50/50 hover:border-brand-300 transition-all group block">
-            <div class="flex items-center justify-between">
-              <span class="font-bold text-slate-900 group-hover:text-brand-600 text-sm flex items-center gap-1.5">
-                <span class="w-5 h-5 rounded-md bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold">2</span>
-                excelarsiv.com
-              </span>
-              <span class="text-[10px] font-mono text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded font-semibold">Finans & Tablo</span>
-            </div>
-            <p class="text-[11px] text-slate-600 mt-1.5 leading-relaxed">
-              Veri, Finans, İleri Düzey Formül & Dinamik Şablon Ekosistemi. %100 makrosuz kurumsal nakit akışı ve karar sistemleri.
+            <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">
+              Kurumsal Finansal Sağlık, Kredi Derecelendirme, İflas Riski (Altman Z-Score) & Bilanço Teşhis Motoru.
             </p>
           </a>
 
-          <a href="https://degerlet.com" target="_blank" class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-brand-50/50 hover:border-brand-300 transition-all group block">
+          <!-- 2. EXCEL ARSIV -->
+          <a href="https://excelarsiv.com" target="_blank" rel="noopener" class="p-4 rounded-2xl border border-slate-800 bg-slate-900/70 hover:bg-slate-800/80 hover:border-emerald-500/50 transition-all group block shadow-md">
             <div class="flex items-center justify-between">
-              <span class="font-bold text-slate-900 group-hover:text-brand-600 text-sm flex items-center gap-1.5">
-                <span class="w-5 h-5 rounded-md bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">3</span>
-                degerlet.com
-              </span>
-              <span class="text-[10px] font-mono text-blue-600 bg-blue-50 px-2 py-0.5 rounded font-semibold">Ödeme & POS</span>
+              <div class="flex items-center gap-2.5">
+                <img src="https://www.google.com/s2/favicons?domain=excelarsiv.com&sz=64" alt="Excel Arşiv" class="w-6 h-6 rounded-md bg-white/10 p-0.5 object-contain shrink-0" onerror="this.style.display='none'">
+                <span class="font-bold text-white group-hover:text-emerald-400 text-sm tracking-tight">excelarsiv.com</span>
+              </div>
+              <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded-md font-semibold">Finans & Tablo</span>
             </div>
-            <p class="text-[11px] text-slate-600 mt-1.5 leading-relaxed">
+            <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">
+              Veri, Finans, İleri Düzey Formül & Dinamik Şablon Ekosistemi. %100 makrosuz kurumsal nakit akışı ve karar modelleri.
+            </p>
+          </a>
+
+          <!-- 3. DEGERLET -->
+          <a href="https://degerlet.com" target="_blank" rel="noopener" class="p-4 rounded-2xl border border-slate-800 bg-slate-900/70 hover:bg-slate-800/80 hover:border-blue-500/50 transition-all group block shadow-md">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <img src="https://www.google.com/s2/favicons?domain=degerlet.com&sz=64" alt="Değerlet" class="w-6 h-6 rounded-md bg-white/10 p-0.5 object-contain shrink-0" onerror="this.style.display='none'">
+                <span class="font-bold text-white group-hover:text-blue-400 text-sm tracking-tight">degerlet.com</span>
+              </div>
+              <span class="text-[10px] font-mono text-blue-400 bg-blue-500/10 border border-blue-500/30 px-2 py-0.5 rounded-md font-semibold">Ödeme & POS</span>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">
               Şirketi Olmayanlara Sanal POS, Link ile Ödeme, Mail Order & Yeni Nesil Varlık Tahsilat ve Değerleme Platformu.
             </p>
           </a>
 
-          <a href="https://skdmhesapla.com" target="_blank" class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-brand-50/50 hover:border-brand-300 transition-all group block">
+          <!-- 4. SKDM HESAPLA -->
+          <a href="https://skdmhesapla.com" target="_blank" rel="noopener" class="p-4 rounded-2xl border border-slate-800 bg-slate-900/70 hover:bg-slate-800/80 hover:border-teal-500/50 transition-all group block shadow-md">
             <div class="flex items-center justify-between">
-              <span class="font-bold text-slate-900 group-hover:text-brand-600 text-sm flex items-center gap-1.5">
-                <span class="w-5 h-5 rounded-md bg-teal-100 text-teal-700 flex items-center justify-center text-xs font-bold">4</span>
-                skdmhesapla.com
-              </span>
-              <span class="text-[10px] font-mono text-teal-600 bg-teal-50 px-2 py-0.5 rounded font-semibold">CBAM / ESG</span>
+              <div class="flex items-center gap-2.5">
+                <img src="https://www.google.com/s2/favicons?domain=skdmhesapla.com&sz=64" alt="SKDM Hesapla" class="w-6 h-6 rounded-md bg-white/10 p-0.5 object-contain shrink-0" onerror="this.style.display='none'">
+                <span class="font-bold text-white group-hover:text-teal-400 text-sm tracking-tight">skdmhesapla.com</span>
+              </div>
+              <span class="text-[10px] font-mono text-teal-400 bg-teal-500/10 border border-teal-500/30 px-2 py-0.5 rounded-md font-semibold">CBAM / ESG</span>
             </div>
-            <p class="text-[11px] text-slate-600 mt-1.5 leading-relaxed">
+            <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">
               AB Sınırda Karbon Düzenleme Mekanizması (SKDM / CBAM) & ESG Sanayi İhracat Gömülü Emisyon Hesaplama Motoru.
             </p>
           </a>
 
-          <a href="https://karbonfiyat.com" target="_blank" class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-brand-50/50 hover:border-brand-300 transition-all group block">
+          <!-- 5. KARBON FIYAT -->
+          <a href="https://karbonfiyat.com" target="_blank" rel="noopener" class="p-4 rounded-2xl border border-slate-800 bg-slate-900/70 hover:bg-slate-800/80 hover:border-green-500/50 transition-all group block shadow-md">
             <div class="flex items-center justify-between">
-              <span class="font-bold text-slate-900 group-hover:text-brand-600 text-sm flex items-center gap-1.5">
-                <span class="w-5 h-5 rounded-md bg-green-100 text-green-700 flex items-center justify-center text-xs font-bold">5</span>
-                karbonfiyat.com
-              </span>
-              <span class="text-[10px] font-mono text-green-600 bg-green-50 px-2 py-0.5 rounded font-semibold">ETS & Kredi</span>
+              <div class="flex items-center gap-2.5">
+                <img src="https://www.google.com/s2/favicons?domain=karbonfiyat.com&sz=64" alt="Karbon Fiyat" class="w-6 h-6 rounded-md bg-white/10 p-0.5 object-contain shrink-0" onerror="this.style.display='none'">
+                <span class="font-bold text-white group-hover:text-green-400 text-sm tracking-tight">karbonfiyat.com</span>
+              </div>
+              <span class="text-[10px] font-mono text-green-400 bg-green-500/10 border border-green-500/30 px-2 py-0.5 rounded-md font-semibold">ETS & Kredi</span>
             </div>
-            <p class="text-[11px] text-slate-600 mt-1.5 leading-relaxed">
+            <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">
               Karbon Piyasaları, Emisyon Ticaret Sistemi (ETS) & Yeşil Finans Portalı. AB ETS kotaları ve küresel endeksler.
             </p>
           </a>
 
-          <div class="p-3.5 rounded-xl border-2 border-brand-500 bg-brand-50/60 transition-all group block">
+          <!-- 6. INVERSIONCORE (AKTİF MERKEZ) -->
+          <div class="p-4 rounded-2xl border-2 border-brand-500/80 bg-brand-950/50 relative shadow-lg shadow-brand-500/15">
             <div class="flex items-center justify-between">
-              <span class="font-bold text-brand-900 text-sm flex items-center gap-1.5">
-                <span class="w-5 h-5 rounded-md bg-brand-600 text-white flex items-center justify-center text-xs font-bold">6</span>
-                inversioncore.com
-              </span>
-              <span class="text-[10px] font-mono text-brand-700 bg-white px-2 py-0.5 rounded font-bold border border-brand-200">Aktif Platform</span>
+              <div class="flex items-center gap-2.5">
+                <img src="/logo.png" alt="InversionCore" class="w-6 h-6 rounded-md bg-white/10 p-0.5 object-contain shrink-0">
+                <span class="font-bold text-white text-sm tracking-tight">inversioncore.com</span>
+              </div>
+              <span class="text-[10px] font-mono text-brand-300 bg-brand-500/20 border border-brand-500/40 px-2 py-0.5 rounded-md font-bold">Aktif Merkez</span>
             </div>
-            <p class="text-[11px] text-slate-700 mt-1.5 leading-relaxed">
+            <p class="text-[11px] text-slate-300 mt-2 leading-relaxed">
               İleri Düzey Negatif Bilgi (Via Negativa), Bilişsel Tersine Mühendislik ve Stratejik Karar Çözümleme Platformu.
             </p>
           </div>
 
-          <a href="https://dilekceyazdir.com.tr/" target="_blank" class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-brand-50/50 hover:border-brand-300 transition-all group block">
+          <!-- 7. BELGIN KUYUMCULUK -->
+          <a href="https://belginkuyumculuk.com" target="_blank" rel="noopener" class="p-4 rounded-2xl border border-slate-800 bg-slate-900/70 hover:bg-slate-800/80 hover:border-amber-500/50 transition-all group block shadow-md">
             <div class="flex items-center justify-between">
-              <span class="font-bold text-slate-900 group-hover:text-brand-600 text-sm flex items-center gap-1.5">
-                <span class="w-5 h-5 rounded-md bg-amber-100 text-amber-700 flex items-center justify-center text-xs font-bold">9</span>
-                dilekceyazdir.com.tr
-              </span>
-              <span class="text-[10px] font-mono text-amber-600 bg-amber-50 px-2 py-0.5 rounded font-semibold">LegalTech</span>
+              <div class="flex items-center gap-2.5">
+                <img src="https://www.google.com/s2/favicons?domain=belginkuyumculuk.com&sz=64" alt="Belgin Kuyumculuk" class="w-6 h-6 rounded-md bg-white/10 p-0.5 object-contain shrink-0" onerror="this.style.display='none'">
+                <span class="font-bold text-white group-hover:text-amber-400 text-sm tracking-tight">belginkuyumculuk.com</span>
+              </div>
+              <span class="text-[10px] font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded-md font-semibold">Altın & Varlık</span>
             </div>
-            <p class="text-[11px] text-slate-600 mt-1.5 leading-relaxed">
-              Yapay Zeka Destekli Resmi Belge, Adli Tevzi, Dilekçe & Hukuk Teknolojileri Tanzim Platformu (ARZUHALCİ).
-            </p>
-          </a>
-
-                    <a href="https://belginkuyumculuk.com" target="_blank" class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-brand-50/50 hover:border-brand-300 transition-all group block">
-            <div class="flex items-center justify-between">
-              <span class="font-bold text-slate-900 group-hover:text-brand-600 text-sm flex items-center gap-1.5">
-                <span class="w-5 h-5 rounded-md bg-yellow-100 text-yellow-800 flex items-center justify-center text-xs font-bold">7</span>
-                belginkuyumculuk.com
-              </span>
-              <span class="text-[10px] font-mono text-yellow-700 bg-yellow-50 px-2 py-0.5 rounded font-semibold">Altın & Varlık</span>
-            </div>
-            <p class="text-[11px] text-slate-600 mt-1.5 leading-relaxed">
+            <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">
               Kıymetli Madenler, Altın Varlık Yönetimi, Mücevherat & Fiziki Yatırım Portalı. Gerçek zamanlı serbest piyasa endeksleri.
             </p>
           </a>
-          <a href="https://saatchi.com.tr" target="_blank" class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-brand-50/50 hover:border-brand-300 transition-all group block">
+
+          <!-- 8. SAATCHI & CO. -->
+          <a href="https://saatchi.com.tr" target="_blank" rel="noopener" class="p-4 rounded-2xl border border-slate-800 bg-slate-900/70 hover:bg-slate-800/80 hover:border-purple-500/50 transition-all group block shadow-md">
             <div class="flex items-center justify-between">
-              <span class="font-bold text-slate-900 group-hover:text-brand-600 text-sm flex items-center gap-1.5">
-                <span class="w-5 h-5 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center text-xs font-bold">8</span>
-                saatchi.com.tr
-              </span>
-              <span class="text-[10px] font-mono text-purple-600 bg-purple-50 px-2 py-0.5 rounded font-semibold">Lüks & Saat</span>
+              <div class="flex items-center gap-2.5">
+                <img src="https://www.google.com/s2/favicons?domain=saatchi.com.tr&sz=64" alt="Saatchi" class="w-6 h-6 rounded-md bg-white/10 p-0.5 object-contain shrink-0" onerror="this.style.display='none'">
+                <span class="font-bold text-white group-hover:text-purple-400 text-sm tracking-tight">saatchi.com.tr</span>
+              </div>
+              <span class="text-[10px] font-mono text-purple-400 bg-purple-500/10 border border-purple-500/30 px-2 py-0.5 rounded-md font-semibold">Lüks & Saat</span>
             </div>
-            <p class="text-[11px] text-slate-600 mt-1.5 leading-relaxed">
+            <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">
               Lüks Tasarım, Saat, Prestij & Koleksiyonculuk Portalı. Horoloji kültürü, orijinallik ve estetik marka mimarisi.
             </p>
           </a>
 
-          <a href="https://htmlandhtml.com" target="_blank" class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-brand-50/50 hover:border-brand-300 transition-all group block">
+          <!-- 9. DILEKCE YAZDIR -->
+          <a href="https://dilekceyazdir.com.tr/" target="_blank" rel="noopener" class="p-4 rounded-2xl border border-slate-800 bg-slate-900/70 hover:bg-slate-800/80 hover:border-orange-500/50 transition-all group block shadow-md">
             <div class="flex items-center justify-between">
-              <span class="font-bold text-slate-900 group-hover:text-brand-600 text-sm flex items-center gap-1.5">
-                <span class="w-5 h-5 rounded-md bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold">10</span>
-                htmlandhtml.com
-              </span>
-              <span class="text-[10px] font-mono text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded font-semibold">GEO / AI Arama</span>
+              <div class="flex items-center gap-2.5">
+                <img src="https://www.google.com/s2/favicons?domain=dilekceyazdir.com.tr&sz=64" alt="Dilekçe Yazdır" class="w-6 h-6 rounded-md bg-white/10 p-0.5 object-contain shrink-0" onerror="this.style.display='none'">
+                <span class="font-bold text-white group-hover:text-orange-400 text-sm tracking-tight">dilekceyazdir.com.tr</span>
+              </div>
+              <span class="text-[10px] font-mono text-orange-400 bg-orange-500/10 border border-orange-500/30 px-2 py-0.5 rounded-md font-semibold">LegalTech</span>
             </div>
-            <p class="text-[11px] text-slate-600 mt-1.5 leading-relaxed">
+            <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">
+              Yapay Zeka Destekli Resmi Belge, Adli Tevzi, Dilekçe & Hukuk Teknolojileri Tanzim Platformu (ARZUHALCİ).
+            </p>
+          </a>
+
+          <!-- 10. HTML & HTML -->
+          <a href="https://htmlandhtml.com" target="_blank" rel="noopener" class="p-4 rounded-2xl border border-slate-800 bg-slate-900/70 hover:bg-slate-800/80 hover:border-indigo-500/50 transition-all group block shadow-md">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <img src="https://www.google.com/s2/favicons?domain=htmlandhtml.com&sz=64" alt="HTML and HTML" class="w-6 h-6 rounded-md bg-white/10 p-0.5 object-contain shrink-0" onerror="this.style.display='none'">
+                <span class="font-bold text-white group-hover:text-indigo-400 text-sm tracking-tight">htmlandhtml.com</span>
+              </div>
+              <span class="text-[10px] font-mono text-indigo-400 bg-indigo-500/10 border border-indigo-500/30 px-2 py-0.5 rounded-md font-semibold">GEO / AI Arama</span>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">
               Global AI Arama Teknik Teşhis & Görünürlük İşletim Sistemi. ChatGPT, Perplexity, Claude ve Gemini 18 motorlu teşhis.
             </p>
           </a>
 
         </div>
+      </div>
 
-        <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-          <span>Tüm platformlar LLM ve Semantik Varlık Haritası (Knowledge Graph) ile entegredir.</span>
-          <a href="/llms.txt" target="_blank" class="text-brand-600 hover:underline font-mono font-bold flex items-center gap-1">
-            llms.txt dosyasını görüntüle ↪
+      <!-- MODAL ALT ÇUBUK -->
+      <div class="p-4 sm:p-5 border-t border-slate-800/90 bg-slate-900/95 flex items-center justify-between text-xs text-slate-400 shrink-0">
+        <span class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          Tüm platformlar LLM ve Semantik Varlık Haritası (Knowledge Graph) ile entegredir.
+        </span>
+        <div class="flex items-center gap-3">
+          <a href="/llms.txt" target="_blank" class="text-brand-400 hover:text-brand-300 font-mono font-bold flex items-center gap-1">
+            llms.txt ↪
           </a>
+          <button onclick="closeModal('ecosystemModal')" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs transition-colors cursor-pointer border border-slate-700">
+            Kapat
+          </button>
         </div>
       </div>
+
     </div>
   </div>
+  </div>
 
-  <div id="faqModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto transform scale-95 transition-transform duration-300 border border-slate-200">
+  <div id="faqModal" onclick="if(event.target === this) closeModal('faqModal')" class="fixed inset-0 bg-slate-950/75 backdrop-blur-md z-50 hidden flex items-center justify-center opacity-0 transition-opacity duration-200 p-3 sm:p-6" style="display: none;">
+    <div class="modal-box bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto transform scale-95 transition-transform duration-300 border border-slate-200">
       <div class="sticky top-0 bg-white/95 backdrop-blur border-b border-slate-100 px-6 py-4 flex items-center justify-between z-10">
         <h2 class="text-lg font-black text-slate-800 tracking-tight flex items-center gap-2">
           <svg class="w-5 h-5 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
@@ -2622,8 +2658,8 @@ ${vData.report}
     </div>
   </div>
 
-  <div id="historyModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-6 transform scale-95 transition-transform duration-300">
+  <div id="historyModal" onclick="if(event.target === this) closeModal('historyModal')" class="fixed inset-0 bg-slate-950/75 backdrop-blur-md z-50 hidden flex items-center justify-center opacity-0 transition-opacity duration-200 p-3 sm:p-6" style="display: none;">
+    <div class="modal-box bg-white rounded-3xl shadow-2xl w-full max-w-lg p-6 transform scale-95 transition-transform duration-300">
       <div class="flex items-center justify-between mb-4">
         <h2 class="text-lg font-black text-slate-800">Kara Kutu (Geçmiş)</h2>
         <button onclick="closeModal('historyModal')" class="text-slate-400 hover:text-slate-600"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
@@ -2969,22 +3005,47 @@ ${vData.report}
     });
 
     function openModal(id) {
+      if (!id) return;
       if (id === 'controlModal') {
         renderNeuralModalUI();
       }
       const el = document.getElementById(id);
+      if (!el) return;
       el.classList.remove('hidden');
-      setTimeout(() => {
+      el.style.removeProperty('display');
+      el.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      requestAnimationFrame(() => {
         el.classList.remove('opacity-0');
-        el.querySelector('div').classList.remove('scale-95');
-      }, 10);
+        const box = el.querySelector('.modal-box') || el.firstElementChild;
+        if (box) {
+          box.classList.remove('scale-95');
+          box.classList.add('scale-100');
+        }
+      });
     }
+
     function closeModal(id) {
+      if (!id) return;
       const el = document.getElementById(id);
+      if (!el) return;
       el.classList.add('opacity-0');
-      el.querySelector('div').classList.add('scale-95');
-      setTimeout(() => el.classList.add('hidden'), 300);
+      const box = el.querySelector('.modal-box') || el.firstElementChild;
+      if (box) {
+        box.classList.remove('scale-100');
+        box.classList.add('scale-95');
+      }
+      document.body.style.overflow = '';
+      el.classList.add('hidden');
+      el.style.display = 'none';
     }
+
+    // ESC tuşu ve dış arka plan tıklamasıyla tüm modalları kapatma garantisi
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        ['ecosystemModal', 'faqModal', 'historyModal', 'controlModal', 'mobileScenariosModal'].forEach(id => closeModal(id));
+      }
+    });
     function openMobileScenarios() {
       openModal('mobileScenariosModal');
     }
