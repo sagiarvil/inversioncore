@@ -804,6 +804,15 @@
 
     // Sokratik Çoklu Seçim Deposu: { [cardIndex]: { question: "...", pills: Set(), customText: "..." } }
     window.socraticSelections = window.socraticSelections || {};
+    window._socraticQuestions = window._socraticQuestions || {};
+
+    function handlePillClick(btnEl) {
+      if (!btnEl) return;
+      const idx = parseInt(btnEl.getAttribute('data-idx'), 10);
+      const pillText = btnEl.getAttribute('data-pill') || "";
+      const questionText = (window._socraticQuestions && window._socraticQuestions[idx]) ? window._socraticQuestions[idx] : `Soru ${idx}`;
+      toggleSocraticPill(idx, questionText, pillText, btnEl);
+    }
 
     function toggleSocraticPill(idx, questionText, pillText, btnEl) {
       if (!window.socraticSelections[idx]) {
@@ -954,6 +963,7 @@
     }
 
     function submitSocraticFromCard(idx, questionText) {
+      const qText = questionText || (window._socraticQuestions && window._socraticQuestions[idx]) || `Soru ${idx}`;
       const inp = document.getElementById(`socraticInput_${idx}`);
       const customVal = inp ? inp.value.trim() : "";
       const item = window.socraticSelections[idx];
@@ -980,7 +990,7 @@
       }
       updateGlobalSocraticBar();
 
-      submitSocraticAnswer(questionText, combinedAnswer);
+      submitSocraticAnswer(qText, combinedAnswer);
     }
 
     function submitSocraticAnswer(questionText, answerText) {
@@ -1369,13 +1379,18 @@
       const inputId = `socraticInput_${idx}`;
       const actionBtnId = `socraticActionBtn_${idx}`;
       const countBadgeId = `socraticCount_${idx}`;
-      const escapedQ = qText.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
-      const pillsHtml = pills.map(p => {
-        const escapedP = p.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      // Güvenli tırnak temizliği ve saklama
+      window._socraticQuestions = window._socraticQuestions || {};
+      window._socraticQuestions[idx] = qText;
+
+      const pillsHtml = pills.map((p, pIdx) => {
+        const safePill = p.replace(/"/g, '&quot;');
         return `<button type="button" 
-                        onclick="toggleSocraticPill(${idx}, '${escapedQ}', '${escapedP}', this)" 
-                        class="px-2.5 py-1 rounded-full bg-white hover:bg-indigo-50 text-indigo-900 border border-indigo-200 text-[11px] font-semibold transition-all shadow-2xs hover:scale-102 flex items-center gap-1 active:scale-95 cursor-pointer">
+                        data-idx="${idx}"
+                        data-pill="${safePill}"
+                        onclick="handlePillClick(this)"
+                        class="socratic-pill-btn px-2.5 py-1 rounded-full bg-white hover:bg-indigo-50 text-indigo-900 border border-indigo-200 text-[11px] font-semibold transition-all shadow-2xs hover:scale-102 flex items-center gap-1 active:scale-95 cursor-pointer">
                   <span class="text-indigo-500 font-bold">✓</span>
                   <span>${p}</span>
                 </button>`;
@@ -1412,12 +1427,12 @@
                      id="${inputId}" 
                      placeholder="Kendi dürüst cevabını yaz... (Enter ↵)" 
                      oninput="updateSocraticActionState(${idx})"
-                     onkeydown="if(event.key==='Enter') submitSocraticFromCard(${idx}, '${escapedQ}')"
+                     onkeydown="if(event.key==='Enter') submitSocraticFromCard(${idx})"
                      class="w-full text-xs sm:text-[12.5px] px-3 py-2 bg-white rounded-lg border border-indigo-200 focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 outline-none text-slate-900 placeholder-slate-400 transition-all shadow-inner">
             </div>
             <button type="button" 
                     id="${actionBtnId}"
-                    onclick="submitSocraticFromCard(${idx}, '${escapedQ}')" 
+                    onclick="submitSocraticFromCard(${idx})" 
                     class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold text-xs rounded-lg transition-all shadow-sm flex items-center gap-1.5 shrink-0 cursor-pointer">
               <span>Yanıtla</span>
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
