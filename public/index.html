@@ -2208,8 +2208,9 @@ ${vData.report}
 
         function renderSmoothLoop() {
           if (incomingQueue.length > 0) {
-            // Ağdan veya kuyruktan parça çek; birikme varsa hızlandır, yoksa yumuşak akıt
-            const step = Math.max(1, Math.min(8, Math.ceil(incomingQueue.length / 4)));
+            // Dinamik Hız Kalibrasyonu: Birikme yokken akıcı (3-6 karakter), birikme arttıkça anında hızlan (12-28 karakter)
+            const qLen = incomingQueue.length;
+            const step = qLen > 80 ? Math.ceil(qLen / 3) : (qLen > 30 ? Math.ceil(qLen / 4) : Math.max(2, Math.min(6, Math.ceil(qLen / 3))));
             displayAccumulated += incomingQueue.slice(0, step);
             incomingQueue = incomingQueue.slice(step);
 
