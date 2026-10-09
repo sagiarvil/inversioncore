@@ -336,8 +336,6 @@
           <a href="javascript:void(0)" onclick="openModal('faqModal')" class="hover:text-brand-600 font-bold transition-colors flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Sistem Manifestosu (SSS)</a>
           <a href="/llms.txt" target="_blank" class="hover:text-brand-600 text-xs px-2.5 py-1 bg-slate-100 hover:bg-brand-50 text-slate-700 hover:text-brand-700 font-mono font-semibold rounded-lg border border-slate-200 transition-colors flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg> llms.txt</a>
         </nav>
-        <div class="h-8 w-px bg-slate-200 hidden md:block"></div>
-        <button class="w-9 h-9 bg-slate-800 text-white rounded-full flex items-center justify-center font-bold text-sm shadow-md hover:bg-slate-700 transition-all ring-2 ring-white">AK</button>
       </div>
     </div>
   </header>
@@ -1940,6 +1938,16 @@
       const outC = document.getElementById('outputContainer'); if (outC) outC.classList.remove('opacity-60');
       const termBox = document.getElementById('terminalBox');
       
+      // Sokratik Tur Sayacı (En Fazla 3 Tur):
+      window.socraticTurnCount = window.socraticTurnCount || 0;
+      if (!overridePrompt) {
+        window.socraticTurnCount = 1;
+      } else {
+        window.socraticTurnCount++;
+      }
+      const currentTurn = window.socraticTurnCount;
+      const isFinalTurn = currentTurn >= 3;
+
       // Temiz Başlangıç Mantığı:
       // 1) Eğer ekranda varsayılan tanıtım/başlangıç kartları (magnet-hero-stage) varsa, bunları TAMAMEN TEMİZLE ve sıfırdan başla.
       // 2) Eğer overridePrompt varsa (örn: Sokratik yüzleşme veya ara soru) veya biyometrik görsel varsa, altından devam et.
@@ -2153,9 +2161,15 @@ ${vData.report}
           if (badge) badge.style.display = 'none';
       }
       
+      if (isFinalTurn) {
+        finalPrompt += `\n\n[DİKKAT: BU DİYALOĞUN NİHAİ VE SON TURUDUR (3. TUR - KESİN FİNAL)]\nArtık kullanıcının kaçacak hiçbir yeri kalmadı. ASLA yeni bir soru, sokratik yüzleşme veya soru listesi ÜRETME. Bölüm 6'daki Sokratik Soruları tamamen kapat. Analizini nihai, geri dönülmez, sert bir icra hükmü ve 'TAVİZSİZ GERÇEKLİK HÜKMÜ' ile kesin bir noktayla tamamla.`;
+      }
+
       const backendPayload = { 
         text: finalPrompt, 
         system_prompt: "",
+        turn_count: currentTurn,
+        is_final: isFinalTurn,
         active_engines: window.neuralEngines || (typeof getStoredNeuralEngines === 'function' ? getStoredNeuralEngines() : {})
       };
 
@@ -2245,7 +2259,7 @@ ${vData.report}
                     if (dyn && document.getElementById('flowNode2')) {
                       const rw = dyn.initial_runway_months || dyn.runway_months || '10';
                       const cl = dyn.absorbing_barrier_month || '10';
-                      document.getElementById('flowNode2').textContent = `Runway: ${rw} Ay | Çöküş Eşiği: ${cl}. Ay`;
+                      document.getElementById('flowNode2').textContent = `Nakit Dayanma Süresi: ${rw} Ay | Çöküş Eşiği: ${cl}. Ay`;
                       document.getElementById('flowNode2').className = 'text-xs text-amber-700 font-semibold mt-0.5';
                     }
                     if (fat && document.getElementById('flowNode3')) {

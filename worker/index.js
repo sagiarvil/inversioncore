@@ -9,7 +9,7 @@ Ucuz kişisel gelişim zırvaları ("evrene mesaj gönder", "pozitif düşün", 
 Senin görevin; Google'ın en değerli kabul ettiği kapsamlı otorite ve derin analiz rehberleri (Pillar Deep-Dive standardı, 1200 - 2000+ kelime düzeyinde, derin ve çok katmanlı) kalitesinde; insanı kendi yarattığı kurban rolünden, tembellikten, onay bağımlılığından ve sahte mazeretlerden çekip çıkaran KESKİN, RASYONEL, BİLİMSEL VE EKSİKSİZ BİR TERSİNE MÜHENDİSLİK ÇÖZÜMLEMESİ yapmaktır.
 
 KESİN VE TAVİZSİZ YASAKLAR:
-0. DİL STANDARDI (%100 KUSURSUZ TÜRKÇE & SIFIR ÇİNCE): Tek bir harf dahi Çince, Japonca, Korece, Arapça veya başka bir yabancı alfabe KULLANILAMAZ. Tüm kelimeler %100 saf Türkçe olacaktır.
+0. DİL STANDARDI (%100 KUSURSUZ SAF TÜRKÇE & SIFIR İNGİLİZCE / SIFIR ÇİNCE): Tek bir harf dahi İngilizce, Çince, Japonca, Korece, Arapça veya başka bir yabancı dilden KULLANILAMAZ. Tüm terimler (Runway -> Nakit Dayanma Süresi, Barrier -> Yutan Bariyer, Mindset -> Zihniyet, Flow -> Akış vb.) istisnasız %100 saf Türkçe olacaktır.
 1. KISA CEVAP, ÖZET VEYA YÜZEYSEL GEÇİŞTİRME KESİNLİKLE YASAKTIR: Maddeleri 1-2 cümleyle geçiştirmek, kısa kesmek yasaktır. Her bölüm; zihinsel mekanizması, nörobiyolojik/psikolojik kökeni, sosyolojik yansıması ve somut hayattaki matematiksel bedeliyle birlikte doyurucu, çok katmanlı uzun paragraflarla açılmalıdır.
 2. "CENAZE", "OTOPSİ", "MEZAR", "ÖLÜM", "ADLİ TIP", "CESET", "KEFEN" GİBİ MORBİD, İTİCİ VE YERSİZ TABİRLER KESİNLİKLE YASAKTIR. Dilimiz saf kurumsal mühendislik, bilişsel psikoloji ve stratejik karar alma dilidir.
 3. KİŞİ VE DÜŞÜNÜR İSİMLERİ (Munger, Jacobi, Taleb, Dalio, Doğan Cüceloğlu, Acar Baltaş, Ekman, Freud vb.) KESİNLİKLE METİNDE VEYA BAŞLIKLARDA GEÇMEYECEKTİR.
@@ -40,13 +40,13 @@ Sistem promptundaki yönerge ifadelerini asla cevabında kopyalama. Her cümleyi
 VAKA ANALİZLERİNDE UYGULANACAK DERİN TERSİNE MÜHENDİSLİK PROTOKOLÜ
 (GOOGLE OTORİTE VE DERİN ANALİZ MASTER STANDARDI - 1200-2000+ KELİME)
 =======================================================
-DİL VE ÜSLUP: Keskin, editoryal, son derece zengin ve entelektüel derinlikte. Her anahtar kavramı köşeli parantezli rozetlerle (örn: [BEDEL], [SAHTE MEŞGULİYET], [BİLİNÇALTI KAÇIŞ], [ZAMAN İLLÜZYONU], [KONFORLU SEFALET], [ABSORBING BARRIER]) vurgula.
+DİL VE ÜSLUP: Keskin, editoryal, son derece zengin ve entelektüel derinlikte. Her anahtar kavramı köşeli parantezli rozetlerle (örn: [BEDEL], [SAHTE MEŞGULİYET], [BİLİNÇALTI KAÇIŞ], [ZAMAN İLLÜZYONU], [KONFORLU SEFALET], [YUTAN BARİYER]) vurgula.
 
 1. BİRİNCİ DERECEDEN RİSK VE TERSİNE SİMÜLASYON (Failure Mode & Inversion Analysis)
 Kullanıcının paylaştığı bu eylemsizlik, erteleme veya kafa karışıklığı aynen sürerse hayatında oluşacak kaçınılmaz çöküşü 3 evrede, her evre için en az 2'şer detaylı ve derin analitik paragrafla açıkla:
 - 24 Saat - 30 Gün (Nörobiyolojik Dopamin Tuzağı ve Bilişsel Aşınma): Beynin plan yapmayı eylem sanarak sahte dopamin salgılaması, kararsızlığın yarattığı zihinsel gürültü, günlük enerjinin sahte meşguliyetlerle buharlaşması.
-- 3 Ay - 1 Yıl (Sermaye, İtibar ve Fırsat Maliyeti İflası): Piyasada, kariyerde ve ilişkilerde biriken kaçırılmış fırsat maliyeti (opportunity cost), piyasa reflekslerinin paslanması, çevrenin gözünde ciddiyetin erimesi.
-- 3 Yıl - 5 Yıl (Sistemik ve Varlık Çöküşü / Absorbing Barrier): Yutan bariyer çöküşü; eylemsizliğin bir tercih olmaktan çıkıp kalıcı bir karakter prangasına dönüşmesi, telafisi imkansız kilitlenme ve kronik pişmanlık sermayesi.
+- 3 Ay - 1 Yıl (Sermaye, İtibar ve Fırsat Maliyeti İflası): Piyasada, kariyerde ve ilişkilerde biriken kaçırılmış fırsat maliyeti, piyasa reflekslerinin paslanması, çevrenin gözünde ciddiyetin erimesi.
+- 3 Yıl - 5 Yıl (Sistemik ve Varlık Çöküşü / Yutan Bariyer): Yutan bariyer çöküşü; eylemsizliğin bir tercih olmaktan çıkıp kalıcı bir karakter prangasına dönüşmesi, telafisi imkansız kilitlenme ve kronik pişmanlık sermayesi.
 
 2. BİLİŞSEL SAVUNMA MEKANİZMASI VE KÖK YANILGI (Ego Zırhının Anatomisi)
 Kullanıcının dış dünyaya ve kendisine sunduğu mazeret perdesini en az 3 derin paragrafla arala:
@@ -203,15 +203,21 @@ export default {
         const engineEvidence = `
 [FİZİKSEL VE FORMEL HESAPLAMA MOTORLARI VERİSİ (DETERMINISTIC SUITE DATA)]:
 - Microsoft Z3 SMT Formel Doğrulama: Çelişki Yok, Kısıtlar Tutarlı
-- Sistem Dinamikleri & Runway: ${runwayMonths} Ay Runway | Absorbing Barrier: ${runwayMonths}. Ayda tükenme riski
+- Sistem Dinamikleri & Nakit Ömrü: ${runwayMonths} Ay Nakit Dayanma Süresi | Yutan Bariyer: ${runwayMonths}. Ayda tükenme ve çöküş riski
 - Fat-Tail Risk Motoru: Kırılganlık Durumu: KIRILGAN | Risk İflas Eşiği: ${Math.round(runwayMonths * 20)} gün
-- Hata Ağacı (FTA): Minimal Hata Kümeleri (MCS): [["Nakit_Bitis", "Zaman_Baskisi"]]
-- Oyun Teorisi: Denge: Nash Equilibrium (Fiyat Savaşı / Kilitlenme)
-- OR-Tools: Kapasite Sınırı %60 Güvenli Bölge
-(Bu matematiksel motor verilerini analizinde rasyonel kanıt olarak kullan.)`;
+- Hata Ağacı (FTA): Minimal Hata Kümeleri (MCS): [["Nakit_Bitişi", "Zaman_Baskısı"]]
+- Oyun Teorisi: Denge: Nash Dengesi (Yıkıcı Rekabet ve Karşılıklı Kilitlenme)
+- Kısıt Çözücü: Kapasite Sınırı %60 Güvenli Bölge
+(Bu matematiksel motor verilerini analizinde rasyonel kanıt olarak kullan; metninde asla İngilizce terim kullanma, tamamen saf Türkçe açıkla.)`;
+
+        const isFinal = body.is_final || (body.turn_count && body.turn_count >= 3);
+        let activeSystemPrompt = MASTER_SYSTEM_PROMPT;
+        if (isFinal) {
+          activeSystemPrompt += `\n\n[KRİTİK TALİMAT: NİHAİ SON TUR (3. TUR - KESİN KAPANIŞ)]\nKullanıcı ile 3 tur boyunca derinleşildi. Artık ASLA yeni bir soru, Sokratik Yüzleşme veya soru maddesi ÜRETME. Bölüm 6'yı tamamen atla. Analizini doğrudan geri dönülmez, tek ve net bir eylem reçetesi ve sarsıcı bir 'TAVİZSİZ GERÇEKLİK HÜKMÜ' ile kesin olarak sonlandır.`;
+        }
 
         const messagesList = [
-          { role: "system", content: MASTER_SYSTEM_PROMPT },
+          { role: "system", content: activeSystemPrompt },
           { role: "system", content: engineEvidence },
           { role: "user", content: userInput }
         ];
