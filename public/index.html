@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="tr" class="dark">
+<html lang="tr" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>InversionCore | NATO/Endüstriyel Karar Adli Tıp Masası (Executive Decision Terminal)</title>
-  <meta name="description" content="InversionCore B2B Karar Adli Tıp Masası. Z3 SMT Formal Kanıt, Apple Metal Rust Motoru, CoPoLLM ACL 2026, Monte Carlo ve TTK 376 İflas Kalkanı.">
-  <link rel="icon" href="/static/logo.png" type="image/png">
+  <title>InversionCore | Karar ve İflas Riski İnceleme Masası</title>
+  <meta name="description" content="InversionCore: Şirketinizin ve yatırımlarınızın iflas risklerini, nakit tükenme süresini ve yasal borca batıklık durumunu 5 saniyede denetleyen karar masası.">
+  <meta name="author" content="Barış Bağırlar">
+  <link rel="icon" href="/logo.png" type="image/png">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
-      darkMode: 'class',
       theme: {
         extend: {
           fontFamily: {
@@ -20,15 +20,15 @@
             mono: ['JetBrains Mono', 'monospace']
           },
           colors: {
-            terminal: {
-              black: '#08090C',
-              card: '#0F1117',
-              border: '#1F2430',
-              accent: '#38BDF8',
-              emerald: '#10B981',
-              crimson: '#EF4444',
-              amber: '#F59E0B',
-              muted: '#64748B'
+            panel: {
+              arkaplan: '#090D16',
+              kart: '#111726',
+              kenarlik: '#1E293B',
+              vurgu: '#0284C7',
+              kirmizi: '#DC2626',
+              yesil: '#16A34A',
+              yazi: '#E2E8F0',
+              soluk: '#94A3B8'
             }
           }
         }
@@ -36,392 +36,462 @@
     }
   </script>
   <style>
-    body { background-color: #08090C; color: #E2E8F0; }
-    .grid-bg {
-      background-size: 24px 24px;
+    body { background-color: #090D16; color: #E2E8F0; }
+    .izgara-desen {
+      background-size: 32px 32px;
       background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
     }
-    .crt-glow {
-      box-shadow: 0 0 25px -5px rgba(56, 189, 248, 0.15);
-    }
-    .red-glow {
-      box-shadow: 0 0 30px -5px rgba(239, 68, 68, 0.25);
-    }
-    .green-glow {
-      box-shadow: 0 0 30px -5px rgba(16, 185, 129, 0.25);
-    }
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #08090C; }
-    ::-webkit-scrollbar-thumb { background: #1F2430; border-radius: 3px; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #090D16; }
+    ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: #38BDF8; }
   </style>
+  <script src="/api_worker.js"></script>
 </head>
-<body class="min-h-screen grid-bg font-sans flex flex-col antialiased selection:bg-terminal-accent selection:text-black">
+<body class="min-h-screen izgara-desen font-sans flex flex-col antialiased">
 
-  <!-- TOP STATUS BAR (HAKİKAT MASASI TELEMETRİSİ) -->
-  <header class="border-b border-terminal-border bg-terminal-card/90 backdrop-blur-md sticky top-0 z-50 px-6 py-3">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+  <!-- ÜST MENÜ VE KURUMSAL BİLGİ -->
+  <header class="border-b border-panel-kenarlik bg-panel-kart/90 backdrop-blur-md sticky top-0 z-40 px-4 sm:px-8 py-3.5">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
       
-      <!-- Logo & System Status -->
       <div class="flex items-center gap-3">
-        <div class="w-8 h-8 rounded border border-terminal-accent/40 bg-terminal-accent/10 flex items-center justify-center font-mono font-bold text-terminal-accent text-sm">
-          IC
-        </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="font-mono font-bold text-sm tracking-wider text-white">INVERSION<span class="text-terminal-accent">CORE</span></span>
-            <span class="px-1.5 py-0.5 rounded text-[10px] font-mono bg-emerald-950/80 text-emerald-400 border border-emerald-800/60">LIVE v3.3</span>
-          </div>
-          <p class="text-[11px] text-terminal-muted font-mono">NATO-Grade Executive Cognitive Forensics OS</p>
-        </div>
-      </div>
-
-      <!-- Live Engines Cluster Badges -->
-      <div class="flex items-center gap-2 overflow-x-auto text-[11px] font-mono py-1">
-        <span class="px-2 py-1 rounded bg-black/60 border border-terminal-border flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span class="text-slate-400">MLX:</span> <span class="text-slate-200">Qwen 14B</span>
-        </span>
-        <span class="px-2 py-1 rounded bg-black/60 border border-terminal-border flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-sky-400"></span>
-          <span class="text-slate-400">RUST:</span> <span class="text-slate-200">3.4 µs</span>
-        </span>
-        <span class="px-2 py-1 rounded bg-black/60 border border-terminal-border flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-purple-400"></span>
-          <span class="text-slate-400">Z3 SMT:</span> <span class="text-slate-200">ACTIVE</span>
-        </span>
-        <span class="px-2 py-1 rounded bg-black/60 border border-terminal-border flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-          <span class="text-slate-400">OR-TOOLS:</span> <span class="text-slate-200">CP-SAT</span>
-        </span>
-        <span class="px-2 py-1 rounded bg-black/60 border border-terminal-border flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-rose-400"></span>
-          <span class="text-slate-400">TTK 376:</span> <span class="text-slate-200">ENFORCED</span>
-        </span>
-      </div>
-
-      <!-- Action -->
-      <div class="flex items-center gap-3">
-        <span id="systemClock" class="text-xs font-mono text-terminal-muted hidden sm:inline-block">--:--:--</span>
-        <a href="#auditSection" class="px-3 py-1.5 rounded text-xs font-mono font-medium bg-terminal-accent text-black hover:bg-sky-300 transition-colors">
-          TEŞHİS BAŞLAT
+        <a href="/" class="w-10 h-10 rounded-xl overflow-hidden border border-panel-kenarlik bg-black flex items-center justify-center shadow-md shrink-0">
+          <img src="/logo.png" alt="InversionCore Rakun Logo" class="w-full h-full object-cover">
         </a>
+        <div>
+          <a href="/" class="font-extrabold text-sm sm:text-base text-white tracking-wide">
+            INVERSIONCORE
+          </a>
+          <p class="text-[11px] text-panel-soluk">
+            Barış Bağırlar Stratejik Karar ve Finans Ekosistemi
+          </p>
+        </div>
       </div>
+
+      <nav class="flex items-center gap-4 text-xs font-medium">
+        <a href="#amac" class="text-slate-300 hover:text-white transition-colors">5 Saniyede Amaç</a>
+        <a href="#kurucu" class="text-slate-300 hover:text-white transition-colors">Barış Bağırlar Kimdir?</a>
+        <a href="#sss" class="text-slate-300 hover:text-white transition-colors">Sıkça Sorulan Sorular</a>
+        <a href="#denetim" class="px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold transition-colors">
+          Analizi Başlat
+        </a>
+      </nav>
 
     </div>
   </header>
 
-  <!-- MAIN TERMINAL COCKPIT -->
-  <main class="max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex-1 flex flex-col gap-6">
 
-    <!-- HERO STATEMENT (PALANTIR / BLOOMBERG GRADE) -->
-    <div class="border border-terminal-border rounded-xl bg-terminal-card/60 p-6 crt-glow">
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <span class="text-xs font-mono uppercase tracking-widest text-terminal-accent font-semibold">TAVİZSİZ B2B KARAR HAKİKAT MASASI</span>
-          <h1 class="text-2xl sm:text-3xl font-extrabold text-white mt-1 tracking-tight">
-            Şirketinizin Batış Noktalarını Önceden İmha Edin.
-          </h1>
-          <p class="text-sm text-slate-400 mt-2 max-w-3xl leading-relaxed">
-            InversionCore; klasik yapay zeka gibi sizi pohpohlamaz veya sahte motivasyon üretmez. 
-            <strong>Apple Silicon Metal Rust Çekirdeği</strong>, <strong>Microsoft Z3 SMT Matematiksel Kanıt Motoru</strong>, 
-            <strong>ACL 2026 CoPoLLM</strong> ve <strong>10.000 İterasyonlu Stokastik Monte Carlo</strong> ile yatırım, büyüme ve borçlanma kararlarınızı adli tıp titizliğiyle otopsiye alır.
-          </p>
-        </div>
-        <div class="flex flex-col sm:flex-row gap-3 self-start md:self-auto shrink-0 font-mono text-xs">
-          <div class="border border-terminal-border rounded p-3 bg-black/40 text-center min-w-[120px]">
-            <div class="text-terminal-muted text-[10px] uppercase">Deterministik Kanıt</div>
-            <div class="text-base font-bold text-terminal-accent mt-0.5">%100 Formel</div>
+  <!-- ANA GÖVDE -->
+  <main class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-12 flex-1">
+
+    <!-- 1. BÖLÜM: 5 SANİYEDE AMACIMIZ NE? (NET, SAF KURUMSAL TANITIM) -->
+    <section id="amac" class="border border-panel-kenarlik rounded-2xl bg-panel-kart p-6 sm:p-10 shadow-lg">
+      <div class="max-w-4xl">
+        <span class="text-xs font-mono font-bold text-sky-400 uppercase tracking-wider block mb-2">
+          5 SANİYEDE AMACIMIZ
+        </span>
+        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-snug">
+          Şirketinizi Çöküşe Götüren Hataları ve İflas Risklerini Karar Vermeden Önce Tespit Edin.
+        </h1>
+        <p class="text-sm sm:text-base text-slate-300 mt-4 leading-relaxed font-normal">
+          InversionCore, yöneticilerin ve girişimcilerin büyüme, borçlanma veya yatırım kararlarındaki gizli riskleri inceler.
+          Klasik danışmanlıkların aksine masaya yeni maliyetler eklemez; Türk Ticaret Kanunu Madde 376 hükümleri ve matematiksel nakit akışı modelleriyle 
+          <strong>"batmamak için derhal hangi harcama ve taahhütleri durdurmanız gerektiğini"</strong> net bir raporla sunar.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 pt-6 border-t border-panel-kenarlik">
+          <div class="bg-black/30 border border-panel-kenarlik p-4 rounded-xl">
+            <h2 class="text-xs font-bold text-rose-400 font-mono">1. ZARARLI EYLEMİ KESME (VIA NEGATIVA)</h2>
+            <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">
+              Sorunu yeni bir bütçe ekleyerek değil, içeride nakit tüketen asalak süreçleri söküp atarak çözer.
+            </p>
           </div>
-          <div class="border border-terminal-border rounded p-3 bg-black/40 text-center min-w-[120px]">
-            <div class="text-terminal-muted text-[10px] uppercase">Raporlama</div>
-            <div class="text-base font-bold text-emerald-400 mt-0.5">SHA-256 PDF</div>
+          <div class="bg-black/30 border border-panel-kenarlik p-4 rounded-xl">
+            <h2 class="text-xs font-bold text-sky-400 font-mono">2. KANUNİ İFLAS DENETİMİ (TTK 376)</h2>
+            <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">
+              Borç ve harcama yapınızı 6102 sayılı TTK m. 376 kapsamında denetler; borca batıklık ihtimalini uyarır.
+            </p>
+          </div>
+          <div class="bg-black/30 border border-panel-kenarlik p-4 rounded-xl">
+            <h2 class="text-xs font-bold text-emerald-400 font-mono">3. 10.000 ŞOK SENARYOSU</h2>
+            <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">
+              Enflasyon, tahsilat gecikmesi ve faiz şokları altında kasanızın 12 ay hayatta kalma olasılığını hesaplar.
+            </p>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- TERMINAL WORKSPACE (SOL: GİRDİ PANELİ | SAĞ: CANLI ADLİ TIP TELEMETRİSİ) -->
-    <div id="auditSection" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-      <!-- SOL PANEL: STRATEJİK KARAR GİRDİSİ (4 COL) -->
-      <section class="lg:col-span-5 border border-terminal-border rounded-xl bg-terminal-card p-5 flex flex-col gap-4">
+    <!-- 2. BÖLÜM: KARAR DENETİM MASASI (ANALİZ FORMU VE SONUÇLAR) -->
+    <section id="denetim" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start scroll-mt-20">
+
+      <!-- SOL SÜTUN: GİRDİ FORMU (5 SÜTUN) -->
+      <div class="lg:col-span-5 border border-panel-kenarlik rounded-2xl bg-panel-kart p-6 flex flex-col gap-5 shadow-md">
         
-        <div class="flex items-center justify-between border-b border-terminal-border/80 pb-3">
-          <div class="flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-terminal-accent"></span>
-            <h2 class="font-mono text-sm font-bold text-white uppercase tracking-wider">Karar Masası Girdisi</h2>
-          </div>
-          <span class="text-[11px] font-mono text-terminal-muted">KVKK Maskeli & Zırhlı</span>
+        <div class="border-b border-panel-kenarlik pb-3">
+          <h2 class="font-bold text-sm text-white flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span>
+            Karar ve Finansal Parametre Girişi
+          </h2>
+          <p class="text-[11px] text-panel-soluk mt-0.5">Verileriniz sunucuda saklanmaz, anlık incelenir.</p>
         </div>
 
         <form id="auditForm" class="flex flex-col gap-4">
           
           <div>
-            <label for="decisionInput" class="block text-xs font-mono text-slate-300 mb-1.5">
-              Yatırım / Büyüme Kararı & Plan Özeti:
+            <label for="decisionInput" class="block text-xs font-semibold text-slate-300 mb-1">
+              İncelenecek Karar veya Büyüme Planı:
             </label>
             <textarea id="decisionInput" rows="5" required
-              class="w-full bg-black/80 border border-terminal-border rounded-lg p-3 text-xs font-mono text-slate-200 placeholder-slate-600 focus:outline-none focus:border-terminal-accent focus:ring-1 focus:ring-terminal-accent transition"
-              placeholder="Örnek: Hızlı büyüme hedefiyle aylık 600.000 TL reklam harcaması yapıyoruz. Kasada 1.200.000 TL var, borç/özkaynak oranı %70. 3 ay sonra seribaşı fonlama alacağımıza kesin gözüyle bakıyoruz..."></textarea>
+              class="w-full bg-black/60 border border-panel-kenarlik rounded-xl p-3.5 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-sky-500 transition leading-relaxed font-mono"
+              placeholder="Örnek: Hızlı büyüme amacıyla aylık 600.000 TL reklam ve operasyon harcaması yapıyoruz. Kasada 1.200.000 TL var, borç oranı %70. 3 ay sonra yeni yatırım alacağımızı varsayıyoruz..."></textarea>
           </div>
 
-          <div>
-            <label for="targetInput" class="block text-xs font-mono text-slate-300 mb-1.5">
-              Stratejik Nihai Hedef (Opsiyonel):
-            </label>
-            <input type="text" id="targetInput"
-              class="w-full bg-black/80 border border-terminal-border rounded-lg px-3 py-2 text-xs font-mono text-slate-200 placeholder-slate-600 focus:outline-none focus:border-terminal-accent focus:ring-1 focus:ring-terminal-accent transition"
-              placeholder="Örnek: 18 ay içinde Seri A yatırımı alarak pazar lideri olmak">
-          </div>
-
-          <!-- Finansal Parametreler Grid -->
+          <!-- Finansal Sayısal Girdiler -->
           <div class="grid grid-cols-3 gap-3">
             <div>
-              <label for="capitalInput" class="block text-[11px] font-mono text-slate-400 mb-1">Kasa Nakdi (TL):</label>
+              <label for="capitalInput" class="block text-[11px] text-slate-400 mb-1">Kasa Nakdi (TL):</label>
               <input type="number" id="capitalInput" value="1200000"
-                class="w-full bg-black/80 border border-terminal-border rounded px-2.5 py-1.5 text-xs font-mono text-slate-200 focus:outline-none focus:border-terminal-accent">
+                class="w-full bg-black/60 border border-panel-kenarlik rounded-lg px-3 py-2 text-xs font-mono text-slate-200 focus:outline-none focus:border-sky-500">
             </div>
             <div>
-              <label for="burnInput" class="block text-[11px] font-mono text-slate-400 mb-1">Aylık Harcama:</label>
+              <label for="burnInput" class="block text-[11px] text-slate-400 mb-1">Aylık Harcama:</label>
               <input type="number" id="burnInput" value="600000"
-                class="w-full bg-black/80 border border-terminal-border rounded px-2.5 py-1.5 text-xs font-mono text-slate-200 focus:outline-none focus:border-terminal-accent">
+                class="w-full bg-black/60 border border-panel-kenarlik rounded-lg px-3 py-2 text-xs font-mono text-slate-200 focus:outline-none focus:border-sky-500">
             </div>
             <div>
-              <label for="debtInput" class="block text-[11px] font-mono text-slate-400 mb-1">Borç Oranı (%):</label>
+              <label for="debtInput" class="block text-[11px] text-slate-400 mb-1">Borç Oranı (%):</label>
               <input type="number" id="debtInput" value="70"
-                class="w-full bg-black/80 border border-terminal-border rounded px-2.5 py-1.5 text-xs font-mono text-slate-200 focus:outline-none focus:border-terminal-accent">
+                class="w-full bg-black/60 border border-panel-kenarlik rounded-lg px-3 py-2 text-xs font-mono text-slate-200 focus:outline-none focus:border-sky-500">
             </div>
           </div>
 
-          <!-- Quick Test Presets -->
+          <!-- Örnek Senaryo Butonları -->
           <div class="pt-2">
-            <span class="text-[10px] font-mono text-terminal-muted uppercase tracking-wider block mb-2">Hızlı Test Senaryoları:</span>
-            <div class="flex flex-wrap gap-2 text-[11px] font-mono">
-              <button type="button" onclick="loadPreset(1)" class="px-2 py-1 rounded border border-terminal-border bg-black/40 hover:border-terminal-accent/60 transition text-slate-400 hover:text-white">
+            <span class="text-[10px] text-panel-soluk uppercase font-bold tracking-wider block mb-2">Örnek Senaryo Doldur:</span>
+            <div class="flex flex-wrap gap-2 text-xs">
+              <button type="button" onclick="loadPreset(1)" class="px-2.5 py-1.5 rounded-lg border border-panel-kenarlik bg-black/40 hover:border-slate-500 transition text-slate-300">
                 1. Kredili Büyüme (İflas Riski)
               </button>
-              <button type="button" onclick="loadPreset(2)" class="px-2 py-1 rounded border border-terminal-border bg-black/40 hover:border-terminal-accent/60 transition text-slate-400 hover:text-white">
+              <button type="button" onclick="loadPreset(2)" class="px-2.5 py-1.5 rounded-lg border border-panel-kenarlik bg-black/40 hover:border-slate-500 transition text-slate-300">
                 2. Aşırı İyimser Bütçe
               </button>
-              <button type="button" onclick="loadPreset(3)" class="px-2 py-1 rounded border border-terminal-border bg-black/40 hover:border-terminal-accent/60 transition text-slate-400 hover:text-white">
-                3. Dengeli & Sürdürülebilir
+              <button type="button" onclick="loadPreset(3)" class="px-2.5 py-1.5 rounded-lg border border-panel-kenarlik bg-black/40 hover:border-slate-500 transition text-slate-300">
+                3. Dengeli Nakit Akışı
               </button>
             </div>
           </div>
 
-          <!-- Submit Button -->
+          <!-- Gönder Butonu -->
           <button type="submit" id="btnSubmit"
-            class="w-full py-3 mt-2 rounded-lg font-mono text-xs font-bold uppercase tracking-wider bg-terminal-accent text-black hover:bg-sky-300 active:scale-[0.99] transition flex items-center justify-center gap-2">
-            <span id="btnSpinner" class="hidden w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin"></span>
-            <span id="btnText">ADLİ KARAR TEŞHİSİNİ ÇALIŞTIR (ENTER)</span>
+            class="w-full py-3.5 mt-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-sky-600 hover:bg-sky-500 text-white transition flex items-center justify-center gap-2 shadow-md">
+            <span id="btnSpinner" class="hidden w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+            <span id="btnText">DENETİMİ BAŞLAT</span>
           </button>
 
         </form>
 
-        <!-- KVKK & Güvenlik Güvencesi -->
-        <div class="text-[10px] font-mono text-terminal-muted border-t border-terminal-border/80 pt-3 flex items-center justify-between">
-          <span>KVKK / GDPR: Otomatik Maskeleme</span>
-          <span>Zero-Log Memory</span>
-        </div>
+      </div>
 
-      </section>
+      <!-- SAĞ SÜTUN: SONUÇ RAPORU (7 SÜTUN) -->
+      <div class="lg:col-span-7 flex flex-col gap-6">
 
-
-      <!-- SAĞ PANEL: GERÇEK ZAMANLI FORENSIC ADLİ TIP TELEMETRİSİ (7 COL) -->
-      <section class="lg:col-span-7 flex flex-col gap-6">
-
-        <!-- BOŞLUK VEYA BAŞLANGIÇ DURUMU -->
-        <div id="emptyState" class="border border-terminal-border border-dashed rounded-xl p-12 text-center bg-terminal-card/30 flex flex-col items-center justify-center min-h-[460px]">
-          <div class="w-14 h-14 rounded-full border border-terminal-border bg-black/60 flex items-center justify-center text-terminal-accent mb-4">
+        <!-- BOŞ BEKLEME DURUMU -->
+        <div id="emptyState" class="border border-panel-kenarlik border-dashed rounded-2xl p-12 text-center bg-panel-kart/50 flex flex-col items-center justify-center min-h-[460px]">
+          <div class="w-14 h-14 rounded-2xl border border-panel-kenarlik bg-black/60 flex items-center justify-center text-sky-400 mb-4">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
             </svg>
           </div>
-          <h3 class="text-base font-mono font-bold text-white uppercase tracking-wider">Hakikat Masası Beklemede</h3>
-          <p class="text-xs text-slate-400 mt-2 max-w-md">
-            Sol panelden yatırım veya büyüme kararınızı girin. Sistem saniyeler içinde Z3 matematiksel ispatı, CoPoLLM önyargı haritası ve Monte Carlo hayatta kalma dağılımını üretecektir.
+          <h3 class="text-sm font-bold text-white uppercase tracking-wider">İnceleme Masası Beklemede</h3>
+          <p class="text-xs text-slate-400 mt-2 max-w-md leading-relaxed">
+            Sol paneldeki karar özetini doldurarak "Denetimi Başlat" butonuna basın. 
+            Nakit tükenme süreniz, TTK 376 iflas koruma bariyeri ve alınması gereken önlemler burada listelenecektir.
           </p>
         </div>
 
-        <!-- SONUÇ KARTLARI (DİNAMİK RENDER) -->
-        <div id="resultsContainer" class="hidden flex flex-col gap-6">
+        <!-- SONUÇ ALANI -->
+        <div id="resultsContainer" class="hidden flex flex-col gap-5">
 
-          <!-- 1. HÜKÜM & ADLİ ÖZET KARTI -->
-          <div id="verdictCard" class="border rounded-xl p-6 bg-terminal-card">
-            <div class="flex flex-wrap items-center justify-between gap-4 border-b border-terminal-border/80 pb-4">
+          <!-- HÜKÜM KARTI -->
+          <div id="verdictCard" class="border rounded-2xl p-6 bg-panel-kart">
+            <div class="flex items-center justify-between border-b border-panel-kenarlik pb-4">
               <div>
-                <span class="text-[10px] font-mono uppercase tracking-widest text-terminal-muted">Adli Hüküm & Konsensüs</span>
-                <div class="flex items-center gap-3 mt-1">
-                  <h2 id="verdictTitle" class="text-2xl font-black font-mono tracking-tight">--</h2>
-                  <span id="detStatusBadge" class="px-2 py-0.5 rounded text-[11px] font-mono font-semibold">--</span>
-                </div>
+                <span class="text-[10px] font-mono uppercase tracking-widest text-panel-soluk">Nihai Karar Değerlendirmesi</span>
+                <h3 id="verdictTitle" class="text-xl sm:text-2xl font-black mt-1">--</h3>
               </div>
-
-              <!-- Rapor İndirme Butonu -->
-              <div id="pdfDownloadBlock" class="hidden">
-                <a id="pdfDownloadLink" href="#" target="_blank"
-                  class="px-4 py-2 rounded-lg font-mono text-xs font-bold bg-emerald-500 hover:bg-emerald-400 text-black flex items-center gap-2 shadow-lg transition">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                  </svg>
-                  <span>SHA-256 MÜHÜRLÜ ADLİ RAPORU İNDİR (.PDF)</span>
-                </a>
-              </div>
+              <span id="detStatusBadge" class="px-3 py-1 rounded text-xs font-mono font-bold">--</span>
             </div>
-
-            <!-- Adli Hash -->
-            <div class="flex items-center justify-between pt-3 text-[10px] font-mono text-terminal-muted">
-              <span>Rapor Bütünlük İmzası (SHA-256):</span>
-              <span id="auditHashDisplay" class="text-slate-400 truncate max-w-[280px]">--</span>
+            <div class="pt-3 text-[11px] font-mono text-slate-400 flex justify-between">
+              <span>Denetim Referans Kodu:</span>
+              <span id="auditHashDisplay" class="text-slate-200">--</span>
             </div>
           </div>
 
-
-          <!-- 2. ÇOK MOTORLU KONSENSÜS TELEMETRİ IZGARASI -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            
-            <!-- Rust Mach-O -->
-            <div class="border border-terminal-border rounded-lg p-4 bg-terminal-card/80">
-              <div class="text-[10px] font-mono text-terminal-muted uppercase">Apple Metal Rust Motoru</div>
-              <div id="rustRunway" class="text-xl font-bold font-mono text-white mt-1">-- Ay</div>
-              <p id="rustStatus" class="text-[11px] text-slate-400 mt-1 font-mono">Hesaplanıyor...</p>
-              <div class="text-[9px] font-mono text-terminal-muted mt-2 border-t border-terminal-border/60 pt-1.5 flex justify-between">
-                <span>Gecikme:</span> <span id="rustLatency">-- µs</span>
-              </div>
+          <!-- GÖSTERGELER -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+            <div class="border border-panel-kenarlik rounded-xl p-4 bg-black/40">
+              <span class="text-[10px] font-mono text-panel-soluk uppercase">Kasa Nakit Ömrü</span>
+              <div id="rustRunway" class="text-lg font-bold font-mono text-white mt-1">-- Ay</div>
+              <p id="rustStatus" class="text-[11px] text-slate-400 mt-1">Hesaplanıyor...</p>
             </div>
 
-            <!-- Z3 SMT -->
-            <div class="border border-terminal-border rounded-lg p-4 bg-terminal-card/80">
-              <div class="text-[10px] font-mono text-terminal-muted uppercase">Microsoft Z3 SMT Formal Kanıt</div>
-              <div id="z3Verdict" class="text-xl font-bold font-mono text-white mt-1">--</div>
-              <p id="z3Finding" class="text-[11px] text-slate-400 mt-1 line-clamp-2">Hesaplanıyor...</p>
-              <div class="text-[9px] font-mono text-terminal-muted mt-2 border-t border-terminal-border/60 pt-1.5 flex justify-between">
-                <span>Chiasmus MCP:</span> <span id="chiasmusStatus">ONAYLI</span>
-              </div>
+            <div class="border border-panel-kenarlik rounded-xl p-4 bg-black/40">
+              <span class="text-[10px] font-mono text-panel-soluk uppercase">12 Ay Hayatta Kalma</span>
+              <div id="mcSurvival" class="text-lg font-bold font-mono text-white mt-1">%--</div>
+              <p id="mcCategory" class="text-[11px] text-slate-400 mt-1">10.000 Senaryo</p>
             </div>
 
-            <!-- Google OR-Tools -->
-            <div class="border border-terminal-border rounded-lg p-4 bg-terminal-card/80">
-              <div class="text-[10px] font-mono text-terminal-muted uppercase">Google OR-Tools CP-SAT</div>
-              <div id="ortoolsRunway" class="text-xl font-bold font-mono text-white mt-1">-- Ay</div>
-              <p id="ortoolsStatus" class="text-[11px] text-slate-400 mt-1 font-mono">Hesaplanıyor...</p>
-              <div class="text-[9px] font-mono text-terminal-muted mt-2 border-t border-terminal-border/60 pt-1.5 flex justify-between">
-                <span>Optimizasyon:</span> <span class="text-emerald-400">OPTIMAL</span>
-              </div>
-            </div>
-
-            <!-- Monte Carlo 10.000 -->
-            <div class="border border-terminal-border rounded-lg p-4 bg-terminal-card/80">
-              <div class="text-[10px] font-mono text-terminal-muted uppercase">Monte Carlo (10K Senaryo)</div>
-              <div id="mcSurvival" class="text-xl font-bold font-mono text-white mt-1">%--</div>
-              <p id="mcCategory" class="text-[11px] text-slate-400 mt-1 font-mono">12 Ay Hayatta Kalma</p>
-              <div class="text-[9px] font-mono text-terminal-muted mt-2 border-t border-terminal-border/60 pt-1.5 flex justify-between">
-                <span>%95 VaR:</span> <span id="mcVar">-- Ay</span>
-              </div>
-            </div>
-
-            <!-- TTK 376 Hukuki İflas -->
-            <div class="border border-terminal-border rounded-lg p-4 bg-terminal-card/80">
-              <div class="text-[10px] font-mono text-terminal-muted uppercase">TTK Madde 376 İflas Durumu</div>
-              <div id="ttkStatus" class="text-sm font-bold font-mono text-white mt-1">--</div>
+            <div class="border border-panel-kenarlik rounded-xl p-4 bg-black/40">
+              <span class="text-[10px] font-mono text-panel-soluk uppercase">TTK Madde 376 Hükmü</span>
+              <div id="ttkStatus" class="text-xs font-bold text-white mt-1">--</div>
               <p id="ttkWarning" class="text-[11px] text-slate-400 mt-1 line-clamp-2">Hesaplanıyor...</p>
-              <div class="text-[9px] font-mono text-terminal-muted mt-2 border-t border-terminal-border/60 pt-1.5 flex justify-between">
-                <span>Özkaynak:</span> <span id="ttkEquity">-- TL</span>
-              </div>
             </div>
-
-            <!-- CoPoLLM ACL 2026 -->
-            <div class="border border-terminal-border rounded-lg p-4 bg-terminal-card/80">
-              <div class="text-[10px] font-mono text-terminal-muted uppercase">CoPoLLM Bilişsel Adli Tıp</div>
-              <div id="copollmSdi" class="text-xl font-bold font-mono text-white mt-1">SDI: --</div>
-              <p id="copollmCategory" class="text-[11px] text-slate-400 mt-1 font-mono">Hesaplanıyor...</p>
-              <div class="text-[9px] font-mono text-terminal-muted mt-2 border-t border-terminal-border/60 pt-1.5 flex justify-between">
-                <span>Rasch Logit (θ):</span> <span id="copollmTheta">--</span>
-              </div>
-            </div>
-
           </div>
 
-
-          <!-- 3. RED TEAM PRE-MORTEM OTOPSİSİ -->
-          <div class="border border-terminal-border rounded-xl p-5 bg-terminal-card">
-            <div class="flex items-center gap-2 mb-3 pb-2 border-b border-terminal-border/80">
-              <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
-              <h3 class="font-mono text-xs font-bold text-white uppercase tracking-wider">
-                Red Team Cerrahi Çöküş Analizi (Pre-Mortem)
-              </h3>
-            </div>
-            <div id="criticOutput" class="text-xs text-slate-300 leading-relaxed font-sans whitespace-pre-line bg-black/40 p-4 rounded-lg border border-terminal-border/60">
+          <!-- AYRINTILI TEŞHİS -->
+          <div class="border border-panel-kenarlik rounded-2xl p-5 bg-panel-kart">
+            <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-2.5 pb-2 border-b border-panel-kenarlik">
+              Cerrahi Hata ve Risk Analizi
+            </h4>
+            <div id="criticOutput" class="text-xs text-slate-300 leading-relaxed font-sans whitespace-pre-line bg-black/50 p-4 rounded-xl border border-panel-kenarlik">
               --
             </div>
           </div>
 
-
-          <!-- 4. VİA NEGATİVA: İMHA EDİLECEK ASALAK EYLEMLER (3 CERRAHİ TALİMAT) -->
-          <div class="border border-emerald-950/60 rounded-xl p-5 bg-terminal-card">
-            <div class="flex items-center gap-2 mb-3 pb-2 border-b border-terminal-border/80">
-              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-              <h3 class="font-mono text-xs font-bold text-emerald-400 uppercase tracking-wider">
-                Via Negativa Reçetesi (İflastan Kaçış İçin Durdurulacak Eylemler)
-              </h3>
-            </div>
-            <ul id="viaNegativaList" class="flex flex-col gap-2 text-xs font-mono text-slate-300">
-              <!-- JS Dinamik Dolduracak -->
-            </ul>
+          <!-- VIA NEGATIVA (DURDURULACAK EYLEMLER) -->
+          <div class="border border-emerald-950/60 rounded-2xl p-5 bg-panel-kart">
+            <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2.5 pb-2 border-b border-panel-kenarlik">
+              İflastan Kaçınmak İçin Derhal Durdurulması Gereken 3 Eylem (Via Negativa)
+            </h4>
+            <ul id="viaNegativaList" class="flex flex-col gap-2 text-xs text-slate-300"></ul>
           </div>
 
         </div>
 
-      </section>
+      </div>
 
-    </div>
+    </section>
+
+
+    <!-- 3. BÖLÜM: BARIŞ BAĞIRLAR KİMDİR? & 10 STRATEJİK PLATFORM -->
+    <section id="kurucu" class="border border-panel-kenarlik rounded-2xl bg-panel-kart p-6 sm:p-10 scroll-mt-20">
+      
+      <div class="border-b border-panel-kenarlik pb-6">
+        <span class="text-xs font-mono uppercase tracking-wider text-sky-400 font-bold">KURUCU HAKKINDA</span>
+        <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">Barış Bağırlar Kimdir?</h2>
+        <p class="text-xs text-panel-soluk font-mono mt-1">Sistem Dinamikleri Mimarı, Finansal Modelleme ve Tersine Mühendislik Uzmanı</p>
+      </div>
+
+      <div class="text-xs sm:text-sm text-slate-300 mt-6 leading-relaxed space-y-4">
+        <p>
+          <strong>Barış Bağırlar;</strong> kurumsal finansal modelleme, iflas teşhisi, regülasyon teknolojileri ve karar analitiği alanlarında 
+          faaliyet gösteren <strong>10 büyük dijital platformun</strong> kurucusu ve baş mimarıdır.
+        </p>
+        <p>
+          Şirketlerin başarısızlığının temelinde eksik bilgi değil; masada biriken kontrolsüz taahhütler, yüksek faizli gizli borçlanmalar 
+          ve yöneticilerin kendi mazeretlerine inanması olduğunu savunan Bağırlar; 
+          InversionCore altyapısını <strong>Via Negativa (eksilterek güçlenme)</strong> felsefesi ve katı finansal matematik temelleri üzerinde inşa etmiştir.
+        </p>
+      </div>
+
+      <!-- 10 Büyük Platform Listesi -->
+      <div class="mt-8">
+        <h3 class="text-xs font-mono uppercase text-slate-400 mb-4 font-bold">Barış Bağırlar Stratejik Karar Ekosistemi:</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 text-xs">
+          <a href="https://drfin.com.tr" target="_blank" class="p-3 rounded-xl border border-panel-kenarlik bg-black/40 hover:border-sky-500 transition block">
+            <div class="text-white font-bold">Dr. Fin</div>
+            <div class="text-[11px] text-slate-400 mt-1">Finansal Sağlık & İflas Riski</div>
+          </a>
+          <a href="https://excelarsiv.com" target="_blank" class="p-3 rounded-xl border border-panel-kenarlik bg-black/40 hover:border-sky-500 transition block">
+            <div class="text-white font-bold">Excel Arşiv</div>
+            <div class="text-[11px] text-slate-400 mt-1">Finansal Model & Şablonlar</div>
+          </a>
+          <a href="https://degerlet.com" target="_blank" class="p-3 rounded-xl border border-panel-kenarlik bg-black/40 hover:border-sky-500 transition block">
+            <div class="text-white font-bold">Değerlet</div>
+            <div class="text-[11px] text-slate-400 mt-1">Şirketsiz Sanal POS Tahsilatı</div>
+          </a>
+          <a href="https://skdmhesapla.com" target="_blank" class="p-3 rounded-xl border border-panel-kenarlik bg-black/40 hover:border-sky-500 transition block">
+            <div class="text-white font-bold">SKDM Hesapla</div>
+            <div class="text-[11px] text-slate-400 mt-1">AB Sınırda Karbon / CBAM</div>
+          </a>
+          <a href="https://karbonfiyat.com" target="_blank" class="p-3 rounded-xl border border-panel-kenarlik bg-black/40 hover:border-sky-500 transition block">
+            <div class="text-white font-bold">Karbon Fiyat</div>
+            <div class="text-[11px] text-slate-400 mt-1">ETS & Karbon Piyasaları</div>
+          </a>
+          <a href="https://belginkuyumculuk.com" target="_blank" class="p-3 rounded-xl border border-panel-kenarlik bg-black/40 hover:border-sky-500 transition block">
+            <div class="text-white font-bold">Belgin Kuyumculuk</div>
+            <div class="text-[11px] text-slate-400 mt-1">Kıymetli Madenler & Altın</div>
+          </a>
+          <a href="https://saatchi.com.tr" target="_blank" class="p-3 rounded-xl border border-panel-kenarlik bg-black/40 hover:border-sky-500 transition block">
+            <div class="text-white font-bold">Saatchi & Co.</div>
+            <div class="text-[11px] text-slate-400 mt-1">Lüks Tasarım & Prestij</div>
+          </a>
+          <a href="https://dilekceyazdir.com.tr" target="_blank" class="p-3 rounded-xl border border-panel-kenarlik bg-black/40 hover:border-sky-500 transition block">
+            <div class="text-white font-bold">Dilekçe Yazdır</div>
+            <div class="text-[11px] text-slate-400 mt-1">Hukuk Teknolojileri & Evrak</div>
+          </a>
+          <a href="https://htmlandhtml.com" target="_blank" class="p-3 rounded-xl border border-panel-kenarlik bg-black/40 hover:border-sky-500 transition block">
+            <div class="text-white font-bold">HTML and HTML</div>
+            <div class="text-[11px] text-slate-400 mt-1">Global AI Görünürlük & Arama</div>
+          </a>
+          <div class="p-3 rounded-xl border border-sky-800 bg-sky-950/40 block">
+            <div class="text-sky-400 font-bold">InversionCore</div>
+            <div class="text-[11px] text-slate-400 mt-1">Karar Masası (Merkez)</div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- 4. BÖLÜM: SIKÇA SORULAN SORULAR (SSS) -->
+    <section id="sss" class="border border-panel-kenarlik rounded-2xl bg-panel-kart p-6 sm:p-10 scroll-mt-20">
+      
+      <div class="border-b border-panel-kenarlik pb-4 mb-6">
+        <span class="text-xs font-mono uppercase text-sky-400 font-bold">MERAK EDİLENLER</span>
+        <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">Sıkça Sorulan Sorular (SSS)</h2>
+      </div>
+
+      <div class="space-y-3.5 text-xs">
+
+        <details class="border border-panel-kenarlik rounded-xl bg-black/30 p-4 group">
+          <summary class="font-bold text-white cursor-pointer flex items-center justify-between list-none">
+            <span>1. InversionCore standart sohbet yapay zekalarından neden farklıdır?</span>
+            <span class="text-sky-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p class="text-slate-300 mt-3 leading-relaxed border-t border-panel-kenarlik pt-3">
+            Standart yapay zekalar kullanıcıyı memnun etmek ve onaylamak için eğitilmiştir. InversionCore ise bir ayna değil röntgen cihazıdır.
+            Cümle aralarındaki gizli kaçışları yakalar; nakit tükenme sürenizi ve borçluluk yapınızı doğrudan finansal kısıtlarla test eder.
+          </p>
+        </details>
+
+        <details class="border border-panel-kenarlik rounded-xl bg-black/30 p-4 group">
+          <summary class="font-bold text-white cursor-pointer flex items-center justify-between list-none">
+            <span>2. Tersine Mühendislik (Via Negativa) ne demektir?</span>
+            <span class="text-sky-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p class="text-slate-300 mt-3 leading-relaxed border-t border-panel-kenarlik pt-3">
+            Eksilterek çözüme ulaşma disiplinidir. Şirketler yeni bir süreç ekleyemedikleri için değil; içeride biriken zararlı giderleri ve toksik taahhütleri durduramadıkları için batar.
+            InversionCore size ne yapmanız gerektiğini değil, derhal hangi 3 eylemi durdurmanız gerektiğini gösterir.
+          </p>
+        </details>
+
+        <details class="border border-panel-kenarlik rounded-xl bg-black/30 p-4 group">
+          <summary class="font-bold text-white cursor-pointer flex items-center justify-between list-none">
+            <span>3. TTK Madde 376 borca batıklık uyarısı nedir?</span>
+            <span class="text-sky-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p class="text-slate-300 mt-3 leading-relaxed border-t border-panel-kenarlik pt-3">
+            Türk Ticaret Kanunu m. 376; şirket sermayesinin ve kanuni yedeklerinin yarısının veya 2/3'ünün karşılıksız kalması halinde yönetim organının genel kurulu acilen toplantıya çağırmasını ve tedbir almasını zorunlu kılar.
+            Sistem kasanızdaki nakit ve borç oranınıza göre bu yasal tehlike sınırını otomatik bildirir.
+          </p>
+        </details>
+
+        <details class="border border-panel-kenarlik rounded-xl bg-black/30 p-4 group">
+          <summary class="font-bold text-white cursor-pointer flex items-center justify-between list-none">
+            <span>4. Girdiğim ticari bilgiler gizli kalıyor mu?</span>
+            <span class="text-sky-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p class="text-slate-300 mt-3 leading-relaxed border-t border-panel-kenarlik pt-3">
+            Evet. Sistemde girilen veriler herhangi bir sunucu veritabanına kaydedilmez. Analiz anlık olarak çalışır ve tarayıcınızı kapattığınızda silinir.
+          </p>
+        </details>
+
+        <details class="border border-panel-kenarlik rounded-xl bg-black/30 p-4 group">
+          <summary class="font-bold text-white cursor-pointer flex items-center justify-between list-none">
+            <span>5. Bu sistem kimler için tasarlandı?</span>
+            <span class="text-slate-300 mt-3 leading-relaxed border-t border-panel-kenarlik pt-3">
+            Kurucular, şirket ortakları, finans yöneticileri, yatırım öncesi durum tespiti (due diligence) yürüten profesyoneller ve geri dönülmez borçlanma imzası atacak herkes için hazırlanmıştır.
+          </p>
+        </details>
+
+      </div>
+
+    </section>
 
   </main>
 
-  <!-- FOOTER -->
-  <footer class="border-t border-terminal-border bg-terminal-card/60 py-4 px-6 mt-auto">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] font-mono text-terminal-muted">
-      <div>
-        <span>InversionCore Hakikat Masası</span> &copy; 2026. Tüm hakları saklıdır.
+
+  <!-- 5. BÖLÜM: ZARİF, İNCE VE SIKIŞIK YASAL FOOTER -->
+  <footer class="border-t border-panel-kenarlik bg-panel-kart/90 py-5 px-4 sm:px-8 mt-12">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-panel-soluk">
+      
+      <div class="flex items-center gap-2">
+        <span class="font-bold text-white">InversionCore</span>
+        <span>&copy; 2026. Kurucu: <strong class="text-slate-200">Barış Bağırlar</strong>.</span>
       </div>
-      <div class="flex items-center gap-4">
-        <span>Yerel Çıkarım: MLX Qwen 14B</span>
-        <span>Adli Mühür: SHA-256</span>
+
+      <!-- Yasal Dokümantasyon Butonları -->
+      <div class="flex items-center gap-4 text-[11px]">
+        <button onclick="openModal('kvkkModal')" class="hover:text-white transition-colors">KVKK Aydınlatma Metni</button>
+        <span class="text-slate-700">|</span>
+        <button onclick="openModal('gizlilikModal')" class="hover:text-white transition-colors">Gizlilik Politikası</button>
+        <span class="text-slate-700">|</span>
+        <button onclick="openModal('yasalModal')" class="hover:text-white transition-colors">Kullanım Koşulları & Yasal Uyarı</button>
       </div>
+
+      <div class="text-[10px] text-slate-500 font-mono">
+        Via Negativa // Karar Masası
+      </div>
+
     </div>
   </footer>
 
-  <!-- TERMINAL CORE LOGIC -->
-  <script>
-    // Canlı Saat
-    setInterval(() => {
-      const now = new Date();
-      const clockEl = document.getElementById('systemClock');
-      if (clockEl) clockEl.innerText = now.toTimeString().split(' ')[0];
-    }, 1000);
 
-    // Preset Senaryolar
-    const PRESETS = {
+  <!-- YASAL POPUP PENCERELERİ (MODALS) -->
+  <div id="kvkkModal" class="fixed inset-0 bg-black/80 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-panel-kart border border-panel-kenarlik rounded-2xl w-full max-w-lg p-6 flex flex-col gap-4 text-xs text-slate-300">
+      <h3 class="font-bold text-sm text-white">KVKK Aydınlatma Metni</h3>
+      <p>6698 sayılı Kişisel Verilerin Korunması Kanunu uyarınca; InversionCore platformunda paylaştığınız ticari veya şahsi senaryolar yalnızca anlık analiz amacıyla işlenir. Hiçbir veri kaydedilmez veya üçüncü taraflarla paylaşılmaz.</p>
+      <div class="flex justify-end pt-2">
+        <button onclick="closeModal('kvkkModal')" class="px-4 py-1.5 bg-sky-600 text-white rounded-lg font-bold">Kapat</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="gizlilikModal" class="fixed inset-0 bg-black/80 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-panel-kart border border-panel-kenarlik rounded-2xl w-full max-w-lg p-6 flex flex-col gap-4 text-xs text-slate-300">
+      <h3 class="font-bold text-sm text-white">Gizlilik Politikası</h3>
+      <p>InversionCore sıfır günlük (zero-log) prensibiyle çalışır. Çerezler veya izleme kodları ticari profil çıkarma amacıyla kullanılmaz.</p>
+      <div class="flex justify-end pt-2">
+        <button onclick="closeModal('gizlilikModal')" class="px-4 py-1.5 bg-sky-600 text-white rounded-lg font-bold">Kapat</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="yasalModal" class="fixed inset-0 bg-black/80 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-panel-kart border border-panel-kenarlik rounded-2xl w-full max-w-lg p-6 flex flex-col gap-4 text-xs text-slate-300">
+      <h3 class="font-bold text-sm text-white">Yasal Uyarı ve Sorumluluk Reddi</h3>
+      <p>Bu platformda sunulan analizler, matematiksel simülasyon ve karar destek amaçlıdır. Doğrudan mali, hukuki veya yatırım danışmanlığı teşkil etmez. Kesin kararlar öncesinde yeminli mali müşavir veya hukuk danışmanınıza başvurunuz.</p>
+      <div class="flex justify-end pt-2">
+        <button onclick="closeModal('yasalModal')" class="px-4 py-1.5 bg-sky-600 text-white rounded-lg font-bold">Kapat</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- UYGULAMA MANTIĞI -->
+  <script>
+    // Örnek Senaryo Yükleyici
+    const SENARYOLAR = {
       1: {
-        text: "Hızlı büyüme hedefiyle aylık 600.000 TL reklam ve operasyon harcaması yapıyoruz. Kasada 1.200.000 TL var, borç/özkaynak oranı %70. 3 ay sonra seribaşı fonlama alacağımıza kesin gözüyle bakıyoruz.",
-        hedef: "18 ay kesintisiz büyüme ve Seri A yatırımı",
+        text: "Hızlı büyüme hedefiyle aylık 600.000 TL reklam ve operasyon harcaması yapıyoruz. Kasada 1.200.000 TL var, borç oranı %70. 3 ay sonra seribaşı fonlama alacağımıza kesin gözüyle bakıyoruz.",
         capital: 1200000,
         burn: 600000,
         debt: 70
       },
       2: {
-        text: "Bizim şirket için kesinlikle tek yol 3 milyon TL kredi çekip yeni fabrika açmak. Başka hiçbir çaremiz yok, herkes böyle yapıyor. Eğer bunu yapmazsak mahvolduk, bittik. Bize komplo kurdular ama hissediyorum bu sefer kesinlikle zengin olacağız.",
-        hedef: "Fabrika kapasitesini 5 katına çıkarmak",
+        text: "Fabrika kapasitesini 3 katına çıkarmak için 3 milyon TL kredi çekip yatırıma girmeyi düşünüyoruz. Pazarın daralma riskini henüz hesaba katmadık.",
         capital: 500000,
         burn: 120000,
         debt: 85
       },
       3: {
-        text: "Önümüzdeki çeyrekte organik büyümeyi koruyarak sabit giderleri kısıyoruz. Kasada 2.500.000 TL nakit bulunuyor, aylık net nakit çıkışı 80.000 TL ve borçluluk sıfıra yakın.",
-        hedef: "Kendi nakit akışıyla karlı ölçeklenme",
+        text: "Önümüzdeki dönem sabit giderleri kısıyoruz. Kasada 2.500.000 TL nakit var, aylık net nakit çıkışı 80.000 TL ve borçluluk neredeyse sıfır.",
         capital: 2500000,
         burn: 80000,
         debt: 5
@@ -429,16 +499,19 @@
     };
 
     function loadPreset(id) {
-      const p = PRESETS[id];
-      if (!p) return;
-      document.getElementById('decisionInput').value = p.text;
-      document.getElementById('targetInput').value = p.hedef;
-      document.getElementById('capitalInput').value = p.capital;
-      document.getElementById('burnInput').value = p.burn;
-      document.getElementById('debtInput').value = p.debt;
+      const s = SENARYOLAR[id];
+      if (!s) return;
+      document.getElementById('decisionInput').value = s.text;
+      document.getElementById('capitalInput').value = s.capital;
+      document.getElementById('burnInput').value = s.burn;
+      document.getElementById('debtInput').value = s.debt;
     }
 
-    // Teşhis API İstek Yönetimi
+    // Modal Yönetimi
+    function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+    // Form Gönderim & Dayanıklı Teşhis Motoru
     const form = document.getElementById('auditForm');
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -451,141 +524,105 @@
 
       const payload = {
         input: document.getElementById('decisionInput').value.trim(),
-        hedef: document.getElementById('targetInput').value.trim() || undefined,
         capital: parseFloat(document.getElementById('capitalInput').value) || 0,
         burn: parseFloat(document.getElementById('burnInput').value) || 0,
         debt_ratio: parseFloat(document.getElementById('debtInput').value) || 0
       };
 
       if (!payload.input || payload.input.length < 5) {
-        alert("Lütfen en az 5 karakterlik bir karar senaryosu girin.");
+        alert("Lütfen incelenecek karara dair kısa bir açıklama giriniz.");
         return;
       }
 
-      // Buton yükleniyor durumuna al
       btnSubmit.disabled = true;
       btnSpinner.classList.remove('hidden');
-      btnText.innerText = "HAKİKAT MASASI OTOPSİSİ YÜRÜTÜLÜYOR...";
+      btnText.innerText = "DENETİM YAPILIYOR...";
 
+      let data = null;
+
+      // 1. Önce Canlı API Sunucusunu Dene
       try {
         const response = await fetch('/api/inversion/diagnose', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-
-        if (!response.ok) {
-          const errData = await response.json().catch(() => ({}));
-          throw new Error(errData.detail || "Teşhis motorundan yanıt alınamadı.");
+        if (response.ok) {
+          data = await response.json();
         }
-
-        const data = await response.json();
-
-        // Render UI
-        emptyState.classList.add('hidden');
-        resultsContainer.classList.remove('hidden');
-
-        // 1. Hüküm Kartı
-        const verdictTitle = document.getElementById('verdictTitle');
-        const detBadge = document.getElementById('detStatusBadge');
-        const verdictCard = document.getElementById('verdictCard');
-
-        const v = data.verdict || "ŞÜPHELİ";
-        verdictTitle.innerText = v === "RED" ? "KABUL EDİLEMEZ (RED)" : (v === "GO" ? "UYGUN (ONAYLANDI)" : v);
-
-        if (v === "RED") {
-          verdictTitle.className = "text-2xl font-black font-mono tracking-tight text-rose-500";
-          detBadge.className = "px-2 py-0.5 rounded text-[11px] font-mono font-semibold bg-rose-950 text-rose-400 border border-rose-800";
-          detBadge.innerText = data.deterministic_status || "UNSAT";
-          verdictCard.className = "border border-rose-900/60 rounded-xl p-6 bg-terminal-card red-glow";
-        } else if (v === "GO") {
-          verdictTitle.className = "text-2xl font-black font-mono tracking-tight text-emerald-400";
-          detBadge.className = "px-2 py-0.5 rounded text-[11px] font-mono font-semibold bg-emerald-950 text-emerald-400 border border-emerald-800";
-          detBadge.innerText = data.deterministic_status || "SAT";
-          verdictCard.className = "border border-emerald-900/60 rounded-xl p-6 bg-terminal-card green-glow";
-        } else {
-          verdictTitle.className = "text-2xl font-black font-mono tracking-tight text-amber-400";
-          detBadge.className = "px-2 py-0.5 rounded text-[11px] font-mono font-semibold bg-amber-950 text-amber-400 border border-amber-800";
-          detBadge.innerText = data.deterministic_status || "CONDITIONAL";
-          verdictCard.className = "border border-amber-900/60 rounded-xl p-6 bg-terminal-card";
-        }
-
-        document.getElementById('auditHashDisplay').innerText = data.audit_hash || "--";
-
-        // PDF İndirme Butonu
-        const pdfBlock = document.getElementById('pdfDownloadBlock');
-        const pdfLink = document.getElementById('pdfDownloadLink');
-        if (data.report_pdf_url) {
-          pdfLink.href = data.report_pdf_url;
-          pdfBlock.classList.remove('hidden');
-        } else {
-          pdfBlock.classList.add('hidden');
-        }
-
-        // 2. Telemetri Kartları
-        // Rust
-        const r = data.rust_telemetry || {};
-        document.getElementById('rustRunway').innerText = `${r.runway_months || 0} Ay`;
-        document.getElementById('rustStatus').innerText = r.fragility_status || "--";
-        document.getElementById('rustLatency').innerText = `${r.computation_time_us || 0} µs`;
-
-        // Z3 SMT
-        const z = data.z3_telemetry || {};
-        document.getElementById('z3Verdict').innerText = z.verdict || "--";
-        document.getElementById('z3Finding').innerText = z.finding || "--";
-        document.getElementById('chiasmusStatus').innerText = z.chiasmus_mcp_verification || "OK";
-
-        // OR-Tools
-        const o = data.ortools_telemetry || {};
-        document.getElementById('ortoolsRunway').innerText = `${o.optimal_runway_months || 0} Ay`;
-        document.getElementById('ortoolsStatus').innerText = o.target_achieved ? "Asgari Şart Sağlandı" : "Kısıt İhlali";
-
-        // Monte Carlo
-        const mc = data.monte_carlo_telemetry || {};
-        document.getElementById('mcSurvival').innerText = `%${mc.survival_probability_12m_pct !== undefined ? mc.survival_probability_12m_pct : '--'}`;
-        document.getElementById('mcCategory').innerText = mc.risk_category || "Hesaplandı";
-        document.getElementById('mcVar').innerText = `${mc.worst_5pct_runway_months || 0} Ay`;
-
-        // TTK 376
-        const ttk = data.ttk_376_telemetry || {};
-        document.getElementById('ttkStatus').innerText = ttk.yasal_hukum || "Kapsam Dışı";
-        document.getElementById('ttkWarning').innerText = ttk.yasal_uyari || "--";
-        document.getElementById('ttkEquity').innerText = `${(ttk.prospektif_ozkaynak || 0).toLocaleString('tr-TR')} TL`;
-
-        // CoPoLLM
-        const cog = data.cognitive_forensics || {};
-        document.getElementById('copollmSdi').innerText = `SDI: ${cog.self_deception_index !== undefined ? cog.self_deception_index : '--'}`;
-        document.getElementById('copollmCategory').innerText = cog.karar_korlugu_derecesi || "--";
-        document.getElementById('copollmTheta').innerText = cog.rasch_theta_logit !== undefined ? cog.rasch_theta_logit : '--';
-
-        // 3. Red Team Critic
-        document.getElementById('criticOutput').innerText = data.red_team_critic || "Kritik bulgu saptanmadı.";
-
-        // 4. Via Negativa
-        const viaList = document.getElementById('viaNegativaList');
-        viaList.innerHTML = '';
-        const actions = data.via_negativa || [];
-        if (actions.length > 0) {
-          actions.forEach((act, idx) => {
-            const li = document.createElement('li');
-            li.className = "flex items-start gap-2 bg-black/40 p-2.5 rounded border border-terminal-border/40";
-            li.innerHTML = `<span class="text-rose-500 font-bold shrink-0">[DURDUR ${idx+1}]:</span> <span>${act}</span>`;
-            viaList.appendChild(li);
-          });
-        } else {
-          viaList.innerHTML = '<li class="text-slate-500">Acil durdurulacak operasyonel asalak bulunamadı.</li>';
-        }
-
-        // Otomatik kaydır
-        resultsContainer.scrollIntoView({ behavior: 'smooth' });
-
       } catch (err) {
-        alert("Teşhis sırasında hata oluştu: " + err.message);
-      } finally {
-        btnSubmit.disabled = false;
-        btnSpinner.classList.add('hidden');
-        btnText.innerText = "ADLİ KARAR TEŞHİSİNİ ÇALIŞTIR (ENTER)";
+        // Ağ hatası durumunda yerel motora geçilir
       }
+
+      // 2. Sunucu Yoksa veya Yanıt Vermediyse Tarayıcı İçi Deterministik Motoru Çalıştır
+      if (!data || !data.verdict) {
+        if (window.InversionClientEngine) {
+          data = window.InversionClientEngine.diagnose(payload);
+        }
+      }
+
+      // 3. Sonuçları Ekrana Bas
+      emptyState.classList.add('hidden');
+      resultsContainer.classList.remove('hidden');
+
+      const verdictTitle = document.getElementById('verdictTitle');
+      const detBadge = document.getElementById('detStatusBadge');
+      const verdictCard = document.getElementById('verdictCard');
+      const v = data.verdict || "ŞÜPHELİ";
+
+      if (v === "RED") {
+        verdictTitle.innerText = "YÜKSEK RİSK / İFLAS TEHLİKESİ (RED)";
+        verdictTitle.className = "text-xl sm:text-2xl font-black text-rose-500 mt-1";
+        detBadge.className = "px-3 py-1 rounded text-xs font-mono font-bold bg-rose-950 text-rose-400 border border-rose-800";
+        detBadge.innerText = "TUTARSIZ (UNSAT)";
+        verdictCard.className = "border border-rose-900/60 rounded-2xl p-6 bg-panel-kart";
+      } else if (v === "GO") {
+        verdictTitle.innerText = "FİNANSAL DENGELİ (UYGUN)";
+        verdictTitle.className = "text-xl sm:text-2xl font-black text-emerald-400 mt-1";
+        detBadge.className = "px-3 py-1 rounded text-xs font-mono font-bold bg-emerald-950 text-emerald-400 border border-emerald-800";
+        detBadge.innerText = "TUTARLI (SAT)";
+        verdictCard.className = "border border-emerald-900/60 rounded-2xl p-6 bg-panel-kart";
+      } else {
+        verdictTitle.innerText = "ŞÜPHELİ / KORUMA GEREKLİ";
+        verdictTitle.className = "text-xl sm:text-2xl font-black text-amber-400 mt-1";
+        detBadge.className = "px-3 py-1 rounded text-xs font-mono font-bold bg-amber-950 text-amber-400 border border-amber-800";
+        detBadge.innerText = "ŞARTLI (CONDITIONAL)";
+        verdictCard.className = "border border-amber-900/60 rounded-2xl p-6 bg-panel-kart";
+      }
+
+      document.getElementById('auditHashDisplay').innerText = data.audit_hash || "--";
+
+      // Metrikler
+      const r = data.rust_telemetry || {};
+      document.getElementById('rustRunway').innerText = `${r.runway_months || 0} Ay`;
+      document.getElementById('rustStatus').innerText = r.fragility_status || "--";
+
+      const mc = data.monte_carlo_telemetry || {};
+      document.getElementById('mcSurvival').innerText = `%${mc.survival_probability_12m_pct !== undefined ? mc.survival_probability_12m_pct : '--'}`;
+      document.getElementById('mcCategory').innerText = mc.risk_category || "Hesaplandı";
+
+      const ttk = data.ttk_376_telemetry || {};
+      document.getElementById('ttkStatus').innerText = ttk.yasal_hukum || "Kapsam Dışı";
+      document.getElementById('ttkWarning').innerText = ttk.yasal_uyari || "--";
+
+      document.getElementById('criticOutput').innerText = data.red_team_critic || "Kritik bulgu saptanmadı.";
+
+      const viaList = document.getElementById('viaNegativaList');
+      viaList.innerHTML = '';
+      const actions = data.via_negativa || [];
+      if (actions.length > 0) {
+        actions.forEach((act, idx) => {
+          const li = document.createElement('li');
+          li.className = "flex items-start gap-2 bg-black/40 p-3 rounded-xl border border-panel-kenarlik";
+          li.innerHTML = `<span class="text-rose-400 font-bold font-mono shrink-0">[DURDUR ${idx+1}]:</span> <span>${act}</span>`;
+          viaList.appendChild(li);
+        });
+      }
+
+      btnSubmit.disabled = false;
+      btnSpinner.classList.add('hidden');
+      btnText.innerText = "DENETİMİ BAŞLAT";
+      resultsContainer.scrollIntoView({ behavior: 'smooth' });
     });
   </script>
 </body>
