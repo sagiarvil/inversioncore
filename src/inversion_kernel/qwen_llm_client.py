@@ -125,6 +125,39 @@ class QwenLLMClient:
 
         if resp.get("status") == "SUCCESS" and resp.get("content"):
             return resp["content"].strip()
+
+        # 2. SEVİYE YEDEK: NVIDIA NIM Cloud Gateway (Sıfır Maliyetli Yedek Motor)
+        nv_key = os.environ.get("NVIDIA_API_KEY")
+        if not nv_key and os.path.exists("/Users/macair1/projects/inversioncore/.env"):
+            with open("/Users/macair1/projects/inversioncore/.env") as f:
+                for line in f:
+                    if line.startswith("NVIDIA_API_KEY="):
+                        nv_key = line.strip().split("=", 1)[1]
+                        break
+
+        if nv_key:
+            try:
+                nv_payload = {
+                    "model": "google/diffusiongemma-26b-a4b-it",
+                    "messages": [
+                        {"role": "system", "content": sys_prompt},
+                        {"role": "user", "content": user_prompt}
+                    ],
+                    "temperature": 0.2,
+                    "max_tokens": 300
+                }
+                req = urllib.request.Request(
+                    "https://integrate.api.nvidia.com/v1/chat/completions",
+                    headers={"Authorization": f"Bearer {nv_key}", "Content-Type": "application/json"},
+                    data=json.dumps(nv_payload).encode("utf-8")
+                )
+                with urllib.request.urlopen(req, timeout=8) as r:
+                    d = json.loads(r.read().decode("utf-8"))
+                    nv_content = d["choices"][0]["message"]["content"].strip()
+                    if nv_content:
+                        return f"[NVIDIA-NIM]: {nv_content}"
+            except Exception:
+                pass
         
-        # Yerel model meşgulse deterministik kural motoru devrede kalır
+        # 3. SEVİYE: Deterministik Kural Motoru
         return "Bilişsel savunma mekanizması ve aşırı iyimserlik nakit akışındaki 60 günlük iflas riskini gizliyor."

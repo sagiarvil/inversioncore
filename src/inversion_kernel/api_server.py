@@ -9,6 +9,7 @@ from typing import Dict, Any, Optional
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from src.inversion_kernel.langgraph_orchestrator import build_inversion_graph, DiagnosticState
@@ -115,6 +116,9 @@ def run_diagnosis(req: DiagnoseRequest):
             "rust_telemetry": res.get("rust_telemetry"),
             "z3_telemetry": res.get("z3_telemetry"),
             "ortools_telemetry": res.get("ortools_telemetry"),
+            "monte_carlo_telemetry": res.get("monte_carlo_telemetry"),
+            "ttk_376_telemetry": res.get("ttk_376_telemetry"),
+            "red_team_critic": res.get("critic_output"),
             "via_negativa": res.get("via_negativa"),
             "audit_hash": res.get("audit_hash"),
             "report_pdf_url": download_url
@@ -134,6 +138,19 @@ def download_report(filename: str):
         media_type="application/pdf",
         filename=filename
     )
+
+
+@app.get("/")
+def serve_index():
+    index_path = "/Users/macair1/projects/inversioncore/public/index.html"
+    if os.path.exists(index_path):
+        return FileResponse(index_path)
+    return JSONResponse({"status": "ONLINE", "message": "InversionCore API Ready"})
+
+# Mount public directory for static assets (logo.png, css, js)
+public_dir = "/Users/macair1/projects/inversioncore/public"
+if os.path.exists(public_dir):
+    app.mount("/static", StaticFiles(directory=public_dir), name="static")
 
 
 if __name__ == "__main__":

@@ -107,7 +107,7 @@ class ResilientLLMGateway:
 
         # 1. KADEME: Apple MLX-LM Native (Port 8084)
         t0 = time.perf_counter()
-        res = self.call_local_endpoint("http://127.0.0.1:8084", payload, timeout=5.0)
+        res = self.call_local_endpoint("http://127.0.0.1:8084", payload, timeout=25.0)
         if res and len(res.strip()) > 15:
             return {
                 "verdict": res.strip(),

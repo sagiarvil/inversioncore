@@ -30,6 +30,8 @@ class DiagnosticState(TypedDict):
     rust_telemetry: Dict[str, Any]
     z3_telemetry: Dict[str, Any]
     ortools_telemetry: Dict[str, Any]
+    monte_carlo_telemetry: Dict[str, Any]
+    ttk_376_telemetry: Dict[str, Any]
     via_negativa: List[str]
     final_verdict: str
     audit_hash: str
@@ -187,11 +189,19 @@ def node_deterministic(state: DiagnosticState) -> Dict[str, Any]:
     # 3. OR-Tools
     ortools_res = prover.solve_ortools_runway(int(cap), int(burn), min_required_months=6)
 
+    # 4. Stokastik Monte Carlo (10.000 Senaryo)
+    monte_carlo_res = prover.run_monte_carlo_simulation(cap, burn, debt, iterations=10000)
+
+    # 5. TTK Madde 376 Sermaye Kaybı & Borca Batıklık
+    ttk_res = prover.evaluate_ttk_376_insolvency(cap, cap * (debt / 100.0), burn)
+
     # Sonuç Konsensüsü
-    if z3_res.get("verdict") == "UNSAT" or rust_res.get("fragility_status", "").startswith("KIRILGAN"):
+    if (z3_res.get("verdict") == "UNSAT" or 
+        rust_res.get("fragility_status", "").startswith("KIRILGAN") or 
+        ttk_res.get("ttk_status") == "TTK_376_3_BORCA_BATIKLIK"):
         final_det = "UNSAT"
         verdict = "RED"
-    elif not ortools_res.get("asgari_sart_saglandi", True):
+    elif not ortools_res.get("asgari_sart_saglandi", True) or monte_carlo_res.get("survival_probability_12m_pct", 100) < 50.0:
         final_det = "CONDITIONAL"
         verdict = "DOĞRULAMA GEREKLİ"
     else:
@@ -203,6 +213,8 @@ def node_deterministic(state: DiagnosticState) -> Dict[str, Any]:
         "rust_telemetry": rust_res,
         "z3_telemetry": z3_res,
         "ortools_telemetry": ortools_res,
+        "monte_carlo_telemetry": monte_carlo_res,
+        "ttk_376_telemetry": ttk_res,
         "final_verdict": verdict
     }
 
@@ -243,6 +255,9 @@ def node_synthesis(state: DiagnosticState) -> Dict[str, Any]:
         "rust_telemetry": rust_t,
         "z3_telemetry": z3_t,
         "ortools_telemetry": ortools_t,
+        "monte_carlo_telemetry": state.get("monte_carlo_telemetry", {}),
+        "ttk_376_telemetry": state.get("ttk_376_telemetry", {}),
+        "critic_output": state.get("critic_output", ""),
         "via_negativa": state.get("via_negativa", []),
         "audit_hash": audit_hash
     }
