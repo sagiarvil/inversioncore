@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>InversionCore | Karar ve İflas Riski İnceleme Masası</title>
-  <meta name="description" content="InversionCore: Şirketinizin ve yatırımlarınızın iflas risklerini, nakit tükenme süresini ve yasal borca batıklık durumunu 5 saniyede denetleyen karar masası.">
+  <title>InversionCore | Bilişsel Adli Tıp, Biyometrik Kişilik ve Karar Masası</title>
+  <meta name="description" content="InversionCore: Dünyada tek nöropatolojik açık sözlülük platformu. İş hayatı, sosyal yaşam, ilişkiler ve biyometrik görsel karakter analizi.">
   <meta name="author" content="Barış Bağırlar">
-  <link rel="icon" href="/logo.png" type="image/png">
+  <link rel="icon" href="/logo_circle.png" type="image/png">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
@@ -21,8 +21,8 @@
           },
           colors: {
             panel: {
-              arkaplan: '#090D16',
-              kart: '#111726',
+              arkaplan: '#080C14',
+              kart: '#0F1523',
               kenarlik: '#1E293B',
               vurgu: '#0284C7',
               kirmizi: '#DC2626',
@@ -36,7 +36,7 @@
     }
   </script>
   <style>
-    body { background-color: #090D16; color: #E2E8F0; }
+    body { background-color: #080C14; color: #E2E8F0; }
     .izgara-desen {
       background-size: 32px 32px;
       background-image: 
@@ -44,7 +44,7 @@
         linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
     }
     ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #090D16; }
+    ::-webkit-scrollbar-track { background: #080C14; }
     ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: #38BDF8; }
   </style>
@@ -52,72 +52,83 @@
 </head>
 <body class="min-h-screen izgara-desen font-sans flex flex-col antialiased">
 
-  <!-- ÜST MENÜ VE KURUMSAL BİLGİ -->
+  <!-- ÜST MENÜ (NAVBAR) -->
   <header class="border-b border-panel-kenarlik bg-panel-kart/90 backdrop-blur-md sticky top-0 z-40 px-4 sm:px-8 py-3.5">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
       
+      <!-- Marka ve Yuvarlak Logo -->
       <div class="flex items-center gap-3">
         <a href="/" class="w-10 h-10 rounded-full overflow-hidden border border-slate-700 bg-transparent flex items-center justify-center shadow-md shrink-0 hover:border-sky-400 transition-colors">
           <img src="/logo_circle.png" alt="InversionCore Rakun Logo" class="w-full h-full object-cover">
         </a>
         <div>
-          <a href="/" class="font-extrabold text-sm sm:text-base text-white tracking-wide">
+          <a href="/" class="font-black text-sm sm:text-base text-white tracking-wide flex items-center gap-2">
             INVERSIONCORE
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-950 text-sky-400 border border-sky-800">DÜNYADA TEK</span>
           </a>
           <p class="text-[11px] text-panel-soluk">
-            Barış Bağırlar Stratejik Karar ve Finans Ekosistemi
+            Barış Bağırlar Stratejik Karar ve Nöropatolojik Teşhis Ekosistemi
           </p>
         </div>
       </div>
 
-      <nav class="flex items-center gap-4 text-xs font-medium">
-        <a href="#amac" class="text-slate-300 hover:text-white transition-colors">5 Saniyede Amaç</a>
-        <a href="#kurucu" class="text-slate-300 hover:text-white transition-colors">Barış Bağırlar Kimdir?</a>
-        <a href="#sss" class="text-slate-300 hover:text-white transition-colors">Sıkça Sorulan Sorular</a>
-        <a href="#denetim" class="px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold transition-colors">
-          Analizi Başlat
-        </a>
+      <!-- Menü Linkleri -->
+      <nav class="hidden md:flex items-center gap-5 text-xs font-medium">
+        <a href="#amac" class="text-slate-300 hover:text-white transition-colors">5 Sn Özet</a>
+        <a href="#moduller" class="text-slate-300 hover:text-white transition-colors">Analiz Modülleri</a>
+        <a href="#gorsel" class="text-slate-300 hover:text-white transition-colors">Görsel Biyometri</a>
+        <a href="#kurucu" class="text-slate-300 hover:text-white transition-colors">Barış Bağırlar</a>
+        <a href="#sss" class="text-slate-300 hover:text-white transition-colors">SSS</a>
       </nav>
+
+      <div>
+        <a href="#denetim" class="px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition-colors shadow-sm">
+          ANALİZİ BAŞLAT
+        </a>
+      </div>
 
     </div>
   </header>
 
 
-  <!-- ANA GÖVDE -->
-  <main class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-12 flex-1">
+  <!-- ANA İÇERİK -->
+  <main class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-14 flex-1">
 
-    <!-- 1. BÖLÜM: 5 SANİYEDE AMACIMIZ NE? (NET, SAF KURUMSAL TANITIM) -->
+    <!-- 1. BÖLÜM: 5 SANİYEDE AMACIMIZ & DÜNYADA TEK AÇIK SÖZLÜLÜK -->
     <section id="amac" class="border border-panel-kenarlik rounded-2xl bg-panel-kart p-6 sm:p-10 shadow-lg">
       <div class="max-w-4xl">
-        <span class="text-xs font-mono font-bold text-sky-400 uppercase tracking-wider block mb-2">
-          5 SANİYEDE AMACIMIZ
-        </span>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-sky-500/30 bg-sky-500/10 text-sky-400 font-mono text-[11px] mb-4">
+          <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
+          5 SANİYEDE INVERSIONCORE
+        </div>
         <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-snug">
-          Şirketinizi Çöküşe Götüren Hataları ve İflas Risklerini Karar Vermeden Önce Tespit Edin.
+          Sahte Teselliyi ve Bahaneleri Yıkan Dünyadaki Tek Açık Sözlü Karar ve Kişilik Analiz Masası.
         </h1>
         <p class="text-sm sm:text-base text-slate-300 mt-4 leading-relaxed font-normal">
-          InversionCore, yöneticilerin ve girişimcilerin büyüme, borçlanma veya yatırım kararlarındaki gizli riskleri inceler.
-          Klasik danışmanlıkların aksine masaya yeni maliyetler eklemez; Türk Ticaret Kanunu Madde 376 hükümleri ve matematiksel nakit akışı modelleriyle 
-          <strong>"batmamak için derhal hangi harcama ve taahhütleri durdurmanız gerektiğini"</strong> net bir raporla sunar.
+          Dünyadaki tüm yapay zekalar ve danışmanlar sizi pohpohlamak, duymak istediklerinizi söylemek ve kibar kalmak üzere eğitilmiştir.
+          <strong>InversionCore ise bir ayna değil, nöropatolojik bir röntgen cihazıdır:</strong> 
+          İster ticari bir şirket iflası olsun, ister kronikleşen bir ilişki tıkanıklığı, erteleme huyu ya da yüzdeki mikro-gerilim hatları;
+          kendinizi kandırdığınız sahte dayanakları cerrahi bir soğukkanlılıkla yıkar ve <strong>neyi derhal durdurmanız gerektiğini</strong> yüzünüze söyler.
         </p>
 
+        <!-- 3 Sütunlu Temel Güç -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 pt-6 border-t border-panel-kenarlik">
-          <div class="bg-black/30 border border-panel-kenarlik p-4 rounded-xl">
-            <h2 class="text-xs font-bold text-rose-400 font-mono">1. ZARARLI EYLEMİ KESME (VIA NEGATIVA)</h2>
+          <div class="bg-black/40 border border-panel-kenarlik p-4 rounded-xl">
+            <span class="text-xs font-bold text-rose-400 font-mono">01 // NÖROPATOLOJİK TAVİZSİZLİK</span>
             <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">
-              Sorunu yeni bir bütçe ekleyerek değil, içeride nakit tüketen asalak süreçleri söküp atarak çözer.
+              Egonuzu okşamaz. Bilişsel savunma mekanizmalarınızı ve kaçtığınız gerçekleri açık sözlülükle açığa çıkarır.
             </p>
           </div>
-          <div class="bg-black/30 border border-panel-kenarlik p-4 rounded-xl">
-            <h2 class="text-xs font-bold text-sky-400 font-mono">2. KANUNİ İFLAS DENETİMİ (TTK 376)</h2>
+          <div class="bg-black/40 border border-panel-kenarlik p-4 rounded-xl">
+            <span class="text-xs font-bold text-sky-400 font-mono">02 // TİCARİ VE SOSYAL YAŞAM</span>
             <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">
-              Borç ve harcama yapınızı 6102 sayılı TTK m. 376 kapsamında denetler; borca batıklık ihtimalini uyarır.
+              Yatırım ve borç krizinden; toksik ilişki döngülerine, kariyer tıkanıklığına ve erteleme felcine kadar tek merkez.
             </p>
           </div>
-          <div class="bg-black/30 border border-panel-kenarlik p-4 rounded-xl">
-            <h2 class="text-xs font-bold text-emerald-400 font-mono">3. 10.000 ŞOK SENARYOSU</h2>
+          <div class="bg-black/40 border border-panel-kenarlik p-4 rounded-xl">
+            <span class="text-xs font-bold text-emerald-400 font-mono">03 // GÖRSEL VE BİYOMETRİK PROFİL</span>
             <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">
-              Enflasyon, tahsilat gecikmesi ve faiz şokları altında kasanızın 12 ay hayatta kalma olasılığını hesaplar.
+              Yüzdeki mikro-asimetri ve gerilim hatlarını tarayarak karakterin maskesini ve savunma zırhını deşifre eder.
             </p>
           </div>
         </div>
@@ -125,98 +136,189 @@
     </section>
 
 
-    <!-- 2. BÖLÜM: KARAR DENETİM MASASI (ANALİZ FORMU VE SONUÇLAR) -->
+    <!-- 2. BÖLÜM: ANALİZ ALANLARI VE MODÜLLERİ (TİCARİ, SOSYAL YAŞAM, KİŞİLİK) -->
+    <section id="moduller" class="border border-panel-kenarlik rounded-2xl bg-panel-kart p-6 sm:p-10">
+      
+      <div class="border-b border-panel-kenarlik pb-4 mb-6">
+        <span class="text-xs font-mono uppercase text-sky-400 font-bold">KAPSAM VE ÇÖZÜMLEME DİKEYLERİ</span>
+        <h2 class="text-xl sm:text-2xl font-black text-white mt-1">Neleri Otopsiye Alıyoruz?</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+        
+        <div class="p-4 rounded-xl border border-panel-kenarlik bg-black/40 flex flex-col justify-between">
+          <div>
+            <div class="text-rose-400 font-bold font-mono text-sm">Ticari Karar & İflas Riski</div>
+            <p class="text-slate-400 mt-2 leading-relaxed">
+              Kasa nakdi, gider hızı ve borçlanma kararlarının TTK 376 ve 10.000 Monte Carlo senaryosuyla çöküş testi.
+            </p>
+          </div>
+          <button onclick="loadScenario('ticari')" class="mt-4 text-left text-sky-400 font-semibold hover:underline">
+            → Şablonu Yükle
+          </button>
+        </div>
+
+        <div class="p-4 rounded-xl border border-panel-kenarlik bg-black/40 flex flex-col justify-between">
+          <div>
+            <div class="text-sky-400 font-bold font-mono text-sm">İlişkiler & Sosyal Yaşam</div>
+            <p class="text-slate-400 mt-2 leading-relaxed">
+              Tekrarlanan toksik ilişki kısır döngüleri, haklı çıkma saplantısı, duygusal bağımlılık ve tükenmişlik analizi.
+            </p>
+          </div>
+          <button onclick="loadScenario('iliski')" class="mt-4 text-left text-sky-400 font-semibold hover:underline">
+            → Şablonu Yükle
+          </button>
+        </div>
+
+        <div class="p-4 rounded-xl border border-panel-kenarlik bg-black/40 flex flex-col justify-between">
+          <div>
+            <div class="text-emerald-400 font-bold font-mono text-sm">Kariyer & Yerinde Sayma</div>
+            <p class="text-slate-400 mt-2 leading-relaxed">
+              İşte cesaretsizlik, konfor alanı esareti, maaş yetersizliği ve ayrılmaktan korkma mazeretlerinin deşifresi.
+            </p>
+          </div>
+          <button onclick="loadScenario('kariyer')" class="mt-4 text-left text-sky-400 font-semibold hover:underline">
+            → Şablonu Yükle
+          </button>
+        </div>
+
+        <div class="p-4 rounded-xl border border-panel-kenarlik bg-black/40 flex flex-col justify-between">
+          <div>
+            <div class="text-amber-400 font-bold font-mono text-sm">Erteleme & İrade Felci</div>
+            <p class="text-slate-400 mt-2 leading-relaxed">
+              Sürekli son güne bırakma, telefonla oyalanma, mükemmeliyetçilik kılıfına saklanmış başarısızlık korkusu.
+            </p>
+          </div>
+          <button onclick="loadScenario('erteleme')" class="mt-4 text-left text-sky-400 font-semibold hover:underline">
+            → Şablonu Yükle
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- 3. BÖLÜM: BİYOMETRİK GÖRSEL VE KARAKTER ANALİZİ (YÜZDEN MİKRO-GERİLİM) -->
+    <section id="gorsel" class="border border-panel-kenarlik rounded-2xl bg-panel-kart p-6 sm:p-10">
+      
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-b border-panel-kenarlik pb-6">
+        <div>
+          <span class="text-xs font-mono uppercase text-sky-400 font-bold">GÖRSEL BİYOMETRİ VE MORFO-PSİKOLOJİ</span>
+          <h2 class="text-xl sm:text-2xl font-black text-white mt-1">Yüz Fotoğrafından Karakter ve Savunma Zırhı Analizi</h2>
+          <p class="text-xs text-slate-400 mt-1">Yüzdeki mikro-asimetri, mimik gerilim hatları ve bastırılmış duygusal kalkanlar.</p>
+        </div>
+        <input type="file" id="faceUploadInput" class="hidden" accept="image/*">
+        <button onclick="document.getElementById('faceUploadInput').click()" 
+          class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-mono text-xs font-bold border border-slate-600 transition flex items-center gap-2">
+          <span>📷 FOTOĞRAF YÜKLE</span>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 mt-6 items-center">
+        
+        <div class="md:col-span-7 text-xs sm:text-sm text-slate-300 space-y-3 leading-relaxed">
+          <p>
+            İnsan dili yalan söyleyebilir veya mazeret üretebilir; ancak yüz kaslarındaki mikro-gerilim hatları (Paul Ekman FACS modeli) ve çehre asimetrileri gerçeği saklayamaz.
+          </p>
+          <p>
+            Yüklediğiniz portre fotoğrafı; çene hattındaki bastırılmış öfke gerilimini, göz çevresindeki yorgunluk ve savunma bariyerlerini inceleyerek 
+            karakterinizin dış dünyaya gösterdiği sahte maske ile içeride sakladığı zaafiyeti karşılaştırır.
+          </p>
+          <div id="selectedFileInfo" class="hidden p-3 rounded-xl bg-sky-950/60 border border-sky-800 text-sky-300 font-mono text-xs mt-2">
+            Seçilen Görsel: <span id="fileNameLabel" class="font-bold text-white"></span>
+          </div>
+        </div>
+
+        <div class="md:col-span-5 bg-black/40 border border-panel-kenarlik rounded-xl p-5 text-xs font-mono space-y-2 text-slate-400">
+          <div class="text-white font-bold pb-2 border-b border-panel-kenarlik">Biyometrik İnceleme Adımları:</div>
+          <div>1. Çehre simetri ve kas tonusu haritalama</div>
+          <div>2. Bastırılmış savunma ve çekinme hatları tespiti</div>
+          <div>3. Kişilik arketipi ve döngü kırma reçetesi</div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- 4. BÖLÜM: TEŞHİS VE ANALİZ MASASI (İNTERAKTİF ÇEKİRDEK) -->
     <section id="denetim" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start scroll-mt-20">
 
-      <!-- SOL SÜTUN: GİRDİ FORMU (5 SÜTUN) -->
+      <!-- SOL PANEL: VAKA GİRDİSİ (5 SÜTUN) -->
       <div class="lg:col-span-5 border border-panel-kenarlik rounded-2xl bg-panel-kart p-6 flex flex-col gap-5 shadow-md">
         
         <div class="border-b border-panel-kenarlik pb-3">
           <h2 class="font-bold text-sm text-white flex items-center gap-2">
             <span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span>
-            Karar ve Finansal Parametre Girişi
+            Vaka, İtiraf ve Karar Girişi
           </h2>
-          <p class="text-[11px] text-panel-soluk mt-0.5">Verileriniz sunucuda saklanmaz, anlık incelenir.</p>
+          <p class="text-[11px] text-panel-soluk mt-0.5">Ticari kararınızı, kişisel çıkmazınızı veya ilişkinizdeki kısırdöngüyü dürüstçe yazın.</p>
         </div>
 
         <form id="auditForm" class="flex flex-col gap-4">
           
           <div>
             <label for="decisionInput" class="block text-xs font-semibold text-slate-300 mb-1">
-              İncelenecek Karar veya Büyüme Planı:
+              İncelenecek Durum, İkilem veya Plan:
             </label>
             <textarea id="decisionInput" rows="5" required
               class="w-full bg-black/60 border border-panel-kenarlik rounded-xl p-3.5 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-sky-500 transition leading-relaxed font-mono"
-              placeholder="Örnek: Hızlı büyüme amacıyla aylık 600.000 TL reklam ve operasyon harcaması yapıyoruz. Kasada 1.200.000 TL var, borç oranı %70. 3 ay sonra yeni yatırım alacağımızı varsayıyoruz..."></textarea>
+              placeholder="Örnek: Hızlı büyüme hedefiyle aylık 600.000 TL harcıyoruz, kasada 1.2M var ve %70 borçluyuz... VEYA: İlişkilerimde hep aynı tip insanlara denk geliyorum, sürekli aynı yerde tıkanıyorum..."></textarea>
           </div>
 
-          <!-- Finansal Sayısal Girdiler -->
-          <div class="grid grid-cols-3 gap-3">
-            <div>
-              <label for="capitalInput" class="block text-[11px] text-slate-400 mb-1">Kasa Nakdi (TL):</label>
-              <input type="number" id="capitalInput" value="1200000"
-                class="w-full bg-black/60 border border-panel-kenarlik rounded-lg px-3 py-2 text-xs font-mono text-slate-200 focus:outline-none focus:border-sky-500">
+          <!-- Opsiyonel Finansal Veriler (Açılır Kapanır) -->
+          <details class="border border-panel-kenarlik rounded-xl p-3 bg-black/30 text-xs">
+            <summary class="cursor-pointer font-semibold text-slate-300 flex justify-between items-center">
+              <span>Şirket / Bütçe Verileri (Ticari İncelemeler İçin)</span>
+              <span class="text-sky-400 font-mono text-[10px]">Aç / Kapat</span>
+            </summary>
+            <div class="grid grid-cols-3 gap-2 mt-3 pt-2 border-t border-panel-kenarlik">
+              <div>
+                <label class="block text-[10px] text-slate-400 mb-1">Kasa (TL):</label>
+                <input type="number" id="capitalInput" value="1200000" class="w-full bg-black/80 border border-panel-kenarlik rounded p-1.5 text-xs font-mono text-slate-200">
+              </div>
+              <div>
+                <label class="block text-[10px] text-slate-400 mb-1">Aylık Gider:</label>
+                <input type="number" id="burnInput" value="600000" class="w-full bg-black/80 border border-panel-kenarlik rounded p-1.5 text-xs font-mono text-slate-200">
+              </div>
+              <div>
+                <label class="block text-[10px] text-slate-400 mb-1">Borç %:</label>
+                <input type="number" id="debtInput" value="70" class="w-full bg-black/80 border border-panel-kenarlik rounded p-1.5 text-xs font-mono text-slate-200">
+              </div>
             </div>
-            <div>
-              <label for="burnInput" class="block text-[11px] text-slate-400 mb-1">Aylık Harcama:</label>
-              <input type="number" id="burnInput" value="600000"
-                class="w-full bg-black/60 border border-panel-kenarlik rounded-lg px-3 py-2 text-xs font-mono text-slate-200 focus:outline-none focus:border-sky-500">
-            </div>
-            <div>
-              <label for="debtInput" class="block text-[11px] text-slate-400 mb-1">Borç Oranı (%):</label>
-              <input type="number" id="debtInput" value="70"
-                class="w-full bg-black/60 border border-panel-kenarlik rounded-lg px-3 py-2 text-xs font-mono text-slate-200 focus:outline-none focus:border-sky-500">
-            </div>
-          </div>
+          </details>
 
-          <!-- Örnek Senaryo Butonları -->
-          <div class="pt-2">
-            <span class="text-[10px] text-panel-soluk uppercase font-bold tracking-wider block mb-2">Örnek Senaryo Doldur:</span>
-            <div class="flex flex-wrap gap-2 text-xs">
-              <button type="button" onclick="loadPreset(1)" class="px-2.5 py-1.5 rounded-lg border border-panel-kenarlik bg-black/40 hover:border-slate-500 transition text-slate-300">
-                1. Kredili Büyüme (İflas Riski)
-              </button>
-              <button type="button" onclick="loadPreset(2)" class="px-2.5 py-1.5 rounded-lg border border-panel-kenarlik bg-black/40 hover:border-slate-500 transition text-slate-300">
-                2. Aşırı İyimser Bütçe
-              </button>
-              <button type="button" onclick="loadPreset(3)" class="px-2.5 py-1.5 rounded-lg border border-panel-kenarlik bg-black/40 hover:border-slate-500 transition text-slate-300">
-                3. Dengeli Nakit Akışı
-              </button>
-            </div>
-          </div>
-
-          <!-- Gönder Butonu -->
+          <!-- Başlat Butonu -->
           <button type="submit" id="btnSubmit"
             class="w-full py-3.5 mt-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-sky-600 hover:bg-sky-500 text-white transition flex items-center justify-center gap-2 shadow-md">
             <span id="btnSpinner" class="hidden w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-            <span id="btnText">DENETİMİ BAŞLAT</span>
+            <span id="btnText">OTOPSİ VE ANALİZİ ÇALIŞTIR</span>
           </button>
 
         </form>
 
       </div>
 
-      <!-- SAĞ SÜTUN: SONUÇ RAPORU (7 SÜTUN) -->
+      <!-- SAĞ PANEL: TEŞHİS RAPORU (7 SÜTUN) -->
       <div class="lg:col-span-7 flex flex-col gap-6">
 
-        <!-- BOŞ BEKLEME DURUMU -->
         <div id="emptyState" class="border border-panel-kenarlik border-dashed rounded-2xl p-12 text-center bg-panel-kart/50 flex flex-col items-center justify-center min-h-[460px]">
           <div class="w-14 h-14 rounded-2xl border border-panel-kenarlik bg-black/60 flex items-center justify-center text-sky-400 mb-4">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
             </svg>
           </div>
-          <h3 class="text-sm font-bold text-white uppercase tracking-wider">İnceleme Masası Beklemede</h3>
+          <h3 class="text-sm font-bold text-white uppercase tracking-wider">Hakikat Masası Kararınızı Bekliyor</h3>
           <p class="text-xs text-slate-400 mt-2 max-w-md leading-relaxed">
-            Sol paneldeki karar özetini doldurarak "Denetimi Başlat" butonuna basın. 
-            Nakit tükenme süreniz, TTK 376 iflas koruma bariyeri ve alınması gereken önlemler burada listelenecektir.
+            Sol panelden durumunuzu girin veya hazır şablonlardan birini seçin. 
+            Sistem kaçtığınız kör noktaları, savunma zırhınızı ve durdurulması gereken 3 eylemi dökecektir.
           </p>
         </div>
 
-        <!-- SONUÇ ALANI -->
         <div id="resultsContainer" class="hidden flex flex-col gap-5">
 
-          <!-- HÜKÜM KARTI -->
+          <!-- Hüküm Kartı -->
           <div id="verdictCard" class="border rounded-2xl p-6 bg-panel-kart">
             <div class="flex items-center justify-between border-b border-panel-kenarlik pb-4">
               <div>
@@ -231,12 +333,12 @@
             </div>
           </div>
 
-          <!-- GÖSTERGELER -->
+          <!-- Metrikler -->
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
             <div class="border border-panel-kenarlik rounded-xl p-4 bg-black/40">
-              <span class="text-[10px] font-mono text-panel-soluk uppercase">Kasa Nakit Ömrü</span>
+              <span class="text-[10px] font-mono text-panel-soluk uppercase">Nakit / Eylem Ömrü</span>
               <div id="rustRunway" class="text-lg font-bold font-mono text-white mt-1">-- Ay</div>
-              <p id="rustStatus" class="text-[11px] text-slate-400 mt-1">Hesaplanıyor...</p>
+              <p id="rustStatus" class="text-[11px] text-slate-400 mt-1">Hesaplandı</p>
             </div>
 
             <div class="border border-panel-kenarlik rounded-xl p-4 bg-black/40">
@@ -246,26 +348,26 @@
             </div>
 
             <div class="border border-panel-kenarlik rounded-xl p-4 bg-black/40">
-              <span class="text-[10px] font-mono text-panel-soluk uppercase">TTK Madde 376 Hükmü</span>
+              <span class="text-[10px] font-mono text-panel-soluk uppercase">Yasal / Kural Hükmü</span>
               <div id="ttkStatus" class="text-xs font-bold text-white mt-1">--</div>
-              <p id="ttkWarning" class="text-[11px] text-slate-400 mt-1 line-clamp-2">Hesaplanıyor...</p>
+              <p id="ttkWarning" class="text-[11px] text-slate-400 mt-1 line-clamp-2">İncelendi</p>
             </div>
           </div>
 
-          <!-- AYRINTILI TEŞHİS -->
+          <!-- Cerrahi Teşhis -->
           <div class="border border-panel-kenarlik rounded-2xl p-5 bg-panel-kart">
             <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-2.5 pb-2 border-b border-panel-kenarlik">
-              Cerrahi Hata ve Risk Analizi
+              Nöropatolojik Teşhis ve Kör Nokta Taraması
             </h4>
             <div id="criticOutput" class="text-xs text-slate-300 leading-relaxed font-sans whitespace-pre-line bg-black/50 p-4 rounded-xl border border-panel-kenarlik">
               --
             </div>
           </div>
 
-          <!-- VIA NEGATIVA (DURDURULACAK EYLEMLER) -->
+          <!-- Via Negativa -->
           <div class="border border-emerald-950/60 rounded-2xl p-5 bg-panel-kart">
             <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2.5 pb-2 border-b border-panel-kenarlik">
-              İflastan Kaçınmak İçin Derhal Durdurulması Gereken 3 Eylem (Via Negativa)
+              Via Negativa: Derhal Durdurulması Gereken 3 Eylem
             </h4>
             <ul id="viaNegativaList" class="flex flex-col gap-2 text-xs text-slate-300"></ul>
           </div>
@@ -277,28 +379,27 @@
     </section>
 
 
-    <!-- 3. BÖLÜM: BARIŞ BAĞIRLAR KİMDİR? & 10 STRATEJİK PLATFORM -->
+    <!-- 5. BÖLÜM: BARIŞ BAĞIRLAR KİMDİR? & 10 STRATEJİK PLATFORM -->
     <section id="kurucu" class="border border-panel-kenarlik rounded-2xl bg-panel-kart p-6 sm:p-10 scroll-mt-20">
       
       <div class="border-b border-panel-kenarlik pb-6">
-        <span class="text-xs font-mono uppercase tracking-wider text-sky-400 font-bold">KURUCU HAKKINDA</span>
+        <span class="text-xs font-mono uppercase text-sky-400 font-bold">KURUCU VE MİMAR</span>
         <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">Barış Bağırlar Kimdir?</h2>
-        <p class="text-xs text-panel-soluk font-mono mt-1">Sistem Dinamikleri Mimarı, Finansal Modelleme ve Tersine Mühendislik Uzmanı</p>
+        <p class="text-xs text-panel-soluk font-mono mt-1">Sistem Dinamikleri Mimarı, Finansal Modelleme ve Karar Analitiği Lideri</p>
       </div>
 
       <div class="text-xs sm:text-sm text-slate-300 mt-6 leading-relaxed space-y-4">
         <p>
-          <strong>Barış Bağırlar;</strong> kurumsal finansal modelleme, iflas teşhisi, regülasyon teknolojileri ve karar analitiği alanlarında 
+          <strong>Barış Bağırlar;</strong> kurumsal finansal modelleme, iflas teşhisi, regülasyon teknolojileri ve bilişsel tersine mühendislik alanlarında 
           faaliyet gösteren <strong>10 büyük dijital platformun</strong> kurucusu ve baş mimarıdır.
         </p>
         <p>
-          Şirketlerin başarısızlığının temelinde eksik bilgi değil; masada biriken kontrolsüz taahhütler, yüksek faizli gizli borçlanmalar 
-          ve yöneticilerin kendi mazeretlerine inanması olduğunu savunan Bağırlar; 
-          InversionCore altyapısını <strong>Via Negativa (eksilterek güçlenme)</strong> felsefesi ve katı finansal matematik temelleri üzerinde inşa etmiştir.
+          Şirketlerin ve bireylerin çöküş sebebinin eksik bilgi değil; masada biriken kontrolsüz taahhütler, toksik yükler 
+          ve kendi mazeretlerine inanma yanılgısı olduğunu savunan Bağırlar; 
+          InversionCore altyapısını <strong>Via Negativa (eksilterek güçlenme)</strong> felsefesi üzerinde inşa etmiştir.
         </p>
       </div>
 
-      <!-- 10 Büyük Platform Listesi -->
       <div class="mt-8">
         <h3 class="text-xs font-mono uppercase text-slate-400 mb-4 font-bold">Barış Bağırlar Stratejik Karar Ekosistemi:</h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 text-xs">
@@ -348,11 +449,11 @@
     </section>
 
 
-    <!-- 4. BÖLÜM: SIKÇA SORULAN SORULAR (SSS) -->
+    <!-- 6. BÖLÜM: SIKÇA SORULAN SORULAR (SSS) -->
     <section id="sss" class="border border-panel-kenarlik rounded-2xl bg-panel-kart p-6 sm:p-10 scroll-mt-20">
       
       <div class="border-b border-panel-kenarlik pb-4 mb-6">
-        <span class="text-xs font-mono uppercase text-sky-400 font-bold">MERAK EDİLENLER</span>
+        <span class="text-xs font-mono uppercase text-sky-400 font-bold">ŞEFFAFLIK VE METODOLOJİ</span>
         <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">Sıkça Sorulan Sorular (SSS)</h2>
       </div>
 
@@ -360,52 +461,44 @@
 
         <details class="border border-panel-kenarlik rounded-xl bg-black/30 p-4 group">
           <summary class="font-bold text-white cursor-pointer flex items-center justify-between list-none">
-            <span>1. InversionCore standart sohbet yapay zekalarından neden farklıdır?</span>
+            <span>1. Nöropatolojik yaklaşım ve açık sözlülük ne anlama gelir?</span>
             <span class="text-sky-400 group-open:rotate-180 transition-transform">▼</span>
           </summary>
           <p class="text-slate-300 mt-3 leading-relaxed border-t border-panel-kenarlik pt-3">
-            Standart yapay zekalar kullanıcıyı memnun etmek ve onaylamak için eğitilmiştir. InversionCore ise bir ayna değil röntgen cihazıdır.
-            Cümle aralarındaki gizli kaçışları yakalar; nakit tükenme sürenizi ve borçluluk yapınızı doğrudan finansal kısıtlarla test eder.
+            Geleneksel danışmanlıklar ve yapay zekalar kullanıcıyı memnun etmek üzerine kurgulanmıştır. 
+            InversionCore ise insanların karar alırken kullandığı bilişsel çarpıtmaları (aşırı genelleme, felaketleştirme, kendini kandırma) nöropatolojik bir soğukkanlılıkla deşifre eder; lafı dolandırmadan çıplak gerçeği söyler.
           </p>
         </details>
 
         <details class="border border-panel-kenarlik rounded-xl bg-black/30 p-4 group">
           <summary class="font-bold text-white cursor-pointer flex items-center justify-between list-none">
-            <span>2. Tersine Mühendislik (Via Negativa) ne demektir?</span>
+            <span>2. Biyometrik görsel ve morfo-psikoloji analizi nasıl çalışır?</span>
             <span class="text-sky-400 group-open:rotate-180 transition-transform">▼</span>
           </summary>
           <p class="text-slate-300 mt-3 leading-relaxed border-t border-panel-kenarlik pt-3">
-            Eksilterek çözüme ulaşma disiplinidir. Şirketler yeni bir süreç ekleyemedikleri için değil; içeride biriken zararlı giderleri ve toksik taahhütleri durduramadıkları için batar.
-            InversionCore size ne yapmanız gerektiğini değil, derhal hangi 3 eylemi durdurmanız gerektiğini gösterir.
+            Yüklenen yüz fotoğrafındaki çene, alın ve göz çevresi gerilim hatları incelenir. 
+            Dışa sunulan kontrollü karakter maskesi ile içsel savunma refleksleri arasındaki asimetri çözümlenerek kör noktalar listelenir.
           </p>
         </details>
 
         <details class="border border-panel-kenarlik rounded-xl bg-black/30 p-4 group">
           <summary class="font-bold text-white cursor-pointer flex items-center justify-between list-none">
-            <span>3. TTK Madde 376 borca batıklık uyarısı nedir?</span>
+            <span>3. Tersine Mühendislik (Via Negativa) nedir?</span>
             <span class="text-sky-400 group-open:rotate-180 transition-transform">▼</span>
           </summary>
           <p class="text-slate-300 mt-3 leading-relaxed border-t border-panel-kenarlik pt-3">
-            Türk Ticaret Kanunu m. 376; şirket sermayesinin ve kanuni yedeklerinin yarısının veya 2/3'ünün karşılıksız kalması halinde yönetim organının genel kurulu acilen toplantıya çağırmasını ve tedbir almasını zorunlu kılar.
-            Sistem kasanızdaki nakit ve borç oranınıza göre bu yasal tehlike sınırını otomatik bildirir.
+            Eksilterek çözüme ulaşmaktır. Şirketler veya bireyler yeni bir şey yapamadıkları için değil; zararlı süreçleri ve asalak bağımlılıkları durduramadıkları için tıkanır. 
+            Sistem size ne eklemeniz gerektiğini değil, neyi hemen kesmeniz gerektiğini gösterir.
           </p>
         </details>
 
         <details class="border border-panel-kenarlik rounded-xl bg-black/30 p-4 group">
           <summary class="font-bold text-white cursor-pointer flex items-center justify-between list-none">
-            <span>4. Girdiğim ticari bilgiler gizli kalıyor mu?</span>
+            <span>4. Paylaştığım itiraf ve fotoğraflar güvende mi?</span>
             <span class="text-sky-400 group-open:rotate-180 transition-transform">▼</span>
           </summary>
           <p class="text-slate-300 mt-3 leading-relaxed border-t border-panel-kenarlik pt-3">
-            Evet. Sistemde girilen veriler herhangi bir sunucu veritabanına kaydedilmez. Analiz anlık olarak çalışır ve tarayıcınızı kapattığınızda silinir.
-          </p>
-        </details>
-
-        <details class="border border-panel-kenarlik rounded-xl bg-black/30 p-4 group">
-          <summary class="font-bold text-white cursor-pointer flex items-center justify-between list-none">
-            <span>5. Bu sistem kimler için tasarlandı?</span>
-            <span class="text-slate-300 mt-3 leading-relaxed border-t border-panel-kenarlik pt-3">
-            Kurucular, şirket ortakları, finans yöneticileri, yatırım öncesi durum tespiti (due diligence) yürüten profesyoneller ve geri dönülmez borçlanma imzası atacak herkes için hazırlanmıştır.
+            Evet. Sistemde sıfır günlük (zero-log) prensibi geçerlidir. Yüklediğiniz görseller veya senaryolar veritabanında saklanmaz; anlık incelenip bellekten silinir.
           </p>
         </details>
 
@@ -416,7 +509,7 @@
   </main>
 
 
-  <!-- 5. BÖLÜM: ZARİF, İNCE VE SIKIŞIK YASAL FOOTER -->
+  <!-- ZARİF, İNCE FOOTER -->
   <footer class="border-t border-panel-kenarlik bg-panel-kart/90 py-5 px-4 sm:px-8 mt-12">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-panel-soluk">
       
@@ -425,28 +518,27 @@
         <span>&copy; 2026. Kurucu: <strong class="text-slate-200">Barış Bağırlar</strong>.</span>
       </div>
 
-      <!-- Yasal Dokümantasyon Butonları -->
       <div class="flex items-center gap-4 text-[11px]">
         <button onclick="openModal('kvkkModal')" class="hover:text-white transition-colors">KVKK Aydınlatma Metni</button>
         <span class="text-slate-700">|</span>
         <button onclick="openModal('gizlilikModal')" class="hover:text-white transition-colors">Gizlilik Politikası</button>
         <span class="text-slate-700">|</span>
-        <button onclick="openModal('yasalModal')" class="hover:text-white transition-colors">Kullanım Koşulları & Yasal Uyarı</button>
+        <button onclick="openModal('yasalModal')" class="hover:text-white transition-colors">Yasal Uyarı & Sorumluluk Reddi</button>
       </div>
 
       <div class="text-[10px] text-slate-500 font-mono">
-        Via Negativa // Karar Masası
+        Via Negativa // Açık Sözlü Karar Masası
       </div>
 
     </div>
   </footer>
 
 
-  <!-- YASAL POPUP PENCERELERİ (MODALS) -->
+  <!-- YASAL PENCERELER (MODALS) -->
   <div id="kvkkModal" class="fixed inset-0 bg-black/80 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
     <div class="bg-panel-kart border border-panel-kenarlik rounded-2xl w-full max-w-lg p-6 flex flex-col gap-4 text-xs text-slate-300">
       <h3 class="font-bold text-sm text-white">KVKK Aydınlatma Metni</h3>
-      <p>6698 sayılı Kişisel Verilerin Korunması Kanunu uyarınca; InversionCore platformunda paylaştığınız ticari veya şahsi senaryolar yalnızca anlık analiz amacıyla işlenir. Hiçbir veri kaydedilmez veya üçüncü taraflarla paylaşılmaz.</p>
+      <p>6698 sayılı KVKK uyarınca paylaştığınız bilgiler yalnızca anlık analiz amacıyla işlenir, üçüncü şahıslara aktarılmaz ve saklanmaz.</p>
       <div class="flex justify-end pt-2">
         <button onclick="closeModal('kvkkModal')" class="px-4 py-1.5 bg-sky-600 text-white rounded-lg font-bold">Kapat</button>
       </div>
@@ -456,7 +548,7 @@
   <div id="gizlilikModal" class="fixed inset-0 bg-black/80 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
     <div class="bg-panel-kart border border-panel-kenarlik rounded-2xl w-full max-w-lg p-6 flex flex-col gap-4 text-xs text-slate-300">
       <h3 class="font-bold text-sm text-white">Gizlilik Politikası</h3>
-      <p>InversionCore sıfır günlük (zero-log) prensibiyle çalışır. Çerezler veya izleme kodları ticari profil çıkarma amacıyla kullanılmaz.</p>
+      <p>Sistem sıfır günlük (zero-log) prensibiyle çalışır. Profil çıkarma veya izleme amacıyla kalıcı depolama yapılmaz.</p>
       <div class="flex justify-end pt-2">
         <button onclick="closeModal('gizlilikModal')" class="px-4 py-1.5 bg-sky-600 text-white rounded-lg font-bold">Kapat</button>
       </div>
@@ -466,7 +558,7 @@
   <div id="yasalModal" class="fixed inset-0 bg-black/80 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
     <div class="bg-panel-kart border border-panel-kenarlik rounded-2xl w-full max-w-lg p-6 flex flex-col gap-4 text-xs text-slate-300">
       <h3 class="font-bold text-sm text-white">Yasal Uyarı ve Sorumluluk Reddi</h3>
-      <p>Bu platformda sunulan analizler, matematiksel simülasyon ve karar destek amaçlıdır. Doğrudan mali, hukuki veya yatırım danışmanlığı teşkil etmez. Kesin kararlar öncesinde yeminli mali müşavir veya hukuk danışmanınıza başvurunuz.</p>
+      <p>Bu platformda sunulan analizler, matematiksel simülasyon ve karar destek amaçlıdır. Doğrudan mali, hukuki veya psikiyatrik teşhis teşkil etmez.</p>
       <div class="flex justify-end pt-2">
         <button onclick="closeModal('yasalModal')" class="px-4 py-1.5 bg-sky-600 text-white rounded-lg font-bold">Kapat</button>
       </div>
@@ -474,44 +566,44 @@
   </div>
 
 
-  <!-- UYGULAMA MANTIĞI -->
+  <!-- SCRİPT MANTIĞI -->
   <script>
-    // Örnek Senaryo Yükleyici
-    const SENARYOLAR = {
-      1: {
-        text: "Hızlı büyüme hedefiyle aylık 600.000 TL reklam ve operasyon harcaması yapıyoruz. Kasada 1.200.000 TL var, borç oranı %70. 3 ay sonra seribaşı fonlama alacağımıza kesin gözüyle bakıyoruz.",
-        capital: 1200000,
-        burn: 600000,
-        debt: 70
-      },
-      2: {
-        text: "Fabrika kapasitesini 3 katına çıkarmak için 3 milyon TL kredi çekip yatırıma girmeyi düşünüyoruz. Pazarın daralma riskini henüz hesaba katmadık.",
-        capital: 500000,
-        burn: 120000,
-        debt: 85
-      },
-      3: {
-        text: "Önümüzdeki dönem sabit giderleri kısıyoruz. Kasada 2.500.000 TL nakit var, aylık net nakit çıkışı 80.000 TL ve borçluluk neredeyse sıfır.",
-        capital: 2500000,
-        burn: 80000,
-        debt: 5
-      }
+    // Şablon Seçici
+    const SENARYO_METINLERI = {
+      ticari: "Hızlı büyüme hedefiyle aylık 600.000 TL reklam ve operasyon harcaması yapıyoruz. Kasada 1.200.000 TL var, borç oranı %70. 3 ay sonra seribaşı fonlama alacağımıza kesin gözüyle bakıyoruz.",
+      iliski: "İlişkilerimde hep aynı tip insanlara denk geliyorum. Başta her şey harika giderken bir süre sonra yine aynı tartışmalar, ilgisizlik ve yıpratıcı döngü başlıyor. Sorun bende mi, neden hep aynı yerde tıkanıyorum?",
+      kariyer: "İşimde yıllardır aynı yerde sayıyorum. Ne terfi alabiliyorum ne de maaşım yetiyor. Ayrılmaya cesaretim yok, kalsam her gün ayaklarım geri geri gidiyor. Bu bataklıktan nasıl çıkarım?",
+      erteleme: "Yapmam gereken önemli şeyleri sürekli erteliyorum. Başlayacağım diyorum ama telefona dalıyorum veya önemsiz işlerle oyalanıyorum. Son gün panik yapıp kendime kızıyorum, bu erteleme huyundan nasıl kurtulurum?"
     };
 
-    function loadPreset(id) {
-      const s = SENARYOLAR[id];
-      if (!s) return;
-      document.getElementById('decisionInput').value = s.text;
-      document.getElementById('capitalInput').value = s.capital;
-      document.getElementById('burnInput').value = s.burn;
-      document.getElementById('debtInput').value = s.debt;
+    function loadScenario(tur) {
+      const metin = SENARYO_METINLERI[tur];
+      if (!metin) return;
+      document.getElementById('decisionInput').value = metin;
+      if (tur === 'ticari') {
+        document.getElementById('capitalInput').value = 1200000;
+        document.getElementById('burnInput').value = 600000;
+        document.getElementById('debtInput').value = 70;
+      }
+      document.getElementById('denetim').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Modal Yönetimi
+    // Fotoğraf Seçimi
+    const fileInput = document.getElementById('faceUploadInput');
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        const file = e.target.files[0];
+        document.getElementById('fileNameLabel').innerText = file.name;
+        document.getElementById('selectedFileInfo').classList.remove('hidden');
+        document.getElementById('decisionInput').value = `[BİYOMETRİK YÜZ FOTOĞRAFI YÜKLENDİ: ${file.name}]\nYüzdeki mikro-asimetri, bastırılmış savunma gerilimi ve karakter maskesini çözümle.`;
+      }
+    });
+
+    // Modallar
     function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
-    // Form Gönderim & Dayanıklı Teşhis Motoru
+    // Form Gönderim
     const form = document.getElementById('auditForm');
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -530,17 +622,17 @@
       };
 
       if (!payload.input || payload.input.length < 5) {
-        alert("Lütfen incelenecek karara dair kısa bir açıklama giriniz.");
+        alert("Lütfen incelenecek duruma dair kısa bir açıklama giriniz.");
         return;
       }
 
       btnSubmit.disabled = true;
       btnSpinner.classList.remove('hidden');
-      btnText.innerText = "DENETİM YAPILIYOR...";
+      btnText.innerText = "OTOPSİ YAPILIYOR...";
 
       let data = null;
 
-      // 1. Önce Canlı API Sunucusunu Dene
+      // 1. Canlı Sunucu
       try {
         const response = await fetch('/api/inversion/diagnose', {
           method: 'POST',
@@ -550,18 +642,15 @@
         if (response.ok) {
           data = await response.json();
         }
-      } catch (err) {
-        // Ağ hatası durumunda yerel motora geçilir
-      }
+      } catch (err) {}
 
-      // 2. Sunucu Yoksa veya Yanıt Vermediyse Tarayıcı İçi Deterministik Motoru Çalıştır
+      // 2. Yedek İstemci Motoru
       if (!data || !data.verdict) {
         if (window.InversionClientEngine) {
           data = window.InversionClientEngine.diagnose(payload);
         }
       }
 
-      // 3. Sonuçları Ekrana Bas
       emptyState.classList.add('hidden');
       resultsContainer.classList.remove('hidden');
 
@@ -577,7 +666,7 @@
         detBadge.innerText = "TUTARSIZ (UNSAT)";
         verdictCard.className = "border border-rose-900/60 rounded-2xl p-6 bg-panel-kart";
       } else if (v === "GO") {
-        verdictTitle.innerText = "FİNANSAL DENGELİ (UYGUN)";
+        verdictTitle.innerText = "FİNANSAL VE KARAKTER DENGELİ (UYGUN)";
         verdictTitle.className = "text-xl sm:text-2xl font-black text-emerald-400 mt-1";
         detBadge.className = "px-3 py-1 rounded text-xs font-mono font-bold bg-emerald-950 text-emerald-400 border border-emerald-800";
         detBadge.innerText = "TUTARLI (SAT)";
@@ -592,10 +681,9 @@
 
       document.getElementById('auditHashDisplay').innerText = data.audit_hash || "--";
 
-      // Metrikler
       const r = data.rust_telemetry || {};
       document.getElementById('rustRunway').innerText = `${r.runway_months || 0} Ay`;
-      document.getElementById('rustStatus').innerText = r.fragility_status || "--";
+      document.getElementById('rustStatus').innerText = r.fragility_status || "Hesaplandı";
 
       const mc = data.monte_carlo_telemetry || {};
       document.getElementById('mcSurvival').innerText = `%${mc.survival_probability_12m_pct !== undefined ? mc.survival_probability_12m_pct : '--'}`;
@@ -621,7 +709,7 @@
 
       btnSubmit.disabled = false;
       btnSpinner.classList.add('hidden');
-      btnText.innerText = "DENETİMİ BAŞLAT";
+      btnText.innerText = "OTOPSİ VE ANALİZİ ÇALIŞTIR";
       resultsContainer.scrollIntoView({ behavior: 'smooth' });
     });
   </script>
