@@ -139,15 +139,17 @@ def node_critic(state: DiagnosticState) -> Dict[str, Any]:
     if not critic_points:
         critic_points.append("İyimserlik önyargısı nedeniyle alternatif başarısızlık senaryoları modellenmemiş.")
 
-    # Yerel Qwen 14B Coder ile dinamik Pre-Mortem çıkarımı
+    # Çok Kademeli Dayanıklı LLM Ağ Geçidi (Yerel MLX -> Llama Metal -> NVIDIA NIM 26B -> Deterministik)
     try:
-        from src.inversion_kernel.qwen_llm_client import QwenLLMClient
-        qwen = QwenLLMClient()
+        from src.inversion_kernel.resilient_llm_gateway import ResilientLLMGateway
+        gw = ResilientLLMGateway()
         bias_str = f"SDI: {cog.get('self_deception_index')}, Çarpıtmalar: {[f.get('carpitma_adi') for f in findings]}"
         fin_str = f"Sermaye: {disc.get('capital')} TL, Harcama: {disc.get('burn')} TL, Borç Oranı: %{disc.get('debt_ratio')}"
-        llm_critique = qwen.generate_critic_inversion(masked_text, bias_str, fin_str)
-        if llm_critique and len(llm_critique.strip()) > 20:
-            critic_points.insert(0, f"[QWEN-14B]: {llm_critique}")
+        critique_res = gw.generate_resilient_inversion(masked_text, bias_str, fin_str)
+        llm_verdict = critique_res.get("verdict", "")
+        if llm_verdict and len(llm_verdict.strip()) > 20:
+            engine_tag = critique_res.get("engine", "LLM")
+            critic_points.insert(0, f"[{engine_tag}]: {llm_verdict}")
     except Exception:
         pass
 
