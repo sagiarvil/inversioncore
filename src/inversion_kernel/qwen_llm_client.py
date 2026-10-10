@@ -13,19 +13,34 @@ from typing import Dict, Any, List, Optional
 
 
 class QwenLLMClient:
-    """Yerel Qwen 14B Coder ve Harici API Çıkarım İstemcisi."""
+    """Yerel Qwen 14B Coder (MLX-LM & Llama-server) Çıkarım İstemcisi."""
 
-    def __init__(self, base_url: str = "http://127.0.0.1:8081"):
-        self.base_url = base_url.rstrip("/")
+    def __init__(self, base_url: Optional[str] = None):
+        # 8084: Saf Apple MLX-LM Sunucusu | 8081: Metal Llama-server
+        self.candidate_urls = [
+            base_url.rstrip("/") if base_url else None,
+            "http://127.0.0.1:8084",
+            "http://127.0.0.1:8081"
+        ]
+        self.candidate_urls = [u for u in self.candidate_urls if u]
+
+    def _get_active_url(self) -> Optional[str]:
+        """Aktif olan en hızlı yerel MLX/Metal sunucusunu bulur."""
+        for url in self.candidate_urls:
+            try:
+                # 8084 mlx_lm için /v1/models veya basit get
+                test_url = f"{url}/v1/models" if url.endswith(":8084") else f"{url}/health"
+                req = urllib.request.Request(test_url, method="GET")
+                with urllib.request.urlopen(req, timeout=0.8) as resp:
+                    if resp.status in (200, 204):
+                        return url
+            except Exception:
+                continue
+        return None
 
     def is_local_alive(self) -> bool:
-        """Port 8081 yerel modelin ayakta olup olmadığını kontrol eder."""
-        try:
-            req = urllib.request.Request(f"{self.base_url}/health", method="GET")
-            with urllib.request.urlopen(req, timeout=1.5) as resp:
-                return resp.status == 200
-        except Exception:
-            return False
+        """Herhangi bir yerel Qwen 14B çıkarım sunucusunun ayakta olup olmadığını kontrol eder."""
+        return self._get_active_url() is not None
 
     def chat_completion(
         self,
@@ -35,6 +50,15 @@ class QwenLLMClient:
         timeout: int = 15
     ) -> Dict[str, Any]:
         """Yerel Qwen 14B Coder motoruna çıkarım isteği gönderir."""
+        active_url = self._get_active_url()
+        if not active_url:
+            return {
+                "status": "OFFLINE",
+                "engine": "NONE",
+                "error": "Hiçbir yerel çıkarım sunucusu ayakta değil",
+                "content": ""
+            }
+
         payload = {
             "messages": messages,
             "temperature": temperature,
@@ -43,20 +67,29 @@ class QwenLLMClient:
 
         try:
             req = urllib.request.Request(
-                f"{self.base_url}/v1/chat/completions",
+                f"{active_url}/v1/chat/completions",
                 headers={"Content-Type": "application/json"},
                 data=json.dumps(payload).encode("utf-8")
             )
             with urllib.request.urlopen(req, timeout=timeout) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 content = data["choices"][0]["message"]["content"]
+                engine_type = "APPLE_MLX_LM_NATIVE" if ":8084" in active_url else "LLAMA_METAL_BACKEND"
                 return {
                     "status": "SUCCESS",
-                    "engine": "LOCAL_QWEN_14B_CODER_PORT_8081",
+                    "engine": engine_type,
+                    "url": active_url,
                     "model": data.get("model", "qwen2.5-coder-14b"),
                     "content": content,
                     "timings": data.get("timings", {})
                 }
+        except Exception as e:
+            return {
+                "status": "FALLBACK_TRIGGERED",
+                "engine": "LOCAL_ERROR",
+                "error": str(e),
+                "content": ""
+            }
         except Exception as e:
             return {
                 "status": "FALLBACK_TRIGGERED",

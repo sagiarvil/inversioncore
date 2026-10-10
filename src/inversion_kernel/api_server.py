@@ -49,7 +49,11 @@ def health_check():
     import mlx_lm
     import mlx_dspark
 
-    qwen_alive = QwenLLMClient().is_local_alive()
+    qwen_client = QwenLLMClient()
+    active_llm_url = qwen_client._get_active_url()
+    qwen_alive = active_llm_url is not None
+    engine_name = "APPLE MLX-LM NATIVE (Port 8084)" if active_llm_url and ":8084" in active_llm_url else "METAL LLAMA-SERVER (Port 8081)"
+
     chiasmus_ok = ChiasmusClient().is_available()
     copollm_status = CoPoLLMAdapter().get_status()
 
@@ -58,7 +62,7 @@ def health_check():
         "system": "InversionCore Executive Cognitive Forensics OS",
         "version": "3.3.0",
         "engines": {
-            "primary_llm_engine": f"READY (Qwen 14B Coder Port 8081 - {'ONLINE' if qwen_alive else 'OFFLINE'})",
+            "primary_llm_engine": f"READY ({engine_name} - {'ONLINE' if qwen_alive else 'OFFLINE'})",
             "mlx_runtime_packages": f"READY (mlx-lm {mlx_lm.__version__}, mlx-dspark {mlx_dspark.__version__})",
             "chiasmus_neurosymbolic_mcp": f"READY ({'INSTALLED & VERIFIED' if chiasmus_ok else 'MISSING'})",
             "copollm_acl_2026_repo": f"READY (324 Dataset Samples - {copollm_status['status']})",
