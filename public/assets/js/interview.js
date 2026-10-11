@@ -2,9 +2,9 @@
 /**
  * INVERSIONCORE %100 ChatGPT / Claude / Gemini Standart Sabit Chat Arayüzü
  * - Daktilo yazı fontu (Typewriter / Monospace)
- * - Fosforlu kalem vurguları (==vurgu==)
- * - Mıknatıs çarpıcı cümleler (!cümle!)
- * - Sabit kutu içinde kayan diyalog akışı
+ * - Fosforlu sarı (==vurgu==) ve pembe (%%vurgu%%) kalem vurguları
+ * - Dikey çizgili mıknatıs alıntılar (!cümle!)
+ * - Sabit kutu içinde kayan diyalog akışı (Sıfır sayfa büyümesi)
  */
 (() => {
   const $ = s => document.querySelector(s);
@@ -86,7 +86,9 @@
   function renderInlineMarks(str) {
     return str
       .replace(/==([^=]+)==/g, '<mark class="chat-highlight-gold">$1</mark>')
-      .replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>');
+      .replace(/%%([^%]+)%%/g, '<mark class="chat-highlight-pink">$1</mark>')
+      .replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/\n/g, '<br>');
   }
 
   function formatted(full, root) {
@@ -198,7 +200,6 @@
     if (state.busy || !userText || state.round >= 3) return;
     errorBox.hidden = true;
 
-    // Kullanıcı mesajını doğrudan kutunun içine yaz
     msg('user', null, userText);
     state.round++;
 
@@ -250,7 +251,6 @@
       return;
     }
 
-    // Doğrudan AI kartının içine soru ve etkileşimli seçenekleri yerleştir
     const questionCard = el('div', 'chat-question-block');
     const qTitle = el('h4', undefined, data.question.text);
     questionCard.append(qTitle);
@@ -267,7 +267,6 @@
     });
     questionCard.append(pillsContainer);
 
-    // Kendi sözleriyle yanıtlamak isteyenler için doğrudan tek satırlık modern input
     const customRow = el('div', 'chat-custom-input-row');
     const customInp = el('input');
     customInp.type = 'text';
