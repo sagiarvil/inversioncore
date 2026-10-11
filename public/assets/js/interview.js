@@ -1,10 +1,11 @@
 'use strict';
 /**
- * INVERSIONCORE %100 ChatGPT / Claude / Gemini Standart Sabit Chat Arayüzü
- * - Daktilo yazı fontu (Typewriter / Monospace)
- * - Fosforlu sarı (==vurgu==) ve pembe (%%vurgu%%) kalem vurguları
+ * INVERSIONCORE Kitap Tipografisi & Coşkulu Akıcı Karar Masası
+ * - Kitap kalitesinde başlık, paragraf ve tümce düzeni
+ * - Nefes alma boşlukları ve satır başları
+ * - Fosforlu sarı (==vurgu==) ve pembe (%%vurgu%%) kalem işaretlemeleri
  * - Dikey çizgili mıknatıs alıntılar (!cümle!)
- * - Sabit kutu içinde kayan diyalog akışı (Sıfır sayfa büyümesi)
+ * - Sabit ChatGPT / Claude / Gemini kutusu (Minimum scroll)
  */
 (() => {
   const $ = s => document.querySelector(s);
@@ -123,7 +124,7 @@
       state.finishTyping = () => { cancelled = true; resolve(); };
       if (reduceMotion) { resolve(); return; }
       let pos = 0;
-      const step = 5;
+      const step = 6;
       function tick() {
         if (cancelled || ticket !== state.epoch) { resolve(); return; }
         pos = Math.min(pos + step, text.length);

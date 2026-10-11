@@ -1,40 +1,76 @@
 /* ==========================================================================
-   INVERSIONCORE Ultra-Premium Editorial & Typewriter Conversational Engine
-   - Sabit kutu (ChatGPT / Claude / Gemini container)
-   - Ferah tümce düzeni: Paragraflar arası derin nefes boşlukları
-   - Daktilo fontu + Fosforlu sarı/pembe kalem vurguları + Dikey çizgili alıntılar
-   - Dobra, hazırcevap, zeki emojilerle zenginleştirilmiş yapı
+   INVERSIONCORE Coşkulu, Canlı, Okunaklı & Kitap Tipografili Karar Masası
+   - Kitap gibi dengeli, okunaklı serif / sans-serif harmanı
+   - Daktilo fontu yerine gözü yormayan premium yazı karakterleri
+   - Sıcak altın ışıltıları, kehribar ve derin lacivert kontrastı (Sıcak & Coşkulu)
+   - Fosforlu kalemle işaretlenmiş gerçekler (Sarı & Pembe)
+   - Dikey çizgili alıntılar ve satır başı nefes alma boşlukları
+   - Sabit ChatGPT / Claude / Gemini kaydırma penceresi
    ========================================================================== */
 
-/* Sabit Workbench Kutusu */
-body.is-interviewing #analysisWorkbench {
-  background: #ffffff !important;
-  border: 1.5px solid #d4c8b8 !important;
-  box-shadow: 0 24px 75px rgba(13, 21, 39, 0.16) !important;
-  border-radius: 20px !important;
-  max-width: 960px !important;
-  margin: 0 auto !important;
-  overflow: hidden !important;
+/* Arka plan atmosferini ısıt: Donuk gri yerine sıcak gradyan */
+body {
+  background: radial-gradient(circle at 50% 0%, #fffdf8 0%, #f6f1e7 65%, #ede5d5 100%) !important;
 }
 
-/* Sabit ChatGPT / Claude Chat Container: Kendi içinde kayar */
+/* Hero alanında coşkulu ve sıcak atmosfer */
+.hero-content h1 {
+  font-family: Georgia, 'Times New Roman', serif !important;
+  color: #0e1a2c !important;
+  letter-spacing: -0.03em !important;
+}
+
+.hero-content h1 em {
+  color: #c98b2c !important; /* Canlı mat altın vurgusu */
+  font-style: normal !important;
+  position: relative !important;
+}
+
+/* Sabit Workbench Kutusu - Sıcak altın gölge ve zarif kavis */
+body.is-interviewing #analysisWorkbench,
+#analysisWorkbench {
+  background: #ffffff !important;
+  border: 1.5px solid #dfd3c3 !important;
+  box-shadow: 0 20px 60px rgba(184, 134, 45, 0.08), 0 12px 35px rgba(14, 26, 44, 0.08) !important;
+  border-radius: 20px !important;
+  max-width: 920px !important;
+  margin: 0 auto !important;
+  overflow: hidden !important;
+  transition: all 0.3s ease !important;
+}
+
+/* Üst Başlık Şeridi - Canlı kehribar dokunuş */
+.workbench-top {
+  background: linear-gradient(90deg, #faf6ee 0%, #f4ede0 100%) !important;
+  border-bottom: 1.5px solid #e8decb !important;
+  padding: 14px 24px !important;
+}
+
+.status-pill {
+  background: #142238 !important;
+  color: #ffda73 !important; /* Coşkulu altın sarısı yazı */
+  font-weight: 800 !important;
+  box-shadow: 0 2px 8px rgba(20, 34, 56, 0.25) !important;
+}
+
+/* Sabit ChatGPT / Claude Chat Container */
 #thread {
   display: flex !important;
   flex-direction: column !important;
-  height: 680px !important;
-  max-height: 84vh !important;
-  background: #fdfbf7 !important;
+  height: 560px !important; /* Ekranı işgal etmez, scroll ettirmez */
+  max-height: 75vh !important;
+  background: #fdfcf9 !important;
   border-radius: 16px !important;
   padding: 0 !important;
   position: relative !important;
   overflow: hidden !important;
 }
 
-/* Üst Başlık Şeridi */
+/* Chat Üst Başlık */
 .thread-top {
-  padding: 16px 28px !important;
-  background: #f5f1e8 !important;
-  border-bottom: 1.5px solid #e5dcce !important;
+  padding: 14px 24px !important;
+  background: #f8f4ec !important;
+  border-bottom: 1.5px solid #eae1d2 !important;
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
@@ -43,11 +79,10 @@ body.is-interviewing #analysisWorkbench {
 
 .thread-top h2 {
   font-size: 17px !important;
-  font-family: 'Courier New', Courier, monospace !important;
-  font-weight: 800 !important;
+  font-family: Georgia, serif !important;
+  font-weight: 700 !important;
   margin: 0 !important;
   color: #142238 !important;
-  letter-spacing: -0.02em !important;
 }
 
 .step-track {
@@ -59,38 +94,22 @@ body.is-interviewing #analysisWorkbench {
   flex: 1 1 auto !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
-  padding: 28px 34px !important;
+  padding: 24px 28px !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 26px !important;
+  gap: 22px !important;
   scroll-behavior: smooth !important;
 }
 
 .dialogue-stream::-webkit-scrollbar {
-  width: 7px;
-}
-.dialogue-stream::-webkit-scrollbar-track {
-  background: #f3ede2;
+  width: 6px;
 }
 .dialogue-stream::-webkit-scrollbar-thumb {
-  background: #c2b4a1;
+  background: #cbb9a3;
   border-radius: 4px;
 }
 
-/* Mesaj Girişleri */
-.chat-entry {
-  display: flex !important;
-  flex-direction: column !important;
-  width: 100% !important;
-  animation: fadeIn 0.22s ease-out !important;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Kullanıcı Balonu */
+/* KULLANICI BALONU - Derin Gece Mavisi & Net Tipografi */
 .chat-entry.user {
   align-items: flex-end !important;
 }
@@ -99,127 +118,127 @@ body.is-interviewing #analysisWorkbench {
   background: #142238 !important;
   color: #ffffff !important;
   border-radius: 18px 18px 4px 18px !important;
-  padding: 14px 22px !important;
-  font-family: 'Courier New', Courier, monospace !important;
-  font-size: 14.5px !important;
-  line-height: 1.55 !important;
-  max-width: min(85%, 620px) !important;
-  box-shadow: 0 4px 16px rgba(20, 34, 56, 0.15) !important;
+  padding: 12px 20px !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+  font-weight: 500 !important;
+  max-width: min(85%, 600px) !important;
+  box-shadow: 0 4px 16px rgba(20, 34, 56, 0.16) !important;
   border: none !important;
-  white-space: pre-wrap !important;
 }
 
-/* AI YANITI: Daktilo Fontu, Ferah Paragraf Aralıkları, Sol Çizgiler */
+/* AI YANITI - Kitap Okuma Zarafeti, Kusursuz Paragraf Düzeni */
 .chat-entry.assistant {
   align-items: flex-start !important;
 }
 
 .chat-entry.assistant .chat-eyebrow {
-  font-family: 'Courier New', Courier, monospace !important;
-  font-size: 11.5px !important;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-size: 11px !important;
   font-weight: 800 !important;
-  color: #a8834c !important;
+  color: #b38235 !important;
   letter-spacing: 0.08em !important;
-  margin-bottom: 8px !important;
+  margin-bottom: 6px !important;
   text-transform: uppercase !important;
 }
 
 .chat-entry.assistant .chat-content {
   background: #ffffff !important;
-  color: #172433 !important;
+  color: #1e2d3d !important;
   border-radius: 4px 18px 18px 18px !important;
-  padding: 26px 32px !important;
-  font-family: 'Courier New', Courier, monospace !important;
-  font-size: 15px !important;
-  line-height: 1.8 !important; /* Ferah nefes alma aralığı */
-  border: 1.5px solid #e5dfd3 !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+  padding: 24px 28px !important;
+  /* Kitap gibi pürüzsüz okunan tipografi: */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", serif !important;
+  font-size: 15.5px !important;
+  line-height: 1.78 !important; /* Ferah nefes alma boşluğu */
+  border: 1.5px solid #e7dfd3 !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03) !important;
   max-width: 100% !important;
-  letter-spacing: -0.01em !important;
 }
 
 .chat-entry.assistant.final .chat-content {
   border: 2px solid #b89565 !important;
-  background: #ffffff !important;
-  box-shadow: 0 12px 35px rgba(20, 34, 56, 0.08) !important;
-  padding: 34px 38px !important;
+  box-shadow: 0 10px 30px rgba(184, 149, 101, 0.12) !important;
+  padding: 28px 32px !important;
 }
 
-/* Paragraf ve Tümce Düzeni (Nefes Alma Boşlukları) */
+/* Paragraf ve Tümce Düzeni */
 .chat-content p {
-  margin: 0 0 18px !important;
-  line-height: 1.8 !important;
+  margin: 0 0 16px !important;
+  line-height: 1.78 !important;
 }
 
 .chat-content p:last-child {
   margin-bottom: 0 !important;
 }
 
-/* Başlık Düzeni */
+/* Başlıklar - Kitap Tasarımı */
 .chat-content h3 {
-  font-family: 'Courier New', Courier, monospace !important;
-  font-size: 17px !important;
-  font-weight: 900 !important;
+  font-family: Georgia, 'Times New Roman', serif !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
   color: #142238 !important;
-  margin: 28px 0 14px !important;
+  margin: 26px 0 12px !important;
   padding-bottom: 6px !important;
-  border-bottom: 2px solid #e8e0d2 !important;
-  letter-spacing: -0.02em !important;
+  border-bottom: 2px solid #ecd8b5 !important;
 }
 
 .chat-content h3:first-child {
   margin-top: 0 !important;
 }
 
-/* DİKEY ÇİZGİLİ PARAGRAFLAR (Mıknatıs Bloklar) */
+/* DİKEY ÇİZGİLİ MIKNATIS PARAGRAFLAR (Quote Callout) */
 .chat-magnet-quote {
-  border-left: 4.5px solid #b89565 !important;
-  background: #fdf9f1 !important;
-  padding: 16px 20px !important;
-  margin: 20px 0 !important;
+  border-left: 4.5px solid #d49838 !important;
+  background: linear-gradient(90deg, #fff9ee 0%, #fffdfa 100%) !important;
+  padding: 14px 18px !important;
+  margin: 18px 0 !important;
   border-radius: 0 10px 10px 0 !important;
-  font-family: 'Courier New', Courier, monospace !important;
-  font-weight: 700 !important;
-  color: #634316 !important;
+  font-family: Georgia, serif !important;
+  font-size: 15.5px !important;
+  font-weight: 600 !important;
+  color: #6d4610 !important;
   line-height: 1.65 !important;
-  box-shadow: inset 0 0 0 1px rgba(184, 149, 101, 0.12) !important;
+  box-shadow: 0 2px 8px rgba(212, 152, 56, 0.06) !important;
 }
 
 /* Maddeler / Kurallar */
 .chat-rule-line {
-  margin: 12px 0 !important;
+  margin: 10px 0 !important;
   padding: 10px 16px !important;
   border-left: 3.5px solid #142238 !important;
   background: #f8f6f0 !important;
   border-radius: 0 8px 8px 0 !important;
-  font-weight: 600 !important;
+  font-size: 15px !important;
   line-height: 1.65 !important;
 }
 
-/* FOSFORLU KALEM VURGULARI */
+/* FOSFORLU KALEM VURGULARI (Canlı & Mıknatıs) */
 mark.chat-highlight-gold {
-  background: #ffea79 !important; /* Sarı Fosforlu Kalem */
-  color: #0d1a29 !important;
-  font-weight: 800 !important;
-  padding: 2px 7px !important;
+  background: #ffea79 !important; /* Coşkulu Fosforlu Sarı Kalem */
+  color: #0b1522 !important;
+  font-weight: 750 !important;
+  padding: 2px 6px !important;
   border-radius: 4px !important;
-  box-shadow: 0 1px 4px rgba(255, 234, 121, 0.5) !important;
+  box-shadow: 0 1px 4px rgba(255, 234, 121, 0.45) !important;
 }
 
 mark.chat-highlight-pink {
-  background: #ff70a6 !important; /* Pembe Fosforlu Kalem */
+  background: #ff70a6 !important; /* Canlı Fosforlu Pembe Kalem */
   color: #ffffff !important;
-  font-weight: 800 !important;
-  padding: 2px 7px !important;
+  font-weight: 750 !important;
+  padding: 2px 6px !important;
   border-radius: 4px !important;
+  box-shadow: 0 1px 4px rgba(255, 112, 166, 0.35) !important;
 }
 
 /* Daktilo Yanıp Sönen İmleç */
 .typing-caret::after {
-  content: '█';
-  color: #b89565;
+  content: '▋';
+  color: #c98b2c;
   animation: blinkCursor 0.7s infinite;
-  margin-left: 3px;
+  margin-left: 2px;
 }
 @keyframes blinkCursor {
   0%, 100% { opacity: 1; }
@@ -228,15 +247,15 @@ mark.chat-highlight-pink {
 
 /* Soru Bloğu ve İnteraktif Butonlar */
 .chat-question-block {
-  margin-top: 24px !important;
-  padding-top: 20px !important;
-  border-top: 2px dashed #ded5c7 !important;
+  margin-top: 20px !important;
+  padding-top: 18px !important;
+  border-top: 2px dashed #ded4c3 !important;
 }
 
 .chat-question-block h4 {
-  font-family: 'Courier New', Courier, monospace !important;
-  font-size: 16px !important;
-  font-weight: 850 !important;
+  font-family: Georgia, serif !important;
+  font-size: 16.5px !important;
+  font-weight: 700 !important;
   color: #142238 !important;
   margin: 0 0 14px !important;
   line-height: 1.45 !important;
@@ -245,20 +264,20 @@ mark.chat-highlight-pink {
 .chat-interactive-pills {
   display: flex !important;
   flex-direction: column !important;
-  gap: 10px !important;
+  gap: 9px !important;
 }
 
 .chat-pill-btn {
-  background: #faf8f3 !important;
-  border: 1.5px solid #ded4c5 !important;
+  background: #faf7f0 !important;
+  border: 1.5px solid #decbb4 !important;
   border-radius: 12px !important;
-  padding: 14px 18px !important;
-  font-family: 'Courier New', Courier, monospace !important;
-  font-size: 14px !important;
-  font-weight: 650 !important;
+  padding: 13px 18px !important;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-size: 14.5px !important;
+  font-weight: 600 !important;
   color: #142238 !important;
   text-align: left !important;
-  line-height: 1.5 !important;
+  line-height: 1.48 !important;
   cursor: pointer !important;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
   display: flex !important;
@@ -273,24 +292,23 @@ mark.chat-highlight-pink {
 
 .chat-pill-btn:hover {
   background: #ffffff !important;
-  border-color: #b89565 !important;
-  transform: translateX(5px) !important;
-  box-shadow: 0 4px 14px rgba(184, 149, 101, 0.18) !important;
+  border-color: #c98b2c !important;
+  transform: translateX(4px) !important;
+  box-shadow: 0 4px 14px rgba(201, 139, 44, 0.18) !important;
 }
 
 /* Alt Manuel Input Çubuğu */
 .chat-custom-input-row {
   display: flex !important;
-  gap: 10px !important;
-  margin-top: 14px !important;
+  gap: 8px !important;
+  margin-top: 12px !important;
 }
 
 .chat-custom-input-row input {
   flex: 1 !important;
-  padding: 12px 16px !important;
-  border: 1.5px solid #dcd3c4 !important;
+  padding: 11px 16px !important;
+  border: 1.5px solid #ded3c1 !important;
   border-radius: 10px !important;
-  font-family: 'Courier New', Courier, monospace !important;
   font-size: 14px !important;
   background: #ffffff !important;
   outline: none !important;
@@ -301,95 +319,29 @@ mark.chat-highlight-pink {
   color: #ffffff !important;
   border: none !important;
   border-radius: 10px !important;
-  padding: 12px 22px !important;
-  font-family: 'Courier New', Courier, monospace !important;
+  padding: 11px 20px !important;
   font-size: 14px !important;
-  font-weight: 800 !important;
+  font-weight: 700 !important;
   cursor: pointer !important;
+  transition: background 0.2s !important;
 }
 
 .chat-custom-input-row button:hover {
-  background: #b89565 !important;
+  background: #c98b2c !important;
 }
 
 /* Karar Rozeti */
 .final-verdict {
   display: inline-flex !important;
-  padding: 12px 18px !important;
-  background: #fff5e6 !important;
-  border: 1.5px solid #d8be96 !important;
-  border-left: 5px solid #b89565 !important;
+  padding: 10px 16px !important;
+  background: #fff6e8 !important;
+  border: 1.5px solid #e2c08d !important;
+  border-left: 5px solid #c98b2c !important;
   border-radius: 8px !important;
-  font-family: 'Courier New', Courier, monospace !important;
+  font-family: Georgia, serif !important;
   color: #70471b !important;
-  font-weight: 900 !important;
-  font-size: 14px !important;
+  font-weight: 800 !important;
+  font-size: 13.5px !important;
   letter-spacing: 0.04em !important;
-  margin: 10px 0 18px !important;
-}
-
-/* GEREKSİZ BOŞLUKLARI VE FAZLALIKLARI KALDIRMA - MİNİMUM SCROLL MİMARİSİ */
-.hero {
-  padding-top: 15px !important;
-  padding-bottom: 25px !important;
-  min-height: auto !important;
-}
-
-.hero-content {
-  margin-bottom: 15px !important;
-}
-
-.hero-eyebrow {
-  margin-bottom: 6px !important;
-  font-size: 11px !important;
-}
-
-.hero-content h1 {
-  font-size: clamp(26px, 3.2vw, 42px) !important;
-  margin-bottom: 10px !important;
-  line-height: 1.15 !important;
-}
-
-.hero-intro {
-  font-size: 14.5px !important;
-  line-height: 1.5 !important;
-  max-width: 680px !important;
-  margin: 0 auto 12px !important;
-}
-
-.hero-footline {
-  margin-top: 10px !important;
-  gap: 16px !important;
-  font-size: 11.5px !important;
-}
-
-/* Chat başladıktan sonra gereksiz üst alanları katla, chat ekranını tek bakışta odakla */
-body.is-interviewing .hero-intro,
-body.is-interviewing .hero-footline,
-body.is-interviewing .hero-eyebrow {
-  display: none !important;
-}
-
-body.is-interviewing .hero-content h1 {
-  font-size: 22px !important;
-  margin-bottom: 12px !important;
-}
-
-body.is-interviewing .hero {
-  padding-top: 10px !important;
-  padding-bottom: 15px !important;
-}
-
-/* Chat Container Yüksekliğini Optimize Et (Kullanıcıyı scroll yapmaya zorlamaz) */
-#thread {
-  height: 560px !important; /* Ekranın çoğuna tam sığar */
-  max-height: 74vh !important;
-}
-
-.intro-composer textarea {
-  min-height: 85px !important;
-}
-
-.examples {
-  margin-top: 12px !important;
+  margin: 6px 0 16px !important;
 }
