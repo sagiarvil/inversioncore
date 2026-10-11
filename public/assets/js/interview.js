@@ -1,13 +1,16 @@
 'use strict';
 /**
- * INVERSIONCORE Modern Conversational AI Interface
- * ChatGPT / Claude tarzı tekil, premium, sayfadan ayrışan sohbet akışı.
+ * INVERSIONCORE %100 ChatGPT / Claude / Gemini Standart Sabit Chat Arayüzü
+ * - Daktilo yazı fontu (Typewriter / Monospace)
+ * - Fosforlu kalem vurguları (==vurgu==)
+ * - Mıknatıs çarpıcı cümleler (!cümle!)
+ * - Sabit kutu içinde kayan diyalog akışı
  */
 (() => {
   const $ = s => document.querySelector(s);
   const host = $('#analysisWorkbench'), intro = $('#introComposer'), thread = $('#thread'), stream = $('#dialogueStream');
   const responsePanel = $('#responsePanel');
-  const loader = $('#threadLoading'), errorBox = $('#threadError'), modePill = $('#modePill'), stepNodes = [...document.querySelectorAll('.step')];
+  const loader = $('#threadLoading'), errorBox = $('#threadError'), modePill = $('#modePill');
   const skip = $('#skipTyping');
   const state = { mode: '', round: 0, sessionId: null, busy: false, selected: '', report: '', epoch: 0, finishTyping: null };
   const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches || false;
@@ -33,14 +36,6 @@
     if (txt) $('#loadingText').textContent = txt;
   }
 
-  function updateSteps() {
-    stepNodes.forEach(node => {
-      let n = Number(node.dataset.step);
-      node.classList.toggle('is-complete', n < state.round);
-      node.classList.toggle('is-active', n === state.round);
-    });
-  }
-
   function reset() {
     state.epoch++;
     state.mode = '';
@@ -59,7 +54,6 @@
     thread.hidden = true;
     document.body.classList.remove('is-interviewing');
     modePill.textContent = 'BAŞLANGIÇ';
-    updateSteps();
   }
 
   function begin(mode) {
@@ -85,17 +79,35 @@
     }
     entry.append(bubble);
     stream.append(entry);
-    entry.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    stream.scrollTop = stream.scrollHeight;
     return bubble;
+  }
+
+  function renderInlineMarks(str) {
+    return str
+      .replace(/==([^=]+)==/g, '<mark class="chat-highlight-gold">$1</mark>')
+      .replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>');
   }
 
   function formatted(full, root) {
     root.replaceChildren();
-    const groups = String(full).split(/\n\s*\n/).map(s => s.trim()).filter(Boolean);
+    const groups = String(full).split('\n\n').map(s => s.trim()).filter(Boolean);
     groups.forEach(g => {
-      if (g.startsWith('###')) root.append(el('h3', undefined, g.replace(/^###\s*/, '')));
-      else if (g.startsWith('!')) root.append(el('p', 'hard-line', g.replace(/^!\s*/, '')));
-      else root.append(el('p', undefined, g));
+      if (g.startsWith('###')) {
+        root.append(el('h3', undefined, g.replace(/^###\s*/, '')));
+      } else if (g.startsWith('!')) {
+        const quote = el('div', 'chat-magnet-quote');
+        quote.innerHTML = renderInlineMarks(g.replace(/^!\s*/, '').replace(/!$/, ''));
+        root.append(quote);
+      } else if (g.startsWith('•')) {
+        const li = el('p', 'chat-rule-line');
+        li.innerHTML = renderInlineMarks(g);
+        root.append(li);
+      } else {
+        const p = el('p', undefined);
+        p.innerHTML = renderInlineMarks(g);
+        root.append(p);
+      }
     });
   }
 
@@ -109,11 +121,12 @@
       state.finishTyping = () => { cancelled = true; resolve(); };
       if (reduceMotion) { resolve(); return; }
       let pos = 0;
-      const step = 4;
+      const step = 5;
       function tick() {
         if (cancelled || ticket !== state.epoch) { resolve(); return; }
         pos = Math.min(pos + step, text.length);
         formatted(text.slice(0, pos), root);
+        stream.scrollTop = stream.scrollHeight;
         if (pos >= text.length) resolve();
         else setTimeout(tick, 10);
       }
@@ -123,6 +136,7 @@
     root.classList.remove('typing-caret');
     formatted(text, root);
     skip.hidden = true;
+    stream.scrollTop = stream.scrollHeight;
   }
 
   function validate(data, round) {
@@ -136,7 +150,7 @@
     } else {
       if (!['GO', 'RED', 'CONDITIONAL'].includes(data.decision)) throw Error('Nihai karar kodu doğrulanamadı.');
       const wc = data.content.trim().split(/\s+/).length;
-      if (wc < 880 || wc > 1120) throw Error(`Final rapor kelime sayısı sözleşme dışı (${wc}).`);
+      if (wc < 880 || wc > 1120) throw Error('Final rapor kelime sayısı sözleşme dışı (' + wc + ').');
     }
     return data;
   }
@@ -184,13 +198,12 @@
     if (state.busy || !userText || state.round >= 3) return;
     errorBox.hidden = true;
 
-    // Kullanıcı mesajını doğrudan sohbete ekle
+    // Kullanıcı mesajını doğrudan kutunun içine yaz
     msg('user', null, userText);
     state.round++;
-    updateSteps();
 
-    $('#threadHeading').textContent = state.round === 3 ? 'Stratejik Değerlendirme Raporu' : 'İnceleme Sorusu';
-    loading(true, state.round === 3 ? 'Kişiselleştirilmiş rapor hazırlanıyor...' : 'Yanıtınız değerlendiriliyor...');
+    $('#threadHeading').textContent = state.round === 3 ? 'Nihai Karar ve Tokat Raporu' : 'Soru ' + state.round + ' / 2';
+    loading(true, state.round === 3 ? 'Kişiselleştirilmiş rapor daktiloya dökülüyor...' : 'Cevabın tartılıyor...');
     const epoch = state.epoch;
 
     try {
@@ -217,9 +230,8 @@
   async function renderRound(data) {
     const round = state.round;
     errorBox.hidden = true;
-    updateSteps();
 
-    const output = msg('ai', round === 3 ? 'INVERSIONCORE · STRATEJİK RAPOR' : 'INVERSIONCORE AI', undefined, round === 3);
+    const output = msg('ai', round === 3 ? 'INVERSIONCORE · SERT GERÇEKLER RAPORU' : 'INVERSIONCORE · DOĞRULUK MU CESARET Mİ?', undefined, round === 3);
     await typewrite(data.content, output);
 
     if (round === 3) {
@@ -232,8 +244,9 @@
       output.parentElement.insertBefore(verdict, output);
       state.report = data.content;
       $('#threadActions').hidden = false;
-      $('#threadHeading').textContent = 'Nihai Karar ve Yol Haritası';
-      output.after(el('small', 'chat-endnote', `${data.content.trim().split(/\s+/).length} kelime · InversionCore Kişiselleştirilmiş Karar Çıktısı`));
+      $('#threadHeading').textContent = 'Analiz Tamamlandı';
+      output.after(el('small', 'chat-endnote', `${data.content.trim().split(/\s+/).length} kelime · InversionCore Daktilo Karar Belgesi`));
+      stream.scrollTop = stream.scrollHeight;
       return;
     }
 
@@ -247,7 +260,6 @@
       const btn = el('button', 'chat-pill-btn', optText);
       btn.type = 'button';
       btn.addEventListener('click', () => {
-        // Tıklanan seçenek anında gönderilir
         btn.disabled = true;
         submitUserMessage(optText);
       });
@@ -259,7 +271,7 @@
     const customRow = el('div', 'chat-custom-input-row');
     const customInp = el('input');
     customInp.type = 'text';
-    customInp.placeholder = 'Veya buraya kendi yanıtınızı yazıp gönderin...';
+    customInp.placeholder = 'Veya buraya kendi yanıtınızı yazıp Enter\'a basın...';
     const customBtn = el('button', undefined, 'Gönder');
     customBtn.type = 'button';
 
@@ -278,7 +290,7 @@
     questionCard.append(customRow);
 
     output.append(questionCard);
-    questionCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    stream.scrollTop = stream.scrollHeight;
   }
 
   // Event Listeners
@@ -295,7 +307,7 @@
     begin('live');
     const epoch = state.epoch;
     msg('user', null, input);
-    loading(true, 'Konunuz inceleniyor ve sorular hazırlanıyor...');
+    loading(true, 'Daktilo kuruluyor, dosyanız inceleniyor...');
     try {
       const data = validate(await post('/api/v1/analysis/start', { input }), 1);
       if (epoch !== state.epoch) return;

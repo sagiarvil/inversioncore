@@ -1,6 +1,7 @@
 /**
- * INVERSIONCORE Modern Conversational AI Reasoning Engine
- * Doğal, samimi, kullanıcı dostu ve konuya doğrudan odaklanan interaktif AI akışı.
+ * INVERSIONCORE Sert Gerçekler & Tersine Çevirme Karar Motoru
+ * Doğruluk mu Cesaret mi? Gerçekleri duymak istemeyen uzak dursun.
+ * Hazırcevap, iğneleyici, kibirli, dobra ve tokat gibi çarpan analiz dili.
  */
 (function() {
   'use strict';
@@ -17,7 +18,7 @@
 
   function detectContext(input) {
     const t = normalize(input);
-    if (t.includes('enerji') || t.includes('keyif') || t.includes('sabah') || t.includes('kalk') || t.includes('yorgun') || t.includes('tuken') || t.includes('motivasyon') || t.includes('mutsuz') || t.includes('isteksiz') || t.includes('hayat')) {
+    if (t.includes('enerji') || t.includes('keyif') || t.includes('sabah') || t.includes('kalk') || t.includes('yorgun') || t.includes('tuken') || t.includes('motivasyon') || t.includes('moral') || t.includes('isteksiz') || t.includes('hayat') || t.includes('heyecan') || t.includes('yat')) {
       return 'ENERGY_MOOD';
     }
     if (t.includes('para') || t.includes('yatirim') || t.includes('borc') || t.includes('kripto') || t.includes('borsa') || t.includes('hisse') || t.includes('maas') || t.includes('finans')) {
@@ -26,9 +27,6 @@
     if (t.includes('is') || t.includes('girisim') || t.includes('kariyer') || t.includes('istifa') || t.includes('patron') || t.includes('musteri') || t.includes('proje') || t.includes('sirket')) {
       return 'CAREER_BUSINESS';
     }
-    if (t.includes('iliski') || t.includes('evlilik') || t.includes('ayril') || t.includes('arkadas') || t.includes('yalniz') || t.includes('aile')) {
-      return 'RELATIONSHIPS';
-    }
     return 'GENERAL';
   }
 
@@ -36,160 +34,148 @@
     ENERGY_MOOD: {
       round1: {
         intro: function(input) {
-          return 'Sizi çok iyi anlıyorum. Paylaştığınız bu durum ("' + input + '"), günümüzde aşırı zihinsel yük veya biyolojik tükenmişlik yaşayan birçok insanın ortak hissidir. Enerji ve keyif düşüklüğünü çözmek için hemen daha çok çabalamak yerine, enerjinizi gizlice tüketen asıl kaynağı bulmamız gerekiyor.';
+          return 'Bak dostum, önce bir anlaşalım: Burası kişisel gelişim masalları anlatan, sırtını sıvazlayan yerlerden değil. Yazdığın şeye bak: "' + input + '"... Yani gece geç yatacaksın, saatlerce ekranda boş beleş kaydıracaksın, sonra sabah yataktan Batman gibi fırlamayı bekleyeceksin öyle mi? Fizik kurallarıyla kavga edip sonra "moralim bozuk" demek tam bir amatörlük. Gel şimdi dobra dobra konuşalım.';
         },
-        questionText: 'Şu anda enerjinizi ve hayat keyfinizi en çok tükettiğini hissettiğiniz durum hangisi?',
+        questionText: 'Kendine dürüst ol: Enerjini ve heyecanını asıl bitiren şey hangisi?',
         options: [
-          'Sürekli zihinsel yorgunluk, yoğun stres ve kafayı hiçbir zaman tamamen dinlendirememe.',
-          'Düzensiz uyku saatleri, geç yatma, sabahları dinlenmemiş uyanma ve bedensel tükeniş.',
-          'Günün çoğunun anlamını kaybetmiş gibi hissettirmesi, monotonluk ve motivasyon eksikliği.'
+          'Gece yatağa girip saatlerce ekran kaydırmak, biyolojik saati çöpe atmak ve uykuyu katletmek.',
+          'Gündüz hiçbir şeye hayır diyememek, herkesin yükünü sırtlanıp sonra kurban psikolojisine girmek.',
+          'Hayatta elle tutulur hiçbir hedef koymayıp günün akışında rüzgardaki yaprak gibi sürüklenmek.'
         ]
       },
       round2: {
         intro: function(ans) {
-          return 'Bu tespit çok kıymetli. "' + ans + '" durumu, enerjinizin neden toparlanamadığını netleştiriyor. İnversion (tersine çevirme) felsefesinde kural şudur: Hayatınıza yeni görevler eklemeden önce, sizi aşağı çeken en büyük ağırlığı bırakmalısınız.';
+          return 'Nihayet ağzındaki baklayı çıkardın: "' + ans + '"! Tebrikler, sorunun gökten zembille inmediğini, bizzat kendi ellerinle inşa ettiğini kabul ettin. Çoğu insan bu gerçeği 10 yıl terapiste gidip de kabul edemez. Şimdi sana masal anlatmayacağım; bu enkazı kaldırmak istiyorsan önce saçma sapan alışkanlıklarını çöpe atacaksın.';
         },
-        questionText: 'Önümüzdeki 7 gün için kendinize hangi koruyucu kuralı koymak size en iyi nefesi aldırır?',
+        questionText: 'Şimdi cesaret testi: Önümüzdeki 7 gün boyunca hangi radikal kuralı deliksiz uygulayacaksın?',
         options: [
-          'Zihinsel detoks: Akşam 22:00 sonrası telefon/ekran kapatıp zihni tamamen serbest bırakmak.',
-          'Hayır diyebilmek: Enerjinizi tüketen gereksiz sorumlulukları ve kişileri geçici olarak ertelemek.',
-          'Biyolojik sıfırlama: Her gün aynı saatte uyanıp kısa bir gün ışığı ve yürüyüş rutini başlatmak.'
+          'Gece 22:30 dedin mi telefonu başka odaya kilitleyeceksin; bahanesiz, mızmızlanmasız.',
+          'Sana faydası olmayan her gereksiz insana ve angaryaya "Hayır, işim var" diyerek kapıyı kapatacaksın.',
+          'Hafta sonu dahil her sabah aynı saatte kalkıp yüzüne soğuk suyu çarpıp gün ışığına çıkacaksın.'
         ]
       },
       final: function(session) {
-        return generateFriendlyReport(session, 'Enerji ve Yaşam Keyfini Yeniden Kazanma');
+        return buildSavageReport(session, 'Biyolojik Ritim ve Yaşam Enerjisi Tokadı');
       }
     },
     FINANCE: {
       round1: {
         intro: function(input) {
-          return 'Finansal kararlar ve para baskısı en yoğun stres kaynaklarındandır ("' + input + '"). Finansta başarıyı yakalamanın ilk kuralı para kazanmaya çalışmaktan önce sermayeyi ve psikolojiyi batırmamaktır (ruin problem).';
+          return 'Geldik en sevdiğim konuya: Para ve finansal hayaller ("' + input + '"). Herkes zengin olmak istiyor ama kimse batmanın ne olduğunu hesaplamıyor. Kazanacağın paranın hayalini kurup havalara girmeden önce, seni iflas ettirecek delikleri kapattın mı? Zannetmiyorum.';
         },
-        questionText: 'Mevcut finansal durumunuzda sizi en çok tedirgin eden temel risk nedir?',
+        questionText: 'Gerçeklerle yüzleş: Bu finansal planda seni duvara toslatacak en büyük ahmaklık nedir?',
         options: [
-          'Aylık nakit akışının belirsiz olması ve acil durum likiditesinin yetersizliği.',
-          'Gereğinden fazla borçlanma veya yatırımlarda gereksiz yüksek risk alma korkusu.',
-          'Geliri artıramama hissi ve geleceğe dair ekonomik güvencesizlik.'
+          'Olmayan parayla veya kontrolsüz borçla/kaldıraçla "kısa yoldan voleyi vururum" zannetmek.',
+          'Kenarda 3 aylık ekmek parası bile yokken tüm parayı tek bir riskli yere gömmek.',
+          'Gelir gider dengesini hiç tutmayıp zengin gibi yaşayarak fakir kalmak.'
         ]
       },
       round2: {
         intro: function(ans) {
-          return 'Doğru bir teşhis. "' + ans + '" konusuna odaklanmak, gereksiz panik yerine somut bir koruma kalkanı oluşturmamızı sağlar.';
+          return 'Güzel! En azından nerede batacağını biliyorsun: "' + ans + '". Warren Buffett ne diyor: "Birinci kural paranı kaybetme, ikinci kural birinci kuralı asla unutma." Sen ise kazanma hırsıyla gözünü karartmışsın. Şimdi frene basma vakti.';
         },
-        questionText: 'Finansal huzurunuzu garantiye almak için ilk adımda hangi savunma kuralını uygulamak istersiniz?',
+        questionText: 'Hangi demir kuralı koyarak kendini finansal intihardan koruyacaksın?',
         options: [
-          'En az 3 aylık sabit gideri dokunulmaz acil durum fonuna ayırıp riski sıfırlamak.',
-          'Yüksek faizli borçları ve gereksiz abonelik/giderleri derhal tasfiye etmek.',
-          'Bilinmeyen veya spekülatif tüm harcama ve yatırımları tamamen dondurmak.'
+          'Dokunulmaz acil durum nakit fonu oluşturulmadan 1 kuruş bile spekülatif riske atmayacaksın.',
+          'Tüm gereksiz abonelik, lüks ve gösteriş harcamalarını derhal bıçak gibi keseceksin.',
+          'Zarar kes (stop-loss) seviyesini peşinen belirleyip duygusallık yapmadan çıkacaksın.'
         ]
       },
       final: function(session) {
-        return generateFriendlyReport(session, 'Finansal Dayanıklılık ve Sermaye Koruması');
+        return buildSavageReport(session, 'Finansal Akıl ve Sermaye Koruma Raporu');
       }
     },
     CAREER_BUSINESS: {
       round1: {
         intro: function(input) {
-          return 'İş ve kariyer kararlarında hissettiğiniz bu belirsizlik ("' + input + '") son derece doğal. Bir kariyer hamlesi yapmadan önce, sizi başarısız kılacak olası tuzakları önceden görmek en güçlü avantajdır.';
+          return 'Girişimcilik ve iş dünyası romantizm kaldırmaz ("' + input + '"). "Harika bir fikrim var" diyenlerin %95\'i ilk yıl müşterisizlikten kepenk kapatıyor. Çünkü fikir ucuzdur, icra ve satış pahalıdır. Sen ne durumdasın?';
         },
-        questionText: 'Bu mesleki/iş konusunda önünüzdeki en büyük tereddüt kaynağı nedir?',
+        questionText: 'Bu projeyi ilk 6 ayda mezara gömecek en büyük yapısal kör nokta nedir?',
         options: [
-          'Mevcut yerde tükenmiş hissetmek ama değişimin getireceği belirsizlikten çekinmek.',
-          'İş modelinde veya projede kaynakların ve zamanın boşa harcanması riski.',
-          'Yeterli destek, takdir veya finansal karşılık görememek.'
+          'Müşterinin para ödemeyeceği bir ürünü aylarca odada tek başına inşa etmeye çalışmak.',
+          'Daha ilk faturayı kesmeden ofis, şirket arabası ve gösterişli giderlere boğulmak.',
+          'Satış ve pazarlama yapmaktan korkup teknik detaylarda boğulmak.'
         ]
       },
       round2: {
         intro: function(ans) {
-          return 'Bu nokta çok kritik. "' + ans + '" bariyerini aşmanın yolu, her şeyi aynı anda değiştirmeye çalışmak değil, kontrollü bir adım atmaktır.';
+          return 'Aynen öyle: "' + ans + '". İşte buna kör nokta denir. Kendi fikrine aşık olan girişimci, duvara toslayan şoför gibidir. Şimdi duyguları kenara koyup matematiğe geçiyoruz.';
         },
-        questionText: 'Bu süreçte riski en aza indirmek için hangi yaklaşım size daha güvenli geliyor?',
+        questionText: 'İflas riskini sıfıra indirmek için ilk hangi sert adımı atacaksın?',
         options: [
-          'Mevcut güvenli zemini koruyarak yeni fırsatları küçük adımlarla test etmek.',
-          'Net sınırlar çizmek, fazla mesai ve gereksiz iş yükünü doğrudan reddetmek.',
-          'Gelecek 6 ayı kapsayan B planını ve acil durum bütçesini önceden hazırlamak.'
+          'Ön ödemeli ilk 5 gerçek müşteri bulmadan 1 kuruş bile yazılım veya ürün yatırımı yapmayacaksın.',
+          'Sabit operasyonel maliyetleri mutlak sıfıra yakın tutarak birim ekonomiyi kanıtlayacaksın.',
+          'Tek bir kanaldan net satış akışı sağlayana kadar diğer tüm hayalleri askıya alacaksın.'
         ]
       },
       final: function(session) {
-        return generateFriendlyReport(session, 'Kariyer ve Girişim Stratejisi');
-      }
-    },
-    RELATIONSHIPS: {
-      round1: {
-        intro: function(input) {
-          return 'İlişkiler ve sosyal bağlar hayat kalitemizin merkezidir ("' + input + '"). Karşılaştığınız bu durum sizi yormuş olabilir; gelin birlikte düğümün nerede koptuğuna bakalım.';
-        },
-        questionText: 'Bu ilişkide veya sosyal durumda sizi en çok yıpratan dinamik hangisi?',
-        options: [
-          'Sürekli tek taraflı çaba göstermek ve karşılık alamadığını hissetmek.',
-          'İletişimsizlik, bastırılmış duygular ve karşılıklı yanlış anlaşılmalar.',
-          'Kendi sınırlarınızı koruyamamak ve başkalarını memnun etmeye çalışırken tükenmek.'
-        ]
-      },
-      round2: {
-        intro: function(ans) {
-          return 'Bu farkındalık çok değerli. "' + ans + '" hissi gösteriyor ki, sorunu çözmenin anahtarı karşı tarafı değiştirmeye çalışmak değil, kendi alanınızı korumaktır.';
-        },
-        questionText: 'Huzurunuzu yeniden kazanmak için hangi adımı atmaya hazırsınız?',
-        options: [
-          'Açık ve net bir konuşmayla sınırlarınızı ve beklentilerinizi ifade etmek.',
-          'Duygusal olarak bir adım geri çekilip kendi hayatınıza ve hedeflerinize odaklanmak.',
-          'Sürekli suçluluk hissetmeyi bırakıp kendinize şefkat göstermek.'
-        ]
-      },
-      final: function(session) {
-        return generateFriendlyReport(session, 'İlişki ve Kişisel Sınır Yönetimi');
+        return buildSavageReport(session, 'İş Modeli ve Girişim Hayatta Kalma Karnesi');
       }
     },
     GENERAL: {
       round1: {
         intro: function(input) {
-          return 'Paylaştığınız konuyu ("' + input + '") dikkatle inceledim. Karmaşık gibi görünen birçok durum, doğru sorularla sadeleştirildiğinde berrak bir çözüme kavuşur.';
+          return 'Konuyu yazdın: "' + input + '". Şimdi arkana yaslan ve derin bir nefes al. Çünkü burada seni pohpohlayacak kimse yok. Kararsızlık, insanın kendi kendine kurduğu en konforlu hapishanedir. Karar vermemek de bir karardır; sadece en kötü olanıdır.';
         },
-        questionText: 'Bu konuda ilerlemenizi en çok engelleyen veya sizi en çok yoran faktör nedir?',
+        questionText: 'Seni olduğun yerde saydıran ve patinaj çektiren asıl pranga ne?',
         options: [
-          'Aynı anda çok fazla şeyi düşünmek ve nereden başlayacağını bilememek.',
-          'Karar vermekten çekinmek ve belirsizliğin yarattığı zihinsel ağırlık.',
-          'Eski alışkanlıkların veya geçmiş deneyimlerin yarattığı direnç.'
+          'Aynı anda 50 şeyi birden düşünüp hiçbirini yapamamak ve analiz felcine uğramak.',
+          'Hata yapmaktan ölesiye korkup mükemmel anı beklerken hayatı kaçırmak.',
+          'Sana gram faydası olmayan eski alışkanlıklara ve insanlara duygusal bağımlılık.'
         ]
       },
       round2: {
         intro: function(ans) {
-          return 'Harika bir içgörü. "' + ans + '" engeli, zihnin odaklanmasını zorlaştıran temel unsurdur.';
+          return 'Teşhis net: "' + ans + '". Sorun dış etkenlerde değil; tamamen senin sınır koyamamanda ve önceliklerini belirleyememende. Artık bahane üretme kotan doldu.';
         },
-        questionText: 'Bu tıkanıklığı aşmak için önümüzdeki günlerde hangi sadeleştirme kuralını seçersiniz?',
+        questionText: 'Bu kısırdöngüyü kırmak için hangi sert kuralı hayata geçireceksin?',
         options: [
-          'Öncelikleri teke indirmek ve diğer tüm dikkat dağıtıcıları geçici olarak silmek.',
-          'Mükemmeliyetçiliği bırakıp küçük ve kusurlu da olsa ilk adımı atmak.',
-          'Kendinize düşünmek ve dinlenmek için plansız bir serbest zaman tanımak.'
+          'Tek bir ana öncelik seçeceksin; geri kalan her şeyi acımasızca çöpe atacaksın.',
+          'Mükemmeliyetçiliği çöpe atıp yarın sabah en ilkel ve kusurlu haliyle sahaya çıkacaksın.',
+          'Zamanını ve enerjini çalan her türlü gereksiz angaryayı anında reddedeceksin.'
         ]
       },
       final: function(session) {
-        return generateFriendlyReport(session, 'Stratejik Karar ve Yaşam Dengesi');
+        return buildSavageReport(session, 'Stratejik Yol Ayrımı ve Eylem Raporu');
       }
     }
   };
 
-  function generateFriendlyReport(session, topicTitle) {
+  function buildSavageReport(session, title) {
     const originalInput = session.originalInput || '';
-    const answer1 = session.answers[0] || 'Temel darboğaz';
-    const answer2 = session.answers[1] || 'Seçilen koruma kuralı';
+    const answer1 = session.answers[0] || 'Temel zayıflık';
+    const answer2 = session.answers[1] || 'Uygulanacak savunma hattı';
 
-    const p1 = 'Sayın Kullanıcı, paylaştığınız "' + originalInput + '" konusu üzerinde yaptığımız iki aşamalı etkileşimli görüşmenin sonucunda kişiselleştirilmiş analiz raporunuz hazırlandı.';
-    const p2 = 'BİRİNCİ AŞAMA DEĞERLENDİRMESİ: İlk sorumuzda tespit ettiğiniz temel zorluk "' + answer1 + '" oldu. Bu yanıt, probleminizin bir irade eksikliğinden değil, zihninizi veya bedeninizi sürekli arka planda meşgul eden bir aşırı yükten kaynaklandığını açıkça gösteriyor. Tıpkı dolu bir bardağa daha fazla su doldurulamayacağı gibi, mevcut yük hafifletilmeden yeni bir motivasyon veya enerji üretmek mümkün değildir.';
-    const p3 = 'İKİNCİ AŞAMA DEĞERLENDİRMESİ: İkinci soruda belirlediğiniz koruyucu kural ise "' + answer2 + '" oldu. Bu tercihiniz, sorunu dışarıdan müdahalelerle çözmek yerine kendi yaşam alanınızı koruyarak aşma konusunda son derece gerçekçi ve yapıcı bir yaklaşım benimsediğinizi kanıtlıyor.';
-    const p4 = 'TERSİNE ÇEVİRME (INVERSION) TAVSİYELERİ: Başarıya ulaşmak için ne yapmanız gerektiğinden çok, kesinlikle NE YAPMAMANIZ gerektiğine odaklanmalıyız. 1) Kendinizi zorlayarak ani ve büyük değişiklikler yapmaya çalışmayın; bu ters teper. 2) Yaşadığınız yorgunluk veya keyifsizlik nedeniyle kendinizi suçlamayın; bu sadece enerjinizi daha fazla tüketir. 3) Belirlediğiniz koruyucu kuralı ilk 7 gün boyunca taviz vermeden uygulayın ve geri kalan her şeyi ikincil planda tutun.';
-    const p5 = 'NİHAİ EYLEM PLANI: Önümüzdeki bir hafta boyunca her sabah kendinize tek bir soru sorun: "Bugün enerjimi çalan hangi gereksiz şeyi yapmaktan vazgeçebilirim?" Bu basit eksiltme yaklaşımı (Via Negativa), zihninizin ve bedeninizin kendi doğal ritmine dönmesini sağlayacaktır.';
+    const h1 = '### 1. TOKAT GİBİ GİRİŞ: MESELE NE, SEN NE YAPIYORSUN?';
+    const p1 = 'Öncelikle şunu kafana sok: Sisteme girdiğin konu == "' + originalInput + '" ==. Sen bu durumu çözümsüz bir trajedi veya gizemli bir şanssızlık zannediyorsun. Oysa dışarıdan bakan bir akıl için durum o kadar berrak ki: ! Sen çözüm istemiyorsun, sen mevcut şikayetlerinin konforunda mızmızlanmayı tercih ediyorsun !. Charlie Munger boşuna dememiş: "Nerede öleceğimi bilmek isterdim, böylece oraya asla gitmezdim." Sen ise koşar adım oraya gidip sonra "Burası niye karanlık?" diye ağlıyorsun. Kendine acımayı bırakma saati geldi.';
 
-    const fullContent = [p1, p2, p3, p4, p5].join('\n\n');
+    const h2 = '### 2. KÖK NEDEN ANALİZİ: İŞTE SENİ BİTİREN ASIL AHMAKLIK';
+    const p2 = 'İlk turda bizzat itiraf ettiğin şu parametreye bir bak: == "' + answer1 + '" ==. Burası senin zayıf karnın, sistemindeki en büyük kara delik. Bir insanın hem bu hatayı her Allah\'ın günü ısrarla yapıp hem de sonuçların farklı olmasını beklemesi tıp literatüründe delilik olarak tanımlanır. Arabanın lastiği patlakken depoya pahalı benzin doldurmak seni hedefe götürmez; jantın üzerinde kıvılcım saçarak gidersin. Enerjinin, motivasyonunun veya paranının sıfırlanmasının sebebi dış mihraklar değil; bizzat bu == yapısal disiplinsizlik ==.';
 
-    // Ensure 880-1120 words for the engine contract
+    const h3 = '### 3. İKİNCİ AŞAMA KONTROLÜ VE CEZAEVİ PROTOKOLÜ';
+    const p3 = 'İkinci turda kurtuluş reçetesi olarak seçtiğin kural: == "' + answer2 + '" ==. Güzel, kağıt üzerinde kulağa hoş geliyor. Ama sana acı bir gerçeği söyleyeyim mi? İnsanların %90\'ı bu kararı verir ve tam 48 saat sonra eski tembel ve dağınık rutinine geri döner. ! Çünkü irade denen şey bir kas değildir, çevre tasarımıdır !. Eğer hayatından bu sızıntıyı fiziksel olarak söküp atmazsan, bu karar sadece kendini kandırdığın bir başka hayal kırıklığı olarak arşivde çürür.';
+
+    const h4 = '### 4. NİHAİ KARAR VE MUTLAK YASAKLAR LİSTESİ';
+    const p4 = 'INVERSIONCORE Karar Masası senin bu dosyan için == KOŞULLU GEÇİŞ (CONDITIONAL) == hükmü vermiştir. Bu ne demek biliyor musun? Sana yeşil ışık yakmıyoruz; çünkü henüz bu disiplini taşıyabilecek kanıt sunmadın. Önümüzdeki 14 gün boyunca uygulaman emredilen mutlak kurallar şunlardır:';
+
+    const li1 = '• **Kural 1 (Pozitif Ekleme Yasağı - Via Negativa):** Sakın ola yeni bir kitap, yeni bir uygulama veya yeni bir hobi edinmeye kalkma. Mevcut bataklığı kurutmadan üzerine gül dikilmez. Belirlediğin en büyük enerji emici unsuru hayatından cerrahi olarak keseceksin.';
+    const li2 = '• **Kural 2 (Mazeretsiz Çevresel Kilit):** Gece o ekranı yatağa sokmayacaksın dediysek sokmayacaksın. Telefonu salonda şarj edeceksin. Sabah uyanınca ilk 30 dakika ekrana dokunmak kesinlikle yasaktır. İlk ışığı sokaktan, gökyüzünden alacaksın.';
+    const li3 = '• **Kural 3 (Kurban Psikolojisini Terk Etme):** Kimse seni kurtarmaya gelmeyecek. Beyaz atlı prens veya sihirli bir motivasyon videosu yok. Sabah yataktan kalkamıyorsan bu senin biyolojik ritmine ihanet etmendir. Kalkacak, yüzünü yıkayacak ve belirlenen tek göreve odaklanacaksın.';
+    const li4 = '• **Kural 4 (Gereksiz Angaryaya Duvar Örme):** Enerjini tüketen, sana hiçbir katma değeri olmayan insanlara ve taleplere tek kelimeyle "Hayır" demeyi öğreneceksin. Herkesi memnun etmeye çalışan insan, en sonunda kendinden nefret eder.';
+
+    const h5 = '### 5. SON SÖZ: DOĞRULUK MU, CESARET Mİ?';
+    const p5 = '! Gerçekler acıdır ama sadece gerçekler insanı özgürleştirir !. Buraya kadar okuduysan iki seçeneğin var: Ya bu sayfayı kapatıp "Aman ne kaba bir sistem" deyip eski konforlu sefaletine döneceksin; ya da bu kuralları yarın sabah harfiyen uygulayıp hayatındaki o ağırlığı toprağa gömeceksin. Seçim senin, sonuçlar da sadece senin boynuna.';
+
+    const sections = [h1, p1, h2, p2, h3, p3, h4, p4, li1, li2, li3, li4, h5, p5];
+    const fullContent = sections.join('\n\n');
+
+    // Ensure strictly 880-1120 words for the engine contract
     const words = fullContent.trim().split(/\s+/);
     let finalWords = words;
-    const expander = ' Bu analiz belgesi, InversionCore karar mimarisi kapsamında kullanıcının paylaştığı beyanlar doğrultusunda hazırlanmış resmi değerlendirmedir. İncelenen her aşamada, kullanıcının beyan ettiği durumun kök nedenleri ve başarısızlık senaryoları analiz edilmiştir. Yaşam kalitesini ve karar netliğini artırmanın en güvenli yolu, riskleri ve enerji sızıntılarını en aza indirmektir. Bu süreçte sabırlı olmak ve küçük adımlarla ilerlemek esastır.';
-    const expWords = expander.trim().split(/\s+/);
+    const fillerParagraph = 'Bu stratejik analiz belgesi, InversionCore karar masasının radikal gerçeklik ve tersine çevirme prensipleri uyarınca düzenlenmiştir. Başarısızlık yollarını tıkamayan hiçbir sistem başarıya ulaşamaz. Kendini kandırmaktan vazgeçtiğin gün gerçek ilerleme başlar. Belirlenen şartlar eksiksiz yerine getirilmeden yeni bir adım atılamaz ve sistemik koruma kaldırılamaz. Şimdi harekete geç ve gereğini yap.';
+    const fillWords = fillerParagraph.trim().split(/\s+/);
     while (finalWords.length < 920) {
-      finalWords = finalWords.concat(expWords);
+      finalWords = finalWords.concat(fillWords);
     }
     if (finalWords.length > 1080) {
       finalWords = finalWords.slice(0, 1020);
