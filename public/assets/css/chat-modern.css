@@ -1,23 +1,36 @@
 /* ==========================================================================
-   INVERSIONCORE Next-Gen AI Conversational Interface (ChatGPT / Claude Style)
+   INVERSIONCORE Premium AI Workbench & Chat Interface
+   Sayfadan belirgin şekilde ayrışan, derinlikli, kurumsal ve modern AI alanı
    ========================================================================== */
 
-/* Full layout refinement for interactive AI mode */
-.ai-chat-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 520px;
-  max-width: 860px;
-  margin: 0 auto;
-  position: relative;
+/* Aktif analiz esnasında çalışma alanı (workbench) arka planı ve derinliği */
+body.is-interviewing #analysisWorkbench {
+  background: #ffffff !important;
+  border: 1.5px solid #d4c8b8 !important;
+  box-shadow: 0 24px 70px rgba(13, 21, 39, 0.12), 0 4px 18px rgba(0, 0, 0, 0.04) !important;
+  border-radius: 20px !important;
+  overflow: hidden;
 }
 
-/* Chat Messages Flow */
+/* Chat iç arka planı - Sayfadaki bej/fildişi renkten ayrışan yumuşak iç panel */
+#thread {
+  background: #faf9f6;
+  border-radius: 16px;
+  padding: 28px 32px 36px;
+  border: 1px solid #ede8e0;
+}
+
+/* Çift soru kutusunu engelleme: Eski alttaki form paneli tamamen gizlenir */
+#responsePanel {
+  display: none !important;
+}
+
+/* Sohbet Akışı (Dialogue Stream) */
 .dialogue-stream {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 10px 0 30px;
+  gap: 24px;
+  margin: 24px 0;
   width: 100%;
 }
 
@@ -25,106 +38,114 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  animation: fadeInMsg 0.25s ease-out;
+  animation: fadeInMsg 0.28s ease-out;
 }
 
 @keyframes fadeInMsg {
-  from { opacity: 0; transform: translateY(6px); }
+  from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* User Message Bubble - Clean modern right-aligned */
+/* KULLANICI MESAJI - Sağ tarafta derin lacivert şık balon */
 .chat-entry.user {
   align-items: flex-end;
 }
 
 .chat-entry.user .chat-content {
   background: #142238;
-  color: #f7f9fc;
-  border-radius: 18px 18px 4px 18px;
-  padding: 14px 20px;
+  color: #ffffff;
+  border-radius: 20px 20px 4px 20px;
+  padding: 14px 22px;
   font-size: 15px;
   line-height: 1.55;
-  max-width: min(85%, 620px);
-  box-shadow: 0 4px 16px rgba(20, 34, 56, 0.12);
+  max-width: min(85%, 600px);
+  box-shadow: 0 6px 20px rgba(20, 34, 56, 0.16);
   border: none;
+  font-weight: 450;
   white-space: pre-wrap;
   word-break: break-word;
 }
 
-.chat-entry.user .chat-eyebrow {
-  display: none; /* Modern clean AI look, no bureaucratic labels */
-}
-
-/* AI Assistant Message - Clean elegant left card */
+/* AI YANITI - Sol tarafta saf beyaz, altın vurgulu premium kart */
 .chat-entry.assistant {
   align-items: flex-start;
 }
 
 .chat-entry.assistant .chat-eyebrow {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: #b89565;
-  margin-bottom: 8px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #a8834c;
+  margin-bottom: 10px;
   text-transform: uppercase;
 }
 
 .chat-entry.assistant .chat-eyebrow::before {
-  content: '';
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #b89565;
+  content: '✳';
+  color: #b89565;
+  font-size: 13px;
 }
 
 .chat-entry.assistant .chat-content {
   background: #ffffff;
-  color: #172433;
-  border-radius: 4px 18px 18px 18px;
-  padding: 18px 24px;
-  font-size: 15px;
-  line-height: 1.7;
-  border: 1px solid #e8e3d8;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+  color: #1a2736;
+  border-radius: 4px 20px 20px 20px;
+  padding: 24px 28px;
+  font-size: 15.5px;
+  line-height: 1.75;
+  border: 1.5px solid #e5dfd5;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
   max-width: 100%;
 }
 
 .chat-entry.assistant.final .chat-content {
   background: #ffffff;
-  border: 1.5px solid #d9cbba;
-  box-shadow: 0 8px 30px rgba(20, 34, 56, 0.06);
-  padding: 26px 30px;
+  border: 2px solid #c9b493;
+  box-shadow: 0 14px 45px rgba(20, 34, 56, 0.09);
+  padding: 32px 36px;
 }
 
-/* Inline Interactive Options (Clickable Pills directly in chat) */
+/* AI Soru Kartı ve İnteraktif Seçenekler */
+.chat-question-block {
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid #ebe5dc;
+}
+
+.chat-question-block h4 {
+  font-family: Georgia, serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #142238;
+  margin: 0 0 16px;
+  line-height: 1.45;
+}
+
+/* Seçenek Düğmeleri (Pills) */
 .chat-interactive-pills {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 16px;
-  width: 100%;
 }
 
 .chat-pill-btn {
-  background: #faf8f5;
-  border: 1.5px solid #e0d7cb;
+  background: #fdfcf9;
+  border: 1.5px solid #ddd5c9;
   border-radius: 12px;
-  padding: 14px 18px;
-  font-size: 14px;
+  padding: 15px 18px;
+  font-size: 14.5px;
   font-weight: 500;
   color: #1a293b;
   text-align: left;
-  line-height: 1.45;
+  line-height: 1.5;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .chat-pill-btn::before {
@@ -132,12 +153,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  background: #eee8df;
-  color: #7a6344;
-  font-size: 12px;
+  background: #ede6dc;
+  color: #876c48;
+  font-size: 13px;
   font-weight: 700;
   flex-shrink: 0;
   transition: all 0.2s ease;
@@ -146,9 +167,9 @@
 .chat-pill-btn:hover {
   background: #ffffff;
   border-color: #b89565;
-  transform: translateX(4px);
-  box-shadow: 0 4px 14px rgba(184, 149, 101, 0.15);
-  color: #0d1724;
+  transform: translateX(5px);
+  box-shadow: 0 6px 18px rgba(184, 149, 101, 0.18);
+  color: #0b1522;
 }
 
 .chat-pill-btn:hover::before {
@@ -156,64 +177,43 @@
   color: #ffffff;
 }
 
-/* Persistent Modern Bottom Chat Bar (ChatGPT / Claude input box) */
-.modern-chatbar {
+/* Serbest Metin Giriş Alanı (Seçenek yerine yazmak isteyenler için) */
+.chat-custom-input-row {
   display: flex;
-  align-items: center;
   gap: 10px;
-  background: #ffffff;
-  border: 1.5px solid #dcd5ca;
-  border-radius: 16px;
-  padding: 8px 12px 8px 18px;
-  box-shadow: 0 6px 24px rgba(20, 34, 56, 0.08);
-  margin-top: 20px;
-  position: sticky;
-  bottom: 20px;
-  z-index: 10;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  margin-top: 14px;
+  align-items: center;
 }
 
-.modern-chatbar:focus-within {
-  border-color: #b89565;
-  box-shadow: 0 8px 30px rgba(184, 149, 101, 0.2);
-}
-
-.modern-chatbar textarea {
+.chat-custom-input-row input {
   flex: 1;
-  border: none;
+  padding: 12px 16px;
+  border: 1.5px solid #ded6ca;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #142238;
+  background: #ffffff;
   outline: none;
-  background: transparent;
-  font-size: 15px;
-  line-height: 1.5;
-  color: #172433;
-  resize: none;
-  padding: 6px 0;
-  max-height: 120px;
-  min-height: 26px;
+  transition: border-color 0.2s;
 }
 
-.modern-chatbar button.btn-send {
+.chat-custom-input-row input:focus {
+  border-color: #b89565;
+  box-shadow: 0 0 0 2px rgba(184, 149, 101, 0.15);
+}
+
+.chat-custom-input-row button {
   background: #142238;
   color: #ffffff;
   border: none;
   border-radius: 10px;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
+  transition: background 0.2s;
 }
 
-.modern-chatbar button.btn-send:hover {
+.chat-custom-input-row button:hover {
   background: #b89565;
-  transform: scale(1.04);
-}
-
-.modern-chatbar button.btn-send svg {
-  width: 18px;
-  height: 18px;
-  fill: currentColor;
 }

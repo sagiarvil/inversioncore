@@ -1,12 +1,12 @@
 'use strict';
 /**
  * INVERSIONCORE Modern Conversational AI Interface
- * ChatGPT / Claude / Gemini benzeri sezgisel, doğrudan soru-cevap akışı.
+ * ChatGPT / Claude tarzı tekil, premium, sayfadan ayrışan sohbet akışı.
  */
 (() => {
   const $ = s => document.querySelector(s);
   const host = $('#analysisWorkbench'), intro = $('#introComposer'), thread = $('#thread'), stream = $('#dialogueStream');
-  const responsePanel = $('#responsePanel'), options = $('#responseOptions'), answerText = $('#answerText');
+  const responsePanel = $('#responsePanel');
   const loader = $('#threadLoading'), errorBox = $('#threadError'), modePill = $('#modePill'), stepNodes = [...document.querySelectorAll('.step')];
   const skip = $('#skipTyping');
   const state = { mode: '', round: 0, sessionId: null, busy: false, selected: '', report: '', epoch: 0, finishTyping: null };
@@ -50,7 +50,7 @@
     state.selected = '';
     state.report = '';
     stream.replaceChildren();
-    responsePanel.hidden = true;
+    if (responsePanel) responsePanel.hidden = true;
     $('#threadActions').hidden = true;
     errorBox.hidden = true;
     loader.hidden = true;
@@ -183,14 +183,14 @@
   async function submitUserMessage(userText) {
     if (state.busy || !userText || state.round >= 3) return;
     errorBox.hidden = true;
-    responsePanel.hidden = true;
 
+    // Kullanıcı mesajını doğrudan sohbete ekle
     msg('user', null, userText);
     state.round++;
     updateSteps();
 
-    $('#threadHeading').textContent = state.round === 3 ? 'Stratejik Değerlendirme Raporu' : 'Detaylı İnceleme Sorusu';
-    loading(true, state.round === 3 ? 'Yanıtlarınıza göre kişiselleştirilmiş rapor hazırlanıyor...' : 'Yanıtınız değerlendiriliyor...');
+    $('#threadHeading').textContent = state.round === 3 ? 'Stratejik Değerlendirme Raporu' : 'İnceleme Sorusu';
+    loading(true, state.round === 3 ? 'Kişiselleştirilmiş rapor hazırlanıyor...' : 'Yanıtınız değerlendiriliyor...');
     const epoch = state.epoch;
 
     try {
@@ -231,24 +231,15 @@
       const verdict = el('div', 'final-verdict', decisions[data.decision] || 'KOŞULLU');
       output.parentElement.insertBefore(verdict, output);
       state.report = data.content;
-      responsePanel.hidden = true;
       $('#threadActions').hidden = false;
       $('#threadHeading').textContent = 'Nihai Karar ve Yol Haritası';
       output.after(el('small', 'chat-endnote', `${data.content.trim().split(/\s+/).length} kelime · InversionCore Kişiselleştirilmiş Karar Çıktısı`));
       return;
     }
 
-    // Modern inline question inside the AI message bubble
+    // Doğrudan AI kartının içine soru ve etkileşimli seçenekleri yerleştir
     const questionCard = el('div', 'chat-question-block');
-    questionCard.style.marginTop = '20px';
-    questionCard.style.borderTop = '1px solid #eee8df';
-    questionCard.style.paddingTop = '16px';
-
     const qTitle = el('h4', undefined, data.question.text);
-    qTitle.style.fontSize = '16px';
-    qTitle.style.fontWeight = '650';
-    qTitle.style.color = '#142238';
-    qTitle.style.margin = '0 0 14px';
     questionCard.append(qTitle);
 
     const pillsContainer = el('div', 'chat-interactive-pills');
@@ -256,30 +247,38 @@
       const btn = el('button', 'chat-pill-btn', optText);
       btn.type = 'button';
       btn.addEventListener('click', () => {
+        // Tıklanan seçenek anında gönderilir
+        btn.disabled = true;
         submitUserMessage(optText);
       });
       pillsContainer.append(btn);
     });
     questionCard.append(pillsContainer);
-    output.append(questionCard);
 
-    // Also update bottom input panel for manual typing if preferred
-    $('#responseQuestion').textContent = data.question.text;
-    answerText.value = '';
-    state.selected = '';
-    options.replaceChildren();
-    data.question.options.forEach(label => {
-      const b = el('button', 'answer-choice', label);
-      b.type = 'button';
-      b.setAttribute('aria-pressed', 'false');
-      b.addEventListener('click', () => {
-        state.selected = label;
-        options.querySelectorAll('.answer-choice').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
-      });
-      options.append(b);
+    // Kendi sözleriyle yanıtlamak isteyenler için doğrudan tek satırlık modern input
+    const customRow = el('div', 'chat-custom-input-row');
+    const customInp = el('input');
+    customInp.type = 'text';
+    customInp.placeholder = 'Veya buraya kendi yanıtınızı yazıp gönderin...';
+    const customBtn = el('button', undefined, 'Gönder');
+    customBtn.type = 'button';
+
+    const sendCustom = () => {
+      const val = customInp.value.trim();
+      if (!val) { customInp.focus(); return; }
+      submitUserMessage(val);
+    };
+
+    customBtn.addEventListener('click', sendCustom);
+    customInp.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); sendCustom(); }
     });
-    responsePanel.hidden = false;
-    responsePanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    customRow.append(customInp, customBtn);
+    questionCard.append(customRow);
+
+    output.append(questionCard);
+    questionCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
   // Event Listeners
@@ -296,7 +295,7 @@
     begin('live');
     const epoch = state.epoch;
     msg('user', null, input);
-    loading(true, 'Konunuz inceleniyor ve değerlendiriliyor...');
+    loading(true, 'Konunuz inceleniyor ve sorular hazırlanıyor...');
     try {
       const data = validate(await post('/api/v1/analysis/start', { input }), 1);
       if (epoch !== state.epoch) return;
@@ -320,25 +319,6 @@
     if (epoch !== state.epoch) return;
     loading(false);
     await renderRound({ ...window.IC_DEMO.round1, round: 1, source: 'demo' });
-  });
-
-  $('#sendAnswer').addEventListener('click', async () => {
-    const own = escapeStr(answerText.value), selected = state.selected;
-    const finalAnswer = [selected, own].filter(Boolean).join(' — ');
-    if (!finalAnswer) {
-      answerText.focus();
-      error('Bir seçenek belirleyin veya kendi yanıtınızı yazın.');
-      return;
-    }
-    await submitUserMessage(finalAnswer);
-  });
-
-  // Enter to send from bottom textarea
-  answerText.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      $('#sendAnswer').click();
-    }
   });
 
   $('#resetConversation').addEventListener('click', () => {
