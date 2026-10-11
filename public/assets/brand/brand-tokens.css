@@ -1,11 +1,11 @@
 /* InversionCore BRAND ONLY: do not change workbench, dialogue, cards or page grid */
 :root { --ic-brand-navy:#142238; --ic-brand-gold:#B89A67; --ic-brand-cream:#F5F2EB; }
 .ic-brand-lockup { display:inline-flex; align-items:center; gap:10px; color:var(--ic-brand-navy); text-decoration:none; min-width:0; }
-.ic-brand-lockup__mark { display:block; width:48px; height:48px; flex:0 0 48px; object-fit:contain; }
+.ic-brand-lockup__mark { display:block; width:48px; height:48px; flex:0 0 48px; object-fit:cover; border-radius:50%; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,0.18); }
 .ic-brand-lockup__label {display:flex; min-width:0; flex-direction:column; justify-content:center;}
 .ic-brand-lockup__name { display:block; font-family:Georgia,'Times New Roman',serif; font-size:clamp(19px,1.8vw,26px); font-weight:600; letter-spacing:-.055em; line-height:1.05; white-space:nowrap; }
 .ic-brand-lockup__name em { color:var(--ic-brand-gold); font-style:normal; }
 .ic-brand-lockup__tagline { display:block; color:#746E66; font:600 8px/1.5 system-ui,-apple-system,sans-serif; letter-spacing:.06em; margin-top:5px; white-space:nowrap; }
 .ic-footer-wordmark {display:inline-flex;align-items:center;gap:10px;}
-.ic-footer-wordmark img{object-fit:contain; width:31px;height:31px;}
+.ic-footer-wordmark img{object-fit:cover; width:31px;height:31px; border-radius:50%; overflow:hidden;}
 @media(max-width:440px){.ic-brand-lockup__tagline{font-size:7px;letter-spacing:0}.ic-brand-lockup__mark{width:38px;height:38px;flex-basis:38px}.ic-brand-lockup__name{font-size:20px}}

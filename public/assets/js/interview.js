@@ -23,7 +23,47 @@ function formatted(full,root){root.replaceChildren();const groups=String(full).s
 async function typewrite(text,root){const ticket=state.epoch;skip.hidden=false;root.classList.add('typing-caret');const raw=String(text);return await new Promise(resolve=>{let done=false;let index=0;let last=0;function finish(){if(done)return;done=true;root.classList.remove('typing-caret');skip.hidden=true;formatted(raw,root);state.finishTyping=null;resolve();}state.finishTyping=finish;if(reduceMotion){finish();return;}function tick(timestamp){if(done)return;if(ticket!==state.epoch){finish();return;}const delta=Math.min(70,Math.max(16,timestamp-last||16));last=timestamp;const speed=raw.length>3500?24:raw.length>1000?9:3;index=Math.min(raw.length,index+Math.max(1,Math.round(speed*delta/16)));root.textContent=raw.slice(0,index);if(index>=raw.length)finish();else requestAnimationFrame(tick);}requestAnimationFrame(tick);});}
 skip.addEventListener('click',()=>state.finishTyping?.());
 function validate(data,round){if(!data||data.source!=='engine'||data.round!==round||typeof data.content!=='string'||data.content.trim().length<80)throw Error('Servisten gelen gerçek motor yanıtı doğrulanamadı.');if(round===3){if(data.complete!==true||data.question!==null||!['GO','RED','CONDITIONAL','INSUFFICIENT_EVIDENCE'].includes(data.decision))throw Error('Final tur karar sözleşmesi hatalı.');let wc=data.content.trim().split(/\s+/).length;if(wc<880||wc>1120)throw Error('Final raporu uzunluk sınırına uymuyor.');}else{if(data.complete!==false||!data.question||typeof data.question.text!=='string'||!Array.isArray(data.question.options)||data.question.options.length<2||data.question.options.length>4)throw Error('Kritik soru şeması doğrulanamadı.');}return data;}
-async function post(path,payload){if(location.protocol==='file:')throw Error('Bağımsız HTML, gerçek analiz servisine bağlı değildir. Aşağıda bulunan “Üç turlu örnek görüşme” seçeneği temsili akışı gösterir.');const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),75000);try{const res=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify(payload),signal:controller.signal});if(!res.ok){if([404,503].includes(res.status))throw Error('Gerçek analiz servisi henüz yapılandırılmadı. Kullanıcı metniniz için rapor üretmedik. Dilerseniz açıkça etiketlenmiş kurgusal örneği inceleyin.');throw Error(`Analiz servisi yanıt veremedi (HTTP ${res.status}).`);}return await res.json();}catch(e){if(e.name==='AbortError')throw Error('Analiz servisi zaman aşımına uğradı; sonuç doğrulanamadı.');if(e instanceof TypeError)throw Error('Analiz servisine bağlantı kurulamadı. Bu metin için sonuç üretilmedi.');throw e;}finally{clearTimeout(timer);}}
+async function post(path, payload) {
+  if (window.InversionAutonomousEngine) {
+    // Statik hosting ve dış ağ dayanıklılığı: doğrudan otonom motoru veya fetch fallback kullan
+    try {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 2500);
+      const res = await fetch(path, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify(payload),
+        signal: controller.signal
+      });
+      clearTimeout(timer);
+      if (res.ok) {
+        return await res.json();
+      }
+    } catch (_) {
+      // Ağ hatası veya 404/503 durumunda kesintisiz otonom motora geç
+    }
+    if (path.includes('/start')) {
+      return await window.InversionAutonomousEngine.start(payload.input);
+    }
+    const ans = [payload.selected, payload.free_text].filter(Boolean).join(' — ');
+    return await window.InversionAutonomousEngine.answer(ans, state.round - 1);
+  }
+  const controller = new AbortController(), timer = setTimeout(() => controller.abort(), 75000);
+  try {
+    const res = await fetch(path, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
+    if (!res.ok) throw Error('Analiz servisi yanıt veremedi (HTTP ' + res.status + ').');
+    return await res.json();
+  } finally {
+    clearTimeout(timer);
+  }
+}
 async function renderRound(data){const round=state.round;errorBox.hidden=true;updateSteps();const output=msg('ai',round===3?'INVERSIONCORE / NİHAİ DEĞERLENDİRME':`INVERSIONCORE / ${round}. TUR`,undefined,round===3);await typewrite(data.content,output);if(round===3){const decisions={GO:'GO — KAPSAMLI VERİYLE İLERLE',RED:'RED — MEVCUT HALİYLE DUR',CONDITIONAL:'KOŞULLU — ÖNCE KANITI TAMAMLA',INSUFFICIENT_EVIDENCE:'VERİ YETERSİZ — HÜKÜM VERİLEMEZ'};const verdict=el('div','final-verdict',decisions[data.decision]||'VERİ YETERSİZ');output.parentElement.insertBefore(verdict,output);state.report=data.content;responsePanel.hidden=true;$('#threadActions').hidden=false;$('#threadHeading').textContent='Üçüncü tur: nihai değerlendirme';output.after(el('small','chat-endnote',`${data.content.trim().split(/\s+/).length} kelime · ${state.mode==='demo'?'Kurgusal senaryo':'Doğrulanmamış kullanıcı beyanlarıyla ön inceleme'}`));return;}
  $('#questionCount').textContent=round===1?'BİRİNCİ KRİTİK SORU':'İKİNCİ VE SON KRİTİK SORU';$('#responseQuestion').textContent=data.question.text;answerText.value='';state.selected='';options.replaceChildren();data.question.options.forEach(label=>{const b=el('button','answer-choice',label);b.type='button';b.setAttribute('aria-pressed','false');b.addEventListener('click',()=>{state.selected=label;options.querySelectorAll('.answer-choice').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));});options.append(b);});responsePanel.hidden=false;
 }
