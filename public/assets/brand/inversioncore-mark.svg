@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="InversionCore simgesi" shape-rendering="geometricPrecision">
+<title>InversionCore simgesi</title>
+<g fill="#142238">
+  <!-- angular ears -->
+  <path d="M132 222 C116 182 111 133 142 86 C179 94 221 135 246 174 L211 212 C184 163 161 140 143 137 C135 159 139 191 150 216 Z"/>
+  <path transform="translate(600 0) scale(-1 1)" d="M132 222 C116 182 111 133 142 86 C179 94 221 135 246 174 L211 212 C184 163 161 140 143 137 C135 159 139 191 150 216 Z"/>
+  <!-- forehead and mask wings: upper sweep -->
+  <path d="M300 178 C266 133 228 139 194 163 C158 191 118 237 74 285 C133 259 183 229 224 230 C261 230 287 257 300 327 Z"/>
+  <path transform="translate(600 0) scale(-1 1)" d="M300 178 C266 133 228 139 194 163 C158 191 118 237 74 285 C133 259 183 229 224 230 C261 230 287 257 300 327 Z"/>
+  <!-- eye field and outer cheeks -->
+  <path d="M273 329 C237 288 196 295 155 322 C124 343 92 349 57 357 C137 378 198 424 255 495 L300 569 L300 435 L236 378 Z"/>
+  <path transform="translate(600 0) scale(-1 1)" d="M273 329 C237 288 196 295 155 322 C124 343 92 349 57 357 C137 378 198 424 255 495 L300 569 L300 435 L236 378 Z"/>
+  <!-- lower cheek blades -->
+  <path d="M112 394 C84 423 67 401 34 399 C73 438 94 503 153 538 C182 557 213 571 240 576 C202 514 166 438 136 414 Z"/>
+  <path transform="translate(600 0) scale(-1 1)" d="M112 394 C84 423 67 401 34 399 C73 438 94 503 153 538 C182 557 213 571 240 576 C202 514 166 438 136 414 Z"/>
+  <!-- central nose ridge -->
+  <path d="M240 410 L300 464 L360 410 L324 491 L300 585 L276 491 Z"/>
+  </g>
+  <!-- warm-metal internal facets -->
+  <g fill="#B89A67" opacity="0.82">
+    <path d="M145 96 C173 112 203 145 218 177 L181 170 C161 144 153 127 145 96 Z"/>
+    <path transform="translate(600 0) scale(-1 1)" d="M145 96 C173 112 203 145 218 177 L181 170 C161 144 153 127 145 96 Z"/>
+    <path d="M204 166 C240 139 277 151 292 185 L300 317 C281 263 260 234 227 221 C199 216 171 234 146 244 C168 210 181 185 204 166 Z" opacity="0.46"/>
+    <path transform="translate(600 0) scale(-1 1)" d="M204 166 C240 139 277 151 292 185 L300 317 C281 263 260 234 227 221 C199 216 171 234 146 244 C168 210 181 185 204 166 Z" opacity="0.46"/>
+    <path d="M118 413 C136 418 158 436 176 468 L228 558 C189 541 141 509 122 480 C112 461 110 433 118 413Z" opacity="0.56"/>
+    <path transform="translate(600 0) scale(-1 1)" d="M118 413 C136 418 158 436 176 468 L228 558 C189 541 141 509 122 480 C112 461 110 433 118 413Z" opacity="0.56"/>
+  </g>
+  <!-- eyes read as focused negative-space facets; transparent through underlying canvas -->
+  
+  
+  <ellipse cx="217" cy="337" rx="12" ry="11" fill="#B89A67"/><ellipse cx="383" cy="337" rx="12" ry="11" fill="#B89A67"/><path d="M74 337 C60 256 88 167 154 104 C236 23 363 14 452 75 C522 122 553 197 543 284" stroke="#B89A67" stroke-width="6" fill="none" stroke-linecap="round"/>
+</svg>
