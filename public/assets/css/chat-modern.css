@@ -1,0 +1,219 @@
+/* ==========================================================================
+   INVERSIONCORE Next-Gen AI Conversational Interface (ChatGPT / Claude Style)
+   ========================================================================== */
+
+/* Full layout refinement for interactive AI mode */
+.ai-chat-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 520px;
+  max-width: 860px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Chat Messages Flow */
+.dialogue-stream {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px 0 30px;
+  width: 100%;
+}
+
+.chat-entry {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  animation: fadeInMsg 0.25s ease-out;
+}
+
+@keyframes fadeInMsg {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* User Message Bubble - Clean modern right-aligned */
+.chat-entry.user {
+  align-items: flex-end;
+}
+
+.chat-entry.user .chat-content {
+  background: #142238;
+  color: #f7f9fc;
+  border-radius: 18px 18px 4px 18px;
+  padding: 14px 20px;
+  font-size: 15px;
+  line-height: 1.55;
+  max-width: min(85%, 620px);
+  box-shadow: 0 4px 16px rgba(20, 34, 56, 0.12);
+  border: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.chat-entry.user .chat-eyebrow {
+  display: none; /* Modern clean AI look, no bureaucratic labels */
+}
+
+/* AI Assistant Message - Clean elegant left card */
+.chat-entry.assistant {
+  align-items: flex-start;
+}
+
+.chat-entry.assistant .chat-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #b89565;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.chat-entry.assistant .chat-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #b89565;
+}
+
+.chat-entry.assistant .chat-content {
+  background: #ffffff;
+  color: #172433;
+  border-radius: 4px 18px 18px 18px;
+  padding: 18px 24px;
+  font-size: 15px;
+  line-height: 1.7;
+  border: 1px solid #e8e3d8;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+  max-width: 100%;
+}
+
+.chat-entry.assistant.final .chat-content {
+  background: #ffffff;
+  border: 1.5px solid #d9cbba;
+  box-shadow: 0 8px 30px rgba(20, 34, 56, 0.06);
+  padding: 26px 30px;
+}
+
+/* Inline Interactive Options (Clickable Pills directly in chat) */
+.chat-interactive-pills {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+  width: 100%;
+}
+
+.chat-pill-btn {
+  background: #faf8f5;
+  border: 1.5px solid #e0d7cb;
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a293b;
+  text-align: left;
+  line-height: 1.45;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chat-pill-btn::before {
+  content: '→';
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #eee8df;
+  color: #7a6344;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.chat-pill-btn:hover {
+  background: #ffffff;
+  border-color: #b89565;
+  transform: translateX(4px);
+  box-shadow: 0 4px 14px rgba(184, 149, 101, 0.15);
+  color: #0d1724;
+}
+
+.chat-pill-btn:hover::before {
+  background: #b89565;
+  color: #ffffff;
+}
+
+/* Persistent Modern Bottom Chat Bar (ChatGPT / Claude input box) */
+.modern-chatbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  border: 1.5px solid #dcd5ca;
+  border-radius: 16px;
+  padding: 8px 12px 8px 18px;
+  box-shadow: 0 6px 24px rgba(20, 34, 56, 0.08);
+  margin-top: 20px;
+  position: sticky;
+  bottom: 20px;
+  z-index: 10;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.modern-chatbar:focus-within {
+  border-color: #b89565;
+  box-shadow: 0 8px 30px rgba(184, 149, 101, 0.2);
+}
+
+.modern-chatbar textarea {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #172433;
+  resize: none;
+  padding: 6px 0;
+  max-height: 120px;
+  min-height: 26px;
+}
+
+.modern-chatbar button.btn-send {
+  background: #142238;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.modern-chatbar button.btn-send:hover {
+  background: #b89565;
+  transform: scale(1.04);
+}
+
+.modern-chatbar button.btn-send svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
