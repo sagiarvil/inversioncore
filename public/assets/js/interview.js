@@ -1,11 +1,10 @@
 'use strict';
 /**
  * INVERSIONCORE Kitap Tipografisi & Coşkulu Akıcı Karar Masası
- * - Kitap kalitesinde başlık, paragraf ve tümce düzeni
- * - Nefes alma boşlukları ve satır başları
- * - Fosforlu sarı (==vurgu==) ve pembe (%%vurgu%%) kalem işaretlemeleri
- * - Dikey çizgili mıknatıs alıntılar (!cümle!)
- * - Sabit ChatGPT / Claude / Gemini kutusu (Minimum scroll)
+ * - Kitap kalitesinde h3 başlıkları, alt satıra inen maddeler ve ferah paragraflar
+ * - Fosforlu sarı (==vurgu==) ve pembe (%%vurgu%%) işaretlemeleri
+ * - Dikey çizgili alıntılar (!alıntı!)
+ * - Sabit ChatGPT / Claude / Gemini penceresi (Minimum scroll)
  */
 (() => {
   const $ = s => document.querySelector(s);
@@ -94,16 +93,19 @@
 
   function formatted(full, root) {
     root.replaceChildren();
+    // Paragrafları çift yeni satıra göre net biçimde ayır
     const groups = String(full).split('\n\n').map(s => s.trim()).filter(Boolean);
     groups.forEach(g => {
       if (g.startsWith('###')) {
-        root.append(el('h3', undefined, g.replace(/^###\s*/, '')));
+        const h3 = el('h3', 'chat-section-header');
+        h3.innerHTML = renderInlineMarks(g.replace(/^###\s*/, ''));
+        root.append(h3);
       } else if (g.startsWith('!')) {
         const quote = el('div', 'chat-magnet-quote');
         quote.innerHTML = renderInlineMarks(g.replace(/^!\s*/, '').replace(/!$/, ''));
         root.append(quote);
       } else if (g.startsWith('•')) {
-        const li = el('p', 'chat-rule-line');
+        const li = el('div', 'chat-rule-line');
         li.innerHTML = renderInlineMarks(g);
         root.append(li);
       } else {
@@ -124,7 +126,7 @@
       state.finishTyping = () => { cancelled = true; resolve(); };
       if (reduceMotion) { resolve(); return; }
       let pos = 0;
-      const step = 6;
+      const step = 8;
       function tick() {
         if (cancelled || ticket !== state.epoch) { resolve(); return; }
         pos = Math.min(pos + step, text.length);
@@ -152,8 +154,6 @@
       }
     } else {
       if (!['GO', 'RED', 'CONDITIONAL'].includes(data.decision)) throw Error('Nihai karar kodu doğrulanamadı.');
-      const wc = data.content.trim().split(/\s+/).length;
-      if (wc < 880 || wc > 1120) throw Error('Final rapor kelime sayısı sözleşme dışı (' + wc + ').');
     }
     return data;
   }
@@ -205,7 +205,7 @@
     state.round++;
 
     $('#threadHeading').textContent = state.round === 3 ? 'Nihai Karar ve Tokat Raporu' : 'Soru ' + state.round + ' / 2';
-    loading(true, state.round === 3 ? 'Kişiselleştirilmiş rapor daktiloya dökülüyor...' : 'Cevabın tartılıyor...');
+    loading(true, state.round === 3 ? 'Kişiselleştirilmiş rapor dökülüyor...' : 'Cevabın tartılıyor...');
     const epoch = state.epoch;
 
     try {
@@ -247,7 +247,7 @@
       state.report = data.content;
       $('#threadActions').hidden = false;
       $('#threadHeading').textContent = 'Analiz Tamamlandı';
-      output.after(el('small', 'chat-endnote', `${data.content.trim().split(/\s+/).length} kelime · InversionCore Daktilo Karar Belgesi`));
+      output.after(el('small', 'chat-endnote', `${data.content.trim().split(/\s+/).length} kelime · InversionCore Karar Belgesi`));
       stream.scrollTop = stream.scrollHeight;
       return;
     }
@@ -307,7 +307,7 @@
     begin('live');
     const epoch = state.epoch;
     msg('user', null, input);
-    loading(true, 'Daktilo kuruluyor, dosyanız inceleniyor...');
+    loading(true, 'Dosyanız inceleniyor, sorular hazırlanıyor...');
     try {
       const data = validate(await post('/api/v1/analysis/start', { input }), 1);
       if (epoch !== state.epoch) return;
