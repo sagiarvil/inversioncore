@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>InversionCore | Bilişsel Adli Tıp, Biyometrik Kişilik ve Karar Masası</title>
-  <meta name="description" content="InversionCore: Dünyada tek nöropatolojik açık sözlülük platformu. İş hayatı, sosyal yaşam, ilişkiler ve biyometrik görsel karakter analizi.">
+  <title>InversionCore | Karar ve Karakter Denetim Masası</title>
+  <meta name="description" content="InversionCore: 3 adımda şirketinizi batmaktan, hayatınızı tıkanmaktan kurtaran en net ve açık sözlü analiz masası. Barış Bağırlar Ekosistemi.">
   <meta name="author" content="Barış Bağırlar">
   <link rel="icon" href="/logo_circle.png" type="image/png">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
@@ -43,25 +43,12 @@
         linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
     }
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #080C14; }
-    ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #38BDF8; }
-
-    @keyframes radarBeam {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
+    @keyframes radarBeam { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     @keyframes bioPulseGlow {
       0%, 100% { box-shadow: 0 0 15px -2px rgba(14, 165, 233, 0.4), 0 0 30px -5px rgba(2, 132, 199, 0.2); }
       50% { box-shadow: 0 0 25px 2px rgba(56, 189, 248, 0.7), 0 0 45px 5px rgba(14, 165, 233, 0.35); }
     }
-    .bio-pulse-active {
-      animation: bioPulseGlow 2.4s ease-in-out infinite;
-    }
-    .radar-sweep {
-      animation: radarBeam 4s linear infinite;
-    }
+    .bio-pulse-active { animation: bioPulseGlow 2.4s ease-in-out infinite; }
   </style>
   <script src="/api_worker.js"></script>
 </head>
@@ -79,25 +66,24 @@
         <div>
           <a href="/" class="font-black text-sm sm:text-base text-white tracking-wide flex items-center gap-2">
             INVERSIONCORE
-            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-950 text-sky-400 border border-sky-800">DÜNYADA TEK</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-950 text-sky-400 border border-sky-800">AÇIK SÖZLÜ DENETİM</span>
           </a>
           <p class="text-[11px] text-panel-soluk">
-            Barış Bağırlar Stratejik Karar ve Nöropatolojik Teşhis Ekosistemi
+            Barış Bağırlar Stratejik Karar ve Finans Ekosistemi
           </p>
         </div>
       </div>
 
       <!-- Menü Linkleri -->
       <nav class="hidden md:flex items-center gap-5 text-xs font-medium">
-        <a href="#amac" class="text-slate-300 hover:text-white transition-colors">5 Sn Özet</a>
-        <a href="#moduller" class="text-slate-300 hover:text-white transition-colors">Analiz Modülleri</a>
-        <a href="#gorsel" class="text-slate-300 hover:text-white transition-colors">Görsel Biyometri</a>
-        <a href="#kurucu" class="text-slate-300 hover:text-white transition-colors">Barış Bağırlar</a>
-        <a href="#sss" class="text-slate-300 hover:text-white transition-colors">SSS</a>
+        <a href="#nasil-calisir" class="text-slate-300 hover:text-white transition-colors">Nasıl Çalışır? (3 Adım)</a>
+        <a href="#analiz-masasi" class="text-slate-300 hover:text-white transition-colors">Analiz Masası</a>
+        <a href="#kurucu" class="text-slate-300 hover:text-white transition-colors">Barış Bağırlar Kimdir?</a>
+        <a href="#sss" class="text-slate-300 hover:text-white transition-colors">Sıkça Sorulan Sorular</a>
       </nav>
 
       <div>
-        <a href="#denetim" class="px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition-colors shadow-sm">
+        <a href="#analiz-masasi" class="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition-colors shadow-sm">
           ANALİZİ BAŞLAT
         </a>
       </div>
@@ -107,43 +93,41 @@
 
 
   <!-- ANA İÇERİK -->
-  <main class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-14 flex-1">
+  <main class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-12 flex-1">
 
-    <!-- 1. BÖLÜM: 5 SANİYEDE AMACIMIZ & DÜNYADA TEK AÇIK SÖZLÜLÜK -->
-    <section id="amac" class="border border-panel-kenarlik rounded-2xl bg-panel-kart p-6 sm:p-10 shadow-lg">
+    <!-- 1. BÖLÜM: 5 SANİYEDE AMACIMIZ (EN BASİT VE NET ANLATIM) -->
+    <section class="border border-panel-kenarlik rounded-2xl bg-panel-kart p-6 sm:p-10 shadow-lg">
       <div class="max-w-4xl">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-sky-500/30 bg-sky-500/10 text-sky-400 font-mono text-[11px] mb-4">
-          <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
-          5 SANİYEDE INVERSIONCORE
-        </div>
+        <span class="text-xs font-mono font-bold text-sky-400 uppercase tracking-wider block mb-2">
+          5 SANİYEDE NE YAPIYORUZ?
+        </span>
         <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-snug">
-          Sahte Teselliyi ve Bahaneleri Yıkan Dünyadaki Tek Açık Sözlü Karar ve Kişilik Analiz Masası.
+          Bizi Kandıran Bahaneleri Bırakıyoruz. Nerede Hata Yaptığınızı ve Ne Zaman Batacağınızı Açıkça Söylüyoruz.
         </h1>
         <p class="text-sm sm:text-base text-slate-300 mt-4 leading-relaxed font-normal">
-          Dünyadaki tüm yapay zekalar ve danışmanlar sizi pohpohlamak, duymak istediklerinizi söylemek ve kibar kalmak üzere eğitilmiştir.
-          <strong>InversionCore ise bir ayna değil, nöropatolojik bir röntgen cihazıdır:</strong> 
-          İster ticari bir şirket iflası olsun, ister kronikleşen bir ilişki tıkanıklığı, erteleme huyu ya da yüzdeki mikro-gerilim hatları;
-          kendinizi kandırdığınız sahte dayanakları cerrahi bir soğukkanlılıkla yıkar ve <strong>neyi derhal durdurmanız gerektiğini</strong> yüzünüze söyler.
+          Diğer danışmanlar sizi mutlu etmek için duymak istediklerinizi söyler. 
+          <strong>InversionCore ise yalan söylemez:</strong> Şirketinizin parasının kaç ayda biteceğini, 
+          borçlarınızın sizi ne zaman iflasa sürükleyeceğini ve hayatınızda tıkanan döngüleri yüzünüze dobra dobra açıklar.
         </p>
 
         <!-- 3 Sütunlu Temel Güç -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 pt-6 border-t border-panel-kenarlik">
           <div class="bg-black/40 border border-panel-kenarlik p-4 rounded-xl">
-            <span class="text-xs font-bold text-rose-400 font-mono">01 // NÖROPATOLOJİK TAVİZSİZLİK</span>
+            <span class="text-xs font-bold text-rose-400 font-mono">1. ZARARI DURDUR (VIA NEGATIVA)</span>
             <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">
-              Egonuzu okşamaz. Bilişsel savunma mekanizmalarınızı ve kaçtığınız gerçekleri açık sözlülükle açığa çıkarır.
+              Yeni para veya masraf eklemiyoruz. Kurtulmak için <strong>neyi hemen kesip atmanız gerektiğini</strong> gösteriyoruz.
             </p>
           </div>
           <div class="bg-black/40 border border-panel-kenarlik p-4 rounded-xl">
-            <span class="text-xs font-bold text-sky-400 font-mono">02 // TİCARİ VE SOSYAL YAŞAM</span>
+            <span class="text-xs font-bold text-sky-400 font-mono">2. KANUNİ İFLAS UYARISI (TTK 376)</span>
             <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">
-              Yatırım ve borç krizinden; toksik ilişki döngülerine, kariyer tıkanıklığına ve erteleme felcine kadar tek merkez.
+              Borçlarınız şirketinizi batırıyor mu? Kanunun zorunlu kıldığı iflas tehlikesini hesaplayıp önceden uyarıyoruz.
             </p>
           </div>
           <div class="bg-black/40 border border-panel-kenarlik p-4 rounded-xl">
-            <span class="text-xs font-bold text-emerald-400 font-mono">03 // GÖRSEL VE BİYOMETRİK PROFİL</span>
+            <span class="text-xs font-bold text-emerald-400 font-mono">3. DOĞRUDAN SONUÇ RAPORU</span>
             <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">
-              Yüzdeki mikro-asimetri ve gerilim hatlarını tarayarak karakterin maskesini ve savunma zırhını deşifre eder.
+              Laf kalabalığı yok. Kaç ay ömrünüz kaldığını ve yapılması gereken ilk 3 şeyi net liste halinde veriyoruz.
             </p>
           </div>
         </div>
@@ -151,154 +135,155 @@
     </section>
 
 
-    <!-- 2. BÖLÜM: ANALİZ ALANLARI VE MODÜLLERİ (TİCARİ, SOSYAL YAŞAM, KİŞİLİK) -->
-    <section id="moduller" class="border border-panel-kenarlik rounded-2xl bg-panel-kart p-6 sm:p-10">
-      
-      <div class="border-b border-panel-kenarlik pb-4 mb-6">
-        <span class="text-xs font-mono uppercase text-sky-400 font-bold">KAPSAM VE ÇÖZÜMLEME DİKEYLERİ</span>
-        <h2 class="text-xl sm:text-2xl font-black text-white mt-1">Neleri Otopsiye Alıyoruz?</h2>
+    <!-- 2. BÖLÜM: 5 YAŞINDAKİ ÇOCUĞUN ANLAYACAĞI 3 ADIMLI İŞ AKIŞI -->
+    <section id="nasil-calisir" class="border border-panel-kenarlik rounded-2xl bg-panel-kart p-6 sm:p-10 scroll-mt-20">
+      <div class="border-b border-panel-kenarlik pb-4 mb-8">
+        <span class="text-xs font-mono uppercase text-sky-400 font-bold">KOLAY VE BASİT KULLANIM</span>
+        <h2 class="text-xl sm:text-2xl font-black text-white mt-1">Sistem Nasıl Çalışır? (3 Basit Adım)</h2>
+        <p class="text-xs text-slate-400 mt-1">Karmaşık terimler yok. Yalnızca 3 adımda tam analiz:</p>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         
-        <div class="p-4 rounded-xl border border-panel-kenarlik bg-black/40 flex flex-col justify-between">
+        <!-- Adım 1 -->
+        <div class="relative bg-black/40 border border-panel-kenarlik rounded-2xl p-6 flex flex-col justify-between">
           <div>
-            <div class="text-rose-400 font-bold font-mono text-sm">Ticari Karar & İflas Riski</div>
-            <p class="text-slate-400 mt-2 leading-relaxed">
-              Kasa nakdi, gider hızı ve borçlanma kararlarının TTK 376 ve 10.000 Monte Carlo senaryosuyla çöküş testi.
+            <div class="w-10 h-10 rounded-xl bg-sky-950 border border-sky-800 text-sky-400 font-black font-mono flex items-center justify-center text-lg mb-4">
+              1
+            </div>
+            <h3 class="text-sm font-bold text-white mb-2">Durumunu Seç veya Yaz</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              İster aşağıdaki hazır senaryolara tek tıkla bas, ister kendi işini, ilişkini ya da ikilemini kutuya yaz.
             </p>
           </div>
-          <button onclick="loadScenario('ticari')" class="mt-4 text-left text-sky-400 font-semibold hover:underline">
-            → Şablonu Yükle
-          </button>
+          <div class="mt-4 pt-3 border-t border-panel-kenarlik text-[11px] text-sky-400 font-semibold">
+            ✓ Şirket, ilişki, kariyer veya erteleme
+          </div>
         </div>
 
-        <div class="p-4 rounded-xl border border-panel-kenarlik bg-black/40 flex flex-col justify-between">
+        <!-- Adım 2 -->
+        <div class="relative bg-black/40 border border-panel-kenarlik rounded-2xl p-6 flex flex-col justify-between">
           <div>
-            <div class="text-sky-400 font-bold font-mono text-sm">İlişkiler & Sosyal Yaşam</div>
-            <p class="text-slate-400 mt-2 leading-relaxed">
-              Tekrarlanan toksik ilişki kısır döngüleri, haklı çıkma saplantısı, duygusal bağımlılık ve tükenmişlik analizi.
+            <div class="w-10 h-10 rounded-xl bg-indigo-950 border border-indigo-800 text-indigo-400 font-black font-mono flex items-center justify-center text-lg mb-4">
+              2
+            </div>
+            <h3 class="text-sm font-bold text-white mb-2">İstersen Fotoğraf Ekle (Opsiyonel)</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Yüz fotoğrafını yüklersen; yüzdeki mikro gerilim hatlarını ve dışarıya gösterdiğin savunma zırhını da analiz eder.
             </p>
           </div>
-          <button onclick="loadScenario('iliski')" class="mt-4 text-left text-sky-400 font-semibold hover:underline">
-            → Şablonu Yükle
-          </button>
+          <div class="mt-4 pt-3 border-t border-panel-kenarlik text-[11px] text-indigo-400 font-semibold">
+            ✓ Biyometrik karakter ve savunma analizi
+          </div>
         </div>
 
-        <div class="p-4 rounded-xl border border-panel-kenarlik bg-black/40 flex flex-col justify-between">
+        <!-- Adım 3 -->
+        <div class="relative bg-black/40 border border-panel-kenarlik rounded-2xl p-6 flex flex-col justify-between">
           <div>
-            <div class="text-emerald-400 font-bold font-mono text-sm">Kariyer & Yerinde Sayma</div>
-            <p class="text-slate-400 mt-2 leading-relaxed">
-              İşte cesaretsizlik, konfor alanı esareti, maaş yetersizliği ve ayrılmaktan korkma mazeretlerinin deşifresi.
+            <div class="w-10 h-10 rounded-xl bg-emerald-950 border border-emerald-800 text-emerald-400 font-black font-mono flex items-center justify-center text-lg mb-4">
+              3
+            </div>
+            <h3 class="text-sm font-bold text-white mb-2">Butona Bas ve Gerçeği Gör</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              "Analizi Başlat" butonuna bas. Sistem saniyeler içinde kaç ay ömrün kaldığını ve durdurman gereken 3 şeyi versin.
             </p>
           </div>
-          <button onclick="loadScenario('kariyer')" class="mt-4 text-left text-sky-400 font-semibold hover:underline">
-            → Şablonu Yükle
-          </button>
-        </div>
-
-        <div class="p-4 rounded-xl border border-panel-kenarlik bg-black/40 flex flex-col justify-between">
-          <div>
-            <div class="text-amber-400 font-bold font-mono text-sm">Erteleme & İrade Felci</div>
-            <p class="text-slate-400 mt-2 leading-relaxed">
-              Sürekli son güne bırakma, telefonla oyalanma, mükemmeliyetçilik kılıfına saklanmış başarısızlık korkusu.
-            </p>
+          <div class="mt-4 pt-3 border-t border-panel-kenarlik text-[11px] text-emerald-400 font-semibold">
+            ✓ Anında sonuç, gizli kalır ve silinir
           </div>
-          <button onclick="loadScenario('erteleme')" class="mt-4 text-left text-sky-400 font-semibold hover:underline">
-            → Şablonu Yükle
-          </button>
         </div>
 
       </div>
-
     </section>
 
 
-    <!-- 3. BÖLÜM: BİYOMETRİK GÖRSEL VE KARAKTER ANALİZİ (YÜZDEN MİKRO-GERİLİM) -->
-    <section id="gorsel" class="border border-panel-kenarlik rounded-2xl bg-panel-kart p-6 sm:p-10">
-      
-      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-b border-panel-kenarlik pb-6">
+    <!-- 3. BÖLÜM: BİRLEŞİK ANALİZ MASASI (TEK ALANDA GÖRSEL + METİN + FORM) -->
+    <section id="analiz-masasi" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start scroll-mt-20">
+
+      <!-- SOL TARAF: GİRDİ KOKPİTİ (5 SÜTUN) -->
+      <div class="lg:col-span-5 border border-panel-kenarlik rounded-2xl bg-panel-kart p-6 flex flex-col gap-6 shadow-md">
+        
         <div>
-          <span class="text-xs font-mono uppercase text-sky-400 font-bold">GÖRSEL BİYOMETRİ VE MORFO-PSİKOLOJİ</span>
-          <h2 class="text-xl sm:text-2xl font-black text-white mt-1">Yüz Fotoğrafından Karakter ve Savunma Zırhı Analizi</h2>
-          <p class="text-xs text-slate-400 mt-1">Yüzdeki mikro-asimetri, mimik gerilim hatları ve bastırılmış duygusal kalkanlar.</p>
-        </div>
-        <input type="file" id="faceUploadInput" class="hidden" accept="image/*">
-        <div class="relative group cursor-pointer" onclick="document.getElementById('faceUploadInput').click()">
-          <!-- Dönen Işık Halkası / Dış Radar Efekti -->
-          <div class="absolute -inset-1 rounded-2xl bg-gradient-to-r from-sky-500 via-teal-400 to-indigo-500 opacity-80 blur-md group-hover:opacity-100 transition duration-500 group-hover:scale-105 bio-pulse-active"></div>
-          
-          <!-- Asıl Buton Gövdesi -->
-          <button type="button" 
-            class="relative px-6 py-3.5 rounded-xl bg-gradient-to-b from-slate-900 to-slate-950 text-white font-mono text-xs font-extrabold tracking-wider border border-sky-400/50 transition-all duration-300 flex items-center gap-3 shadow-2xl group-hover:border-sky-300 group-hover:translate-y-[-1px]">
-            <!-- Canlı Radar Taramalı Kamera İkonu -->
-            <span class="relative flex h-3 w-3">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+          <div class="flex items-center justify-between border-b border-panel-kenarlik pb-3">
+            <h2 class="font-bold text-sm text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-sky-500 animate-pulse"></span>
+              Karar ve Durum Girişi
+            </h2>
+            <span class="text-[11px] font-mono text-emerald-400 bg-emerald-950/60 border border-emerald-800/40 px-2 py-0.5 rounded">
+              Gizli & Anlık
             </span>
-            <span class="text-sm">📷</span>
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-sky-100 to-sky-300">FOTOĞRAF YÜKLE</span>
-            <span class="px-2 py-0.5 rounded text-[10px] bg-sky-950/80 text-sky-400 border border-sky-800/80 font-mono tracking-normal">BİYOMETRİ</span>
+          </div>
+          <p class="text-xs text-panel-soluk mt-2">Aşağıdaki 4 hazır durumdan birine tıklayabilir veya kendi durumunuzu yazabilirsiniz:</p>
+        </div>
+
+        <!-- 4 Hazır Durum Butonu (5 Yaş Seviyesi Netlik) -->
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <button type="button" onclick="loadScenario('ticari')" class="p-3 rounded-xl border border-panel-kenarlik bg-black/40 hover:border-sky-500 hover:bg-sky-950/20 text-left transition flex flex-col justify-between">
+            <span class="font-bold text-rose-400">1. Şirket & Borç</span>
+            <span class="text-[10px] text-slate-400 mt-1">Kasa nakdi ve iflas riski</span>
+          </button>
+          <button type="button" onclick="loadScenario('iliski')" class="p-3 rounded-xl border border-panel-kenarlik bg-black/40 hover:border-sky-500 hover:bg-sky-950/20 text-left transition flex flex-col justify-between">
+            <span class="font-bold text-sky-400">2. İlişki Kısır Döngüsü</span>
+            <span class="text-[10px] text-slate-400 mt-1">Hep aynı yerde tıkanma</span>
+          </button>
+          <button type="button" onclick="loadScenario('kariyer')" class="p-3 rounded-xl border border-panel-kenarlik bg-black/40 hover:border-sky-500 hover:bg-sky-950/20 text-left transition flex flex-col justify-between">
+            <span class="font-bold text-emerald-400">3. İş & Kariyer</span>
+            <span class="text-[10px] text-slate-400 mt-1">Yerinde sayma mazereti</span>
+          </button>
+          <button type="button" onclick="loadScenario('erteleme')" class="p-3 rounded-xl border border-panel-kenarlik bg-black/40 hover:border-sky-500 hover:bg-sky-950/20 text-left transition flex flex-col justify-between">
+            <span class="font-bold text-amber-400">4. Sürekli Erteleme</span>
+            <span class="text-[10px] text-slate-400 mt-1">Son dakikaya bırakma huyu</span>
           </button>
         </div>
-      </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 mt-6 items-center">
-        
-        <div class="md:col-span-7 text-xs sm:text-sm text-slate-300 space-y-3 leading-relaxed">
-          <p>
-            İnsan dili yalan söyleyebilir veya mazeret üretebilir; ancak yüz kaslarındaki mikro-gerilim hatları (Paul Ekman FACS modeli) ve çehre asimetrileri gerçeği saklayamaz.
-          </p>
-          <p>
-            Yüklediğiniz portre fotoğrafı; çene hattındaki bastırılmış öfke gerilimini, göz çevresindeki yorgunluk ve savunma bariyerlerini inceleyerek 
-            karakterinizin dış dünyaya gösterdiği sahte maske ile içeride sakladığı zaafiyeti karşılaştırır.
-          </p>
-          <div id="selectedFileInfo" class="hidden p-3 rounded-xl bg-sky-950/60 border border-sky-800 text-sky-300 font-mono text-xs mt-2">
-            Seçilen Görsel: <span id="fileNameLabel" class="font-bold text-white"></span>
+        <!-- FOTOĞRAF YÜKLEME ALANI (BÜYÜK DİKKAT ÇEKİCİ BUTON + SEÇİLEN DOSYA ÖZETİ) -->
+        <div class="p-4 rounded-xl border border-sky-800/60 bg-sky-950/20 flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold text-white flex items-center gap-1.5">
+                <span>📷</span> Yüz Fotoğrafı Ekle (Kişilik & Savunma Zırhı)
+              </span>
+              <p class="text-[11px] text-slate-400 mt-0.5">Yüzünüzdeki mikro gerilim hatlarını ve karakter maskenizi çözer.</p>
+            </div>
+          </div>
+
+          <input type="file" id="faceUploadInput" class="hidden" accept="image/*">
+          
+          <!-- HAREKETLİ IŞIKLI BUTON -->
+          <div class="relative group cursor-pointer w-full" onclick="document.getElementById('faceUploadInput').click()">
+            <div class="absolute -inset-1 rounded-xl bg-gradient-to-r from-sky-500 via-teal-400 to-indigo-500 opacity-80 blur-md group-hover:opacity-100 transition duration-500 group-hover:scale-[1.02] bio-pulse-active"></div>
+            <button type="button" 
+              class="relative w-full py-3 px-4 rounded-xl bg-gradient-to-b from-slate-900 to-slate-950 text-white font-mono text-xs font-black tracking-wider border border-sky-400/60 transition-all duration-300 flex items-center justify-center gap-3 shadow-2xl group-hover:border-sky-300">
+              <span class="relative flex h-3 w-3">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+              </span>
+              <span>FOTOĞRAFINI SEÇ VEYA BURAYA BIRAK</span>
+            </button>
+          </div>
+
+          <div id="selectedFileInfo" class="hidden p-2.5 rounded-lg bg-sky-900/40 border border-sky-700 text-sky-200 text-xs flex items-center justify-between">
+            <span class="truncate">Yüklendi: <strong id="fileNameLabel" class="text-white"></strong></span>
+            <span class="text-[10px] text-emerald-400 font-bold">✓ HAZIR</span>
           </div>
         </div>
 
-        <div class="md:col-span-5 bg-black/40 border border-panel-kenarlik rounded-xl p-5 text-xs font-mono space-y-2 text-slate-400">
-          <div class="text-white font-bold pb-2 border-b border-panel-kenarlik">Biyometrik İnceleme Adımları:</div>
-          <div>1. Çehre simetri ve kas tonusu haritalama</div>
-          <div>2. Bastırılmış savunma ve çekinme hatları tespiti</div>
-          <div>3. Kişilik arketipi ve döngü kırma reçetesi</div>
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- 4. BÖLÜM: TEŞHİS VE ANALİZ MASASI (İNTERAKTİF ÇEKİRDEK) -->
-    <section id="denetim" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start scroll-mt-20">
-
-      <!-- SOL PANEL: VAKA GİRDİSİ (5 SÜTUN) -->
-      <div class="lg:col-span-5 border border-panel-kenarlik rounded-2xl bg-panel-kart p-6 flex flex-col gap-5 shadow-md">
-        
-        <div class="border-b border-panel-kenarlik pb-3">
-          <h2 class="font-bold text-sm text-white flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span>
-            Vaka, İtiraf ve Karar Girişi
-          </h2>
-          <p class="text-[11px] text-panel-soluk mt-0.5">Ticari kararınızı, kişisel çıkmazınızı veya ilişkinizdeki kısırdöngüyü dürüstçe yazın.</p>
-        </div>
-
+        <!-- FORM ALANI -->
         <form id="auditForm" class="flex flex-col gap-4">
           
           <div>
-            <label for="decisionInput" class="block text-xs font-semibold text-slate-300 mb-1">
-              İncelenecek Durum, İkilem veya Plan:
+            <label for="decisionInput" class="block text-xs font-bold text-slate-300 mb-1">
+              Durumunu, İkilemini veya Planını Anlat:
             </label>
-            <textarea id="decisionInput" rows="5" required
-              class="w-full bg-black/60 border border-panel-kenarlik rounded-xl p-3.5 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-sky-500 transition leading-relaxed font-mono"
+            <textarea id="decisionInput" rows="4" required
+              class="w-full bg-black/60 border border-panel-kenarlik rounded-xl p-3 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-sky-500 transition leading-relaxed font-mono"
               placeholder="Örnek: Hızlı büyüme hedefiyle aylık 600.000 TL harcıyoruz, kasada 1.2M var ve %70 borçluyuz... VEYA: İlişkilerimde hep aynı tip insanlara denk geliyorum, sürekli aynı yerde tıkanıyorum..."></textarea>
           </div>
 
-          <!-- Opsiyonel Finansal Veriler (Açılır Kapanır) -->
+          <!-- Opsiyonel Şirket Verileri -->
           <details class="border border-panel-kenarlik rounded-xl p-3 bg-black/30 text-xs">
-            <summary class="cursor-pointer font-semibold text-slate-300 flex justify-between items-center">
-              <span>Şirket / Bütçe Verileri (Ticari İncelemeler İçin)</span>
+            <summary class="cursor-pointer font-bold text-slate-300 flex justify-between items-center">
+              <span>Şirket Nakit & Borç Verileri (Ticari Planlar İçin)</span>
               <span class="text-sky-400 font-mono text-[10px]">Aç / Kapat</span>
             </summary>
             <div class="grid grid-cols-3 gap-2 mt-3 pt-2 border-t border-panel-kenarlik">
@@ -317,85 +302,87 @@
             </div>
           </details>
 
-          <!-- Başlat Butonu -->
+          <!-- ÇALIŞTIR BUTONU -->
           <button type="submit" id="btnSubmit"
-            class="w-full py-3.5 mt-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-sky-600 hover:bg-sky-500 text-white transition flex items-center justify-center gap-2 shadow-md">
+            class="w-full py-4 mt-1 rounded-xl text-xs font-black uppercase tracking-wider bg-sky-600 hover:bg-sky-500 text-white transition flex items-center justify-center gap-2 shadow-lg hover:shadow-sky-600/30">
             <span id="btnSpinner" class="hidden w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-            <span id="btnText">OTOPSİ VE ANALİZİ ÇALIŞTIR</span>
+            <span id="btnText">ANALİZİ BAŞLAT (SONUCU GÖR)</span>
           </button>
 
         </form>
 
       </div>
 
-      <!-- SAĞ PANEL: TEŞHİS RAPORU (7 SÜTUN) -->
+      <!-- SAĞ TARAF: SONUÇ PANELİ (7 SÜTUN) -->
       <div class="lg:col-span-7 flex flex-col gap-6">
 
-        <div id="emptyState" class="border border-panel-kenarlik border-dashed rounded-2xl p-12 text-center bg-panel-kart/50 flex flex-col items-center justify-center min-h-[460px]">
-          <div class="w-14 h-14 rounded-2xl border border-panel-kenarlik bg-black/60 flex items-center justify-center text-sky-400 mb-4">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <!-- BOŞ BEKLEME DURUMU -->
+        <div id="emptyState" class="border border-panel-kenarlik border-dashed rounded-2xl p-12 text-center bg-panel-kart/50 flex flex-col items-center justify-center min-h-[500px]">
+          <div class="w-16 h-16 rounded-2xl border border-panel-kenarlik bg-black/60 flex items-center justify-center text-sky-400 mb-4 shadow-sm">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
             </svg>
           </div>
-          <h3 class="text-sm font-bold text-white uppercase tracking-wider">Hakikat Masası Kararınızı Bekliyor</h3>
+          <h3 class="text-base font-bold text-white uppercase tracking-wider">Sonuç Masası Beklemede</h3>
           <p class="text-xs text-slate-400 mt-2 max-w-md leading-relaxed">
-            Sol panelden durumunuzu girin veya hazır şablonlardan birini seçin. 
-            Sistem kaçtığınız kör noktaları, savunma zırhınızı ve durdurulması gereken 3 eylemi dökecektir.
+            Sol taraftaki 4 hazır durumdan birini seçin veya kendi durumunuzu yazıp <strong>"Analizi Başlat"</strong> butonuna basın.
+            Kaç ay vaktiniz kaldığı, kaçtığınız kör noktalar ve hemen durdurmanız gereken 3 şey burada anında görünecektir.
           </p>
         </div>
 
+        <!-- SONUÇLAR ALANI -->
         <div id="resultsContainer" class="hidden flex flex-col gap-5">
 
-          <!-- Hüküm Kartı -->
-          <div id="verdictCard" class="border rounded-2xl p-6 bg-panel-kart">
+          <!-- HÜKÜM KARTI -->
+          <div id="verdictCard" class="border rounded-2xl p-6 bg-panel-kart shadow-xl">
             <div class="flex items-center justify-between border-b border-panel-kenarlik pb-4">
               <div>
-                <span class="text-[10px] font-mono uppercase tracking-widest text-panel-soluk">Nihai Karar Değerlendirmesi</span>
+                <span class="text-[10px] font-mono uppercase tracking-widest text-panel-soluk">Nihai Durum Değerlendirmesi</span>
                 <h3 id="verdictTitle" class="text-xl sm:text-2xl font-black mt-1">--</h3>
               </div>
               <span id="detStatusBadge" class="px-3 py-1 rounded text-xs font-mono font-bold">--</span>
             </div>
             <div class="pt-3 text-[11px] font-mono text-slate-400 flex justify-between">
-              <span>Denetim Referans Kodu:</span>
+              <span>Rapor Referans Kodu:</span>
               <span id="auditHashDisplay" class="text-slate-200">--</span>
             </div>
           </div>
 
-          <!-- Metrikler -->
+          <!-- 3 TEMEL METRİK (NET VE ANLAŞILIR) -->
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
             <div class="border border-panel-kenarlik rounded-xl p-4 bg-black/40">
-              <span class="text-[10px] font-mono text-panel-soluk uppercase">Nakit / Eylem Ömrü</span>
-              <div id="rustRunway" class="text-lg font-bold font-mono text-white mt-1">-- Ay</div>
-              <p id="rustStatus" class="text-[11px] text-slate-400 mt-1">Hesaplandı</p>
+              <span class="text-[10px] font-mono text-panel-soluk uppercase">Kasa Nakit Ömrü</span>
+              <div id="rustRunway" class="text-xl font-bold font-mono text-white mt-1">-- Ay</div>
+              <p id="rustStatus" class="text-[11px] text-slate-400 mt-1">Kalan süre</p>
             </div>
 
             <div class="border border-panel-kenarlik rounded-xl p-4 bg-black/40">
               <span class="text-[10px] font-mono text-panel-soluk uppercase">12 Ay Hayatta Kalma</span>
-              <div id="mcSurvival" class="text-lg font-bold font-mono text-white mt-1">%--</div>
-              <p id="mcCategory" class="text-[11px] text-slate-400 mt-1">10.000 Senaryo</p>
+              <div id="mcSurvival" class="text-xl font-bold font-mono text-white mt-1">%--</div>
+              <p id="mcCategory" class="text-[11px] text-slate-400 mt-1">10.000 senaryo ortalaması</p>
             </div>
 
             <div class="border border-panel-kenarlik rounded-xl p-4 bg-black/40">
-              <span class="text-[10px] font-mono text-panel-soluk uppercase">Yasal / Kural Hükmü</span>
+              <span class="text-[10px] font-mono text-panel-soluk uppercase">Yasal İflas Durumu</span>
               <div id="ttkStatus" class="text-xs font-bold text-white mt-1">--</div>
-              <p id="ttkWarning" class="text-[11px] text-slate-400 mt-1 line-clamp-2">İncelendi</p>
+              <p id="ttkWarning" class="text-[11px] text-slate-400 mt-1 line-clamp-2">Kanuni durum</p>
             </div>
           </div>
 
-          <!-- Cerrahi Teşhis -->
+          <!-- AÇIK SÖZLÜ TEŞHİS VE KÖR NOKTALAR -->
           <div class="border border-panel-kenarlik rounded-2xl p-5 bg-panel-kart">
             <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-2.5 pb-2 border-b border-panel-kenarlik">
-              Nöropatolojik Teşhis ve Kör Nokta Taraması
+              Kaçtığınız Kör Noktalar ve Açık Sözlü Teşhis
             </h4>
             <div id="criticOutput" class="text-xs text-slate-300 leading-relaxed font-sans whitespace-pre-line bg-black/50 p-4 rounded-xl border border-panel-kenarlik">
               --
             </div>
           </div>
 
-          <!-- Via Negativa -->
+          <!-- VIA NEGATIVA (HEMEN DURDURULACAK 3 ŞEY) -->
           <div class="border border-emerald-950/60 rounded-2xl p-5 bg-panel-kart">
             <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2.5 pb-2 border-b border-panel-kenarlik">
-              Via Negativa: Derhal Durdurulması Gereken 3 Eylem
+              Kurtulmak İçin Derhal Durdurmanız Gereken 3 Eylem
             </h4>
             <ul id="viaNegativaList" class="flex flex-col gap-2 text-xs text-slate-300"></ul>
           </div>
@@ -407,7 +394,7 @@
     </section>
 
 
-    <!-- 5. BÖLÜM: BARIŞ BAĞIRLAR KİMDİR? & 10 STRATEJİK PLATFORM -->
+    <!-- 4. BÖLÜM: BARIŞ BAĞIRLAR KİMDİR? & 10 STRATEJİK PLATFORM -->
     <section id="kurucu" class="border border-panel-kenarlik rounded-2xl bg-panel-kart p-6 sm:p-10 scroll-mt-20">
       
       <div class="border-b border-panel-kenarlik pb-6">
@@ -477,7 +464,7 @@
     </section>
 
 
-    <!-- 6. BÖLÜM: SIKÇA SORULAN SORULAR (SSS) -->
+    <!-- 5. BÖLÜM: SIKÇA SORULAN SORULAR (SSS) -->
     <section id="sss" class="border border-panel-kenarlik rounded-2xl bg-panel-kart p-6 sm:p-10 scroll-mt-20">
       
       <div class="border-b border-panel-kenarlik pb-4 mb-6">
@@ -493,19 +480,19 @@
             <span class="text-sky-400 group-open:rotate-180 transition-transform">▼</span>
           </summary>
           <p class="text-slate-300 mt-3 leading-relaxed border-t border-panel-kenarlik pt-3">
-            Geleneksel danışmanlıklar ve yapay zekalar kullanıcıyı memnun etmek üzerine kurgulanmıştır. 
-            InversionCore ise insanların karar alırken kullandığı bilişsel çarpıtmaları (aşırı genelleme, felaketleştirme, kendini kandırma) nöropatolojik bir soğukkanlılıkla deşifre eder; lafı dolandırmadan çıplak gerçeği söyler.
+            Geleneksel danışmanlıklar ve yapay zekalar sizi memnun etmek için eğitilmiştir. 
+            InversionCore ise insanların karar alırken kullandığı bahaneleri ve kendini kandırma mekanizmalarını nöropatolojik bir soğukkanlılıkla yıkar; lafı dolandırmadan çıplak gerçeği söyler.
           </p>
         </details>
 
         <details class="border border-panel-kenarlik rounded-xl bg-black/30 p-4 group">
           <summary class="font-bold text-white cursor-pointer flex items-center justify-between list-none">
-            <span>2. Biyometrik görsel ve morfo-psikoloji analizi nasıl çalışır?</span>
+            <span>2. Biyometrik görsel ve yüz analizi ne işe yarar?</span>
             <span class="text-sky-400 group-open:rotate-180 transition-transform">▼</span>
           </summary>
           <p class="text-slate-300 mt-3 leading-relaxed border-t border-panel-kenarlik pt-3">
             Yüklenen yüz fotoğrafındaki çene, alın ve göz çevresi gerilim hatları incelenir. 
-            Dışa sunulan kontrollü karakter maskesi ile içsel savunma refleksleri arasındaki asimetri çözümlenerek kör noktalar listelenir.
+            Dış dünyaya gösterilen kontrollü maske ile içeride saklanan yorgunluk ve savunma refleksleri çözümlenerek kör noktalar listelenir.
           </p>
         </details>
 
@@ -613,7 +600,7 @@
         document.getElementById('burnInput').value = 600000;
         document.getElementById('debtInput').value = 70;
       }
-      document.getElementById('denetim').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('analiz-masasi').scrollIntoView({ behavior: 'smooth' });
     }
 
     // Fotoğraf Seçimi
@@ -623,7 +610,12 @@
         const file = e.target.files[0];
         document.getElementById('fileNameLabel').innerText = file.name;
         document.getElementById('selectedFileInfo').classList.remove('hidden');
-        document.getElementById('decisionInput').value = `[BİYOMETRİK YÜZ FOTOĞRAFI YÜKLENDİ: ${file.name}]\nYüzdeki mikro-asimetri, bastırılmış savunma gerilimi ve karakter maskesini çözümle.`;
+        
+        // Eğer metin alanı boşsa veya hazır metinse fotoğraf bildirimini ekle
+        const curVal = document.getElementById('decisionInput').value.trim();
+        if (!curVal || curVal.startsWith('[BİYOMETRİK')) {
+          document.getElementById('decisionInput').value = `[BİYOMETRİK YÜZ FOTOĞRAFI YÜKLENDİ: ${file.name}]\nYüzdeki mikro-asimetri, bastırılmış savunma gerilimi ve karakter maskesini çözümle.`;
+        }
       }
     });
 
@@ -656,7 +648,7 @@
 
       btnSubmit.disabled = true;
       btnSpinner.classList.remove('hidden');
-      btnText.innerText = "OTOPSİ YAPILIYOR...";
+      btnText.innerText = "ANALİZ YAPILIYOR...";
 
       let data = null;
 
@@ -711,11 +703,11 @@
 
       const r = data.rust_telemetry || {};
       document.getElementById('rustRunway').innerText = `${r.runway_months || 0} Ay`;
-      document.getElementById('rustStatus').innerText = r.fragility_status || "Hesaplandı";
+      document.getElementById('rustStatus').innerText = r.fragility_status || "Kalan nakit süresi";
 
       const mc = data.monte_carlo_telemetry || {};
       document.getElementById('mcSurvival').innerText = `%${mc.survival_probability_12m_pct !== undefined ? mc.survival_probability_12m_pct : '--'}`;
-      document.getElementById('mcCategory').innerText = mc.risk_category || "Hesaplandı";
+      document.getElementById('mcCategory').innerText = mc.risk_category || "10.000 senaryo";
 
       const ttk = data.ttk_376_telemetry || {};
       document.getElementById('ttkStatus').innerText = ttk.yasal_hukum || "Kapsam Dışı";
@@ -737,7 +729,7 @@
 
       btnSubmit.disabled = false;
       btnSpinner.classList.add('hidden');
-      btnText.innerText = "OTOPSİ VE ANALİZİ ÇALIŞTIR";
+      btnText.innerText = "ANALİZİ BAŞLAT (SONUCU GÖR)";
       resultsContainer.scrollIntoView({ behavior: 'smooth' });
     });
   </script>
