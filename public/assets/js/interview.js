@@ -1,10 +1,12 @@
+// Strict mode
 'use strict';
 /**
  * INVERSIONCORE Kitap Tipografisi & Coşkulu Akıcı Karar Masası
  * - Kitap kalitesinde h3 başlıkları, alt satıra inen maddeler ve ferah paragraflar
  * - Fosforlu sarı (==vurgu==) ve pembe (%%vurgu%%) işaretlemeleri
  * - Dikey çizgili alıntılar (!alıntı!)
- * - Sabit ChatGPT / Claude / Gemini penceresi (Minimum scroll)
+ * - Çelişkisiz durum yönetimi ve tamamlanınca giriş elemanlarının temizlenmesi
+ * - Sabit kaydırma penceresi (Minimum scroll)
  */
 (() => {
   const $ = s => document.querySelector(s);
@@ -54,6 +56,9 @@
     thread.hidden = true;
     document.body.classList.remove('is-interviewing');
     modePill.textContent = 'BAŞLANGIÇ';
+
+    const wbFooter = document.querySelector('.workbench-footer');
+    if (wbFooter) wbFooter.hidden = false;
   }
 
   function begin(mode) {
@@ -63,6 +68,11 @@
     intro.hidden = true;
     thread.hidden = false;
     document.body.classList.add('is-interviewing');
+
+    const wbFooter = document.querySelector('.workbench-footer');
+    if (wbFooter) wbFooter.hidden = true;
+
+    modePill.textContent = mode === 'demo' ? 'ÖRNEK SENARYO' : 'CANLI DEĞERLENDİRME';
     host.scrollIntoView({ behavior: reduceMotion ? 'instant' : 'smooth', block: 'start' });
   }
 
@@ -93,7 +103,6 @@
 
   function formatted(full, root) {
     root.replaceChildren();
-    // Paragrafları çift yeni satıra göre net biçimde ayır
     const groups = String(full).split('\n\n').map(s => s.trim()).filter(Boolean);
     groups.forEach(g => {
       if (g.startsWith('###')) {
@@ -201,6 +210,14 @@
     if (state.busy || !userText || state.round >= 3) return;
     errorBox.hidden = true;
 
+    // Önceki soru bloklarını dondur ve input alanını kaldır (çelişkiyi ve çift tıklamayı önler)
+    document.querySelectorAll('.chat-question-block').forEach(qb => {
+      qb.querySelectorAll('button, input').forEach(el => el.disabled = true);
+      qb.classList.add('is-answered');
+      const customRow = qb.querySelector('.chat-custom-input-row');
+      if (customRow) customRow.remove();
+    });
+
     msg('user', null, userText);
     state.round++;
 
@@ -237,6 +254,16 @@
     await typewrite(data.content, output);
 
     if (round === 3) {
+      // Final raporda tüm eski soru kartlarını kaldır; altta asılı input kalmasın
+      document.querySelectorAll('.chat-question-block').forEach(qb => qb.remove());
+      if (responsePanel) responsePanel.hidden = true;
+
+      const wbFooter = document.querySelector('.workbench-footer');
+      if (wbFooter) wbFooter.hidden = true;
+
+      modePill.textContent = 'RAPOR HAZIR';
+      $('#threadHeading').textContent = 'Analiz Raporu ve Karar Belgesi';
+
       const decisions = {
         GO: 'GO GÜVENLİ VE SÜRDÜRÜLEBİLİR',
         RED: 'RED MEVCUT HALİYLE RİSKLİ',
@@ -245,9 +272,18 @@
       const verdict = el('div', 'final-verdict', decisions[data.decision] || 'KOŞULLU');
       output.parentElement.insertBefore(verdict, output);
       state.report = data.content;
-      $('#threadActions').hidden = false;
-      $('#threadHeading').textContent = 'Analiz Tamamlandı';
-      output.after(el('small', 'chat-endnote', `${data.content.trim().split(/\s+/).length} kelime · InversionCore Karar Belgesi`));
+
+      const actionsBox = $('#threadActions');
+      if (actionsBox) {
+        const strongEl = actionsBox.querySelector('strong');
+        if (strongEl) strongEl.textContent = 'Tersine Karar Analizi Tamamlandı';
+        const pEl = actionsBox.querySelector('p');
+        if (pEl) pEl.textContent = 'Tespit edilen riskler, eksik kanıtlar ve dört eylem adımı raporda netleştirilmiştir.';
+        actionsBox.hidden = false;
+      }
+
+      const wordCount = data.content.trim().split(/\s+/).length;
+      output.after(el('small', 'chat-endnote', `${wordCount} kelime · InversionCore Karar Belgesi`));
       stream.scrollTop = stream.scrollHeight;
       return;
     }
@@ -271,7 +307,7 @@
     const customRow = el('div', 'chat-custom-input-row');
     const customInp = el('input');
     customInp.type = 'text';
-    customInp.placeholder = 'Veya buraya kendi yanıtınızı yazıp Enter\'a basın...';
+    customInp.placeholder = "Veya buraya kendi yanıtınızı yazıp Enter'a basın...";
     const customBtn = el('button', undefined, 'Gönder');
     customBtn.type = 'button';
 
@@ -324,8 +360,9 @@
   $('#openDemo').addEventListener('click', async () => {
     if (state.busy) return;
     begin('demo');
+    modePill.textContent = 'ÖRNEK SENARYO';
     const epoch = state.epoch;
-    msg('user', null, 'Yeni bir pazara girmek istiyoruz. Henüz ücretli pilot müşterimiz yok. Buna rağmen büyüme bütçemizi artırmayı düşünüyoruz.');
+    msg('user', null, 'Bir yazılımı teslim almaya hazırlanıyorum. Sözleşmede vaat edilen özelliklerin gerçekten çalışıp çalışmadığı konusunda şüphelerim var.');
     loading(true, 'Örnek analiz hazırlanıyor...');
     await new Promise(r => setTimeout(r, 150));
     if (epoch !== state.epoch) return;
