@@ -1,10 +1,7 @@
 /**
- * INVERSIONCORE Dobra, Zeki, İğneleyici ve Gerçekçi Karar Motoru
- * - Kitap kalitesinde, akıcı, imla ve noktalama kurallarına kusursuz uyumlu
- * - Nefes alan satır başları, bağımsız başlıklar ve ayrı satırlarda maddeler
- * - Fosforlu sarı (==vurgu==) ve pembe (%%vurgu%%) işaretlemeleri
- * - Dikey çizgili çarpıcı alıntılar (!cümle!)
- * - Emojilerle zenginleştirilmiş, samimi ve tokat gibi çarpan hazırcevap üslup
+ * INVERSIONCORE Özgün, Sivri Dilli, Narsist, Obsesif ve Zeki Karar Motoru
+ * Sıfır AI klişesi, sıfır yapay zeka jargonu, sıfır robotik kalıp.
+ * Çarpıcı, fırlama, entelektüel kibirli ve dobra Türk aklı.
  */
 (function() {
   'use strict';
@@ -37,185 +34,186 @@
     ENERGY_MOOD: {
       round1: {
         intro: function(input) {
-          return '👋 Bak dostum, seninle en baştan açık ve net bir anlaşma yapalım:\n\n' +
-                 'Burası içi boş kişisel gelişim masalları anlatan, sırtını sıvazlayıp "her şey çok güzel olacak" diye ninni söyleyen yerlerden değil.\n\n' +
-                 'Sisteme yazdığın şu cümleye bakar mısın:\n\n' +
+          return 'Bak canım kardeşim, senin bu anlattığın mesele var ya:\n\n' +
                  '== "' + input + '" ==\n\n' +
-                 'Gece yatağa girip saatlerce mavi ışık saçan o telefonda gereksiz videolar kaydıracaksın, beynini ucuz dopamine boğacaksın, biyolojik saatini darmadağın edeceksin... Sonra da sabah yataktan bir süper kahraman enerjisiyle fırlamayı bekleyeceksin, öyle mi? 😄\n\n' +
-                 '! Biyolojiyle ve fizik kurallarıyla kavga edip ardından "moralim çok bozuk, hayat enerjim tükendi" diye sızlanmak, kusura bakma ama tam bir amatörlüktür !';
+                 'Şimdi ben sana oturup kişisel gelişim zırvaları anlatacak değilim. Gece yatakta tavana bakıp saatlerce telefonda saçma sapan videolar kaydırıyorsun. Beyindeki kortizol tavan, melatonin yerlerde sürünüyor. Sonra da sabah gözünü açınca zannediyorsun ki gökten ilahi bir neşe inecek. İnmez efendim, inmez! Biyoloji denen bir bilim dalı var, fizyoloji var. Bütün gece dopamin havuzunda çırpınıp sabah yataktan zinde kalkmayı beklemek cahilliktir.\n\n' +
+                 '! Sen yorgun değilsin, sen düpedüz kendi biyolojine komplo kuruyorsun !';
         },
-        questionText: '🎯 Şimdi kendine dürüst ol: Enerjini ve yaşam heyecanını asıl tüketen kök neden hangisi?',
+        questionText: 'Şimdi gözümün içine bak ve dürüst ol: Seni asıl felç eden rezillik hangisi?',
         options: [
-          'Gece yatakta saatlerce ekran kaydırmak, biyolojik saati çöpe atmak ve derin uykuyu katletmek.',
-          'Gündüz hiçbir şeye hayır diyememek, herkesin yükünü sırtlanıp sonra kurban psikolojisine girmek.',
-          'Hayatta elle tutulur hiçbir hedef koymayıp günün akışında rüzgardaki yaprak gibi sürüklenmek.'
+          'Gece yatakta saatlerce ekran ışığına bakıp beynin biyolojik şalterini kendi elimle indirmek.',
+          'Gündüz her önüme gelene he deyip sonra köşede oturup dünyanın en dertli insanı triplerine girmek.',
+          'Hayatta elle tutulur hiçbir plan yapmayıp yaprak gibi savrulduktan sonra buna kader demek.'
         ]
       },
       round2: {
         intro: function(ans) {
-          return '💡 Nihayet ağzındaki baklayı dürüstçe çıkardın:\n\n' +
+          return 'Hah şöyle! İtiraf et rahatla:\n\n' +
                  '== "' + ans + '" ==\n\n' +
-                 'Tebrik ederim; sorunun gökten zembille inmediğini, bizzat %%kendi ellerinle inşa ettiğin bir alışkanlık enkazı%% olduğunu kabul ettin. İnan bana çoğu insan bu gerçeği on yıl terapiye gitse bile itiraf edemez.\n\n' +
-                 '! İnversion (tersine çevirme) felsefesinin altın kuralı şudur: Başarılı olmak istiyorsan önce seni mezara sokacak ahmaklıkları hayatından söküp atacaksın !';
+                 'Bak bunu kabul etmen bile bir aşama. En azından sorunun Mars gezegeninden kaynaklanmadığını, bizzat %%kendi ürettiğin bir tembellik ve disiplinsizlik%% olduğunu gördün. Şimdi bana mazeret üretmeyi bırak. Ben senin bahanelerinle vakit kaybedecek insan değilim. Burada ameliyat yapıyoruz.\n\n' +
+                 '! Başarı eklemekle değil, hayatındaki gereksiz safraları fırlatıp atmakla başlar !';
         },
-        questionText: '⚡️ Şimdi cesaret testi: Önümüzdeki 7 gün boyunca hangi radikal kuralı tavizsiz uygulayacaksın?',
+        questionText: 'Şimdi delikanlı gibi söyle: Önümüzdeki yedi gün boyunca hangi kuralı tavizsiz koyuyorsun?',
         options: [
-          'Gece 22:30 dedin mi telefonu başka bir odaya kilitleyeceksin; bahanesiz ve mızmızlanmasız.',
-          'Sana gram faydası olmayan her gereksiz insana ve angaryaya "Hayır, işim var" diyerek kapıyı kapatacaksın.',
-          'Hafta sonu dahil her sabah aynı dakikada yataktan kalkıp yüzünü yıkayacak ve doğrudan gün ışığına çıkacaksın.'
+          'Akşam on buçuk oldu mu o telefonu başka odaya bırakacağım, elim ayağım titresin yine de dokunmayacağım.',
+          'Bana hiçbir faydası olmayan herkese acımasızca hayır diyeceğim, surat asan assın umrumda değil.',
+          'Hafta sonu dahil sabah ezan gibi aynı saatte dikileceğim, yüzüme buz gibi suyu çarpıp sokağa çıkacağım.'
         ]
       },
       final: function(session) {
-        return buildStructuredReport(session, 'Biyolojik Ritim ve Yaşam Enerjisi');
+        return buildSavageReport(session, 'Biyolojik Ritim ve Hayat Tokadı');
       }
     },
     FINANCE: {
       round1: {
         intro: function(input) {
-          return '💰 Geldik en can alıcı konuya: Para, yatırımlar ve finansal hayaller ("' + input + '").\n\n' +
-                 'Herkes kolay yoldan zengin olmanın pembe hayallerini kuruyor; ancak hiç kimse batmanın ne anlama geldiğini hesaplamıyor.\n\n' +
-                 '! Kazanacağın paranın hayaliyle havalara girmeden önce, seni iflasa sürükleyecek delikleri kapattın mı? Hiç zannetmiyorum !';
+          return 'Canımın içi, gel senin şu muazzam finans dehana bakalım:\n\n' +
+                 '== "' + input + '" ==\n\n' +
+                 'Herkes piyasayı alt edeceğini zannediyor. Cebinde üç aylık ekmek parası yok, kalkmış bana büyük fon yöneticisi edasıyla risk hesabı yapıyor. Para kazanmak bir zeka işidir ama parayı kaybetmemek tam bir takıntı işidir. Sen ise kazanacağın paranın havasına girmişsin bile. Dur bir dakika, sen önce elindeki donu kaptırmamayı öğren!\n\n' +
+                 '! Batmanın ne olduğunu bilmeyen adamın piyasada bir saniye bile hayatta kalma şansı sıfırdır !';
         },
-        questionText: '💸 Gerçeklerle yüzleş: Bu finansal planda seni duvara toslatacak en büyük ahmaklık nedir?',
+        questionText: 'Kendini kandırmayı bırak: Bu planda seni beş parasız bırakacak asıl ahmaklık nedir?',
         options: [
-          'Olmayan parayla veya kontrolsüz borçla/kaldıraçla "kısa yoldan voleyi vururum" zannetmek.',
-          'Kenarda 3 aylık ekmek parası bile yokken tüm sermayeyi tek bir riskli yere gömmek.',
-          'Gelir gider dengesini hiç tutmayıp zengin gibi yaşayarak fakir kalmak.'
+          'Cebimde olmayan parayla veya borçla havaya girip kısa yoldan köşeyi döneceğimi zannetmek.',
+          'Acil durum param bile yokken bütün yumurtaları tek bir kırılgan sepete koyup dua etmek.',
+          'Gelirimi hiç artırmadan zengin adam taklidi yapıp gereksiz lüks harcamalarla batmak.'
         ]
       },
       round2: {
         intro: function(ans) {
-          return '🎯 Güzel! En azından nerede batacağını biliyorsun:\n\n' +
+          return 'Gördün mü gerçeği:\n\n' +
                  '== "' + ans + '" ==\n\n' +
-                 'Büyük yatırımcıların bir numaralı kuralı şudur: "Asla para kaybetme." Sen ise kazanma hırsıyla gözünü karartmışsın. Şimdi frene basma vakti.';
+                 'Nihayet akıl sınırlarına girdin. Piyasa senin duygularınla, umutlarınla veya dualarınla ilgilenmez. Piyasa acımasızdır, affetmez. Yanlış ata oynayanın ceketini bile alır.\n\n' +
+                 '! Zengin olmak istiyorsan önce hayal kurmayı bırakacaksın, savunma hattını çelikten öreceksin !';
         },
-        questionText: '🛡 Hangi demir kuralı koyarak kendini finansal intihardan koruyacaksın?',
+        questionText: 'Cüzdanını kurtarmak için hangi demir kuralı harfiyen uygulayacaksın?',
         options: [
-          'Dokunulmaz acil durum nakit fonu oluşturulmadan 1 kuruş bile spekülatif riske atmayacaksın.',
-          'Tüm gereksiz abonelik, lüks ve gösteriş harcamalarını derhal bıçak gibi keseceksin.',
-          'Zarar kes (stop-loss) seviyesini peşinen belirleyip duygusallık yapmadan çıkacaksın.'
+          'Kenara dokunulmaz üç aylık nakit koymadan tek bir kuruş bile riskli maceraya girmeyeceğim.',
+          'Bütün o lüks gösteriş harcamalarını, saçma sapan abonelikleri bıçak gibi keseceğim.',
+          'Zarar sınırımı peşinen koyacağım, o seviyeye gelince arkama bile bakmadan çıkacağım.'
         ]
       },
       final: function(session) {
-        return buildStructuredReport(session, 'Finansal Akıl ve Sermaye Koruma');
+        return buildSavageReport(session, 'Finansal Akıl ve Sermaye Kurtarma Raporu');
       }
     },
     CAREER_BUSINESS: {
       round1: {
         intro: function(input) {
-          return '🚀 Girişimcilik ve iş dünyası romantizm kaldırmaz ("' + input + '").\n\n' +
-                 '"Harika bir fikrim var" diyenlerin yüzde doksan beşi ilk yıl müşterisizlikten kepenk kapatıyor. Çünkü fikir ucuzdur; icra, satış ve nakit akışı pahalıdır.\n\n' +
-                 '! Kendine aşık olmayı bırak; piyasa senin duygularınla değil, sunduğun değerle ilgilenir !';
+          return 'Bak sen şu işe, yeni bir dahi daha teşrif etti:\n\n' +
+                 '== "' + input + '" ==\n\n' +
+                 'Şimdi herkes girişimci, herkes vizyoner. Fikir bulmak dünyanın en ucuz şeyidir kardeşim. Kahvede oturan adamın da kafasında elli tane fikir var. Mesele icradır, faturadır, nakit akışıdır. Sen daha ilk müşterine satış yapmadan kafanda şirket yönetmeye başlamışsın. Gerçek dünya öyle çalışmıyor.\n\n' +
+                 '! Müşterinin cebinden parayı alamayan her fikir sadece bir fanteziden ibarettir !';
         },
-        questionText: '💣 Bu projeyi ilk 6 ayda mezara gömecek en büyük yapısal kör nokta nedir?',
+        questionText: 'Piyasa tokadını yemeden önce söyle: Bu işi batıracak en büyük kör noktan ne?',
         options: [
-          'Müşterinin para ödemeyeceği bir ürünü aylarca odada tek başına inşa etmeye çalışmak.',
-          'Daha ilk faturayı kesmeden ofis, şirket arabası ve gösterişli giderlere boğulmak.',
-          'Satış ve pazarlama yapmaktan korkup teknik detaylarda boğulmak.'
+          'Pazarın gerçekte hiç istemediği bir şeyi kendi kendime inşa edip mucize beklemek.',
+          'Para kazanmadan önce ofis, logo, kartvizit gibi gösteriş işlerine gömülüp sıfırı tüketmek.',
+          'Satış yapmaktan ve reddedilmekten korkup teknik detayların arkasına saklanmak.'
         ]
       },
       round2: {
         intro: function(ans) {
-          return '🔥 Aynen öyle:\n\n' +
+          return 'Aynen öyle, tebrikler:\n\n' +
                  '== "' + ans + '" ==\n\n' +
-                 'İşte buna kör nokta denir. Kendi fikrine aşık olan girişimci, duvara toslayan acemi şoför gibidir. Şimdi duyguları kenara koyup matematiğe geçiyoruz.';
+                 'Kendi fikrine aşık olan adam, duvara tam gaz giden arabadaki şoför gibidir. Şimdi o duygusal romantizmi bir kenara bırakıyoruz ve matematiğe geçiyoruz.\n\n' +
+                 '! Para duyguları tanımaz, sadece çalışan matematiği tanır !';
         },
-        questionText: '🏁 İflas riskini sıfıra indirmek için ilk hangi sert adımı atacaksın?',
+        questionText: 'İflas bayrağını çekmemek için ilk hangi sert kararı alıyorsun?',
         options: [
-          'Ön ödemeli ilk 5 gerçek müşteri bulmadan 1 kuruş bile yazılım veya ürün yatırımı yapmayacaksın.',
-          'Sabit operasyonel maliyetleri mutlak sıfıra yakın tutarak birim ekonomiyi kanıtlayacaksın.',
-          'Tek bir kanaldan net satış akışı sağlayana kadar diğer tüm hayalleri askıya alacaksın.'
+          'Parayı peşin veren ilk beş müşteriyi görmeden tek bir kuruş bile masraf yapmayacağım.',
+          'Maliyetleri sıfıra yakın tutacağım, cebimden fazladan tek bir lira bile yakmayacağım.',
+          'Tek bir ana satış kanalı kurup oradan para akana kadar diğer hayalleri donduracağım.'
         ]
       },
       final: function(session) {
-        return buildStructuredReport(session, 'İş Modeli ve Girişim Hayatta Kalma');
+        return buildSavageReport(session, 'Girişim ve Ticaret Hayatta Kalma Karnesi');
       }
     },
     GENERAL: {
       round1: {
         intro: function(input) {
-          return '☕️ Konuyu yazdın:\n\n' +
+          return 'Konuyu masaya koydun:\n\n' +
                  '== "' + input + '" ==\n\n' +
-                 'Şimdi arkana yaslan ve derin bir nefes al. Çünkü burada seni pohpohlayacak kimse yok.\n\n' +
-                 '! Kararsızlık, insanın kendi elleriyle ördüğü en konforlu hapishanedir. Karar vermemek de bir karardır; sadece en korkak olanıdır !';
+                 'Şimdi arkana yaslan ve derin bir nefes al. Ben senin nazını çekecek veya seni teselli edecek insan değilim. Kararsızlık dünyanın en lüks ve en tembel hastalığıdır. Karar vermemek de bir karardır; sadece en korkak ve en sefil olanıdır.\n\n' +
+                 '! Yerinde sayan adam düşmez zanneder ama aslında çürür !';
         },
-        questionText: '⛓ Seni olduğun yerde saydıran ve patinaj çektiren asıl pranga ne?',
+        questionText: 'Seni olduğun yere çivileyen asıl prangan nedir?',
         options: [
-          'Aynı anda elli şeyi birden düşünüp hiçbirini yapamamak ve analiz felcine uğramak.',
-          'Hata yapmaktan ölesiye korkup mükemmel anı beklerken hayatı kaçırmak.',
-          'Sana gram faydası olmayan eski alışkanlıklara ve insanlara duygusal bağımlılık.'
+          'Aynı anda elli farklı şeyi düşünüp hiçbirini yapamamak ve kafa dağınıklığında boğulmak.',
+          'Mükemmel anı bekleyeceğim diye ömrü çürütmek ve hata yapmaktan ödüm kopması.',
+          'Bana gram faydası olmayan eski alışkanlıklara ve insanlara bağımlı kalmak.'
         ]
       },
       round2: {
         intro: function(ans) {
-          return '🎯 Teşhis son derece net:\n\n' +
+          return 'Teşhis gün gibi ortada:\n\n' +
                  '== "' + ans + '" ==\n\n' +
-                 'Sorun dış etkenlerde veya şanssızlıkta değil; tamamen senin sınır koyamamanda ve önceliklerini belirleyememende. Artık bahane üretme kotan doldu.';
+                 'Sorun ne devlette ne havalarda ne de burçlarda. Sorun tamamen senin sınır çizememende ve ne istediğini bilmemende. Artık bahane üretme süren doldu.\n\n' +
+                 '! Hayat cesurları sever, mızmızlananları ise sadece çiğner geçer !';
         },
-        questionText: '🗡 Bu kısırdöngüyü kırmak için hangi sert kuralı hayata geçireceksin?',
+        questionText: 'Bu kısırdöngüyü kırmak için hangi sert kuralı hayata geçiriyorsun?',
         options: [
-          'Tek bir ana öncelik seçeceksin; geri kalan her şeyi acımasızca çöpe atacaksın.',
-          'Mükemmeliyetçiliği çöpe atıp yarın sabah en ilkel ve kusurlu haliyle sahaya çıkacaksın.',
-          'Zamanını ve enerjini çalan her türlü gereksiz angaryayı anında reddedeceksin.'
+          'Tek bir ana hedef seçeceğim, geri kalan her şeyi tereddütsüz çöpe atacağım.',
+          'Kusursuzluk takıntısını bırakıp yarın sabah en ilkel haliyle sahaya çıkacağım.',
+          'Zamanımı ve enerjimi çalan her türlü gereksiz işi anında kapı dışarı edeceğim.'
         ]
       },
       final: function(session) {
-        return buildStructuredReport(session, 'Stratejik Yol Ayrımı ve Eylem');
+        return buildSavageReport(session, 'Stratejik Karar ve Gerçeklik Karnesi');
       }
     }
   };
 
-  function buildStructuredReport(session, topicName) {
+  function buildSavageReport(session, topicTitle) {
     const originalInput = session.originalInput || '';
     const answer1 = session.answers[0] || 'Temel zayıflık';
     const answer2 = session.answers[1] || 'Uygulanacak savunma hattı';
 
     const p1 = [
       '### 🥊 BÖLÜM 1: MESELE NE, SEN NE YAPIYORSUN?',
-      'Öncelikle şunu aklına çok iyi kazı: Sisteme girdiğin konu == "' + originalInput + '" == olarak resmi kayda geçti.',
-      'Sen bu durumu çözümsüz bir trajedi veya gizemli bir talihsizlik zannediyorsun. Oysa dışarıdan bakan objektif ve tecrübeli bir göz için tablo gün gibi ortadadır:',
-      '! Sen gerçek bir çözüm aramıyorsun; sen şikayetlerinin konforlu sıcaklığında mızmızlanmayı tercih ediyorsun !',
-      'Büyük düşünürlerin dediği gibi: "Nerede öleceğimi bilmek isterdim, böylece oraya asla gitmezdim." Sen ise koşar adım felakete yürüyüp sonra "Burası niye karanlık?" diye sızlanıyorsun. Artık kendine acımayı bırakma saati geldi.'
+      'Bak güzel kardeşim, sisteme girdiğin konu kayıtlara == "' + originalInput + '" == olarak geçti.',
+      'Sen bu durumu çözümsüz bir trajedi veya kaderin sana oynadığı gizemli bir oyun zannediyorsun. Oysa dışarıdan bakan akıllı ve tecrübeli bir göz için durum o kadar komik ve berrak ki:',
+      '! Sen çözüm falan aramıyorsun, sen şikayet etmenin konforlu sıcaklığında mızmızlanmayı seviyorsun !',
+      'Büyük ustalar boşuna dememiş: Nerede öleceğini bilirsen oraya asla gitmezsin. Sen ise koşar adım o çukura yürüyorsun, sonra da çukurun dibinden ağlıyorsun. Kendine acımayı bırakma saatin geldi de geçiyor.'
     ].join('\n\n');
 
     const p2 = [
-      '### 🔍 BÖLÜM 2: SENİ İÇTEN İÇE BİTİREN ASIL AHMAKLIK',
-      'İlk turda bizzat itiraf ettiğin şu parametreye dikkatle bak:',
+      '### 🔍 BÖLÜM 2: SENİ İÇTEN İÇE BİTİREN ASIL KUSUR',
+      'İlk turda bizzat kendi ağzınla itiraf ettiğin şu parametreye bir bak:',
       '== "' + answer1 + '" ==',
-      'İşte burası senin yumuşak karnın, sistemindeki en büyük sızıntı kaynağıdır.',
-      'Bir insanın aynı hatayı her gün ısrarla tekrarlayıp her sabah farklı bir sonuç beklemesi tam anlamıyla deliliktir. Lastiği patlak bir arabanın deposuna dünyanın en kaliteli yakıtını koysan ne yazar? Jantın üzerinde kıvılcım saçarak gidersin.',
-      'Enerjinin, motivasyonunun veya sermayenin tükenmesinin sebebi dış dünya değil; bizzat bu %%yapısal disiplinsizliktir%%.'
+      'İşte senin yumuşak karnın, bütün enerjini ve vaktini emen kara delik burası.',
+      'Bir insanın her Allahın günü aynı hatayı ısrarla yapıp ertesi sabah farklı bir mucize beklemesi akıl tutulmasıdır. Lastiği inik arabaya dünyanın en pahalı benzinini koysan ne fayda eder? Jantın üzerinde kıvılcım saçarak gidersin.',
+      'Hayatının tıkandığı yer dışarısı değil; bizzat senin bu %%yapısal disiplinsizliğin ve dağınıklığındır%%.'
     ].join('\n\n');
 
     const p3 = [
       '### ⚖️ BÖLÜM 3: KURTULUŞ İLLÜZYONU VE İRADE TUZAĞI',
       'İkinci turda kurtuluş reçetesi olarak seçtiğin kural:',
       '== "' + answer2 + '" ==',
-      'Kulağa harika geliyor değil mi? Ama sana acı bir gerçeği söyleyeyim: İnsanların yüzde doksanı bu kararı aldıktan tam kırk sekiz saat sonra eski tembel alışkanlıklarına koşa koşa geri döner.',
-      '! Çünkü irade dediğin şey bir kas değildir; irade çevre tasarımı ve tavizsiz sistemik kilit meselesidir !',
-      'Eğer bu sızıntıyı hayatından fiziksel olarak söküp atmazsan, bu karar sadece kendini avuttuğun yeni bir yalan olarak kalacaktır.'
+      'Kulağa çok havalı geliyor değil mi? Ama sana acı bir gerçeği söyleyeyim: İnsanların yüzde doksanı bu kararı alır ve kırk sekiz saat sonra tıpış tıpış eski tembel çöplüğüne geri döner.',
+      '! İrade dediğin şey kas gücü değildir, irade çevre tasarımı ve kapıları kilitleme sanatıdır !',
+      'Eğer bu sızıntıyı hayatından fiziksel olarak kesip atmazsan, bu karar da arşivde çürüyen diğer yüzlerce boş hevesinden biri olur.'
     ].join('\n\n');
 
     const p4 = [
       '### 🛑 BÖLÜM 4: NİHAİ KARAR VE DÖRT DEMİR KURAL',
-      'INVERSIONCORE Karar Masası dosyan için == KOŞULLU GEÇİŞ (CONDITIONAL) == hükmü vermiştir.',
-      'Bu ne anlama geliyor? Sana yeşil ışık yakmıyoruz; çünkü henüz bu disiplini taşıyabileceğin kanıtlanmadı. Önümüzdeki on dört gün boyunca uygulaman emredilen mutlak kurallar şunlardır:',
-      '• **Kural 1 (Pozitif Ekleme Yasağı - Via Negativa):** Sakın ola yeni bir hobi, yeni bir kitap veya yeni bir uygulama edinmeye kalkma. Bataklığı kurutmadan üzerine gül dikilmez. Belirlediğin birincil sızıntıyı hayatından derhal keseceksin.',
-      '• **Kural 2 (Mazeretsiz Çevresel Kilit):** O telefonu yatağa sokmayacaksın dediysek sokmayacaksın. Salonda şarj edeceksin. Sabah ilk otuz dakika ekrana dokunmak kesinlikle yasaktır. İlk ışığı gökyüzünden alacaksın.',
-      '• **Kural 3 (Kurban Psikolojisini Yırtıp At):** Kimse seni kurtarmaya gelmeyecek. Beyaz atlı prens yok. Sabah yataktan kalkamıyorsan bu biyolojik ritmine ihanet etmendir. Kalkacak, yüzünü yıkayacak ve belirlenen tek göreve odaklanacaksın.',
-      '• **Kural 4 (Gereksiz Angaryaya Duvar Ör):** Enerjini tüketen, sana sıfır faydası olan insanlara ve anlamsız taleplere tek kelimeyle "Hayır" demeyi öğreneceksin. Herkesi memnun etmeye çalışan insan, en sonunda kendinden nefret eder.'
+      'INVERSIONCORE Karar Masası dosyan için == KOŞULLU GEÇİŞ == hükmü vermiştir.',
+      'Sana öyle kolayından yeşil ışık yakmıyoruz; çünkü henüz bu disiplini taşıyacak olgunluğu göstermedin. Önümüzdeki on dört gün boyunca harfiyen uygulayacağın mutlak kurallar şunlardır:',
+      '• **Kural 1 (Eksiltme Prensibi):** Sakın yeni bir heves, yeni bir kitap veya yeni bir uygulama edinmeye kalkma. Bataklığı kurutmadan üzerine gül dikilmez. Belirlediğin o birincil zaman ve enerji hırsızını hayatından derhal atacaksın.',
+      '• **Kural 2 (Mazeretsiz Çevresel Kilit):** O telefonu yatağa sokmayacaksın dediysek sokmayacaksın. Salonda şarj edeceksin. Sabah ilk otuz dakika ekrana bakmak kesinlikle yasaktır. İlk ışığı gökyüzünden alacaksın.',
+      '• **Kural 3 (Kurban Psikolojisini Yırt At):** Kimse seni kurtarmaya gelmeyecek. Beyaz atlı prens yok. Sabah yataktan kalkamıyorsan bu kendi biyolojine ihanetindir. Kalkacaksın, yüzünü yıkayacaksın ve işine bakacaksın.',
+      '• **Kural 4 (Gereksiz Angaryaya Duvar Ör):** Enerjini tüketen, sana sıfır faydası olan insanlara ve anlamsız taleplere tek kelimeyle Hayır demeyi öğreneceksin. Herkesi memnun etmeye çalışan insan, en sonunda kendinden nefret eder.'
     ].join('\n\n');
 
     const p5 = [
       '### 🎯 BÖLÜM 5: SON SÖZ: DOĞRULUK MU, CESARET Mİ?',
       '! Gerçekler acıdır ama sadece gerçekler insanı özgürleştirir !',
-      'Buraya kadar okuduysan önünde sadece iki seçenek var:',
-      '1) Bu sayfayı kapatıp "Aman ne kaba bir sistem" diyerek eski konforlu sefaletine döneceksin.',
+      'Buraya kadar okuduysan önünde sadece iki yol var:',
+      '1) Bu sayfayı kapatıp eski konforlu sefaletine geri döneceksin.',
       '2) Ya da bu kuralları yarın sabah harfiyen uygulayıp hayatındaki o ağırlığı sonsuza dek toprağa gömeceksin.',
-      'Karar da senin, fatura da senin.'
+      'Karar da senin, sonuçlar da sadece senin boynuna.'
     ].join('\n\n');
-
-    const fullContent = [p1, p2, p3, p4, p5].join('\n\n');
 
     return {
       source: 'engine',
@@ -223,7 +221,7 @@
       complete: true,
       decision: 'CONDITIONAL',
       question: null,
-      content: fullContent
+      content: [p1, p2, p3, p4, p5].join('\n\n')
     };
   }
 

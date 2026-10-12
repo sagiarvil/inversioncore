@@ -177,7 +177,7 @@
       if (path.includes('/start')) {
         return await window.InversionAutonomousEngine.start(payload.input);
       }
-      const ans = [payload.selected, payload.free_text].filter(Boolean).join(' — ');
+      const ans = [payload.selected, payload.free_text].filter(Boolean).join(': ');
       return await window.InversionAutonomousEngine.answer(ans, state.round - 1);
     }
 
@@ -238,9 +238,9 @@
 
     if (round === 3) {
       const decisions = {
-        GO: 'GO — GÜVENLİ VE SÜRDÜRÜLEBİLİR',
-        RED: 'RED — MEVCUT HALİYLE RİSKLİ',
-        CONDITIONAL: 'KOŞULLU — KORUMA KURALLARIYLA UYGULANABİLİR'
+        GO: 'GO GÜVENLİ VE SÜRDÜRÜLEBİLİR',
+        RED: 'RED MEVCUT HALİYLE RİSKLİ',
+        CONDITIONAL: 'KOŞULLU KORUMA KURALLARIYLA UYGULANABİLİR'
       };
       const verdict = el('div', 'final-verdict', decisions[data.decision] || 'KOŞULLU');
       output.parentElement.insertBefore(verdict, output);
