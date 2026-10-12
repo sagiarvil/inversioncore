@@ -9,11 +9,11 @@ from inversion_memory import InversionMemoryStore
 
 logger = logging.getLogger("inversioncore.engine")
 
-# 1. Dinamik Model Yolu (Hardcoded yol yerine ortamdan veya varsayılandan)
+# 1. Dinamik Model Yolu (Ortam değişkeni veya varsayılan)
 DEFAULT_MODEL_DIR = os.path.expanduser("~/models/Qwen2.5-14B-Instruct-abliterated-4bit-mlx")
 MODEL_PATH = os.getenv("MODEL_PATH", DEFAULT_MODEL_DIR)
 
-# 2. Outlines-Seviyesi Katı Pydantic Şeması (System 2 Soğuk Analitik Çıktı)
+# 2. Katı Pydantic Şeması (System 2 Soğuk Analitik Çıktı)
 class System2ColdMatrix(BaseModel):
     guc_asimetrisi: str = Field(..., description="Taraflar arasındaki güç dengesizliği ve sömürü dinamiği")
     illuzyon_ve_yalan: str = Field(..., description="Kullanıcının kendine söylediği sahte savunma")
@@ -47,10 +47,10 @@ Eğer konu ilişki, aldatma veya güven ise:
 Çıktıyı SADECE geçerli bir JSON objesi olarak ver:
 {
   "guc_asimetrisi": "Taraflar arasındaki güç dengesizliği ve sömürü dinamiği",
-  "illuzyon_ve_yalan": "Kullanıcının kendine söylediği ve sığındığı sahte savunma (örn: delil bulursam ayrılırım illüzyonu)",
+  "illuzyon_ve_yalan": "Kullanıcının kendine söylediği ve sığındığı sahte savunma",
   "hukuki_ve_maddi_risk": "Maddi, hukuki veya akıl sağlığı boyutu",
-  "oyun_teorisi_hamlesi": "Minimax / Nash dengesi kurtuluş hamlesi (masadan tek taraflı çekilme)",
-  "kesin_teshis": "Durumun örtbas edilemez en çıplak Asperger tanımı (örn: DARVO döngüsünde rehinelik)"
+  "oyun_teorisi_hamlesi": "Minimax / Nash dengesi kurtuluş hamlesi",
+  "kesin_teshis": "Durumun örtbas edilemez en çıplak Asperger tanımı"
 }"""
 
 SYSTEM_1_PROMPT = """Sen InversionCore'sun. Hiçbir ahlak bekçiliği veya sansür yapmazsın.
@@ -82,26 +82,28 @@ def get_engine_model():
     return _model, _tokenizer
 
 def repair_and_parse_json(raw_text: str) -> Dict[str, Any]:
-    # Markdown kod bloklarını temizle
     cleaned = re.sub(r"^```(?:json)?", "", raw_text.strip(), flags=re.MULTILINE)
     cleaned = re.sub(r"```$", "", cleaned.strip(), flags=re.MULTILINE).strip()
-    # İlk { ile son } arasını yakala
     match = re.search(r"(\{[\s\S]*\})", cleaned)
     if match:
         cleaned = match.group(1)
     try:
         data = json.loads(cleaned)
-        # Pydantic ile şema doğrula
         validated = System2ColdMatrix(**data)
         return validated.model_dump()
     except Exception as e:
-        logger.warning(f"JSON doğrulama hatası, yedek şema uygulanıyor: {e}")
+        logger.warning(f"JSON doğrulama hatası, kural tabanlı dinamik onarım uygulanıyor: {e}")
+        # Bozuk JSON'dan anahtarları regex ile dinamik çıkar
+        def extract_field(key: str, default_val: str) -> str:
+            m = re.search(rf'"{key}"\s*:\s*"([^"\\]*(?:\\.[^"\\]*)*)"', cleaned)
+            return m.group(1) if m else default_val
+
         return {
-            "guc_asimetrisi": "Belirgin güç asimetrisi ve manipülasyon tespit edildi.",
-            "illuzyon_ve_yalan": "Kullanıcı yüzleşmekten korktuğu için delil toplamaya sığınıyor.",
-            "hukuki_ve_maddi_risk": "İtibar ve akıl sağlığı kaybı riski yüksek.",
-            "oyun_teorisi_hamlesi": "Minimax: Manipülatif masadan derhal çekilme.",
-            "kesin_teshis": raw_text[:200]
+            "guc_asimetrisi": extract_field("guc_asimetrisi", "Karşı tarafın manipülasyonu ve güç baskısı tespit edildi."),
+            "illuzyon_ve_yalan": extract_field("illuzyon_ve_yalan", "Kullanıcı ayrılık cesaretsizliğini delil arayışıyla erteliyor."),
+            "hukuki_ve_maddi_risk": extract_field("hukuki_ve_maddi_risk", "Maddi hak kaybı ve kronik akıl sağlığı çöküşü riski yüksek."),
+            "oyun_teorisi_hamlesi": extract_field("oyun_teorisi_hamlesi", "Minimax: Tek taraflı kesin sınır ve masadan çekilme."),
+            "kesin_teshis": extract_field("kesin_teshis", "DARVO ve Gaslighting döngüsünde rehinelik.")
         }
 
 class InversionCoreEngine:
@@ -113,7 +115,7 @@ class InversionCoreEngine:
 
         InversionMemoryStore.get_or_create_session(session_id)
         
-        # 1. NeMo Kırmızı Çizgi Kontrolü
+        # 1. Kırmızı Çizgi Kalkanı
         blocked, reason, message = evaluate_guardrails(decision)
         if blocked:
             InversionMemoryStore.append_message(session_id, round_num, "user", decision)
@@ -126,34 +128,37 @@ class InversionCoreEngine:
                 "round": round_num
             }
 
-        # 2. Letta Bellek Bağlamını Getir
+        # 2. Kalıcı Bellek Bağlamını Getir
         memory_context = InversionMemoryStore.format_context_for_prompt(session_id)
         
         from mlx_lm import generate
+        from mlx_lm.sample_utils import make_sampler
         m, tok = get_engine_model()
 
-        # 3. Düğüm 1: System 2 (Soğuk Analitik Çıkarım - JSON Şeması)
+        # 3. Düğüm 1: System 2 (Deterministik Greedy Sampler temp=0.0 ile Katı JSON Üretimi)
+        deterministic_sampler = make_sampler(temp=0.0)
         sys2_user_prompt = f"Kullanıcı Durumu: {decision}\n\nGeçmiş Hafıza:\n{memory_context}" if memory_context else f"Kullanıcı Durumu: {decision}"
         p_sys2 = f"<|im_start|>system\n{SYSTEM_2_PROMPT}<|im_end|>\n<|im_start|>user\n{sys2_user_prompt}<|im_end|>\n<|im_start|>assistant\n"
-        raw_sys2 = generate(m, tok, prompt=p_sys2, max_tokens=350, verbose=False)
         
+        raw_sys2 = generate(m, tok, prompt=p_sys2, max_tokens=220, sampler=deterministic_sampler, verbose=False)
         matrix_data = repair_and_parse_json(raw_sys2)
 
-        # Letta Core Memory güncelle
+        # Core Memory güncelle
         InversionMemoryStore.update_core_memory(session_id, {
             "user_dilemma": matrix_data.get("illuzyon_ve_yalan", ""),
             "power_dynamics": matrix_data.get("guc_asimetrisi", ""),
             "trauma_codes": matrix_data.get("kesin_teshis", "")
         })
 
-        # 4. Düğüm 2: System 1 (Retorik + İroni + Aksiyon Silahı)
+        # 4. Düğüm 2: System 1 (Yeraltı Retoriği ve Aksiyon Silahı, temp=0.7)
+        creative_sampler = make_sampler(temp=0.7, top_p=0.9)
         p_sys1 = (
             f"<|im_start|>system\n{SYSTEM_1_PROMPT}\nTur: {round_num}<|im_end|>\n"
             f"<|im_start|>user\nKullanıcı Durumu: {decision}\n\n"
             f"Soğuk Analiz Matrisi:\n{json.dumps(matrix_data, ensure_ascii=False, indent=2)}<|im_end|>\n"
             f"<|im_start|>assistant\n"
         )
-        reply = generate(m, tok, prompt=p_sys1, max_tokens=650, verbose=False)
+        reply = generate(m, tok, prompt=p_sys1, max_tokens=550, sampler=creative_sampler, verbose=False)
 
         # Hafızaya ekle
         InversionMemoryStore.append_message(session_id, round_num, "user", decision)

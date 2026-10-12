@@ -1,54 +1,61 @@
 import os
 import json
 import sqlite3
+import threading
 from typing import Dict, Any, List, Optional
 from datetime import datetime
 
 DB_PATH = os.getenv("INVERSION_DB_PATH", os.path.abspath("inversion_memory.db"))
+_db_lock = threading.Lock()
 
 def get_db():
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(DB_PATH, timeout=10.0, check_same_thread=False)
     conn.row_factory = sqlite3.Row
+    # Eşzamanlılık ve Kilitlenme Koruması (Concurrency & Lock Prevention)
+    conn.execute("PRAGMA journal_mode = WAL;")
+    conn.execute("PRAGMA busy_timeout = 5000;")
+    conn.execute("PRAGMA synchronous = NORMAL;")
     return conn
 
 def init_memory_db():
-    with get_db() as conn:
-        cursor = conn.cursor()
-        # 1. Sessions table
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS sessions (
-                session_id TEXT PRIMARY KEY,
-                topic TEXT DEFAULT 'genel',
-                created_at TEXT,
-                updated_at TEXT
-            )
-        """)
-        # 2. Core Memory (Letta-style Persistent State)
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS core_memory (
-                session_id TEXT PRIMARY KEY,
-                user_dilemma TEXT DEFAULT '',
-                power_dynamics TEXT DEFAULT '',
-                trauma_codes TEXT DEFAULT '',
-                opponent_profile TEXT DEFAULT '',
-                unresolved_conflicts TEXT DEFAULT '',
-                updated_at TEXT,
-                FOREIGN KEY (session_id) REFERENCES sessions(session_id)
-            )
-        """)
-        # 3. Recall Memory (Conversation turn history)
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS recall_history (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                session_id TEXT,
-                round INTEGER,
-                role TEXT,
-                content TEXT,
-                created_at TEXT,
-                FOREIGN KEY (session_id) REFERENCES sessions(session_id)
-            )
-        """)
-        conn.commit()
+    with _db_lock:
+        with get_db() as conn:
+            cursor = conn.cursor()
+            # 1. Sessions table
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS sessions (
+                    session_id TEXT PRIMARY KEY,
+                    topic TEXT DEFAULT 'genel',
+                    created_at TEXT,
+                    updated_at TEXT
+                )
+            """)
+            # 2. Core Memory (Kalıcı Durum ve Bilinçaltı Haritası)
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS core_memory (
+                    session_id TEXT PRIMARY KEY,
+                    user_dilemma TEXT DEFAULT '',
+                    power_dynamics TEXT DEFAULT '',
+                    trauma_codes TEXT DEFAULT '',
+                    opponent_profile TEXT DEFAULT '',
+                    unresolved_conflicts TEXT DEFAULT '',
+                    updated_at TEXT,
+                    FOREIGN KEY (session_id) REFERENCES sessions(session_id)
+                )
+            """)
+            # 3. Recall Memory (Diyalog turu ve hafıza geçmişi)
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS recall_history (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    session_id TEXT,
+                    round INTEGER,
+                    role TEXT,
+                    content TEXT,
+                    created_at TEXT,
+                    FOREIGN KEY (session_id) REFERENCES sessions(session_id)
+                )
+            """)
+            conn.commit()
 
 init_memory_db()
 
@@ -56,32 +63,34 @@ class InversionMemoryStore:
     @staticmethod
     def get_or_create_session(session_id: str, topic: str = "genel") -> Dict[str, Any]:
         now = datetime.utcnow().isoformat()
-        with get_db() as conn:
-            cursor = conn.cursor()
-            cursor.execute("SELECT * FROM sessions WHERE session_id = ?", (session_id,))
-            row = cursor.fetchone()
-            if not row:
-                cursor.execute(
-                    "INSERT INTO sessions (session_id, topic, created_at, updated_at) VALUES (?, ?, ?, ?)",
-                    (session_id, topic, now, now)
-                )
-                cursor.execute(
-                    "INSERT INTO core_memory (session_id, user_dilemma, power_dynamics, trauma_codes, opponent_profile, unresolved_conflicts, updated_at) VALUES (?, '', '', '', '', '', ?)",
-                    (session_id, now)
-                )
-                conn.commit()
-                return {"session_id": session_id, "topic": topic, "created_at": now, "updated_at": now}
-            return dict(row)
+        with _db_lock:
+            with get_db() as conn:
+                cursor = conn.cursor()
+                cursor.execute("SELECT * FROM sessions WHERE session_id = ?", (session_id,))
+                row = cursor.fetchone()
+                if not row:
+                    cursor.execute(
+                        "INSERT INTO sessions (session_id, topic, created_at, updated_at) VALUES (?, ?, ?, ?)",
+                        (session_id, topic, now, now)
+                    )
+                    cursor.execute(
+                        "INSERT INTO core_memory (session_id, user_dilemma, power_dynamics, trauma_codes, opponent_profile, unresolved_conflicts, updated_at) VALUES (?, '', '', '', '', '', ?)",
+                        (session_id, now)
+                    )
+                    conn.commit()
+                    return {"session_id": session_id, "topic": topic, "created_at": now, "updated_at": now}
+                return dict(row)
 
     @staticmethod
     def get_core_memory(session_id: str) -> Dict[str, str]:
-        with get_db() as conn:
-            cursor = conn.cursor()
-            cursor.execute("SELECT * FROM core_memory WHERE session_id = ?", (session_id,))
-            row = cursor.fetchone()
-            if row:
-                return dict(row)
-            return {}
+        with _db_lock:
+            with get_db() as conn:
+                cursor = conn.cursor()
+                cursor.execute("SELECT * FROM core_memory WHERE session_id = ?", (session_id,))
+                row = cursor.fetchone()
+                if row:
+                    return dict(row)
+                return {}
 
     @staticmethod
     def update_core_memory(session_id: str, updates: Dict[str, str]):
@@ -98,36 +107,39 @@ class InversionMemoryStore:
         values.append(now)
         values.append(session_id)
         
-        with get_db() as conn:
-            cursor = conn.cursor()
-            query = f"UPDATE core_memory SET {', '.join(fields)} WHERE session_id = ?"
-            cursor.execute(query, tuple(values))
-            conn.commit()
+        with _db_lock:
+            with get_db() as conn:
+                cursor = conn.cursor()
+                query = f"UPDATE core_memory SET {', '.join(fields)} WHERE session_id = ?"
+                cursor.execute(query, tuple(values))
+                conn.commit()
 
     @staticmethod
     def append_message(session_id: str, round_num: int, role: str, content: str):
         now = datetime.utcnow().isoformat()
-        with get_db() as conn:
-            cursor = conn.cursor()
-            cursor.execute(
-                "INSERT INTO recall_history (session_id, round, role, content, created_at) VALUES (?, ?, ?, ?, ?)",
-                (session_id, round_num, role, content, now)
-            )
-            cursor.execute(
-                "UPDATE sessions SET updated_at = ? WHERE session_id = ?",
-                (now, session_id)
-            )
-            conn.commit()
+        with _db_lock:
+            with get_db() as conn:
+                cursor = conn.cursor()
+                cursor.execute(
+                    "INSERT INTO recall_history (session_id, round, role, content, created_at) VALUES (?, ?, ?, ?, ?)",
+                    (session_id, round_num, role, content, now)
+                )
+                cursor.execute(
+                    "UPDATE sessions SET updated_at = ? WHERE session_id = ?",
+                    (now, session_id)
+                )
+                conn.commit()
 
     @staticmethod
     def get_recall_history(session_id: str) -> List[Dict[str, Any]]:
-        with get_db() as conn:
-            cursor = conn.cursor()
-            cursor.execute(
-                "SELECT * FROM recall_history WHERE session_id = ? ORDER BY id ASC",
-                (session_id,)
-            )
-            return [dict(r) for r in cursor.fetchall()]
+        with _db_lock:
+            with get_db() as conn:
+                cursor = conn.cursor()
+                cursor.execute(
+                    "SELECT * FROM recall_history WHERE session_id = ? ORDER BY id ASC",
+                    (session_id,)
+                )
+                return [dict(r) for r in cursor.fetchall()]
 
     @staticmethod
     def format_context_for_prompt(session_id: str) -> str:
@@ -136,7 +148,7 @@ class InversionMemoryStore:
         
         ctx_parts = []
         if core and (core.get("user_dilemma") or core.get("power_dynamics")):
-            ctx_parts.append("=== LETTA CORE MEMORY (KULLANICI BİLİNÇALTI HARİTASI) ===")
+            ctx_parts.append("=== KULLANICI BİLİNÇALTI VE KÖK HARİTASI ===")
             if core.get("user_dilemma"):
                 ctx_parts.append(f"- Kök İkilem: {core['user_dilemma']}")
             if core.get("power_dynamics"):

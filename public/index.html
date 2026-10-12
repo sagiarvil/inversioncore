@@ -975,8 +975,8 @@
       let backendReply = null;
       const isLocal = ['localhost', '127.0.0.1'].includes(window.location.hostname);
       const endpoints = isLocal 
-        ? ['http://localhost:8888/api/inversion-analyze', '/api/inversion-analyze']
-        : ['/api/inversion-analyze', 'http://localhost:8888/api/inversion-analyze'];
+        ? ['http://localhost:8888/api/inversion-analyze', 'https://gst-toxic-uploaded-weekly.trycloudflare.com/api/inversion-analyze', '/api/inversion-analyze']
+        : ['https://gst-toxic-uploaded-weekly.trycloudflare.com/api/inversion-analyze', 'http://localhost:8888/api/inversion-analyze', '/api/inversion-analyze'];
 
       for (const ep of endpoints) {
         try {
