@@ -740,12 +740,12 @@
             </div>
           </div>
 
-          <!-- Hızlı Seçim Çipleri -->
+          <!-- Hızlı Seçim Çipleri (İnsan & Tabular & Hayat) -->
           <div class="chips-group">
-            <button class="chip-btn" onclick="applyPreset(1)">Ön Muhasebe CV Başvurusu</button>
-            <button class="chip-btn" onclick="applyPreset(2)">Yazılım Teslim Alma</button>
-            <button class="chip-btn" onclick="applyPreset(3)">150K$ Tohum Yatırım</button>
-            <button class="chip-btn" onclick="applyPreset(4)">İstifa & Ajans Açma</button>
+            <button class="chip-btn" onclick="applyPreset(1)">🔥 Ofis İçi Mobbing & Ast-Üst Savaşı</button>
+            <button class="chip-btn" onclick="applyPreset(2)">🩸 Aldatma Şüphesi & İlişki Çıkmazı</button>
+            <button class="chip-btn" onclick="applyPreset(3)">⚡ Konuşulamayan Tabular & İtiraflar</button>
+            <button class="chip-btn" onclick="applyPreset(4)">💀 Varoluşsal Bıkkınlık & Yaşam İflası</button>
           </div>
         </div>
 
@@ -791,10 +791,10 @@
     let detectedTopic = "genel";
 
     const PRESETS = {
-      1: "CV'yi ön muhasebe başvurusu için yeniden düzenleyeceğim. Firma adını ve üst düzey yönetici vurgusunu kaldırıp cari hesap, banka hareketleri, evrak takibi ve Excel yetkinliklerini öne çıkaracağım. Mevcut deneyimleri değiştirmeden sade bir PDF hazırlayacağım.",
-      2: "Bir yazılımı teslim almaya hazırlanıyorum ama sözleşmede vaat edilen özelliklerin gerçekten çalışıp çalışmadığı konusunda şüphelerim var...",
-      3: "Erken aşama bir SaaS girişimine 150.000$ tohum yatırım yapacağım. Kurucu çok hırslı ama müşteri edinme maliyeti organik büyümeye dayanmıyor...",
-      4: "Kurumsal işimden istifa edip B2B yapay zeka danışmanlık ajansı açmayı planlıyorum. 6 aylık nakit rezervim var..."
+      1: "İş yerinde müdürüm tarafından sistematik mobbinge uğruyorum. Yaptığım işler küçümseniyor, toplantılarda yok sayılıyorum ama tazminatımı bırakıp istifa etmeye cesaretim yok.",
+      2: "Uzun süredir devam eden ilişkimde partnerimin benden bir şeyler sakladığını ve aldattığını seziyorum. Yüzleşmeye kalksam üste çıkacak, susup delil toplamaya çalışsam aklımı kaçıracağım.",
+      3: "Toplumun, ailemin veya çevremin asla kabul etmeyeceği yasak bir arzum ve bastırdığım bir sırrım var. Bunu kimseye anlatamıyorum, içimde büyüyen bu gerilim beni çürütüyor.",
+      4: "Sabahları uyanmak için hiçbir neden bulamıyorum. Kariyer, para, ilişkiler hepsi sahte ve içi boş bir tiyatro gibi geliyor. Herkes mutlu taklidi yaparken ben bu varoluşsal bataklıktan çıkamıyorum."
     };
 
     function applyPreset(id) {
@@ -826,14 +826,16 @@
 
     function detectCategory(text) {
       const l = text.toLowerCase();
-      if (l.includes('cv') || l.includes('muhasebe') || l.includes('başvuru') || l.includes('işe alım') || l.includes('özgeçmiş')) {
-        return 'kariyer';
-      } else if (l.includes('yazılım') || l.includes('kod') || l.includes('teslim') || l.includes('demo') || l.includes('api')) {
-        return 'yazilim';
-      } else if (l.includes('yatırım') || l.includes('tohum') || l.includes('hisse') || l.includes('değerleme')) {
-        return 'yatirim';
+      if (l.includes('mobbing') || l.includes('müdür') || l.includes('patron') || l.includes('iş yeri') || l.includes('tazminat') || l.includes('istifa') || l.includes('ast') || l.includes('üst')) {
+        return 'mobbing';
+      } else if (l.includes('aldat') || l.includes('ilişki') || l.includes('sevgili') || l.includes('eş') || l.includes('ihanet') || l.includes('şüphe') || l.includes('yalan')) {
+        return 'iliski';
+      } else if (l.includes('tabu') || l.includes('cinsel') || l.includes('sır') || l.includes('itiraf') || l.includes('fantezi') || l.includes('günah') || l.includes('ayıp')) {
+        return 'tabu';
+      } else if (l.includes('varoluş') || l.includes('anlam') || l.includes('tüken') || l.includes('depres') || l.includes('yaşam') || l.includes('bıkkın') || l.includes('boş')) {
+        return 'varolus';
       }
-      return 'genel';
+      return 'genel_tabu';
     }
 
     function startAuditFlow() {
@@ -903,64 +905,94 @@
         let content = "";
 
         if (round === 1) {
-          if (detectedTopic === 'kariyer') {
+          if (detectedTopic === 'mobbing') {
             content = `
               <div class="ai-clean-card">
                 <div class="ai-badge-header">
-                  <span>INVERSIONCORE // FİLTRESİZ RED TEAM DENETİMİ</span>
-                  <span style="color:var(--accent-cyber);">[AŞAMA 01]</span>
+                  <span>INVERSIONCORE // PSİKİYATRİK & STRATEJİK RED TEAM</span>
+                  <span style="color:var(--accent-cyber);">[AŞAMA 01: İKİYÜZLÜLÜK İFŞASI]</span>
                 </div>
                 <div class="ai-claim-box">
-                  <span>MASADAKİ İDDİA:</span> "${escapeHtml(userQuery)}"
+                  <span>MASADAKİ ÇIKMAZ:</span> "${escapeHtml(userQuery)}"
                 </div>
                 <div class="ai-body-text">
-                  Kendini çok kurnaz sanıyorsun ama masaya koyduğun plan <b>amatörce bir kendini kandırma gösterisi</b>. 
-                  Yılların tecrübesini gizleyip CV'ye <i>'sadece cari hesap ve fatura takibi yaparım'</i> yazınca işverenin sana acıyıp iş vereceğini mi sanıyorsun? 
-                  Karşındaki İK yöneticisi salak değil. O CV masaya geldiği an <b>'Bu kişi ilk fırsatta kaçar, sıkılır veya şirketi karıştırır'</b> diyerek seni çöpe atacak. 
-                  Egolu konuşuyorum çünkü bu gerçeği sana söyleyecek başka dürüst bir insan yok çevrende.
+                  Bak güzel kardeşim; Feyyaz Yiğit gibi sormak gerekirse: <b>Sen bir şirkette çalışmıyorsun, sen orada gönüllü bir kurban ayinine katılmışsın.</b> 
+                  Müdürünün narsist olduğunu biliyorsun ama her sabah o kapıdan içeri girip 'belki bugün insafa gelir' diye sahte tebessüm takınıyorsun. 
+                  Karşındaki o küçük dağları ben yarattım havalarındaki yönetici, senin korkunu kokluyor. Asperger netliğiyle söyleyeyim: <b>Tazminat bahane, asıl mesele konfor alanından çıkmaya ve sınır çekmeye ödünün kopması.</b>
                 </div>
                 <div class="ai-attack-box">
-                  <div class="attack-label">⚡ İLK TOKAT // KIRILMA SORUSU:</div>
+                  <div class="attack-label">⚡ İLK TOKAT // HİPOTEZ KONTROLÜ:</div>
                   <div class="attack-main">
-                    CV'nde sadece sıradan bir memur gibi 'fatura takibi yaptım' masalı mı anlatacaksın, yoksa önceki şirkette kaç yüz bin TL'lik kaçak ve cezayı engellediğini kanıtlayacak mısın?
+                    Müdürünün mobbingini hukuk önünde tek celsede boynuna dolayacak tarihli, saatli, şahitli yazılı bir dijital delil dosyan var mı, yoksa sadece akşamları evde söylenip ağlıyor musun?
                   </div>
                 </div>
                 <div class="choice-group">
                   <button class="btn-choice bad" onclick="handleQuickChoice('hayir')">
-                    ❌ "Elimde somut tasarruf rakamı yok, sadece görevleri yazdım."
+                    ❌ "Hayır, elimde resmi kayıt yok; her şey sözlü geçti."
                   </button>
                   <button class="btn-choice" onclick="handleQuickChoice('evet')">
-                    ✔ "Evet, şirkete kazandırdığım net rakamlar var."
+                    ✔ "Evet, e-posta, ses/yazışma ve resmi kayıtlarımı tuttum."
                   </button>
                 </div>
               </div>
             `;
-          } else if (detectedTopic === 'yazilim') {
+          } else if (detectedTopic === 'iliski') {
             content = `
               <div class="ai-clean-card">
                 <div class="ai-badge-header">
-                  <span>INVERSIONCORE // FİLTRESİZ RED TEAM DENETİMİ</span>
-                  <span style="color:var(--accent-cyber);">[AŞAMA 01]</span>
+                  <span>INVERSIONCORE // NÖROLOJİK & İLİŞKİSEL PROTOKOL</span>
+                  <span style="color:var(--accent-cyber);">[AŞAMA 01: OTO-HİPNOZ İFLASI]</span>
                 </div>
                 <div class="ai-claim-box">
-                  <span>MASADAKİ İDDİA:</span> "${escapeHtml(userQuery)}"
+                  <span>MASADAKİ ŞÜPHE:</span> "${escapeHtml(userQuery)}"
                 </div>
                 <div class="ai-body-text">
-                  Bak güzel kardeşim, kibrimizi mazur görme; çünkü senin gibi onlarca kişinin <b>aynı çocukça tuzağa düşüp parasını taşerona kaptırdığını</b> gördük.
-                  Geliştiricinin sana toplantıda gösterdiği o iki dakikalık cilalı demo videosu teslimat değildir; göz boyamadır. Ekranda iki butonun tıklanması, arkadaki veri mimarisinin çalıştığını kanıtlamaz. Sen şu an bir yazılım teslim almıyorsun; karşı tarafın insafına teslim oluyorsun.
+                  Hasan Can Kaya usulü açık konuşalım: <b>Sen zaten cevabı biliyorsun, buraya sadece o acı hakikati yüzüne çarpmamız için geldin.</b> 
+                  Bir insan sevgilisinin telefonuna bakma ihtiyacı duyduğu saniye o ilişki morga kaldırılmıştır; sen şu an sadece cesede suni teneffüs yapıyorsun. 
+                  Seni aldattığını veya senden devasa bir sır sakladığını iliklerine kadar hissediyorsun ama 'kanıtım yok' yalanına sığınıp kendine zaman kazandırıyorsun.
                 </div>
                 <div class="ai-attack-box">
-                  <div class="attack-label">⚡ İLK TOKAT // KIRILMA SORUSU:</div>
+                  <div class="attack-label">⚡ İLK TOKAT // YÜZLEŞME EŞİĞİ:</div>
                   <div class="attack-main">
-                    Geliştirici sana canlı ortamda uçtan uca yük testi raporunu ve hata log dökümünü sundu mu? Yoksa 'abi valla her şey bitti' lafına mı kandın?
+                    Yarın sabah karşına somut kanıt dökülse, o kapıyı çarpıp tek başına çıkabilecek bir duygusal ve finansal bağımsızlığın var mı?
                   </div>
                 </div>
                 <div class="choice-group">
                   <button class="btn-choice bad" onclick="handleQuickChoice('hayir')">
-                    ❌ "Hayır, sadece toplantıda demoyu izledik."
+                    ❌ "Hayır, ona bağımlıyım; giderse hayatım felç olur."
                   </button>
                   <button class="btn-choice" onclick="handleQuickChoice('evet')">
-                    ✔ "Evet, bağımsız teknik test raporu elimde."
+                    ✔ "Evet, bağımsızım; gerçeği gördüğüm an bitiririm."
+                  </button>
+                </div>
+              </div>
+            `;
+          } else if (detectedTopic === 'tabu') {
+            content = `
+              <div class="ai-clean-card">
+                <div class="ai-badge-header">
+                  <span>INVERSIONCORE // SIFIR SANSÜR & TABU KIRICI</span>
+                  <span style="color:var(--accent-cyber);">[AŞAMA 01: SUÇLULUK CERRAHİSİ]</span>
+                </div>
+                <div class="ai-claim-box">
+                  <span>BASTIRILAN SIR:</span> "${escapeHtml(userQuery)}"
+                </div>
+                <div class="ai-body-text">
+                  Deniz Göktaş tarzı çıplak gerçekle başlayalım: <b>Ahlak, başkalarının seni ayıplamayacağından emin olduğun anda buharlaşan yapay bir sosyolojik kalkandır.</b> 
+                  Kütüphanemizde sansür veya 'tüh kaka' yok. Kendini dünyanın en sapkın, en günahkar veya en anormal insanı zannediyorsun; oysa insan türünün o karanlık alt bilincinde milyonlarca insan tam olarak aynı fanteziyle, aynı arzuyla kıvranıyor. Fark şu: Onlar ikiyüzlüce susuyor, sen ise suçluluk krizine girmişsin.
+                </div>
+                <div class="ai-attack-box">
+                  <div class="attack-label">⚡ İLK TOKAT // ZARAR ANALİZİ:</div>
+                  <div class="attack-main">
+                    Bu arzun ya da sırrın gerçek dünyada reşit olmayan birine veya bir canlının rızasına doğrudan fiziki zarar veriyor mu, yoksa sadece ailenin ve toplumun 'ayıp' dediği bir tabu mu?
+                  </div>
+                </div>
+                <div class="choice-group">
+                  <button class="btn-choice" onclick="handleQuickChoice('evet')">
+                    ✔ "Kimseye zararı yok; tamamen iki yetişkin / zihinsel tabu."
+                  </button>
+                  <button class="btn-choice bad" onclick="handleQuickChoice('hayir')">
+                    ❌ "Birilerinin hayatını veya güvenliğini tehdit ediyor."
                   </button>
                 </div>
               </div>
@@ -969,29 +1001,29 @@
             content = `
               <div class="ai-clean-card">
                 <div class="ai-badge-header">
-                  <span>INVERSIONCORE // FİLTRESİZ RED TEAM DENETİMİ</span>
-                  <span style="color:var(--accent-cyber);">[AŞAMA 01]</span>
+                  <span>INVERSIONCORE // VAROLUŞSAL OTOPSİ</span>
+                  <span style="color:var(--accent-cyber);">[AŞAMA 01: SİRKADİYEN TOKADI]</span>
                 </div>
                 <div class="ai-claim-box">
-                  <span>MASADAKİ İDDİA:</span> "${escapeHtml(userQuery)}"
+                  <span>YAŞAM İFLASI:</span> "${escapeHtml(userQuery)}"
                 </div>
                 <div class="ai-body-text">
-                  Fikrini çok parlak sanıyorsun değil mi? Herkes seni övüyor, arkadaşların 'kesin tutar' diyor. 
-                  Biz buradayız çünkü senin o tozpembe illüzyonun gerçek pazarın sert duvarına çarptığında ilk sen kanayacaksın. 
-                  Bir kararı onaylayıp alkışlamak dünyanın en kolay işidir. Asıl cesaret, cebinden para ve zaman çıkmadan önce en ölümcül hatanı görebilmektir.
+                  Bize kişisel gelişim palavralarıyla gelme. 'Evrene enerji yolla, sabah erken kalk limonlu su iç' demeyeceğiz. 
+                  Biyolojin çökmüş. Gece yatakta saatlerce ekran ışığına bakıp dopamin reseptörlerini yakmışsın, gündüz de her önüne gelen dalkavuğun onayını almak için sahte benlik sergiliyorsun. 
+                  Sen depresyonda değilsin; sen kendi inşa ettiğin bu sahte tiyatronun başrolünü oynamaktan tükenmişsin.
                 </div>
                 <div class="ai-attack-box">
-                  <div class="attack-label">⚡ İLK TOKAT // KIRILMA SORUSU:</div>
+                  <div class="attack-label">⚡ İLK TOKAT // KÖK NEDEN:</div>
                   <div class="attack-main">
-                    Bu karar 60 gün içinde tam tersine patlarsa, cebinden çıkacak doğrudan zarar nedir ve resmi bir B planın var mı?
+                    Hayatında başkalarının ne düşündüğünü sıfırlayıp tamamen kendin için aldığın en son radikal karar hangisiydi?
                   </div>
                 </div>
                 <div class="choice-group">
                   <button class="btn-choice bad" onclick="handleQuickChoice('hayir')">
-                    ❌ "Hayır, B planım veya resmi teminatım yok."
+                    ❌ "Hatırlamıyorum, hep başkalarını memnun etmek için yaşadım."
                   </button>
                   <button class="btn-choice" onclick="handleQuickChoice('evet')">
-                    ✔ "Evet, resmi teminatım ve B planım var."
+                    ✔ "Radikal kararlar alabiliyorum ama yönümü kaybettim."
                   </button>
                 </div>
               </div>
@@ -1039,23 +1071,31 @@
 
         } else if (round === 3) {
           let weaponText = "";
-          if (detectedTopic === 'kariyer') {
-            weaponText = `Sayın İlgili,
-Ön muhasebe ve finans operasyonları pozisyonunuza ilişkin başvurum ektedir.
-Geçmiş deneyimlerimde şirket bütçesinde sağladığım %18'lik kaçak faturası önleme ve 250.000 TL'lik tahsilat optimizasyonu metriklerimi portfolyomda inceleyebilirsiniz.
-Saygılarımla.`;
-          } else if (detectedTopic === 'yazilim') {
-            weaponText = `Sayın Yetkili,
-Sözleşme kapsamındaki yazılım teslimatına ilişkin teknik kabul sürecimiz başlamıştır.
-Şirketimiz karar denetim protokolü gereğince;
-1. Canlı yük ve stres testi raporları,
-2. Veritabanı ve Git kaynak kod erişim yetkileri tarafımıza eksiksiz devredilene kadar,
-Son hak ediş ve bakiye ödemesi bloke edilmiştir. Testlerin tamamlanması için 14 iş günü süre tanınmıştır.
-Bilgilerinize sunarız.`;
+          if (detectedTopic === 'mobbing') {
+            weaponText = `Sayın Yönetim Kurulu / İnsan Kaynakları Direktörlüğü,
+
+Şirketiniz bünyesinde [Departman] departmanında sürdürmekte olduğum görevimde, doğrudan amirim [İsim/Unvan] tarafından Türk Borçlar Kanunu Madde 417 ve 4857 Sayılı İş Kanunu kapsamında kişilik haklarımı ve mesleki itibarımı zedeleyen sistematik psikolojik taciz (mobbing) eylemlerine maruz kalmaktayım.
+
+Tarafımca tarih, saat, yazışma ve e-posta kayıtlarıyla belgelenen bu eylemler karşısında;
+1. Şahsıma yönelik eşit işlem borcuna aykırı tutumların derhal durdurulmasını,
+2. Çalışma ortamımın güvenli ve yasal standartlara uygun hale getirilmesini,
+Aksi takdirde İş Kanunu Madde 24/II uyarınca haklı fesih hakkımı kullanarak kıdem, ihbar ve manevi tazminat davaları dahil tüm yasal yollara başvuracağımı ihtaren bildiririm.`;
+          } else if (detectedTopic === 'iliski') {
+            weaponText = `Aramızdaki bu durum artık sevgi veya ilişki değil; birbirimizi kemirdiğimiz bir güvensizlik bataklığı. 
+Kendime saygımı senin yalanlarınla veya kendi kuruntularımla tüketmeyeceğim. 
+Ne telefonunu karıştırıp dedektiflik yapacağım ne de üste çıkacağın kısır tartışmalara gireceğim. 
+Ben bu masadan kalkıyorum. Kendi hayatımla ve gerçekle yüzleşecek kadar güçlüyüm. Yolun açık olsun.`;
+          } else if (detectedTopic === 'tabu') {
+            weaponText = `[BİLİŞSEL ÖZGÜRLÜK PROTOKOLÜ]
+1. Kendini toplumun ikiyüzlü ahlak terazisinde tartmayı bırak. Zihinsel arzuların ve fantezilerin başkasına zarar vermediği sürece senin mahremindir.
+2. Suçluluk duygusunu bir kenara bırak; çünkü bu gerilim arzunun kendisinden değil, 'yakalanırsam ne derler' korkusundan besleniyor.
+3. Kural: Sırrını zayıf anında kimseye itiraf etme (şantaja dönüşür). Kendi içinde kabul et, kontrolünü eline al ve hayatını buna göre dizayn et.`;
           } else {
-            weaponText = `Sayın Muhatap,
-Söz konusu karar ve ortaklık sürecine ilişkin bağımsız risk protokolümüz gereğince, taraflarca mutabık kalınan cezai şart ve bağımsız denetim raporu onaylanana kadar süreç askıya alınmıştır.
-Şartların resmileşmesini beklemekteyiz.`;
+            weaponText = `[SİRKADİYEN VE YAŞAMSAL REBOOT PROTOKOLÜ]
+1. Dijital Oruç: Saat 22:30 itibarıyla telefon uçak modunda başka odaya kilitlenecek. Gece retinaya mavi ışık girmeyecek.
+2. Radikal Hayır: Sana enerji vermeyen, çıkar ilişkisi kuran tüm dalkavukların telefonları sessize alınacak.
+3. Sabah Işığı: Alarm çaldığı an ertelenmeyecek, ilk 15 dakika doğrudan doğal güneş ışığına çıkılacak.
+4. Hedef: Büyük başarılar hayal etmeyi bırak; sadece bugün 1 tane gerçek ve zor görevi bitir.`;
           }
 
           content = `
