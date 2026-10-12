@@ -890,11 +890,32 @@
       scrollToBottom();
     }
 
-    function triggerAiTurn(round) {
+    async function triggerAiTurn(round) {
       const btn = document.getElementById('btn-chat-send');
       if (btn) {
         btn.disabled = true;
         btn.innerHTML = "<span>PARÇALANIYOR...</span>";
+      }
+
+      let backendReply = null;
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 15000);
+        const res = await fetch('/api/inversion-analyze', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ decision: userQuery, round: round }),
+          signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.reply) {
+            backendReply = data.reply;
+          }
+        }
+      } catch (e) {
+        backendReply = null;
       }
 
       setTimeout(() => {
@@ -904,7 +925,38 @@
 
         let content = "";
 
-        if (round === 1) {
+        if (backendReply) {
+          content = `
+            <div class="ai-clean-card">
+              <div class="ai-badge-header">
+                <span>INVERSIONCORE // DUAL-PROCESS MLX 14B</span>
+                <span style="color:var(--accent-cyber);">[AŞAMA 0${round}: CERRAHİ MÜDAHALE]</span>
+              </div>
+              <div class="ai-claim-box">
+                <span>ANALİZ EDİLEN ODAK:</span> "${escapeHtml(userQuery)}"
+              </div>
+              <div class="ai-body-text" style="white-space: pre-wrap; font-family: var(--font-sans); line-height: 1.6;">${escapeHtml(backendReply)}</div>
+              ${round < 3 ? `
+              <div class="choice-group">
+                <button class="btn-choice bad" onclick="handleQuickChoice('hayir')">
+                  ❌ "Yüzleşmekten çekiniyorum / Elimde resmi delil yok."
+                </button>
+                <button class="btn-choice" onclick="handleQuickChoice('evet')">
+                  ✔ "Hazırım, gerçeğin ve protokolün üzerine gideceğim."
+                </button>
+              </div>` : `
+              <div class="report-btn-row" style="margin-top:1.5rem;">
+                <button class="btn-act btn-act-copy" onclick="copyFullReport()">📄 RAPORU KOPYALA</button>
+                <button class="btn-act btn-act-print" onclick="window.print()">🖨️ YAZDIR / PDF</button>
+                <button class="btn-act btn-act-reset" onclick="resetToHome()">🔄 YENİ SORGULA</button>
+              </div>`}
+            </div>
+          `;
+          if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = round < 3 ? "<span>SAVUN</span> ➔" : "<span>HÜKÜM VERİLDİ</span>";
+          }
+        } else if (round === 1) {
           if (detectedTopic === 'mobbing') {
             content = `
               <div class="ai-clean-card">
