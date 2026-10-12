@@ -982,7 +982,7 @@
         try {
           const controller = new AbortController();
           // MLX 14B Dual-Process için 60 saniyelik cömert zaman aşımı
-          const timer = setTimeout(() => controller.abort(), 60000);
+          const timer = setTimeout(() => controller.abort(), 35000);
           const res = await fetch(ep, {
             method: 'POST',
             headers: {
