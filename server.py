@@ -1,5 +1,6 @@
 import os
 import time
+import asyncio
 import uvicorn
 from typing import Optional, Dict, Any
 from collections import defaultdict
@@ -19,7 +20,7 @@ INVERSION_API_KEY = os.getenv("INVERSION_API_KEY", "inv_prod_live_sec_key_2026")
 app = FastAPI(
     title="InversionCore Cognitive Engine",
     description="Asperger rasyonelliği, yeraltı realizmi ve Letta bellek tabanlı tersine karar motoru",
-    version="2.1.0"
+    version="2.1.1"
 )
 
 # CORS ayarları
@@ -31,14 +32,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 1. Bellek İçi IP Tabanlı Rate Limiter (Token-Bucket: Dakikada max 15 istek)
+# 1. IP Tabanlı Rate Limiter (Token-Bucket: Dakikada max 15 istek)
 _request_counts = defaultdict(list)
 RATE_LIMIT_PER_MINUTE = 15
 
 @app.middleware("http")
 async def rate_limiting_middleware(request: Request, call_next):
-    # Sağlık kontrolünü rate limit'ten muaf tut
-    if request.url.path in ["/api/health", "/docs", "/openapi.json"]:
+    # Sağlık kontrolünü ve CORS preflight isteklerini rate limit'ten muaf tut
+    if request.method == "OPTIONS" or request.url.path in ["/api/health", "/docs", "/openapi.json"]:
         return await call_next(request)
         
     client_ip = request.headers.get("x-forwarded-for") or (request.client.host if request.client else "unknown")
@@ -82,13 +83,15 @@ async def health_check():
 
 @app.post("/api/inversion-analyze", response_model=AnalyzeResponse)
 async def analyze_decision(req: AnalyzeRequest, request: Request):
-    # API Anahtarı Kontrolü (İsteğe bağlı: Frontend başlıkta gönderirse doğrula, yoksa genel rate-limit ile koru)
+    # API Anahtarı Kontrolü (Opsiyonel header denetimi)
     req_key = request.headers.get("X-API-Key")
     if req_key and req_key != INVERSION_API_KEY:
         raise HTTPException(status_code=403, detail="Geçersiz API Anahtarı.")
         
     try:
-        result = InversionCoreEngine.process_turn(
+        # MLX model çıkarımı CPU/GPU yoğun olduğu için event loop'u bloklamamak adına threadpool'da çalıştırılır
+        result = await asyncio.to_thread(
+            InversionCoreEngine.process_turn,
             decision=req.decision,
             round_num=req.round,
             session_id=req.session_id
@@ -108,5 +111,5 @@ async def get_session_memory(session_id: str):
     }
 
 if __name__ == "__main__":
-    print(f"InversionCore FastAPI Motoru Başlatılıyor (Rate-Limiter Etkin): http://{HOST}:{PORT}")
+    print(f"InversionCore FastAPI Motoru Başlatılıyor (Async Worker Etkin): http://{HOST}:{PORT}")
     uvicorn.run("server:app", host=HOST, port=PORT, reload=False, workers=1)
