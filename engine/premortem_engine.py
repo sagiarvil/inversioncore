@@ -3,22 +3,11 @@ import sys, os, json, urllib.request, time
 from pathlib import Path
 from typing import Dict, Any
 
-DEEPSEEK_ENDPOINT = os.getenv("DEEPSEEK_ENDPOINT", "https://api.deepseek.com/v1/chat/completions")
+ALFA_LOCAL_ENDPOINT = os.getenv("ALFA_LOCAL_ENDPOINT", "http://127.0.0.1:8081/v1/chat/completions")
 
 class RealityInversionEngine:
-    def __init__(self, endpoint: str = DEEPSEEK_ENDPOINT):
+    def __init__(self, endpoint: str = ALFA_LOCAL_ENDPOINT):
         self.endpoint = endpoint
-        self.api_key = self._load_env_key("/Users/macair1/lab/alfa/.env", "DEEPSEEK_API_KEY")
-
-    def _load_env_key(self, env_path: str, key_name: str):
-        p = Path(env_path)
-        if not p.exists(): return os.getenv(key_name)
-        try:
-            for line in p.read_text(encoding="utf-8").splitlines():
-                if line.strip().startswith(f"{key_name}="):
-                    return line.split("=", 1)[1].strip().strip('"').strip("'")
-        except: pass
-        return os.getenv(key_name)
 
     def invert_problem(self, context_description: str, domain: str = "business") -> Dict[str, Any]:
         system_prompt = (
@@ -51,7 +40,7 @@ class RealityInversionEngine:
         )
 
         payload = {
-            "model": "deepseek-coder",
+            "model": "coder_candidate",
             "messages": [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}],
             "temperature": 0.1,
             "max_tokens": 750
@@ -60,8 +49,6 @@ class RealityInversionEngine:
         data = json.dumps(payload).encode("utf-8")
         req = urllib.request.Request(self.endpoint, data=data, method="POST")
         req.add_header("Content-Type", "application/json")
-        if self.api_key:
-            req.add_header("Authorization", f"Bearer {self.api_key}")
 
         t0 = time.time()
         try:
