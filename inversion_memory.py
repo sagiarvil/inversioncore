@@ -9,11 +9,11 @@ DB_PATH = os.getenv("INVERSION_DB_PATH", os.path.abspath("inversion_memory.db"))
 _db_lock = threading.Lock()
 
 def get_db():
-    conn = sqlite3.connect(DB_PATH, timeout=10.0, check_same_thread=False)
+    conn = sqlite3.connect(DB_PATH, timeout=15.0, check_same_thread=False)
     conn.row_factory = sqlite3.Row
     # Eşzamanlılık ve Kilitlenme Koruması (Concurrency & Lock Prevention)
     conn.execute("PRAGMA journal_mode = WAL;")
-    conn.execute("PRAGMA busy_timeout = 5000;")
+    conn.execute("PRAGMA busy_timeout = 10000;")
     conn.execute("PRAGMA synchronous = NORMAL;")
     return conn
 
@@ -21,7 +21,6 @@ def init_memory_db():
     with _db_lock:
         with get_db() as conn:
             cursor = conn.cursor()
-            # 1. Sessions table
             cursor.execute("""
                 CREATE TABLE IF NOT EXISTS sessions (
                     session_id TEXT PRIMARY KEY,
@@ -30,7 +29,6 @@ def init_memory_db():
                     updated_at TEXT
                 )
             """)
-            # 2. Core Memory (Kalıcı Durum ve Bilinçaltı Haritası)
             cursor.execute("""
                 CREATE TABLE IF NOT EXISTS core_memory (
                     session_id TEXT PRIMARY KEY,
@@ -43,7 +41,6 @@ def init_memory_db():
                     FOREIGN KEY (session_id) REFERENCES sessions(session_id)
                 )
             """)
-            # 3. Recall Memory (Diyalog turu ve hafıza geçmişi)
             cursor.execute("""
                 CREATE TABLE IF NOT EXISTS recall_history (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -143,8 +140,18 @@ class InversionMemoryStore:
 
     @staticmethod
     def format_context_for_prompt(session_id: str) -> str:
-        core = InversionMemoryStore.get_core_memory(session_id)
-        history = InversionMemoryStore.get_recall_history(session_id)
+        with _db_lock:
+            with get_db() as conn:
+                cursor = conn.cursor()
+                cursor.execute("SELECT * FROM core_memory WHERE session_id = ?", (session_id,))
+                core_row = cursor.fetchone()
+                core = dict(core_row) if core_row else {}
+
+                cursor.execute(
+                    "SELECT * FROM recall_history WHERE session_id = ? ORDER BY id ASC",
+                    (session_id,)
+                )
+                history = [dict(r) for r in cursor.fetchall()]
         
         ctx_parts = []
         if core and (core.get("user_dilemma") or core.get("power_dynamics")):

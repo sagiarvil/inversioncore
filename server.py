@@ -1,9 +1,12 @@
 import os
+import time
 import uvicorn
 from typing import Optional, Dict, Any
-from fastapi import FastAPI, HTTPException
+from collections import defaultdict
+from fastapi import FastAPI, HTTPException, Request, Security, status
+from fastapi.security import APIKeyHeader
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
 from inversion_engine import InversionCoreEngine
@@ -11,11 +14,12 @@ from inversion_memory import InversionMemoryStore
 
 PORT = int(os.getenv("PORT", "8888"))
 HOST = os.getenv("HOST", "0.0.0.0")
+INVERSION_API_KEY = os.getenv("INVERSION_API_KEY", "inv_prod_live_sec_key_2026")
 
 app = FastAPI(
     title="InversionCore Cognitive Engine",
     description="Asperger rasyonelliği, yeraltı realizmi ve Letta bellek tabanlı tersine karar motoru",
-    version="2.0.0"
+    version="2.1.0"
 )
 
 # CORS ayarları
@@ -26,6 +30,33 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# 1. Bellek İçi IP Tabanlı Rate Limiter (Token-Bucket: Dakikada max 15 istek)
+_request_counts = defaultdict(list)
+RATE_LIMIT_PER_MINUTE = 15
+
+@app.middleware("http")
+async def rate_limiting_middleware(request: Request, call_next):
+    # Sağlık kontrolünü rate limit'ten muaf tut
+    if request.url.path in ["/api/health", "/docs", "/openapi.json"]:
+        return await call_next(request)
+        
+    client_ip = request.headers.get("x-forwarded-for") or (request.client.host if request.client else "unknown")
+    if "," in client_ip:
+        client_ip = client_ip.split(",")[0].strip()
+        
+    now = time.time()
+    # 60 saniyeden eski kayıtları sil
+    _request_counts[client_ip] = [t for t in _request_counts[client_ip] if now - t < 60]
+    
+    if len(_request_counts[client_ip]) >= RATE_LIMIT_PER_MINUTE:
+        return JSONResponse(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            content={"detail": "Çok fazla istek yapıldı. Sunucu ve model güvenliği için lütfen 1 dakika bekleyin."}
+        )
+        
+    _request_counts[client_ip].append(now)
+    return await call_next(request)
 
 class AnalyzeRequest(BaseModel):
     decision: str = Field(..., description="Kullanıcının masaya yatırdığı ikilem veya karar")
@@ -45,11 +76,17 @@ async def health_check():
     return {
         "status": "healthy",
         "engine": "FastAPI + MLX Qwen2.5-14B Abliterated",
-        "port": PORT
+        "port": PORT,
+        "rate_limiting": "active (15 req/min)"
     }
 
 @app.post("/api/inversion-analyze", response_model=AnalyzeResponse)
-async def analyze_decision(req: AnalyzeRequest):
+async def analyze_decision(req: AnalyzeRequest, request: Request):
+    # API Anahtarı Kontrolü (İsteğe bağlı: Frontend başlıkta gönderirse doğrula, yoksa genel rate-limit ile koru)
+    req_key = request.headers.get("X-API-Key")
+    if req_key and req_key != INVERSION_API_KEY:
+        raise HTTPException(status_code=403, detail="Geçersiz API Anahtarı.")
+        
     try:
         result = InversionCoreEngine.process_turn(
             decision=req.decision,
@@ -70,10 +107,6 @@ async def get_session_memory(session_id: str):
         "recall_history": history
     }
 
-# Statik dosyaları sun (public dizini)
-if os.path.exists("public"):
-    app.mount("/", StaticFiles(directory="public", html=True), name="static")
-
 if __name__ == "__main__":
-    print(f"InversionCore FastAPI Motoru Başlatılıyor: http://{HOST}:{PORT}")
-    uvicorn.run("server:app", host=HOST, port=PORT, reload=False)
+    print(f"InversionCore FastAPI Motoru Başlatılıyor (Rate-Limiter Etkin): http://{HOST}:{PORT}")
+    uvicorn.run("server:app", host=HOST, port=PORT, reload=False, workers=1)

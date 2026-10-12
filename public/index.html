@@ -985,7 +985,10 @@
           const timer = setTimeout(() => controller.abort(), 60000);
           const res = await fetch(ep, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+              'Content-Type': 'application/json',
+              'X-API-Key': 'inv_prod_live_sec_key_2026'
+            },
             body: JSON.stringify({ 
               decision: userQuery, 
               round: round,
@@ -995,10 +998,13 @@
           });
           clearTimeout(timer);
           if (res.ok) {
-            const data = await res.json();
-            if (data && data.reply && data.status === 'success') {
-              backendReply = data.reply;
-              break;
+            const contentType = res.headers.get('content-type') || '';
+            if (contentType.includes('application/json')) {
+              const data = await res.json();
+              if (data && data.reply && data.status === 'success') {
+                backendReply = data.reply;
+                break;
+              }
             }
           }
         } catch (_) {}
