@@ -2,82 +2,310 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hakkımızda // InversionCore</title>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-:root {
-  --bg: #090a0f;
-  --bg-card: #10131e;
-  --accent: #ff4500;
-  --accent-hover: #ff5511;
-  --border: #1e2335;
-  --text: #f0f2f8;
-  --text-muted: #8d92a6;
-  --font-display: 'Anton', Impact, 'Arial Black', sans-serif;
-  --font-mono: 'Space Mono', monospace;
-  --font-sans: 'Inter', -apple-system, sans-serif;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--font-sans);
-  line-height: 1.6;
-  padding-top: 85px;
-}
-header {
-  position: fixed; top: 0; left: 0; width: 100%; height: 75px;
-  background: rgba(8, 9, 14, 0.95); backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border); display: flex; align-items: center;
-  justify-content: space-between; padding: 0 2.2rem; z-index: 1000;
-}
-.brand-logo { display: flex; align-items: center; gap: 1rem; text-decoration: none; }
-.header-wolf-icon { height: 46px; width: auto; filter: drop-shadow(0 0 12px rgba(255,69,0,0.5)); }
-.header-brand-title { font-family: var(--font-display); font-size: 1.65rem; color: #fff; line-height: 1; }
-.header-brand-title span { color: var(--accent); }
-.header-brand-sub { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted); letter-spacing: 0.14em; text-transform: uppercase; }
-.nav-links { display: flex; gap: 1.6rem; list-style: none; font-family: var(--font-mono); font-size: 0.78rem; text-transform: uppercase; }
-.nav-links a { color: var(--text-muted); text-decoration: none; transition: color 0.15s; }
-.nav-links a:hover, .nav-links a.active { color: #fff; border-bottom: 2px solid var(--accent); padding-bottom: 3px; }
-.btn-cta {
-  background: var(--accent); color: #000; font-family: var(--font-mono); font-size: 0.78rem;
-  font-weight: 700; padding: 0.5rem 1.2rem; text-decoration: none; text-transform: uppercase; border-radius: 4px;
-}
-.btn-cta:hover { background: var(--accent-hover); }
-.container { max-width: 960px; margin: 3rem auto; padding: 0 1.5rem 5rem 1.5rem; }
-.eyebrow { font-family: var(--font-mono); font-size: 0.74rem; color: var(--accent); letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 0.8rem; display: block; }
-.hero-h1 { font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 3.8rem); text-transform: uppercase; color: #fff; line-height: 1.08; margin-bottom: 1rem; }
-.hero-h1 em { color: var(--accent); font-style: normal; }
-.hero-p { color: var(--text-muted); font-size: 1.1rem; line-height: 1.65; margin-bottom: 3rem; max-width: 760px; }
-.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
-.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 1.5rem; }
-.card { background: var(--bg-card); border: 1px solid var(--border); padding: 2rem; border-radius: 8px; display: flex; flex-direction: column; justify-content: space-between; }
-.card-num { font-family: var(--font-mono); font-size: 0.74rem; color: var(--accent); margin-bottom: 0.8rem; text-transform: uppercase; }
-.card-h3 { font-family: var(--font-display); font-size: 1.6rem; text-transform: uppercase; color: #fff; margin-bottom: 0.8rem; line-height: 1.15; }
-.card-p { color: var(--text-muted); font-size: 0.94rem; line-height: 1.6; margin-bottom: 1.2rem; }
-.card-link { font-family: var(--font-mono); font-size: 0.76rem; font-weight: 700; color: var(--accent); text-transform: uppercase; }
-.quote-box { background: rgba(255, 69, 0, 0.08); border-left: 4px solid var(--accent); padding: 1.8rem; border-radius: 4px; margin-bottom: 3rem; }
-.quote-text { font-size: 1.25rem; font-style: italic; color: #fff; line-height: 1.6; margin-bottom: 1rem; }
-.quote-author { font-family: var(--font-mono); font-size: 0.82rem; color: var(--accent); }
-footer { border-top: 1px solid var(--border); background: #030406; padding: 3rem 2rem; font-family: var(--font-mono); font-size: 0.75rem; color: #5a6078; text-align: center; }
+    :root {
+      --bg: #090a0f;
+      --bg-panel: #0d0f18;
+      --bg-card: #10131e;
+      --accent: #ff4500;
+      --accent-hover: #ff5511;
+      --accent-glow: rgba(255, 69, 0, 0.45);
+      --accent-cyber: #00d4ff;
+      --border: #1a1e2d;
+      --text: #f0f2f8;
+      --text-muted: #8d92a6;
+      --text-dim: #5a6078;
+      --danger: #ff2a4b;
+      --font-display: 'Anton', Impact, 'Arial Black', sans-serif;
+      --font-mono: 'Space Mono', Consolas, Monaco, monospace;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at 50% 12%, rgba(255, 69, 0, 0.08) 0%, transparent 60%),
+                  radial-gradient(circle at 85% 85%, rgba(0, 212, 255, 0.02) 0%, transparent 50%),
+                  linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* STANDART HEADER (HER SAYFADA BİREBİR AYNI 64PX ÖLÇEK) */
+    header {
+      position: sticky;
+      top: 0;
+      height: 64px;
+      background: rgba(8, 9, 14, 0.95);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      z-index: 1000;
+      flex-shrink: 0;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .header-wolf-icon {
+      height: 40px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 0 10px rgba(255, 69, 0, 0.5));
+      transition: transform 0.2s;
+    }
+    .brand-logo:hover .header-wolf-icon { transform: scale(1.04); }
+
+    .header-brand-block { display: flex; flex-direction: column; justify-content: center; }
+
+    .header-brand-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      letter-spacing: 0.05em;
+      line-height: 1;
+      color: #ffffff;
+    }
+    .header-brand-title span { color: var(--accent); text-shadow: 0 0 12px rgba(255, 69, 0, 0.4); }
+
+    .header-brand-sub {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.3rem;
+      list-style: none;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      text-transform: uppercase;
+    }
+
+    .nav-links a { color: var(--text-muted); text-decoration: none; transition: color 0.15s; }
+    .nav-links a:hover, .nav-links a.active { color: #fff; border-bottom: 2px solid var(--accent); padding-bottom: 2px; }
+
+    .btn-cta {
+      background: var(--accent);
+      color: #000;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 0.42rem 1.1rem;
+      text-decoration: none;
+      text-transform: uppercase;
+      border-radius: 4px;
+      transition: background 0.15s;
+    }
+    .btn-cta:hover { background: var(--accent-hover); }
+
+    /* ALT SAYFALAR İÇİN STANDART KAPSAYICI VE TİPOGRAFİ */
+    .container {
+      max-width: 980px;
+      margin: 2.5rem auto 4rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    .hero-h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.3rem, 4.6vw, 3.8rem);
+      text-transform: uppercase;
+      color: #fff;
+      line-height: 1.05;
+      margin-bottom: 1rem;
+      letter-spacing: 0.02em;
+    }
+    .hero-h1 em { color: var(--accent); font-style: normal; }
+
+    .hero-p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.6;
+      margin-bottom: 2.5rem;
+      max-width: 740px;
+      font-weight: 300;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 1.8rem;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .card-num {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      margin-bottom: 0.7rem;
+      text-transform: uppercase;
+    }
+
+    .card-h3 {
+      font-family: var(--font-display);
+      font-size: 1.55rem;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 0.7rem;
+      line-height: 1.15;
+    }
+
+    .card-p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+      margin-bottom: 1.2rem;
+    }
+
+    .card-link {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    .quote-box {
+      background: rgba(255, 69, 0, 0.08);
+      border-left: 4px solid var(--accent);
+      padding: 1.5rem 1.8rem;
+      border-radius: 4px;
+      margin-bottom: 2.5rem;
+    }
+
+    .quote-text {
+      font-size: 1.15rem;
+      font-style: italic;
+      color: #fff;
+      line-height: 1.6;
+      margin-bottom: 0.8rem;
+    }
+
+    .quote-author {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--accent);
+    }
+
+    .content-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 2.2rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+    .content-box h2 {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      text-transform: uppercase;
+      color: #fff;
+      margin: 1.6rem 0 0.8rem 0;
+    }
+    .content-box h2:first-child { margin-top: 0; }
+    .content-box p { color: #d0d4e4; font-size: 0.98rem; margin-bottom: 1.2rem; line-height: 1.65; }
+    .content-box ul { margin-left: 1.5rem; color: #d0d4e4; margin-bottom: 1.5rem; }
+    .content-box li { margin-bottom: 0.5rem; }
+
+    .stamp-box {
+      border: 2px dashed var(--accent);
+      background: rgba(255, 69, 0, 0.05);
+      padding: 1.4rem;
+      margin: 1.8rem 0;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      background: #030406;
+      padding: 2.5rem 2rem;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: #5a6078;
+      text-align: center;
+    }
 </style>
 </head>
 <body>
-    <header>
+  <header>
     <a href="index.html" class="brand-logo">
       <img src="/assets/brand/raccoon-round.png" class="header-wolf-icon" alt="InversionCore">
-      <div>
+      <div class="header-brand-block">
         <div class="header-brand-title">INVERSION<span>CORE</span></div>
         <div class="header-brand-sub">RED TEAM DECISION AUDIT</div>
       </div>
     </a>
     <ul class="nav-links">
-      <li><a href="yaklasimimiz.html" class="">Yaklaşımımız</a></li><li><a href="kimler-icin.html" class="">Kimler İçin?</a></li><li><a href="neye-bakiyoruz.html" class="">Neye Bakıyoruz?</a></li><li><a href="nasil-calisir.html" class="">Nasıl Çalışır?</a></li><li><a href="ornek-cikti.html" class="">Örnek Çıktı</a></li><li><a href="hakkimizda.html" class="active">Hakkımızda</a></li>
+      <li><a href="yaklasimimiz.html" class="">Yaklaşımımız</a></li>
+      <li><a href="kimler-icin.html" class="">Kimler İçin?</a></li>
+      <li><a href="neye-bakiyoruz.html" class="">Neye Bakıyoruz?</a></li>
+      <li><a href="nasil-calisir.html" class="">Nasıl Çalışır?</a></li>
+      <li><a href="ornek-cikti.html" class="">Örnek Çıktı</a></li>
+      <li><a href="hakkimizda.html" class="active">Hakkımızda</a></li>
+      <li><a href="sss.html" class="">S.S.S.</a></li>
+      <li><a href="manifesto.html" class="">Manifesto</a></li>
     </ul>
-    <a href="index.html#workbench" class="btn-cta">ANALİZE BAŞLA ➔</a>
+    <a href="index.html" class="btn-cta">ANALİZE BAŞLA ➔</a>
   </header>
   <div class="container">
-    <span class="eyebrow">// HAKKIMIZDA</span>
+    <span class="eyebrow">// KURUCU & MİSYON</span>
     <h1 class="hero-h1">TERSİNDEN DÜŞÜN. <em>KANITLA KARAR VER.</em></h1>
     
     <div class="quote-box">
@@ -96,7 +324,7 @@ footer { border-top: 1px solid var(--border); background: #030406; padding: 3rem
       </p>
     </div>
   </div>
-    <footer>
+  <footer>
     <div>© 2026 InversionCore. Tersinden Düşün · Kanıtla Karar Ver. Tüm Hakları Saklıdır.</div>
   </footer>
 </body>
