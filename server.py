@@ -1,29 +1,19 @@
 import os
 import time
 import asyncio
-import uvicorn
-from typing import Optional, Dict, Any
 from collections import defaultdict
-from fastapi import FastAPI, HTTPException, Request, Security, status
-from fastapi.security import APIKeyHeader
+from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
+from typing import Optional
 
-from inversion_engine import InversionCoreEngine
-from inversion_memory import InversionMemoryStore
+from inversion_engine import InversionCoreEngine, InversionOutput
+from inversion_memory import get_core_memory, get_recall_history
 
-PORT = int(os.getenv("PORT", "8888"))
-HOST = os.getenv("HOST", "0.0.0.0")
-INVERSION_API_KEY = os.getenv("INVERSION_API_KEY", "inv_prod_live_sec_key_2026")
+app = FastAPI(title="InversionCore Enterprise Engine", version="1.4.0")
 
-app = FastAPI(
-    title="InversionCore Cognitive Engine",
-    description="Asperger rasyonelliği, yeraltı realizmi ve Letta bellek tabanlı tersine karar motoru",
-    version="2.1.1"
-)
-
-# CORS ayarları
+# CORS Yapılandırması
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -32,84 +22,85 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 1. IP Tabanlı Rate Limiter (Token-Bucket: Dakikada max 15 istek)
-_request_counts = defaultdict(list)
+PORT = int(os.getenv("PORT", "8888"))
+INVERSION_API_KEY = os.getenv("INVERSION_API_KEY", "inv_prod_live_sec_key_2026")
+
+# In-Memory Token Bucket Rate Limiter
 RATE_LIMIT_PER_MINUTE = 15
+ip_request_history = defaultdict(list)
 
 @app.middleware("http")
-async def rate_limiting_middleware(request: Request, call_next):
-    # Sağlık kontrolünü ve CORS preflight isteklerini rate limit'ten muaf tut
+async def security_and_rate_limit_middleware(request: Request, call_next):
+    # 1. OPTIONS (CORS preflight), statik dosyalar ve sağlık uç noktaları muaf
     if request.method == "OPTIONS" or request.url.path in ["/api/health", "/docs", "/openapi.json"]:
         return await call_next(request)
-        
-    client_ip = request.headers.get("x-forwarded-for") or (request.client.host if request.client else "unknown")
-    if "," in client_ip:
-        client_ip = client_ip.split(",")[0].strip()
-        
-    now = time.time()
-    # 60 saniyeden eski kayıtları sil
-    _request_counts[client_ip] = [t for t in _request_counts[client_ip] if now - t < 60]
     
-    if len(_request_counts[client_ip]) >= RATE_LIMIT_PER_MINUTE:
-        return JSONResponse(
-            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
-            content={"detail": "Çok fazla istek yapıldı. Sunucu ve model güvenliği için lütfen 1 dakika bekleyin."}
-        )
-        
-    _request_counts[client_ip].append(now)
+    # 2. Sıkı API Key Doğrulaması (Authentication Bypass Kökten Kapatıldı)
+    if request.url.path.startswith("/api/"):
+        req_key = request.headers.get("X-API-Key")
+        # req_key yoksa VEYA eşleşmiyorsa kesinlikle reddet
+        if not req_key or req_key != INVERSION_API_KEY:
+            return Response(content='{"detail": "Yetkisiz Erişim: Geçersiz veya eksik API Anahtarı."}', 
+                            status_code=403, media_type="application/json")
+
+    # 3. IP Tabanlı Rate Limiting
+    client_ip = request.client.host if request.client else "unknown"
+    current_time = time.time()
+    ip_request_history[client_ip] = [t for t in ip_request_history[client_ip] if current_time - t < 60]
+
+    if len(ip_request_history[client_ip]) >= RATE_LIMIT_PER_MINUTE:
+        return Response(content='{"detail": "Hız Sınırı Aşıldı: Dakikada maksimum 15 istek gönderebilirsiniz."}', 
+                        status_code=429, media_type="application/json")
+
+    ip_request_history[client_ip].append(current_time)
     return await call_next(request)
 
 class AnalyzeRequest(BaseModel):
-    decision: str = Field(..., description="Kullanıcının masaya yatırdığı ikilem veya karar")
-    round: int = Field(default=1, ge=1, le=5, description="Diyalog turu")
-    session_id: Optional[str] = Field(default=None, description="Letta durum oturum ID'si")
-
-class AnalyzeResponse(BaseModel):
-    status: str
-    model: str
-    round: int
-    session_id: str
-    system2_matrix: Optional[Dict[str, Any]] = None
-    reply: str
+    decision: Optional[str] = Field(default="", description="Kullanıcı kararı")
+    query: Optional[str] = Field(default="", description="Kullanıcı sorgusu")
+    session_id: str = "default_session"
+    round: int = 1
 
 @app.get("/api/health")
 async def health_check():
     return {
         "status": "healthy",
-        "engine": "FastAPI + MLX Qwen2.5-14B Abliterated",
-        "port": PORT,
-        "rate_limiting": "active (15 req/min)"
+        "engine": "MLX Qwen2.5-14B Abliterated",
+        "architecture": "Single-Pass Fast Engine with SQLite WAL Memory",
+        "timestamp": time.time()
     }
 
-@app.post("/api/inversion-analyze", response_model=AnalyzeResponse)
-async def analyze_decision(req: AnalyzeRequest, request: Request):
-    # API Anahtarı Kontrolü (Opsiyonel header denetimi)
-    req_key = request.headers.get("X-API-Key")
-    if req_key and req_key != INVERSION_API_KEY:
-        raise HTTPException(status_code=403, detail="Geçersiz API Anahtarı.")
-        
+@app.post("/api/inversion-analyze", response_model=InversionOutput)
+async def analyze_decision(req: AnalyzeRequest):
     try:
-        # MLX model çıkarımı CPU/GPU yoğun olduğu için event loop'u bloklamamak adına threadpool'da çalıştırılır
+        user_input = req.decision if req.decision else req.query
+        # MLX çıkarımı FastAPI event-loop'unu dondurmasın diye threadpool'a devredilir
         result = await asyncio.to_thread(
             InversionCoreEngine.process_turn,
-            decision=req.decision,
+            session_id=req.session_id,
+            user_query=user_input,
             round_num=req.round,
-            session_id=req.session_id
+            decision=req.decision
         )
-        return AnalyzeResponse(**result)
+        return result
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Çıkarım motoru hatası: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Inversion Engine Hatası: {str(e)}")
 
 @app.get("/api/memory/{session_id}")
-async def get_session_memory(session_id: str):
-    core = InversionMemoryStore.get_core_memory(session_id)
-    history = InversionMemoryStore.get_recall_history(session_id)
+async def get_session_memory_endpoint(session_id: str):
+    core = get_core_memory(session_id)
+    history = get_recall_history(session_id)
     return {
         "session_id": session_id,
         "core_memory": core,
         "recall_history": history
     }
 
+# Statik Dosyalar (En altta mount edilir)
+if os.path.exists("public"):
+    app.mount("/", StaticFiles(directory="public", html=True), name="public")
+
 if __name__ == "__main__":
-    print(f"InversionCore FastAPI Motoru Başlatılıyor (Async Worker Etkin): http://{HOST}:{PORT}")
-    uvicorn.run("server:app", host=HOST, port=PORT, reload=False, workers=1)
+    import uvicorn
+    print(f"InversionCore Enterprise Engine Başlatılıyor: http://0.0.0.0:{PORT}")
+    uvicorn.run("server:app", host="0.0.0.0", port=PORT, reload=False)
