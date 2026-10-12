@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manifesto // InversionCore</title>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+:root {
+  --bg-page: #08080a;
+  --bg-surface: #0f1015;
+  --bg-card: #13141b;
+  --accent: #ff3700;
+  --accent-glow: rgba(255, 55, 0, 0.4);
+  --border-main: #22242c;
+  --text-main: #f5f6f9;
+  --text-muted: #8c8f9c;
+  --text-dim: #4b4e5b;
+  --danger: #ff1e1e;
+  --font-display: 'Anton', Impact, 'Arial Black', sans-serif;
+  --font-mono: 'Space Mono', Consolas, Monaco, monospace;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  padding-top: 5rem;
+}
+header {
+  position: fixed; top: 0; left: 0; width: 100%;
+  background: rgba(8, 8, 10, 0.94);
+  backdrop-filter: blur(14px);
+  border-bottom: 2px solid var(--border-main);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.85rem 2.2rem; z-index: 1000;
+}
+.brand-logo { display: flex; align-items: center; gap: 0.8rem; text-decoration: none; }
+.header-wolf-icon { height: 44px; width: auto; filter: drop-shadow(0 0 12px rgba(255,69,0,0.5)); }
+.brand-name { font-family: var(--font-display); font-size: 1.45rem; letter-spacing: 0.08em; color: #fff; }
+.brand-name span { color: var(--accent); }
+.brand-tag { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; }
+.nav-links { display: flex; gap: 1.8rem; list-style: none; font-family: var(--font-mono); font-size: 0.78rem; text-transform: uppercase; }
+.nav-links a { color: var(--text-muted); text-decoration: none; }
+.nav-links a:hover, .nav-links a.active { color: #fff; border-bottom: 2px solid var(--accent); padding-bottom: 4px; }
+.btn-back-home {
+  font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700;
+  background: var(--accent); color: #000; border: none; padding: 0.5rem 1.2rem;
+  text-decoration: none; text-transform: uppercase; display: inline-flex; align-items: center; gap: 0.5rem;
+}
+.btn-back-home:hover { background: #ff5511; }
+.container { max-width: 950px; margin: 3rem auto; padding: 0 1.5rem 5rem 1.5rem; }
+.page-badge { font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.8rem; display: block; }
+.page-title { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4rem); text-transform: uppercase; color: #fff; line-height: 1; margin-bottom: 2rem; }
+.content-box { background: var(--bg-surface); border: 2px solid var(--border-main); padding: 2.5rem; margin-bottom: 2rem; }
+.content-box h2 { font-family: var(--font-display); font-size: 1.8rem; text-transform: uppercase; color: #fff; margin: 1.5rem 0 0.8rem 0; }
+.content-box h2:first-child { margin-top: 0; }
+.content-box p { color: #c4c7d4; font-size: 1.05rem; margin-bottom: 1.4rem; line-height: 1.7; }
+.stamp-box { border: 2px dashed var(--accent); background: rgba(255, 55, 0, 0.05); padding: 1.8rem; margin: 2rem 0; font-family: var(--font-mono); font-size: 0.95rem; line-height: 1.6; }
+footer { border-top: 2px solid var(--border-main); background: #020203; padding: 2.5rem 1.5rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim); text-align: center; }
+</style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="brand-logo">
+      <img src="/assets/brand/raccoon-round.png" class="header-wolf-icon" alt="InversionCore">
+      <div>
+        <div class="brand-name">INVERSION<span>CORE</span></div>
+        <span class="brand-tag">RED TEAM DECISION AUDIT</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="yaklasimimiz.html">Yaklaşımımız</a></li>
+      <li><a href="kimler-icin.html">Kimler İçin?</a></li>
+      <li><a href="neye-bakiyoruz.html">Neye Bakıyoruz?</a></li>
+      <li><a href="nasil-calisir.html">Nasıl Çalışır?</a></li>
+      <li><a href="ornek-cikti.html">Örnek Çıktı</a></li>
+      <li><a href="hakkimizda.html">Hakkımızda</a></li>
+      <li><a href="manifesto.html" class="active">Manifesto</a></li>
+    </ul>
+    <a href="index.html#workbench" class="btn-back-home">KARAR REAKTÖRÜ ➔</a>
+  </header>
+  <div class="container">
+    <span class="page-badge">// INVERSIONCORE MANİFESTOSU</span>
+    <h1 class="page-title">DALKAVUKLUK EKONOMİSİNE KARŞI TERSİNE AKIL</h1>
+    <div class="content-box">
+      <h2>1. KÖR ONAYLAYICILARI TERK EDİN</h2>
+      <p>
+        Modern dünyada danışmanlar, ajanslar ve dost meclisleri sizi pohpohlamak üzerine kurgulanmıştır. Kimse faturayı ödeyen siz olduğunuzda çıkacak yangını umursamaz. Biz sizi övmeye değil, en zayıf varsayımınızı masada parçalamaya geldik.
+      </p>
+      <h2>2. DEMO DEĞİL, KANIT</h2>
+      <p>
+        İki tıkla açılan süslü ekranlar başarı değildir. Gerçek testler, canlı yük altında kırılan sistemler ve sözleşmeye bağlanmış somut cezai yaptırımlar tek hakikattir. Kanıt yoksa, karar kumardır.
+      </p>
+      <h2>3. CEBİNİZDEN ÇIKMADAN ÖNCE YÜZLEŞİN</h2>
+      <p>
+        Bir kararı hayata geçirdikten sonra öğrenilen dersin adı 'tecrübe' değil, 'zarar'dır. Asıl deha, sermaye ve zaman masadan kalkmadan önce hatayı tersinden bulabilmektir.
+      </p>
+      <div class="stamp-box">
+        "Seni herkes alkışlar. Biz çürütürüz. Çünkü etrafındaki herkesin sana harika fikir dediği yerde, milyonluk hatanı cebinden ödemeden önce o zayıf varsayımını parçalayacak tek filtresiz akıl burasıdır."
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div>© 2026 InversionCore. Tersine Karar Denetim Motoru. Tüm Hakları Saklıdır.</div>
+  </footer>
+</body>
+</html>
