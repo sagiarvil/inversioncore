@@ -936,28 +936,38 @@
       scrollToBottom();
     }
 
+    let currentSessionId = localStorage.getItem('inv_session_id');
+    if (!currentSessionId) {
+      currentSessionId = 'sess_' + Math.random().toString(36).substring(2, 10);
+      localStorage.setItem('inv_session_id', currentSessionId);
+    }
+
     async function triggerAiTurn(round) {
       const btn = document.getElementById('btn-chat-send');
       if (btn) {
         btn.disabled = true;
-        btn.innerHTML = "<span>PARÇALANIYOR...</span>";
+        btn.innerHTML = "<span>BEYİN MATRİSİ ÇÖZÜMLENİYOR...</span>";
       }
 
       let backendReply = null;
-      const endpoints = [
-        '/api/inversion-analyze',
-        'http://localhost:8888/api/inversion-analyze',
-        'http://127.0.0.1:8888/api/inversion-analyze'
-      ];
+      const isLocal = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+      const endpoints = isLocal 
+        ? ['http://localhost:8888/api/inversion-analyze', '/api/inversion-analyze']
+        : ['/api/inversion-analyze', 'http://localhost:8888/api/inversion-analyze'];
 
       for (const ep of endpoints) {
         try {
           const controller = new AbortController();
-          const timer = setTimeout(() => controller.abort(), 3500);
+          // MLX 14B Dual-Process için 60 saniyelik cömert zaman aşımı
+          const timer = setTimeout(() => controller.abort(), 60000);
           const res = await fetch(ep, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ decision: userQuery, round: round }),
+            body: JSON.stringify({ 
+              decision: userQuery, 
+              round: round,
+              session_id: currentSessionId 
+            }),
             signal: controller.signal
           });
           clearTimeout(timer);
