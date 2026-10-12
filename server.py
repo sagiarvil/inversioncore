@@ -4,7 +4,7 @@ import http.server
 import socketserver
 from urllib.parse import urlparse
 
-PORT = 8080
+PORT = 8888
 MODEL_PATH = "/Users/macair1/models/Qwen2.5-14B-Instruct-abliterated-4bit-mlx"
 
 model = None
