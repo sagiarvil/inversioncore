@@ -54,7 +54,8 @@ body.is-interviewing #analysisWorkbench,
 }
 
 /* Sabit ChatGPT / Claude Chat Container */
-#thread {
+#thread[hidden] { display: none !important; }
+#thread:not([hidden]) {
   display: flex !important;
   flex-direction: column !important;
   height: 560px !important; /* Ekranı işgal etmez, scroll ettirmez */
@@ -345,3 +346,100 @@ mark.chat-highlight-pink {
   letter-spacing: 0.04em !important;
   margin: 6px 0 16px !important;
 }
+
+/* ==========================================================================
+   HERO KOMPAKT DÜZENİ: Chat Kutusunu İlk Bakışta (Above-the-Fold) Tutma
+   ========================================================================== */
+.hero {
+  padding-top: 10px !important;
+  padding-bottom: 12px !important;
+  min-height: auto !important;
+}
+
+.hero-mountains {
+  opacity: 0.3 !important;
+  height: 220px !important;
+}
+
+.hero-content {
+  margin-bottom: 10px !important;
+  max-width: 920px !important;
+}
+
+.hero-eyebrow {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-size: 11px !important;
+  letter-spacing: 0.12em !important;
+  margin-bottom: 4px !important;
+  color: #a8834c !important;
+  font-weight: 750 !important;
+}
+
+.hero-content h1 {
+  font-size: clamp(22px, 2.6vw, 34px) !important;
+  line-height: 1.18 !important;
+  margin: 0 0 8px !important;
+  letter-spacing: -0.03em !important;
+}
+
+.hero-intro {
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  max-width: 760px !important;
+  margin: 0 auto 8px !important;
+  color: #435160 !important;
+}
+
+.hero-footline {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 20px !important;
+  font-size: 12px !important;
+  color: #6a7785 !important;
+  margin-top: 6px !important;
+}
+
+.hero-footline span {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.hero-footline span i {
+  display: inline-block !important;
+  width: 5px !important;
+  height: 5px !important;
+  border-radius: 50% !important;
+  background: #c98b2c !important;
+}
+
+.workbench-container {
+  margin-top: 6px !important;
+  padding: 0 !important;
+}
+
+/* Chat Açıldığında Hero Metinlerini Gizle, Chat Kutusunu Tam Merkeze Al */
+body.is-interviewing .hero-eyebrow,
+body.is-interviewing .hero-content h1,
+body.is-interviewing .hero-intro,
+body.is-interviewing .hero-footline {
+  display: none !important;
+}
+
+body.is-interviewing .hero-content {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+body.is-interviewing .hero {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+/* Başlangıçta boş beyaz alan oluşmasını engelle */
+#introComposer[hidden] { display: none !important; }
+.workbench-main { padding: 0 !important; }
+#introComposer { padding: 24px 28px !important; }
