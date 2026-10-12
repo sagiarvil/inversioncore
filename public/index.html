@@ -1,71 +1,1194 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>InversionCore — Karar Vermeden Önce Nerede Yanılabileceğinizi Görün</title>
-<meta name="description" content="İş, yatırım, proje ve yazılım kararlarınızı tersinden sorgulayın. Kritik varsayımları, olası riskleri ve eksik kanıtları görerek daha bilinçli kararlar alın.">
-<meta name="theme-color" content="#F7F4EF"><link rel="canonical" href="https://inversioncore.com/">
-<meta property="og:title" content="InversionCore | Kararlarınızı Tersinden İnceleyin"><meta property="og:description" content="Görünmeyen varsayımları ve olası kırılma noktalarını sorgulayın.">
-<link rel="preload" href="/assets/img/hero-atmosphere-1920.webp" as="image" type="image/webp">
-<link rel="stylesheet" href="/assets/css/site.css?v=20261012_1200"><link rel="stylesheet" href="/assets/css/interview.css?v=20261012_1200">
-  <link rel="stylesheet" href="/assets/css/chat-modern.css?v=20261012_1200">
-<link rel="icon" href="/assets/brand/favicon.svg" type="image/svg+xml">
-<link rel="alternate icon" href="/assets/brand/favicon.ico" sizes="any">
-<link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" sizes="180x180">
-<link rel="manifest" href="/assets/brand/manifest.webmanifest">
-<meta property="og:image" content="https://inversioncore.com/assets/brand/og-cover-1200x630.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<link rel="stylesheet" href="/assets/brand/brand-tokens.css">
-<link rel="stylesheet" href="/assets/css/inversion-v2.css?v=20261012_1235">
-<script defer src="/assets/js/demo-content.js"></script><script defer src="/assets/js/site.js"></script><script defer src="/assets/js/autonomous-engine.js?v=20261012_1200"></script>
-  <script defer src="/assets/js/interview.js?v=20261012_1200"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InversionCore // Tersine Karar Denetim Motoru</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
+  <style>
+    /* =============================================================
+       INVERSIONCORE // ULTIMATE ARCHITECTURE
+       - 360° Kayarak Dönen İnce Neon Çizgi (Border Beam)
+       - Home'da Merkezde, Chat Açılınca Altta Sabitlenen Kutu
+       - Başlıklarda Çizgili/Noktalı Anton, Gövdede %100 Netlik
+       - Narsist, Ukala, Dobra Filtresiz Yanıtlar
+       - Orijinal inversioncore.com Menü ve Alt Sayfaları
+       ============================================================= */
+    :root {
+      --bg: #090a0f;
+      --bg-panel: #0d0f18;
+      --bg-chat-user: #161824;
+      --bg-chat-ai: #0b0d14;
+      
+      --accent: #ff4500;
+      --accent-glow: rgba(255, 69, 0, 0.45);
+      --accent-cyber: #00d4ff;
+      --accent-yellow: #ffb700;
+      
+      --border: #1a1e2d;
+      --border-accent: #ff4500;
+      
+      --text: #f0f2f8;
+      --text-muted: #9aa0b6;
+      --text-dim: #5a6078;
+      
+      --danger: #ff2a4b;
+      --warning: #ffb700;
+      --success: #00e676;
+      
+      --font-display: 'Anton', Impact, 'Arial Black', sans-serif;
+      --font-mono: 'Space Mono', Consolas, Monaco, monospace;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      overflow: hidden;
+      line-height: 1.6;
+    }
+
+    /* Subtle Ambient Grid Background */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at 50% 12%, rgba(255, 69, 0, 0.08) 0%, transparent 60%),
+                  radial-gradient(circle at 85% 85%, rgba(0, 212, 255, 0.02) 0%, transparent 50%),
+                  linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Çizgili/Noktalı Başlık Tipografisi */
+    .scanline-white {
+      font-family: var(--font-display);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 0.95;
+      background: repeating-linear-gradient(
+        0deg,
+        #ffffff 0px,
+        #ffffff 2.5px,
+        rgba(15, 17, 24, 0.75) 2.5px,
+        rgba(15, 17, 24, 0.75) 4px
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+
+    .scanline-orange {
+      font-family: var(--font-display);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 0.95;
+      background: repeating-linear-gradient(
+        0deg,
+        #ff4500 0px,
+        #ff4500 2.5px,
+        rgba(15, 17, 24, 0.8) 2.5px,
+        rgba(15, 17, 24, 0.8) 4px
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 25px rgba(255, 69, 0, 0.6));
+      display: inline-block;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; }
+
+    /* ------------------- PROPORTIONAL HEADER ------------------- */
+    header {
+      height: 75px;
+      background: rgba(8, 9, 14, 0.95);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.2rem;
+      z-index: 1000;
+      flex-shrink: 0;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .header-wolf-icon {
+      height: 48px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 0 12px rgba(255, 69, 0, 0.55));
+      transition: transform 0.2s;
+    }
+    .brand-logo:hover .header-wolf-icon {
+      transform: scale(1.04);
+    }
+
+    .header-brand-block {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .header-brand-title {
+      font-family: var(--font-display);
+      font-size: 1.7rem;
+      letter-spacing: 0.05em;
+      line-height: 1;
+      color: #ffffff;
+    }
+    .header-brand-title span {
+      color: var(--accent);
+      text-shadow: 0 0 15px rgba(255, 69, 0, 0.4);
+    }
+
+    .header-brand-sub {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.6rem;
+      list-style: none;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      transition: color 0.15s;
+    }
+    .nav-links a:hover {
+      color: #fff;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 3px;
+    }
+
+    .btn-new-chat {
+      background: rgba(255, 69, 0, 0.1);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 0.45rem 1rem;
+      border-radius: 4px;
+      transition: all 0.15s;
+    }
+    .btn-new-chat:hover {
+      background: var(--accent);
+      color: #000;
+    }
+
+    /* ------------------- VIEWPORT (100vh) ------------------- */
+    .app-viewport {
+      flex: 1;
+      height: calc(100vh - 75px);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .messages-scroll-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 2rem 1.5rem 180px 1.5rem;
+      scroll-behavior: smooth;
+    }
+
+    .messages-scroll-area::-webkit-scrollbar { width: 6px; }
+    .messages-scroll-area::-webkit-scrollbar-thumb { background: #222638; border-radius: 4px; }
+
+    .conversation-column {
+      max-width: 820px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 2.2rem;
+    }
+
+    /* ------------------- HOME WELCOME STATE ------------------- */
+    .home-welcome {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 2.5rem 1rem 1rem 1rem;
+    }
+
+    .welcome-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--accent);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      background: rgba(255, 69, 0, 0.08);
+      border: 1px solid var(--accent);
+      padding: 0.35rem 0.9rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .welcome-title {
+      margin-bottom: 1.2rem;
+    }
+
+    .welcome-sub {
+      color: var(--text-muted);
+      font-size: 1.15rem;
+      line-height: 1.65;
+      max-width: 720px;
+      margin-bottom: 2.2rem;
+      font-weight: 300;
+    }
+    .welcome-sub b { color: #fff; font-weight: 600; }
+
+    /* -------------------------------------------------------------
+       1- 360 DERECE KAYARAK DÖNEN İNCE NEON ÇİZGİ (BORDER BEAM)
+       2px İnce Çizgi, Kırmızı, Sarı, Yeşil, Mavi - Kesintisiz Kayar
+       ------------------------------------------------------------- */
+    .laser-border-box {
+      position: relative;
+      width: 100%;
+      max-width: 820px;
+      border-radius: 16px;
+      padding: 2.5px;
+      overflow: hidden;
+      background: #181c2c;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-bottom: 2rem;
+    }
+
+    .laser-border-box:hover, .laser-border-box:focus-within {
+      box-shadow: 0 0 35px rgba(255, 0, 68, 0.4), 0 0 60px rgba(0, 229, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    /* 360 Derece Çerçevenin Etrafında Kayan İnce Neon Işık Hüzmesi */
+    .laser-border-box::before {
+      content: "";
+      position: absolute;
+      top: -150%;
+      left: -150%;
+      width: 400%;
+      height: 400%;
+      background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        transparent 180deg,
+        #ff0044 220deg,
+        #ffee00 260deg,
+        #00ff66 310deg,
+        #00e5ff 360deg
+      );
+      animation: spinLaserBeam 3s linear infinite;
+      z-index: 1;
+    }
+
+    @keyframes spinLaserBeam {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .laser-inner-dock {
+      position: relative;
+      z-index: 2;
+      background: #090b14;
+      border-radius: 14px;
+      padding: 1.1rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .chatgpt-auto-input {
+      width: 100%;
+      min-height: 52px;
+      max-height: 220px;
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-family: var(--font-sans);
+      font-size: 1.05rem;
+      line-height: 1.6;
+      outline: none;
+      resize: none;
+      overflow-y: auto;
+      transition: height 0.1s ease;
+    }
+
+    .chatgpt-auto-input::placeholder {
+      color: #5c6278;
+      font-size: 0.98rem;
+    }
+
+    .laser-bottom-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      padding-top: 0.75rem;
+    }
+
+    .laser-hint {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    .btn-laser-send {
+      background: linear-gradient(135deg, #ff4500, #ff1a00);
+      color: #000;
+      border: none;
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.65rem 1.8rem;
+      border-radius: 6px;
+      box-shadow: 2px 2px 0px #fff;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: all 0.1s;
+    }
+    .btn-laser-send:hover {
+      background: #ff5511;
+      transform: translate(-1px, -1px);
+      box-shadow: 4px 4px 0px #fff;
+    }
+
+    /* Hızlı Seçim Çipleri */
+    .chips-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.6rem;
+      max-width: 820px;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+    }
+
+    .chip-btn {
+      background: #111420;
+      border: 1px solid var(--border);
+      color: #9ea4bc;
+      padding: 0.45rem 0.95rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .chip-btn:hover {
+      border-color: var(--accent);
+      color: #fff;
+      background: #191d2d;
+    }
+
+    /* ------------------- CHAT DIALOGUE STREAM (TEMİZ, LOGOSUZ CEVAPLAR) ------------------- */
+    .msg-user-row {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .msg-user-content {
+      max-width: 82%;
+      background: var(--bg-chat-user);
+      border: 1px solid #282d42;
+      border-right: 3px solid var(--accent-cyber);
+      padding: 1.1rem 1.4rem;
+      border-radius: 12px 12px 2px 12px;
+      color: #fff;
+      font-size: 0.98rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+
+    .msg-ai-row {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .ai-clean-card {
+      background: var(--bg-chat-ai);
+      border: 2px solid var(--accent);
+      border-radius: 12px;
+      padding: 2.2rem;
+      box-shadow: 0 0 35px rgba(255, 69, 0, 0.12);
+    }
+
+    .ai-badge-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #281613;
+      padding-bottom: 0.8rem;
+      margin-bottom: 1.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .ai-claim-box {
+      background: rgba(255, 183, 0, 0.08);
+      border-left: 3px solid var(--accent-yellow);
+      padding: 0.9rem 1.2rem;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: #fff;
+      margin-bottom: 1.5rem;
+    }
+    .ai-claim-box span {
+      color: var(--accent-yellow);
+      font-weight: 700;
+      margin-right: 0.4rem;
+    }
+
+    .ai-body-text {
+      font-size: 1.15rem;
+      line-height: 1.75;
+      color: #ebedf5;
+      margin-bottom: 1.8rem;
+    }
+    .ai-body-text b { color: var(--accent); }
+
+    .ai-attack-box {
+      background: #150f14;
+      border: 1px solid #361a25;
+      border-left: 4px solid var(--danger);
+      padding: 1.3rem 1.6rem;
+      border-radius: 4px;
+      margin-bottom: 1.4rem;
+      box-shadow: 0 0 20px rgba(255, 42, 75, 0.1);
+    }
+
+    .attack-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--danger);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .attack-main {
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.5;
+    }
+
+    .choice-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .btn-choice {
+      background: #111420;
+      border: 1px solid #2a3148;
+      color: #d2d6e8;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      padding: 0.65rem 1.1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-choice:hover {
+      border-color: var(--accent);
+      background: #191e30;
+      color: #fff;
+    }
+    .btn-choice.bad:hover {
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    /* ------------------- FİNAL RAPOR & AKSİYON SİLAHI ------------------- */
+    .final-dossier-clean {
+      background: #090a12;
+      border: 3px solid var(--accent);
+      border-radius: 12px;
+      padding: 2.5rem;
+      position: relative;
+      box-shadow: 0 0 60px rgba(255, 69, 0, 0.35);
+    }
+
+    .report-badge-red {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 900;
+      color: var(--danger);
+      border: 2px solid var(--danger);
+      padding: 0.3rem 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.2rem;
+    }
+
+    .report-main-title {
+      font-family: var(--font-display);
+      font-size: 2.3rem;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 1.2rem;
+      line-height: 1.05;
+    }
+
+    .report-verdict-box {
+      background: rgba(255, 69, 0, 0.08);
+      border-left: 4px solid var(--accent);
+      padding: 1.2rem 1.4rem;
+      margin-bottom: 1.8rem;
+      font-size: 1.08rem;
+      color: #fff;
+    }
+
+    .weapon-box {
+      background: #07080d;
+      border: 1px dashed var(--accent-cyber);
+      padding: 1.4rem;
+      border-radius: 6px;
+      margin: 1.6rem 0;
+    }
+
+    .weapon-top {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent-cyber);
+      text-transform: uppercase;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.8rem;
+    }
+
+    .weapon-pre {
+      font-family: var(--font-mono);
+      font-size: 0.86rem;
+      color: #e0e3f0;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .report-btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+      border-top: 1px solid #1f2334;
+      padding-top: 1.2rem;
+    }
+
+    .btn-act {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.65rem 1.4rem;
+      border-radius: 4px;
+      cursor: pointer;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.15s;
+    }
+    .btn-act-copy { background: #171b2b; color: #fff; border: 1px solid #333a52; }
+    .btn-act-copy:hover { border-color: #fff; background: #20263c; }
+
+    .btn-act-print { background: var(--accent); color: #000; border: 1px solid var(--accent); }
+    .btn-act-print:hover { background: #ff5511; }
+
+    .btn-act-reset { background: transparent; color: var(--text-muted); border: 1px solid var(--border); margin-left: auto; }
+    .btn-act-reset:hover { border-color: var(--accent); color: #fff; }
+
+    /* ------------------- DOCKED FIXED BOTTOM BAR (CHAT MODUNDA) ------------------- */
+    .docked-bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(180deg, transparent 0%, rgba(9, 10, 15, 0.95) 30%, #090a0f 100%);
+      padding: 1rem 1.5rem 1.5rem 1.5rem;
+      z-index: 500;
+      display: none;
+    }
+
+    .docked-bar-inner {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    /* Toast */
+    #toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #fff;
+      color: #000;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.8rem 1.4rem;
+      border-left: 5px solid var(--accent);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.9);
+      z-index: 100000;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.25s ease;
+      pointer-events: none;
+    }
+    #toast.show { opacity: 1; transform: translateY(0); }
+
+    @media print {
+      body * { visibility: hidden; }
+      .final-dossier-clean, .final-dossier-clean * { visibility: visible; }
+      .final-dossier-clean {
+        position: absolute; top: 0; left: 0; width: 100%;
+        background: #fff; color: #000; border: none;
+      }
+      .report-btn-row, header, .docked-bottom-bar { display: none !important; }
+      .report-badge-red { color: #000; border-color: #000; }
+      .report-main-title { color: #000; }
+    }
+  </style>
 </head>
 <body>
-<a class="skip-link" href="#workbench">Ana analiz alanına geç</a>
-<header class="site-header" id="top"><div class="header-inner container">
-<a class="brand ic-brand-lockup" href="#top" aria-label="InversionCore ana sayfa"><img class="ic-brand-lockup__mark" src="/assets/brand/raccoon-round.png" alt="InversionCore" width="48" height="48" decoding="async"><span class="ic-brand-lockup__label"><span class="ic-brand-lockup__name">Inversion<em>Core</em></span><span class="ic-brand-lockup__tagline">TERSİNDEN DÜŞÜN · KANITLA KARAR VER</span></span></a>
-<nav class="nav-links" id="primaryNav" aria-label="Ana menü"><a href="#yaklasim">Yaklaşımımız</a><a href="#kimler">Kimler için?</a><a href="#ornek">Örnek çıktı</a><a href="#surec">Nasıl çalışır?</a><a href="#hakkinda">Hakkımızda</a></nav>
-<div class="header-actions"><a class="header-link" href="#ornek">Örnek rapor</a><a class="btn btn-dark btn-compact" href="#workbench">Analize başla <span aria-hidden="true">↗</span></a><button class="menu-toggle" type="button" aria-label="Menüyü aç" aria-expanded="false" aria-controls="primaryNav"><span></span><span></span><span></span></button></div>
-</div></header>
-<main>
-<section class="hero" id="anasayfa"><div class="hero-mountains" aria-hidden="true"></div><div class="cliff-image" aria-hidden="true"></div><div class="hero-wash" aria-hidden="true"></div>
-<div class="container hero-content"><div class="hero-eyebrow"><span class="eyebrow-line"></span> STRATEJİK KARAR · TERSİNE ANALİZ · KANIT DİSİPLİNİ</div>
-<h1>Karar vermeden önce <em>nerede yanılabileceğinizi</em> görün.</h1>
-<p class="hero-intro">Fikrinizi onaylayan bir ses daha istemiyorsanız doğru yerdesiniz. InversionCore, işinizi, yatırımınızı ve kritik kararlarınızı tersinden sorgular; kırılgan varsayımları, olası kayıp yollarını ve henüz yanıtlanmamış soruları görünür kılmaya çalışır.</p>
-<div class="hero-footline"><span><i></i> Önce iddiayı sorgula</span><span><i></i> Kanıtı varsayımdan ayır</span><span><i></i> Sonra karar ver</span></div>
-</div>
-<div class="container workbench-container" id="workbench">
- <section class="workbench" id="analysisWorkbench" aria-label="InversionCore analiz çalışma alanı">
-  <div class="workbench-top"><div class="workbench-mark"><span class="live-glyph" aria-hidden="true">✳</span><span><strong>INVERSIONCORE / KARAR MASASI</strong><small id="wbContext">Kararınızı kendi kelimelerinizle anlatın.</small></span></div><div class="status-pill" id="modePill">BAŞLANGIÇ</div></div>
-  <div class="workbench-main" id="workbenchMain">
-   <div class="intro-composer" id="introComposer"><label for="decisionInput">Bugün hangi kararı sorgulamak istiyorsunuz?</label><textarea id="decisionInput" rows="4" maxlength="4000" placeholder="Örneğin: Bir yazılımı teslim almaya hazırlanıyorum ama sözleşmede vaat edilen özelliklerin gerçekten çalışıp çalışmadığı konusunda şüphelerim var..." aria-describedby="decisionHint"></textarea>
-    <div class="input-bottom"><p id="decisionHint">Kararınızı 1-2 cümleyle özetleyin. Sistem 3 turda zayıf varsayımları, eksik kanıtları ve 4 somut eylem adımını çıkarır.</p><span class="char-counter" id="charCounter">0 / 4000</span></div>
-    <div class="composer-actions"><div class="supporting"><button type="button" class="upload-button" id="uploadBtn" aria-describedby="uploadNotice"><span aria-hidden="true">＋</span> Belge / görsel ekle <span class="muted-caption">isteğe bağlı</span></button><input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg,.webp,.txt" hidden><span id="uploadNotice" class="file-notice" role="status">Dosya işleme henüz etkin değil</span></div><button class="btn btn-dark btn-submit" id="submitDecision" type="button">Kararımı Analiz Et <span aria-hidden="true">↗</span></button></div>
-    <div class="examples"><span>İlham veren başlangıçlar</span><button type="button" data-example="Bir işletme kurmak istiyorum ancak başlangıç sermayem, satış tahminim ve giderlerim net değil. En kötü senaryoda nerede kayıp yaşarım?">İş kurma kararı</button><button type="button" data-example="Bir yazılımı teslim almaya hazırlanıyorum. Sözleşmede vaat edilen özelliklerin gerçekten çalışıp çalışmadığı konusunda şüphelerim var.">Yazılım teslimi</button><button type="button" data-example="Yeni bir yatırıma gireceğim. Beklenen getiriler yüksek görünüyor ama varsayımlar, finansman ve çıkış koşullarından emin değilim.">Yatırım</button><button type="button" data-example="İşletmemde nakit sıkışıklığı ve satış sorunu yaşıyorum. Giderleri azaltmak mı, fiyatları değiştirmek mi, yoksa modeli tamamen yeniden kurmak mı daha mantıklı?">Nakit sıkışıklığı</button></div>
-   </div>
-   <div class="thread" id="thread" hidden aria-label="Üç turlu analiz görüşmesi"><div class="thread-top"><div><div class="thread-caption" id="threadMode">ANALİZ GÖRÜŞMESİ</div><h2 id="threadHeading">Şimdi asıl soruya gelelim.</h2></div><button class="reset-button" type="button" id="resetConversation">↶ Yeni değerlendirme</button></div>
-    <div class="step-track" aria-label="Görüşme turları"><div class="step is-active" data-step="1"><span>01</span><strong>İlk sorgu</strong></div><div class="step" data-step="2"><span>02</span><strong>Karşı senaryo</strong></div><div class="step" data-step="3"><span>03</span><strong>Final karar</strong></div></div>
-    <div class="dialogue-stream" id="dialogueStream" aria-live="off"></div>
-    <div class="response-panel" id="responsePanel" hidden><div class="response-overline" id="questionCount">BİRİNCİ KRİTİK SORU</div><h3 id="responseQuestion"></h3><div class="response-options" id="responseOptions"></div><label for="answerText">İsterseniz kendi sözlerinizle yanıtlayın</label><textarea id="answerText" rows="3" maxlength="1200" placeholder="Buraya kendi yanıtınızı yazın..."></textarea><div class="response-actions"><span>Bir seçenek veya serbest yanıt yeterli.</span><button class="btn btn-dark" type="button" id="sendAnswer">Yanıtımı Gönder <span aria-hidden="true">↗</span></button></div></div>
-    <div class="thread-loading" id="threadLoading" hidden><span class="pulse-dot"></span><span id="loadingText">İlk karşı senaryolar inceleniyor...</span></div><div class="thread-error" id="threadError" hidden role="alert"></div>
-    <div class="thread-actions" id="threadActions" hidden><div><strong>Tersine Karar Analizi Tamamlandı</strong><p>Tespit edilen riskler, eksik kanıtlar ve dört eylem adımı raporda netleştirilmiştir.</p></div><button type="button" class="btn btn-light" id="copyReport">Raporu kopyala</button><button type="button" class="btn btn-dark" id="printReport">Yazdır / PDF</button></div>
-    <button class="fast-forward" id="skipTyping" type="button" hidden>Yazıyı hemen göster →</button>
-   </div>
+
+  <!-- ==================== HEADER ==================== -->
+  <header>
+    <div class="brand-logo" onclick="resetToHome()">
+      <img src="/assets/brand/raccoon-round.png" class="header-wolf-icon" alt="InversionCore">
+      <div class="header-brand-block">
+        <div class="header-brand-title">INVERSION<span>CORE</span></div>
+        <div class="header-brand-sub">RED TEAM DECISION AUDIT</div>
+      </div>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="yaklasimimiz.html">Yaklaşımımız</a></li>
+      <li><a href="kimler-icin.html">Kimler İçin?</a></li>
+      <li><a href="neye-bakiyoruz.html">Neye Bakıyoruz?</a></li>
+      <li><a href="nasil-calisir.html">Nasıl Çalışır?</a></li>
+      <li><a href="ornek-cikti.html">Örnek Çıktı</a></li>
+      <li><a href="hakkimizda.html">Hakkımızda</a></li>
+      <li><a href="sss.html">S.S.S.</a></li>
+      <li><a href="manifesto.html">Manifesto</a></li>
+    </ul>
+
+    <div class="header-actions">
+      <button class="btn-new-chat" id="btn-header-reset" onclick="resetToHome()" style="display:none;">
+        + YENİ SORGULAMA
+      </button>
+    </div>
+  </header>
+
+  <!-- ==================== VIEWPORT (100vh) ==================== -->
+  <div class="app-viewport">
+    
+    <div class="messages-scroll-area" id="scroll-area">
+      <div class="conversation-column" id="conversation-col">
+        
+        <!-- AÇILIŞ EKRANI: HER ŞEY MERKEZDE VE NET -->
+        <div class="home-welcome" id="home-welcome-screen">
+          <div class="welcome-eyebrow">
+            // TERSİNDEN DÜŞÜN · KANITLA KARAR VER
+          </div>
+
+          <h1 class="welcome-title" style="font-size: clamp(2.8rem, 6.5vw, 5.2rem);">
+            <span class="scanline-white">SENİ HERKES ALKIŞLAR.</span><br>
+            <span class="scanline-orange">BİZ ÇÜRÜTÜRÜZ.</span>
+          </h1>
+
+          <p class="welcome-sub">
+            Kibirli miyiz? <b>Sonuna kadar.</b> Çünkü etrafındaki herkesin sana <i>"harika fikir"</i> dediği yerde, milyonluk hatanı cebinden ödemeden önce o zayıf varsayımını parçalayacak tek filtresiz akıl burasıdır.
+          </p>
+
+          <!-- 360° KAYARAK DÖNEN İNCE NEON ÇİZGİSİ OLAN GİRİŞ KUTUSU (HOME'DA MERKEZDE) -->
+          <div class="laser-border-box" id="home-laser-box">
+            <div class="laser-inner-dock">
+              <textarea 
+                id="home-prompt-input" 
+                class="chatgpt-auto-input" 
+                rows="1"
+                placeholder="Bugün hangi kararı veya şüphenizi masaya yatırmak istiyorsunuz? (Yazın, stres testine sokalım...)"
+                oninput="autoGrow(this)"
+                onkeydown="handleHomeKey(event)"></textarea>
+
+              <div class="laser-bottom-bar">
+                <span class="laser-hint">// SHIFT + ENTER: YENİ SATIR · ENTER: GÖNDER</span>
+                <button class="btn-laser-send" onclick="startAuditFlow()">
+                  <span>PARÇALA</span> ➔
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hızlı Seçim Çipleri -->
+          <div class="chips-group">
+            <button class="chip-btn" onclick="applyPreset(1)">Ön Muhasebe CV Başvurusu</button>
+            <button class="chip-btn" onclick="applyPreset(2)">Yazılım Teslim Alma</button>
+            <button class="chip-btn" onclick="applyPreset(3)">150K$ Tohum Yatırım</button>
+            <button class="chip-btn" onclick="applyPreset(4)">İstifa & Ajans Açma</button>
+          </div>
+        </div>
+
+        <!-- CHAT DİYALOGLARI BURAYA DÜŞER -->
+        <div id="chat-stream-nodes" style="display:none; flex-direction:column; gap:2.2rem;"></div>
+
+      </div>
+    </div>
+
+    <!-- CHAT AÇILDIĞINDA ALTA SABİTLENEN 360° KAYAN NEON KUTU -->
+    <div class="docked-bottom-bar" id="docked-bar">
+      <div class="docked-bar-inner">
+        <div class="laser-border-box" style="margin-bottom:0; max-width:100%;">
+          <div class="laser-inner-dock">
+            <textarea 
+              id="chat-reply-input" 
+              class="chatgpt-auto-input" 
+              rows="1"
+              placeholder="Sorulan soruya kaçamak yapmadan somut delillerle cevap verin..."
+              oninput="autoGrow(this)"
+              onkeydown="handleChatKey(event)"></textarea>
+
+            <div class="laser-bottom-bar">
+              <span class="laser-hint">// SHIFT + ENTER: YENİ SATIR · ENTER: GÖNDER</span>
+              <button class="btn-laser-send" id="btn-chat-send" onclick="submitChatReply()">
+                <span>SAVUN</span> ➔
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
-  <div class="workbench-footer"><span class="footnote-lock">◈ InversionCore Karar Protokolü · Çift Yönlü Analiz Güvencesi</span><button type="button" class="text-link" id="openDemo">Üç turlu örnek görüşmeyi incele ↗</button></div>
- </section>
-</div>
-<p class="hero-subnote container">Önemli: Bu hizmet bağımsız uzman görüşünün veya eksiksiz teknik doğrulamanın yerini almaz. Hassas bilgi paylaşmadan önce veri kullanım koşullarını inceleyin.</p>
-</section>
-<section class="trust-strip"><div class="container trust-grid"><div><span class="trust-symbol">◈</span><strong>Alkışlamak için değil, sorgulamak için</strong><p>“Neden başarısız olabilir?” sorusuyla başlarız.</p></div><div><span class="trust-symbol">◎</span><strong>Varsayım ile bulguyu ayırırız</strong><p>Veri eksikse sonucu kesinmiş gibi sunmayız.</p></div><div><span class="trust-symbol">↗</span><strong>Kararı somutlaştırırız</strong><p>Öncelikli kontrolleri ve sonraki adımları belirleriz.</p></div></div></section>
-<section class="section section-audience" id="kimler"><div class="container"><div class="section-heading split"><div><p class="kicker">KİMLER İÇİN?</p><h2>Zor kararları<br><em>tek başına taşımayanlar.</em></h2></div><p>Her sektörün zayıf noktası farklıdır. Ortak mesele, pahalı bir kararı yanlış varsayımla vermemektir.</p></div><div class="audience-grid"><article class="audience-card"><img src="/assets/img/audience-1.webp" loading="lazy" alt="Yeni iş fikrini değerlendiren girişimci"><div><span>01 / GİRİŞİM</span><h3>Girişimciler</h3><p>Başlamadan önce talep, sermaye ve iş modelinin kırılganlıklarını sorgulayanlar.</p></div></article><article class="audience-card"><img src="/assets/img/audience-2.webp" loading="lazy" alt="Ofiste stratejik karar üzerine çalışan yöneticiler"><div><span>02 / YÖNETİM</span><h3>Şirket yöneticileri</h3><p>Büyüme, ortaklık ve operasyon kararlarını karşı senaryolarla tartmak isteyenler.</p></div></article><article class="audience-card"><img src="/assets/img/audience-3.webp" loading="lazy" alt="Yatırım ve kurumsal mimari"><div><span>03 / SERMAYE</span><h3>Yatırımcılar</h3><p>Fırsat kadar eksik kanıtı, bağımlılıkları ve çıkış risklerini görmek isteyenler.</p></div></article></div></div></section>
-<section class="section section-services" id="yaklasim"><div class="container"><div class="section-heading split"><div><p class="kicker">İNCELEME ALANLARI</p><h2>Neye bakıyoruz?<br><em>İlk olarak neyi kaçırdığınıza.</em></h2></div><p>Şablon cevaplar yerine, verdiğiniz kararın arkasındaki önemli varsayımları görünür hale getiren inceleme çerçeveleri.</p></div><div class="service-grid"><article class="service-card"><div class="service-top"><span class="service-number">01</span><span class="artifact artifact-cube" aria-hidden="true">⬡</span></div><h3>İş modeli & gelir mantığı</h3><p>Gerçek müşteri talebi, maliyet, birim ekonomi ve ölçeklenebilirlik varsayımları.</p><span class="service-tag">Modelin nerede kırılabilir?</span></article><article class="service-card"><div class="service-top"><span class="service-number">02</span><span class="artifact" aria-hidden="true">◇</span></div><h3>Yatırım & stratejik karar</h3><p>Geri dönüşü zor kararların finansman, zamanlama ve karşı senaryo analizi.</p><span class="service-tag">En pahalı yanlışınız ne?</span></article><article class="service-card"><div class="service-top"><span class="service-number">03</span><span class="artifact" aria-hidden="true">⌘</span></div><h3>Yazılım & teknoloji teslimi</h3><p>Vaat edilen işlevler, kabul kriterleri, teknik riskler ve kanıt ihtiyacı.</p><span class="service-tag">Gerçekten ne teslim edildi?</span></article><article class="service-card"><div class="service-top"><span class="service-number">04</span><span class="artifact" aria-hidden="true">⟁</span></div><h3>Operasyon & kritik proje</h3><p>Kapasite, darboğaz, tedarik, nakit ve tek noktadan çökme senaryoları.</p><span class="service-tag">Hangi halka koparsa durur?</span></article></div></div></section>
-<section class="section report-section" id="ornek"><div class="container report-layout"><div class="report-intro"><p class="kicker">ÇIKTI MİMARİSİ</p><h2>Sadece risk listesi değil.<br><em>Gerekçeli bir karar.</em></h2><p>Hangi kararla girdiğinizi, nerede yanıldığınızı, hangi kanıtın eksik olduğunu ve şimdi ne yapmanız gerektiğini tek bakışta görün.</p><a class="btn btn-light" href="#workbench">Kendi konunu yaz ↗</a></div><div class="report-showcase"><div class="report-header"><div><span>İNVERSIONCORE / CANLI ÖRNEK ÇIKTI</span><h3>Yazılım Teslim ve Sözleşme Kabul Denetimi</h3></div><strong class="sample-label">SOMUT RAPOR</strong></div><div class="report-lead"><span class="risk-marker">!</span><div><strong>Hüküm: KOŞULLU GEÇİŞ (CONDITIONAL)</strong><p>Gösterim videosu kabul testinin yerini tutmaz. Kanıt olmadan yapılan teslimat, sonradan çıkacak tüm teknik borcu cebinizden ödetir.</p></div></div><div class="report-columns" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;"><div style="background:#fcfbf8;padding:16px;border-radius:10px;border:1px solid #ebe5d8;"><span class="mini-label" style="color:#8a6d3b;font-weight:700;">1. GİRİLEN KARAR</span><h4 style="font-size:15px;margin:6px 0 8px;">Yazılımı teslim alma eşiği</h4><p style="font-size:13px;color:#555;margin:0;">Sözleşmede vaat edilen fonksiyonların çalıştığından emin olmadan son ödemeyi yapma kararı.</p></div><div style="background:#fcfbf8;padding:16px;border-radius:10px;border:1px solid #ebe5d8;"><span class="mini-label" style="color:#b23b3b;font-weight:700;">2. YANLIŞ VARSAYIM</span><h4 style="font-size:15px;margin:6px 0 8px;">Demo gösterimi = Kabul testi</h4><p style="font-size:13px;color:#555;margin:0;">Ekrandaki butonun açılması, veri tabanının ve uç durumların hatasız çalıştığını kanıtlamaz.</p></div><div style="background:#fcfbf8;padding:16px;border-radius:10px;border:1px solid #ebe5d8;"><span class="mini-label" style="color:#2a6496;font-weight:700;">3. EKSİK KANIT</span><h4 style="font-size:15px;margin:6px 0 8px;">Tekrarlanabilir test raporu</h4><p style="font-size:13px;color:#555;margin:0;">Gerçek veriyle uçtan uca stres testi ve hata logu dökümü geliştirici tarafından sunulmamış.</p></div><div style="background:#fcfbf8;padding:16px;border-radius:10px;border:1px solid #ebe5d8;"><span class="mini-label" style="color:#2b7a4b;font-weight:700;">4. ŞİMDİ NE YAPACAKSIN?</span><h4 style="font-size:15px;margin:6px 0 8px;">Ödeme kilidi & 30 gün garanti</h4><p style="font-size:13px;color:#555;margin:0;">Canlı kabul testleri geçene kadar son bakiyeyi bloke et, git reposunu ve SLA garantisini bağla.</p></div></div><div class="report-bottom"><span>Analiz Standardı: 3 Turlu Tersine Sorgulama</span><span>Nihai Sonuç: KOŞULLU KORUMA PROTOKOLÜ</span></div></div></div></section>
-<section class="section method-section" id="surec"><div class="container"><div class="section-heading split"><div><p class="kicker">NASIL ÇALIŞIR?</p><h2>Üç tur. <em>Tek karar çizgisi.</em></h2></div><p>Yazdığınız yerden ayrılmadan ilerleyen bir görüşme. Her cevap, bir sonraki sorgulamanın temelini oluşturur.</p></div><div class="method-grid"><article><span>01 / İLK TUR</span><h3>Konunuzu yazın</h3><p>İlk kırılma noktalarını ortaya çıkarır ve en önemli belirsizlik için tek soru sorar.</p></article><article><span>02 / İKİNCİ TUR</span><h3>Cevabınızla derinleşin</h3><p>İlk cevaba göre karşı senaryoyu günceller; karar için gereken son kritik soruyu sorar.</p></article><article><span>03 / FİNAL</span><h3>Gerekçeli sonucu alın</h3><p>Kritik riskler, kanıt boşlukları, koşullu hüküm ve öncelikli aksiyonlarla raporu tamamlar.</p></article></div></div></section>
-<section class="section founder-section" id="hakkinda"><div class="container founder-layout"><div><p class="kicker">YAKLAŞIM & KURUCU</p><h2>İyi karar, <em>rahatsız edici sorulara</em> dayanabilir.</h2><p>InversionCore, tersine düşünme yaklaşımını finans, iş modeli ve teknoloji kararlarında somut sorulara dönüştürmek amacıyla geliştiriliyor.</p></div><blockquote>“Sizi onaylayan bir cevap kolaydır. Asıl değer, henüz sormadığınız soruyu görebilmektir.”<footer><span class="founder-emblem">◇</span><span><strong>InversionCore</strong><small>Barış Bağırlar · Kurucu</small></span></footer></blockquote></div></section>
-<section class="section faq-section" id="sss"><div class="container faq-layout"><div><p class="kicker">SIK SORULANLAR</p><h2>Önemli olan<br><em>neyi bildiğimizi bilmek.</em></h2></div><div class="faq-list"><details><summary>InversionCore bir kararın doğru olduğunu ispatlar mı?</summary><p>Hayır. Metin temelli değerlendirme varsayımları, olası riskleri ve bilgi eksiklerini sorgular. Gerçek teknik veya finansal ispat ancak ilgili veri ve bağımsız testlerle mümkündür.</p></details><details><summary>Sonuç neden üç turda tamamlanıyor?</summary><p>İlk değerlendirmede bir kritik soru, ikinci değerlendirmede bir son soru sorulur. Sonrasında mevcut bilgiler ve belirsizliklerle final raporu hazırlanır; gereksiz sorgu döngüsüne girilmez.</p></details><details><summary>Yüklediğim belge analiz ediliyor mu?</summary><p>Bu ön yüzde belge işleme bağlantısı henüz doğrulanmadı. Çalışmayan bir özelliği etkin gibi göstermiyoruz.</p></details><details><summary>Sonuçlar ne kadar güvenilir?</summary><p>Kanıt seviyesi girdilere bağlıdır. Eksik veri, doğrulanmamış varsayım ve karşı senaryo birbirinden ayrılır. Metin çıktısı uzman denetiminin yerine geçmez.</p></details></div></div></section>
-<section class="footer-cta"><div class="container footer-cta-inner"><div><p class="kicker">İLK ADIM</p><h2>Kararınızın en zayıf halkasını<br>bulmadan ilerlemeyin.</h2></div><a class="btn btn-cream" href="#workbench">Kararımı sorgulamak istiyorum ↗</a></div></section>
-</main>
-<footer class="site-footer"><div class="container footer-inner"><span class="footer-wordmark ic-footer-wordmark"><img src="/assets/brand/raccoon-round-128.png" alt="InversionCore" width="36" height="36" loading="lazy"> InversionCore</span><p>© <span id="year"></span> InversionCore. İçerikler bilgilendirme amaçlıdır.</p><a href="#top">Başa dön ↑</a></div></footer>
-</body></html>
+
+  <div id="toast">Metin kopyalandı!</div>
+
+  <!-- ==================== ENGINE SCRIPT ==================== -->
+  <script>
+    let isChatActive = false;
+    let currentRound = 1;
+    let userQuery = "";
+    let detectedTopic = "genel";
+
+    const PRESETS = {
+      1: "CV'yi ön muhasebe başvurusu için yeniden düzenleyeceğim. Firma adını ve üst düzey yönetici vurgusunu kaldırıp cari hesap, banka hareketleri, evrak takibi ve Excel yetkinliklerini öne çıkaracağım. Mevcut deneyimleri değiştirmeden sade bir PDF hazırlayacağım.",
+      2: "Bir yazılımı teslim almaya hazırlanıyorum ama sözleşmede vaat edilen özelliklerin gerçekten çalışıp çalışmadığı konusunda şüphelerim var...",
+      3: "Erken aşama bir SaaS girişimine 150.000$ tohum yatırım yapacağım. Kurucu çok hırslı ama müşteri edinme maliyeti organik büyümeye dayanmıyor...",
+      4: "Kurumsal işimden istifa edip B2B yapay zeka danışmanlık ajansı açmayı planlıyorum. 6 aylık nakit rezervim var..."
+    };
+
+    function applyPreset(id) {
+      const el = document.getElementById('home-prompt-input');
+      el.value = PRESETS[id];
+      autoGrow(el);
+      startAuditFlow();
+    }
+
+    function autoGrow(textarea) {
+      textarea.style.height = 'auto';
+      const newHeight = Math.min(Math.max(textarea.scrollHeight, 52), 220);
+      textarea.style.height = newHeight + 'px';
+    }
+
+    function handleHomeKey(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        startAuditFlow();
+      }
+    }
+
+    function handleChatKey(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        submitChatReply();
+      }
+    }
+
+    function detectCategory(text) {
+      const l = text.toLowerCase();
+      if (l.includes('cv') || l.includes('muhasebe') || l.includes('başvuru') || l.includes('işe alım') || l.includes('özgeçmiş')) {
+        return 'kariyer';
+      } else if (l.includes('yazılım') || l.includes('kod') || l.includes('teslim') || l.includes('demo') || l.includes('api')) {
+        return 'yazilim';
+      } else if (l.includes('yatırım') || l.includes('tohum') || l.includes('hisse') || l.includes('değerleme')) {
+        return 'yatirim';
+      }
+      return 'genel';
+    }
+
+    function startAuditFlow() {
+      const input = document.getElementById('home-prompt-input');
+      const val = input.value.trim();
+      if (!val) {
+        alert("Lütfen masaya yatıracağınız kararı veya şüphenizi yazın.");
+        return;
+      }
+
+      isChatActive = true;
+      userQuery = val;
+      detectedTopic = detectCategory(val);
+
+      // Hide Home Welcome Screen, Show Chat Stream & Docked Input
+      document.getElementById('home-welcome-screen').style.display = 'none';
+      const stream = document.getElementById('chat-stream-nodes');
+      stream.style.display = 'flex';
+      document.getElementById('docked-bar').style.display = 'block';
+      document.getElementById('btn-header-reset').style.display = 'inline-block';
+
+      appendUserMessage(val);
+      currentRound = 1;
+      triggerAiTurn(1);
+    }
+
+    function submitChatReply() {
+      const input = document.getElementById('chat-reply-input');
+      const val = input.value.trim();
+      if (!val) return;
+
+      appendUserMessage(val);
+      input.value = "";
+      input.style.height = "52px";
+
+      if (currentRound === 1) {
+        currentRound = 2;
+        triggerAiTurn(2);
+      } else if (currentRound === 2) {
+        currentRound = 3;
+        triggerAiTurn(3);
+      }
+    }
+
+    function appendUserMessage(text) {
+      const stream = document.getElementById('chat-stream-nodes');
+      const row = document.createElement('div');
+      row.className = 'msg-user-row';
+      row.innerHTML = `<div class="msg-user-content">${escapeHtml(text)}</div>`;
+      stream.appendChild(row);
+      scrollToBottom();
+    }
+
+    function triggerAiTurn(round) {
+      const btn = document.getElementById('btn-chat-send');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = "<span>PARÇALANIYOR...</span>";
+      }
+
+      setTimeout(() => {
+        const stream = document.getElementById('chat-stream-nodes');
+        const row = document.createElement('div');
+        row.className = 'msg-ai-row';
+
+        let content = "";
+
+        if (round === 1) {
+          if (detectedTopic === 'kariyer') {
+            content = `
+              <div class="ai-clean-card">
+                <div class="ai-badge-header">
+                  <span>INVERSIONCORE // FİLTRESİZ RED TEAM DENETİMİ</span>
+                  <span style="color:var(--accent-cyber);">[AŞAMA 01]</span>
+                </div>
+                <div class="ai-claim-box">
+                  <span>MASADAKİ İDDİA:</span> "${escapeHtml(userQuery)}"
+                </div>
+                <div class="ai-body-text">
+                  Kendini çok kurnaz sanıyorsun ama masaya koyduğun plan <b>amatörce bir kendini kandırma gösterisi</b>. 
+                  Yılların tecrübesini gizleyip CV'ye <i>'sadece cari hesap ve fatura takibi yaparım'</i> yazınca işverenin sana acıyıp iş vereceğini mi sanıyorsun? 
+                  Karşındaki İK yöneticisi salak değil. O CV masaya geldiği an <b>'Bu kişi ilk fırsatta kaçar, sıkılır veya şirketi karıştırır'</b> diyerek seni çöpe atacak. 
+                  Egolu konuşuyorum çünkü bu gerçeği sana söyleyecek başka dürüst bir insan yok çevrende.
+                </div>
+                <div class="ai-attack-box">
+                  <div class="attack-label">⚡ İLK TOKAT // KIRILMA SORUSU:</div>
+                  <div class="attack-main">
+                    CV'nde sadece sıradan bir memur gibi 'fatura takibi yaptım' masalı mı anlatacaksın, yoksa önceki şirkette kaç yüz bin TL'lik kaçak ve cezayı engellediğini kanıtlayacak mısın?
+                  </div>
+                </div>
+                <div class="choice-group">
+                  <button class="btn-choice bad" onclick="handleQuickChoice('hayir')">
+                    ❌ "Elimde somut tasarruf rakamı yok, sadece görevleri yazdım."
+                  </button>
+                  <button class="btn-choice" onclick="handleQuickChoice('evet')">
+                    ✔ "Evet, şirkete kazandırdığım net rakamlar var."
+                  </button>
+                </div>
+              </div>
+            `;
+          } else if (detectedTopic === 'yazilim') {
+            content = `
+              <div class="ai-clean-card">
+                <div class="ai-badge-header">
+                  <span>INVERSIONCORE // FİLTRESİZ RED TEAM DENETİMİ</span>
+                  <span style="color:var(--accent-cyber);">[AŞAMA 01]</span>
+                </div>
+                <div class="ai-claim-box">
+                  <span>MASADAKİ İDDİA:</span> "${escapeHtml(userQuery)}"
+                </div>
+                <div class="ai-body-text">
+                  Bak güzel kardeşim, kibrimizi mazur görme; çünkü senin gibi onlarca kişinin <b>aynı çocukça tuzağa düşüp parasını taşerona kaptırdığını</b> gördük.
+                  Geliştiricinin sana toplantıda gösterdiği o iki dakikalık cilalı demo videosu teslimat değildir; göz boyamadır. Ekranda iki butonun tıklanması, arkadaki veri mimarisinin çalıştığını kanıtlamaz. Sen şu an bir yazılım teslim almıyorsun; karşı tarafın insafına teslim oluyorsun.
+                </div>
+                <div class="ai-attack-box">
+                  <div class="attack-label">⚡ İLK TOKAT // KIRILMA SORUSU:</div>
+                  <div class="attack-main">
+                    Geliştirici sana canlı ortamda uçtan uca yük testi raporunu ve hata log dökümünü sundu mu? Yoksa 'abi valla her şey bitti' lafına mı kandın?
+                  </div>
+                </div>
+                <div class="choice-group">
+                  <button class="btn-choice bad" onclick="handleQuickChoice('hayir')">
+                    ❌ "Hayır, sadece toplantıda demoyu izledik."
+                  </button>
+                  <button class="btn-choice" onclick="handleQuickChoice('evet')">
+                    ✔ "Evet, bağımsız teknik test raporu elimde."
+                  </button>
+                </div>
+              </div>
+            `;
+          } else {
+            content = `
+              <div class="ai-clean-card">
+                <div class="ai-badge-header">
+                  <span>INVERSIONCORE // FİLTRESİZ RED TEAM DENETİMİ</span>
+                  <span style="color:var(--accent-cyber);">[AŞAMA 01]</span>
+                </div>
+                <div class="ai-claim-box">
+                  <span>MASADAKİ İDDİA:</span> "${escapeHtml(userQuery)}"
+                </div>
+                <div class="ai-body-text">
+                  Fikrini çok parlak sanıyorsun değil mi? Herkes seni övüyor, arkadaşların 'kesin tutar' diyor. 
+                  Biz buradayız çünkü senin o tozpembe illüzyonun gerçek pazarın sert duvarına çarptığında ilk sen kanayacaksın. 
+                  Bir kararı onaylayıp alkışlamak dünyanın en kolay işidir. Asıl cesaret, cebinden para ve zaman çıkmadan önce en ölümcül hatanı görebilmektir.
+                </div>
+                <div class="ai-attack-box">
+                  <div class="attack-label">⚡ İLK TOKAT // KIRILMA SORUSU:</div>
+                  <div class="attack-main">
+                    Bu karar 60 gün içinde tam tersine patlarsa, cebinden çıkacak doğrudan zarar nedir ve resmi bir B planın var mı?
+                  </div>
+                </div>
+                <div class="choice-group">
+                  <button class="btn-choice bad" onclick="handleQuickChoice('hayir')">
+                    ❌ "Hayır, B planım veya resmi teminatım yok."
+                  </button>
+                  <button class="btn-choice" onclick="handleQuickChoice('evet')">
+                    ✔ "Evet, resmi teminatım ve B planım var."
+                  </button>
+                </div>
+              </div>
+            `;
+          }
+          if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = "<span>SAVUN</span> ➔";
+          }
+          document.getElementById('chat-reply-input').placeholder = "Soruya somut kanıtlarla cevap ver...";
+
+        } else if (round === 2) {
+          content = `
+            <div class="ai-clean-card">
+              <div class="ai-badge-header">
+                <span>INVERSIONCORE // SAVUNMA PARÇALANDI</span>
+                <span style="color:var(--danger);">[AŞAMA 02]</span>
+              </div>
+              <div class="ai-body-text">
+                Gördün mü? <b>Tek bir soruda bütün o özgüvenin buharlaştı.</b> 
+                'Hayır' diyerek aslında masada sıfır kanıtla oturduğunu, sadece iyi niyet temennisiyle kumar oynadığını kendi ağzınla itiraf ettin. 
+                Dalkavuk danışmanlar sana 'hallederiz' der; biz ise faturayı ödeyecek olan sensin diye yüzüne vururuz.
+              </div>
+              <div class="ai-attack-box">
+                <div class="attack-label">⚡ NİHAİ TOKAT (TUR 2 / 3):</div>
+                <div class="attack-main">
+                  Yarın sabah bu süreç aleyhine dönerse, karşı tarafın yakasına yapışabileceğin resmi ve cezai bir sözleşme maddesi var mı?
+                </div>
+              </div>
+              <div class="choice-group">
+                <button class="btn-choice bad" onclick="handleQuickChoice('hayir_final')">
+                  ❌ "Hayır, yazılı cezai şart veya ihtar maddesi yok."
+                </button>
+                <button class="btn-choice" onclick="handleQuickChoice('evet_final')">
+                  ✔ "Evet, sözleşmede bağlayıcı yaptırımlar var."
+                </button>
+              </div>
+            </div>
+          `;
+          if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = "<span>HÜKMÜ AL</span> ➔";
+          }
+          document.getElementById('chat-reply-input').placeholder = "Son savunmanı yaz veya 'Hükmü Al' butonuna tıkla...";
+
+        } else if (round === 3) {
+          let weaponText = "";
+          if (detectedTopic === 'kariyer') {
+            weaponText = `Sayın İlgili,
+Ön muhasebe ve finans operasyonları pozisyonunuza ilişkin başvurum ektedir.
+Geçmiş deneyimlerimde şirket bütçesinde sağladığım %18'lik kaçak faturası önleme ve 250.000 TL'lik tahsilat optimizasyonu metriklerimi portfolyomda inceleyebilirsiniz.
+Saygılarımla.`;
+          } else if (detectedTopic === 'yazilim') {
+            weaponText = `Sayın Yetkili,
+Sözleşme kapsamındaki yazılım teslimatına ilişkin teknik kabul sürecimiz başlamıştır.
+Şirketimiz karar denetim protokolü gereğince;
+1. Canlı yük ve stres testi raporları,
+2. Veritabanı ve Git kaynak kod erişim yetkileri tarafımıza eksiksiz devredilene kadar,
+Son hak ediş ve bakiye ödemesi bloke edilmiştir. Testlerin tamamlanması için 14 iş günü süre tanınmıştır.
+Bilgilerinize sunarız.`;
+          } else {
+            weaponText = `Sayın Muhatap,
+Söz konusu karar ve ortaklık sürecine ilişkin bağımsız risk protokolümüz gereğince, taraflarca mutabık kalınan cezai şart ve bağımsız denetim raporu onaylanana kadar süreç askıya alınmıştır.
+Şartların resmileşmesini beklemekteyiz.`;
+          }
+
+          content = `
+            <div class="final-dossier-clean">
+              <div class="report-badge-red">ŞARTLI BLOKAJ // TİCARİ İHMAL TESCİLİ</div>
+              <h2 class="report-main-title">HÜKÜM: KOŞULLU KABUL // SÖZLEŞME VE KANIT BLOKAJI</h2>
+              
+              <div class="report-verdict-box">
+                "Kibrimiz nereden geliyor biliyor musun? Bu kararı bu haliyle onaylasaydın 3 ay sonra battığında haklı çıkacağımız gerçeğinden. Kendi beyanınla sabittir ki elinde sıfır delil var. Egonu kenara bırak ve aşağıdaki protokolü uygula."
+              </div>
+
+              <div class="weapon-box">
+                <div class="weapon-top">
+                  <span>⚡ AKSİYON SİLAHI // KARŞI TARAFA GÖNDERİLECEK RESMÎ İHTAR / METİN</span>
+                  <button onclick="copyWeaponText()" style="background:var(--accent-cyber); color:#000; border:none; padding:0.25rem 0.7rem; font-family:var(--font-mono); font-size:0.7rem; font-weight:700; cursor:pointer; border-radius:4px;">
+                    METNİ KOPYALA
+                  </button>
+                </div>
+                <pre class="weapon-pre" id="weapon-pre">${weaponText}</pre>
+              </div>
+
+              <div class="report-btn-row">
+                <button class="btn-act btn-act-copy" onclick="copyFullReport()">
+                  📄 RAPORU KOPYALA
+                </button>
+                <button class="btn-act btn-act-print" onclick="window.print()">
+                  🖨️ YAZDIR / PDF İNDİR
+                </button>
+                <button class="btn-act btn-act-reset" onclick="resetToHome()">
+                  🔄 YENİ BİR İLLÜZYON SORGULA
+                </button>
+              </div>
+            </div>
+          `;
+          document.getElementById('docked-bar').style.display = 'none';
+        }
+
+        row.innerHTML = content;
+        stream.appendChild(row);
+        scrollToBottom();
+      }, 550);
+    }
+
+    function handleQuickChoice(type) {
+      if (type === 'hayir') {
+        appendUserMessage("Hayır, elimde somut bir teknik rapor veya kanıt yok.");
+        currentRound = 2;
+        triggerAiTurn(2);
+      } else if (type === 'evet') {
+        appendUserMessage("Evet, bağımsız somut raporum ve kanıtım elimde.");
+        currentRound = 2;
+        triggerAiTurn(2);
+      } else if (type.includes('final')) {
+        appendUserMessage("Hayır, yazılı bir teminatım veya resmi çıkış protokolüm yok.");
+        currentRound = 3;
+        triggerAiTurn(3);
+      }
+    }
+
+    function scrollToBottom() {
+      const area = document.getElementById('scroll-area');
+      area.scrollTo({ top: area.scrollHeight, behavior: 'smooth' });
+    }
+
+    function resetToHome() {
+      isChatActive = false;
+      currentRound = 1;
+      userQuery = "";
+      
+      document.getElementById('home-welcome-screen').style.display = 'flex';
+      const stream = document.getElementById('chat-stream-nodes');
+      stream.innerHTML = "";
+      stream.style.display = 'none';
+
+      document.getElementById('docked-bar').style.display = 'none';
+      document.getElementById('btn-header-reset').style.display = 'none';
+
+      const promptInput = document.getElementById('home-prompt-input');
+      promptInput.value = "";
+      promptInput.style.height = "52px";
+
+      document.getElementById('scroll-area').scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function copyWeaponText() {
+      const text = document.getElementById('weapon-pre').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast("İhtar metni kopyalandı!");
+      });
+    }
+
+    function copyFullReport() {
+      const text = `INVERSIONCORE // TERSİNE KARAR DENETİM RAPORU
+Hüküm: KOŞULLU KABUL / ŞARTLI BLOKAJ
+İncelenen Karar: ${userQuery}
+Zarar Azaltma Protokolü: Süreci dondur ve resmi teknik kabul şartlarını ilet.
+Denetim Sistemi: https://inversioncore.com`;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast("Rapor kopyalandı!");
+      });
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.classList.add('show');
+      setTimeout(() => { t.classList.remove('show'); }, 2500);
+    }
+
+    function escapeHtml(text) {
+      return text.replace(/[&<>"']/g, function(m) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
+      });
+    }
+  </script>
+</body>
+</html>
