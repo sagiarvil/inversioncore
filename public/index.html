@@ -842,47 +842,70 @@
         varolus: 0
       };
 
-      const iliskiWords = [
-        'partner', 'aldat', 'aldatmak', 'aldatildim', 'aldatiyor', 'iliski', 'iliskim',
-        'sevgili', 'sevgilim', 'esim', 'evlilik', 'evliligim', 'ihanet', 'suphe',
-        'delil', 'yuzles', 'guven', 'guvensizlik', 'kiskanclik', 'sadakat', 'bosan',
-        'ayril', 'ayrilik', 'mesaj', 'telefon', 'yakala', 'flort', 'baskasi', 'sadakatsiz'
+      // 1. İlişki, Aldatma ve Gaslighting Sözlüğü (Yüksek Ağırlıklı)
+      const iliskiHighPriority = [
+        'aldat', 'aldatmak', 'aldatildim', 'aldatiyor', 'aldatan',
+        'sevgili', 'sevgilim', 'esim', 'partner', 'partnerim', 'karim', 'kocam',
+        'evlilik', 'evliligim', 'ihanet', 'sadakat', 'sadakatsiz', 'flort',
+        'baskasiyla', 'baska kadin', 'baska erkek', 'baskasina', 'biriyle mesaj',
+        'telefonunu karistir', 'telefonuna bak', 'delil ara', 'delil topla',
+        'yuzlessem uste', 'uste cik', 'uste cikacak', 'gaslighting', 'manipule',
+        'guvensizlik', 'kiskanclik', 'bosanma', 'ayrilik', 'terk et'
       ];
-      const mobbingWords = [
-        'mobbing', 'patron', 'mudur', 'amir', 'yonetici', 'sirket', 'isyeri', 'is yeri',
-        'tazminat', 'kovul', 'kovulma', 'istifa', 'mesai', 'maas', 'performans',
-        'calisma arkadasi', 'departman', 'insan kaynaklari'
+      const iliskiMedium = [
+        'suphe', 'delil', 'yuzles', 'guven', 'mesaj', 'telefon', 'yakala',
+        'sevgi', 'baglilik', 'ask', 'ayril', 'bosan', 'ozur', 'kavga'
       ];
+
+      // 2. İşyeri, Patron ve Mobbing Sözlüğü
+      const mobbingHighPriority = [
+        'mobbing', 'patron', 'mudur', 'amir', 'yonetici', 'genel mudur',
+        'sirket', 'isyeri', 'is yeri', 'tazminat', 'kovul', 'kovulma', 'istifa',
+        'kod 46', 'kod 49', 'is kanunu', 'insan kaynaklari', 'ik departman',
+        'mesai baskisi', 'tutanak', 'ihtar', 'performans dusuklugu'
+      ];
+      const mobbingMedium = [
+        'calisma', 'mesai', 'maas', 'departman', 'gorev', 'ofis', 'proje'
+      ];
+
+      // 3. Tabu & Mahrem Sözlüğü
       const tabuWords = [
         'tabu', 'cinsel', 'cinsellik', 'fantezi', 'sir', 'itiraf', 'ayip', 'gunah',
-        'utanc', 'sucluluk', 'porn', 'mahrem', 'baskilanan', 'gizli arzu'
+        'utanc', 'sucluluk', 'porn', 'mahrem', 'baskilanan', 'gizli arzu', 'escinsel',
+        'yasak iliski', 'escinsellik'
       ];
+
+      // 4. Varoluşsal Bıkkınlık Sözlüğü
       const varolusWords = [
         'depresyon', 'tukenmislik', 'varolus', 'anlamsizlik', 'bosluk', 'bikkinlik',
-        'enerjim yok', 'kalkamiyorum', 'yasamak', 'anlami yok', 'tukenmis', 'umutsuz'
+        'enerjim yok', 'kalkamiyorum', 'yasamak', 'anlami yok', 'tukenmis', 'umutsuz',
+        'hicbir sey istemiyorum', 'anlamsiz'
       ];
 
-      iliskiWords.forEach(w => { if (clean.includes(w)) scores.iliski += 4; });
-      mobbingWords.forEach(w => { if (clean.includes(w)) scores.mobbing += 4; });
-      tabuWords.forEach(w => { if (clean.includes(w)) scores.tabu += 4; });
-      varolusWords.forEach(w => { if (clean.includes(w)) scores.varolus += 4; });
+      iliskiHighPriority.forEach(w => { if (clean.includes(w)) scores.iliski += 6; });
+      iliskiMedium.forEach(w => { if (clean.includes(w)) scores.iliski += 2; });
 
-      if (clean.includes('aldat') || clean.includes('partner') || clean.includes('iliski') || clean.includes('sevgili')) {
-        scores.iliski += 15;
-      }
-      if (clean.includes('mobbing') || clean.includes('mudur') || clean.includes('patron')) {
-        scores.mobbing += 15;
+      mobbingHighPriority.forEach(w => { if (clean.includes(w)) scores.mobbing += 6; });
+      mobbingMedium.forEach(w => { if (clean.includes(w)) scores.mobbing += 2; });
+
+      tabuWords.forEach(w => { if (clean.includes(w)) scores.tabu += 5; });
+      varolusWords.forEach(w => { if (clean.includes(w)) scores.varolus += 5; });
+
+      // Çarpışma Önleme Kuralı (Collision Suppression):
+      // Romantik/ilişki ipuçları varsa, 'üst', 'iş arkadaşı' gibi kelimelerden gelen mobbing puanını bastır.
+      if (scores.iliski >= 6) {
+        scores.mobbing = Math.max(0, scores.mobbing - 6);
       }
 
-      let maxCat = 'iliski';
+      let maxTopic = 'iliski';
       let maxScore = -1;
       for (const [k, v] of Object.entries(scores)) {
         if (v > maxScore) {
           maxScore = v;
-          maxCat = k;
+          maxTopic = k;
         }
       }
-      return maxScore > 0 ? maxCat : 'iliski';
+      return maxScore > 0 ? maxTopic : 'iliski';
     }
 
     function startAuditFlow() {
@@ -1369,7 +1392,6 @@ Aksi takdirde İş Kanunu Madde 24/II uyarınca haklı fesih hakkımı kullanara
         triggerAiTurn(3);
       }
     }
-    }
 
     function scrollToBottom() {
       const area = document.getElementById('scroll-area');
@@ -1405,11 +1427,8 @@ Aksi takdirde İş Kanunu Madde 24/II uyarınca haklı fesih hakkımı kullanara
     }
 
     function copyFullReport() {
-      const text = `INVERSIONCORE // TERSİNE KARAR DENETİM RAPORU
-Hüküm: KOŞULLU KABUL / ŞARTLI BLOKAJ
-İncelenen Karar: ${userQuery}
-Zarar Azaltma Protokolü: Süreci dondur ve resmi teknik kabul şartlarını ilet.
-Denetim Sistemi: https://inversioncore.com`;
+      const weapon = document.getElementById('weapon-pre') ? document.getElementById('weapon-pre').innerText : '';
+      const text = `INVERSIONCORE // TERSİNE KARAR VE İLLÜZYON DENETİM RAPORU\nOdak: ${userQuery}\nTespit Edilen Alan: ${detectedTopic.toUpperCase()}\nStratejik Hüküm ve Aksiyon Protokolü:\n${weapon}\n\nSistem: https://inversioncore.com`;
       navigator.clipboard.writeText(text).then(() => {
         showToast("Rapor kopyalandı!");
       });
