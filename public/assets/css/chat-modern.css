@@ -443,3 +443,139 @@ body.is-interviewing .hero {
 #introComposer[hidden] { display: none !important; }
 .workbench-main { padding: 0 !important; }
 #introComposer { padding: 24px 28px !important; }
+
+/* ==========================================================================
+   FİNAL RAPOR & PDF İYİLEŞTİRMELERİ (Zero Breakage & Professional Print)
+   ========================================================================== */
+
+/* Final kutusunda alt metinlerin kırılmasını / taşmasını engelle */
+#threadActions {
+  background: #ffffff !important;
+  border-top: 1.5px solid #e7ded0 !important;
+  padding: 16px 24px !important;
+  margin-top: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-shrink: 0 !important;
+  position: relative !important;
+  z-index: 5 !important;
+}
+
+#threadActions strong {
+  font-family: Georgia, serif !important;
+  font-size: 14.5px !important;
+  color: #142238 !important;
+}
+
+#threadActions p {
+  font-size: 12px !important;
+  color: #687584 !important;
+  margin: 3px 0 0 !important;
+}
+
+/* Chat akışının altındaki boşluk: son metin footer tarafından asla kesilmez */
+.dialogue-stream {
+  padding-bottom: 30px !important;
+}
+
+.chat-entry.assistant.final {
+  margin-bottom: 12px !important;
+}
+
+/* PROFESYONEL PDF / YAZDIRMA (McKinsey / FT Grade Clean Print) */
+@media print {
+  @page {
+    margin: 20mm 15mm;
+    size: A4 portrait;
+  }
+  
+  html, body {
+    background: #ffffff !important;
+    color: #111111 !important;
+    font-size: 11pt !important;
+    line-height: 1.6 !important;
+  }
+
+  /* Gereksiz tüm web bileşenlerini temizle */
+  header, footer, .site-header, .site-footer, .hero-content, .hero-mountains, 
+  .workbench-top, .workbench-footer, .thread-top, #threadActions, 
+  .chat-entry.user, .chat-question-block, .chat-custom-input-row,
+  .reset-button, .fast-forward, .step-track, .intro-composer {
+    display: none !important;
+  }
+
+  /* Ana içerik kapsayıcısını tam genişliğe aç */
+  #analysisWorkbench, #thread, .workbench-main, .dialogue-stream {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+  }
+
+  /* Sadece final raporunu göster */
+  .chat-entry.assistant:not(.final) {
+    display: none !important;
+  }
+
+  .chat-entry.assistant.final {
+    display: block !important;
+    page-break-inside: auto !important;
+  }
+
+  .chat-entry.assistant.final .chat-content {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    font-family: Georgia, 'Times New Roman', serif !important;
+    font-size: 11pt !important;
+    line-height: 1.65 !important;
+  }
+
+  /* PDF Başlıkları */
+  .chat-section-header, .chat-content h3 {
+    font-size: 14pt !important;
+    color: #0b1523 !important;
+    border-bottom: 1pt solid #333333 !important;
+    page-break-after: avoid !important;
+    margin-top: 18pt !important;
+    margin-bottom: 8pt !important;
+  }
+
+  /* PDF Fosforlu Vurguları - Baskıda net gri tonlama / hafif sarı */
+  mark.chat-highlight-gold {
+    background: #f7edbe !important;
+    color: #000000 !important;
+    font-weight: bold !important;
+    box-shadow: none !important;
+  }
+
+  mark.chat-highlight-pink {
+    background: #f3d4df !important;
+    color: #000000 !important;
+    font-weight: bold !important;
+    box-shadow: none !important;
+  }
+
+  /* PDF Mıknatıs Kutusu */
+  .chat-magnet-quote {
+    border-left: 3pt solid #142238 !important;
+    background: #f7f7f7 !important;
+    padding: 8pt 12pt !important;
+    margin: 12pt 0 !important;
+    font-style: italic !important;
+  }
+
+  .final-verdict {
+    border: 1pt solid #000 !important;
+    border-left: 4pt solid #000 !important;
+    background: #f0f0f0 !important;
+    color: #000 !important;
+    font-weight: bold !important;
+    margin-bottom: 15pt !important;
+  }
+}
