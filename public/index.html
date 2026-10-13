@@ -1587,12 +1587,10 @@
         if (homeHint) homeHint.innerText = "// " + file.name.toUpperCase() + " EKLENDİ - ANALİZ BAŞLATILIYOR...";
         showToast("✅ " + file.name + " eklendi. Adli analiz başlatılıyor...");
 
-        // Kullanıcı giriş kutusunda beklemek zorunda kalmasın; görsel eklendiğinde otonom olarak parçalama analizini başlat:
+        // Kullanıcı giriş kutusunda beklemek zorunda kalmasın; görsel eklendiğinde doğrudan analiz ekranına geçir:
         setTimeout(() => {
-          if (!isChatActive) {
-            startAuditFlow();
-          }
-        }, 650);
+          startAuditFlow();
+        }, 500);
       } catch (err) {
         console.error("Görsel analiz hatası:", err);
         showToast("⚠️ Görsel analizi sırasında hata oluştu: " + (err.message || err));
