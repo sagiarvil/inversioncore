@@ -98,7 +98,9 @@ class InversionCoreEngine:
         # Dinamik Teşhis Üretici (Ölü kod temizlendi, bağlama duyarlı hale getirildi)
         q_lower = user_query.lower()
         if not recovered.get("teshis"):
-            if any(w in q_lower for w in ["fft", "prnu", "adli", "görsel", "montaj", "splicing", "sahte profil"]):
+            if any(w in q_lower for w in ["triangulation", "fasiyal", "maske makası", "facs", "karakter", "kişilik", "damat", "benlik"]):
+                recovered["teshis"] = "Biyopsikososyal Benlik Yarılması, Narsisistik Maske ve Kronik Küçümseme İzi."
+            elif any(w in q_lower for w in ["fft", "prnu", "adli", "görsel", "montaj", "splicing", "sahte profil"]):
                 recovered["teshis"] = "Dijital Manipülasyon, Sentetik Sinyal Tahrifatı ve Sahte Kimlik Maskesi."
             elif any(w in q_lower for w in ["sevgili", "aldat", "aldatma", "eski", "ayrılık", "evlilik", "partner"]):
                 recovered["teshis"] = "İkili İlişkide İhanet, Sınır İhlali ve Güven İllüzyonu."
@@ -118,26 +120,52 @@ class InversionCoreEngine:
     def process_turn(cls, session_id: str, user_query: str, round_num: int = 1, decision: str = "", forensic_context: Optional[dict] = None) -> InversionOutput:
         effective_query = decision if decision else user_query
         
-        # Eğer forensic_context iletildiyse ve sorguda açıkça yer almıyorsa bağlama enjekte et
+        # Eğer 3-Nokta Karakter Penetrasyonu veya forensic_context iletildiyse bağlama cerrahi olarak enjekte et
         if forensic_context and isinstance(forensic_context, dict):
-            file_name = forensic_context.get("file", "delil_gorseli.png")
-            fft_score = forensic_context.get("fft_ai_score", "0.7558")
-            prnu_var = forensic_context.get("prnu_variance", "10.15")
-            cranial_sym = forensic_context.get("cranial_symmetry", "79.6")
-            verdict = forensic_context.get("verdict", "ADLİ ÇELİŞKİ / MANİPÜLASYON ŞÜPHESİ")
-            
-            forensic_injection = (
-                f"\n\n[RESMİ ADLİ TIP MATRİSİ // MULTIMODAL FORENSICS]:\n"
-                f"- Dosya: {file_name}\n"
-                f"- 2D FFT Spektral AI İzi: {fft_score} (Sentetik Difüzyon)\n"
-                f"- PRNU Sensör Kalıntı Varyansı: {prnu_var} σ (Bölgesel Montaj / Splicing)\n"
-                f"- Kraniyofasiyal Bilateral Simetri: %{cranial_sym}\n"
-                f"- Adli Hüküm: {verdict}\n"
-                f"TALİMAT: Bu teknik bulguları temel alarak sahte profil ve tahrifat üzerine tersine mühendislik yürüt. "
-                f"Kullanıcı metninde romantik/ilişki kelimesi yoksa konuyu ASLA sevgiliye veya evliliğe çekme!"
-            )
-            if forensic_injection not in effective_query:
-                effective_query = f"{effective_query}{forensic_injection}"
+            # 1. 3-Nokta Karakter & Biyopsikososyal Penetrasyon Modu
+            if "persona_authenticity_gap" in forensic_context or forensic_context.get("type") == "behavioral_triangulation":
+                role = forensic_context.get("role_label", "Kişi Analizi")
+                mask_gap = forensic_context.get("persona_authenticity_gap", "38.5")
+                contempt = forensic_context.get("chronic_contempt_index", "42.0")
+                availability = forensic_context.get("emotional_availability", "55.0")
+                ego_struct = forensic_context.get("ego_structure", "Yüksek Kontrollü Sahte Benlik")
+                conflict = forensic_context.get("conflict_reflex", "DARVO / Suçluluk Yansıtma")
+                vuln = forensic_context.get("vulnerability", "Statü ve kontrol kaybı")
+                
+                behavioral_injection = (
+                    f"\n\n[INVERSIONCORE // 3-NOKTA BİYOPSİKOSOSYAL KİŞİLİK OTOPSİSİ MATRİSİ]:\n"
+                    f"- Hedef Rol: {role}\n"
+                    f"- Maske Makası (Benlik Yarılması): %{mask_gap}\n"
+                    f"- Kronik Küçümseme (FACS AU14 Contempt İndeksi): %{contempt}\n"
+                    f"- Duygusal Erişilebilirlik: %{availability}\n"
+                    f"- Ego Yapısı: {ego_struct}\n"
+                    f"- Çatışma Refleksi: {conflict}\n"
+                    f"- Zayıf Karnı: {vuln}\n\n"
+                    f"ÖZEL TALİMAT (DAVRANIŞ BİLİMİ & ADLİ PSİKOLOJİ): Bu verileri kullanarak kişinin derin karakterini, "
+                    f"vitrin maskesinin arkasındaki gerçek niyetini, kriz anında uygulayacağı manipülasyonu (DARVO, sessiz ceza, gaslighting) "
+                    f"ve kullanıcıya kuracağı tahakkümü acımasız bir cerrah gibi deşifre et. 'Piksel/montaj' analizi değil; GERÇEK İNSAN VE KARAKTER OTOPSİSİ yap!"
+                )
+                if behavioral_injection not in effective_query:
+                    effective_query = f"{effective_query}{behavioral_injection}"
+            else:
+                # 2. Standart Adli Sinyal Modu
+                file_name = forensic_context.get("file", "delil_gorseli.png")
+                fft_score = forensic_context.get("fft_ai_score", "0.7558")
+                prnu_var = forensic_context.get("prnu_variance", "10.15")
+                cranial_sym = forensic_context.get("cranial_symmetry", "79.6")
+                verdict = forensic_context.get("verdict", "ADLİ ÇELİŞKİ / MANİPÜLASYON ŞÜPHESİ")
+                
+                forensic_injection = (
+                    f"\n\n[RESMİ ADLİ TIP MATRİSİ // MULTIMODAL FORENSICS]:\n"
+                    f"- Dosya: {file_name}\n"
+                    f"- 2D FFT Spektral AI İzi: {fft_score} (Sentetik Difüzyon)\n"
+                    f"- PRNU Sensör Kalıntı Varyansı: {prnu_var} σ (Bölgesel Montaj / Splicing)\n"
+                    f"- Kraniyofasiyal Bilateral Simetri: %{cranial_sym}\n"
+                    f"- Adli Hüküm: {verdict}\n"
+                    f"TALİMAT: Bu teknik bulguları temel alarak sahte profil ve tahrifat üzerine tersine mühendislik yürüt."
+                )
+                if forensic_injection not in effective_query:
+                    effective_query = f"{effective_query}{forensic_injection}"
 
         # 1. Kırmızı Çizgi Kalkanı
         blocked, reason, message = evaluate_guardrails(effective_query)

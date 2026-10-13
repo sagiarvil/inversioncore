@@ -72,7 +72,30 @@ async def health_check():
     }
 
 from forensic_engine import ProfessionalForensicEngine
+from behavioral_profiler import HumanBehavioralProfiler
 import base64
+
+class TriangulationRequest(BaseModel):
+    formal_image: str = Field(description="Slot 1: Vitrin / Resmi poz (Base64)")
+    candid_image: str = Field(description="Slot 2: Doğal / Spontan an (Base64)")
+    social_image: str = Field(description="Slot 3: Sosyal / Beden dili (Base64)")
+    target_role: str = Field(default="partner", description="Hedef rol: partner | groom_candidate | business_partner | manager | self")
+    custom_question: Optional[str] = Field(default="", description="Kullanıcının özel sorusu veya şüphesi")
+
+@app.post("/api/triangulation-audit")
+async def triangulation_personality_audit(req: TriangulationRequest):
+    try:
+        result = await asyncio.to_thread(
+            HumanBehavioralProfiler.analyze_triangulation,
+            formal_img=req.formal_image,
+            candid_img=req.candid_image,
+            social_img=req.social_image,
+            target_role=req.target_role,
+            custom_question=req.custom_question or ""
+        )
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Davranış ve Karakter Analiz Motoru Hatası: {str(e)}")
 
 class ForensicImageRequest(BaseModel):
     image_base64: str = Field(description="Base64 kodlu görsel verisi")

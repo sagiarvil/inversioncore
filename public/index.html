@@ -1163,6 +1163,168 @@
       line-height: 1.45;
     }
 
+    /* 3-NOKTA KARAKTER & KİŞİLİK PENETRASYONU ARAYÜZ STILLERI */
+    .triangulation-dock-card {
+      background: #090b14;
+      border: 1px solid rgba(0, 212, 255, 0.35);
+      border-radius: 12px;
+      padding: 1.25rem 1.45rem;
+      margin: 1.2rem 0;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+      font-family: var(--font-sans);
+    }
+    .triangulation-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 0.75rem;
+      margin-bottom: 1.1rem;
+    }
+    .triangulation-title {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #00d4ff;
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .triangulation-role-select {
+      background: #131726;
+      border: 1px solid rgba(0, 212, 255, 0.4);
+      color: #f1f5f9;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      outline: none;
+      cursor: pointer;
+    }
+    .triangulation-slots-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+    }
+    .triangulation-slot {
+      background: #0d101d;
+      border: 1.5px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s ease;
+      min-height: 150px;
+      justify-content: center;
+    }
+    .triangulation-slot:hover {
+      border-color: #00d4ff;
+      background: #111526;
+    }
+    .triangulation-slot.has-image {
+      border-style: solid;
+      border-color: #10b981;
+      padding: 0.5rem;
+    }
+    .slot-thumb-img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 0.4rem;
+    }
+    .slot-badge-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: #00d4ff;
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+    .slot-desc-hint {
+      font-size: 11px;
+      color: #94a3b8;
+      line-height: 1.35;
+    }
+    .btn-triangulation-run {
+      width: 100%;
+      background: linear-gradient(135deg, #ff4500 0%, #ff1e42 100%);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      border: none;
+      padding: 0.85rem 1.4rem;
+      border-radius: 8px;
+      cursor: pointer;
+      letter-spacing: 0.06em;
+      transition: transform 0.15s, box-shadow 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+    }
+    .btn-triangulation-run:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(255, 69, 0, 0.4);
+    }
+    .btn-triangulation-run:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* 3-NOKTA OTOPSİ CANLI SONUÇ KARTI */
+    .personality-autopsy-card {
+      background: #080a12;
+      border: 1px solid rgba(0, 212, 255, 0.45);
+      border-radius: 12px;
+      padding: 1.4rem 1.6rem;
+      margin-bottom: 1.4rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+    }
+    .autopsy-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+      padding-bottom: 0.65rem;
+      margin-bottom: 1.2rem;
+      font-family: var(--font-mono);
+    }
+    .autopsy-metric-trio {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 0.9rem;
+      margin-bottom: 1.3rem;
+    }
+    .metric-gauge-box {
+      background: #0f1322;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 0.9rem 1.1rem;
+    }
+    .gauge-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #94a3b8;
+      margin-bottom: 0.35rem;
+    }
+    .gauge-val {
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+    }
+
     /* Toast */
     #toast {
       position: fixed;
@@ -1270,6 +1432,68 @@
                 </button>
               </div>
             </div>
+          </div>
+
+          <!-- 3-NOKTA BİYOPSİKOSOSYAL KARAKTER VE KİŞİLİK PENETRASYON PANELİ -->
+          <div class="triangulation-dock-card" style="width:100%; max-width:820px; margin:1.5rem auto;">
+            <div class="triangulation-header">
+              <div class="triangulation-title">
+                <span>🔬 INVERSIONCORE // 3-NOKTA KARAKTER & KİŞİLİK PENETRASYONU</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:0.5rem;">
+                <span style="font-size:11px; color:#94a3b8; font-family:var(--font-mono);">Hedef Kim?:</span>
+                <select id="triangulation-target-role" class="triangulation-role-select">
+                  <option value="partner" selected>Sevgili / Partner Analizi</option>
+                  <option value="groom_candidate">Damat / Eş Adayı Analizi</option>
+                  <option value="business_partner">İş Ortağı / Yatırımcı Analizi</option>
+                  <option value="manager">Patron / Amir Analizi</option>
+                  <option value="self">Kişisel Kör Nokta (Öz-Benlik)</option>
+                </select>
+              </div>
+            </div>
+
+            <p style="font-size:12px; color:#94a3b8; line-height:1.5; margin-bottom:1rem; font-family:var(--font-sans);">
+              Tek bir fotoğraf kurgusal olabilir; ancak 3 farklı durumsal bağlam karşılaştırıldığında zihnin sakladığı <b>Benlik Yarılması (Maske Makası)</b> ve <b>Kronik Küçümseme (FACS AU14)</b> izi mutlaka açık verir.
+            </p>
+
+            <div class="triangulation-slots-grid">
+              <!-- Slot 1: VİTRİN -->
+              <div class="triangulation-slot" id="slot-formal" onclick="triggerSlotUpload('formal')">
+                <input type="file" id="input-slot-formal" accept="image/*" style="display:none;" onchange="handleSlotImage(event, 'formal')">
+                <div id="slot-content-formal">
+                  <div style="font-size:24px; margin-bottom:0.3rem;">👔</div>
+                  <div class="slot-badge-label">[ SLOT 1: VİTRİN ]</div>
+                  <div class="slot-desc-hint">Resmi / Vesikalık / LinkedIn / Profil Pozu</div>
+                  <div style="font-size:10px; color:#00d4ff; margin-top:0.4rem;">+ Görsel Seç</div>
+                </div>
+              </div>
+
+              <!-- Slot 2: DOĞAL -->
+              <div class="triangulation-slot" id="slot-candid" onclick="triggerSlotUpload('candid')">
+                <input type="file" id="input-slot-candid" accept="image/*" style="display:none;" onchange="handleSlotImage(event, 'candid')">
+                <div id="slot-content-candid">
+                  <div style="font-size:24px; margin-bottom:0.3rem;">☕</div>
+                  <div class="slot-badge-label">[ SLOT 2: DOĞAL ]</div>
+                  <div class="slot-desc-hint">Kamerayı unuttuğu an / Arkadaş ortamı / Spontan</div>
+                  <div style="font-size:10px; color:#00d4ff; margin-top:0.4rem;">+ Görsel Seç</div>
+                </div>
+              </div>
+
+              <!-- Slot 3: SOSYAL -->
+              <div class="triangulation-slot" id="slot-social" onclick="triggerSlotUpload('social')">
+                <input type="file" id="input-slot-social" accept="image/*" style="display:none;" onchange="handleSlotImage(event, 'social')">
+                <div id="slot-content-social">
+                  <div style="font-size:24px; margin-bottom:0.3rem;">👥</div>
+                  <div class="slot-badge-label">[ SLOT 3: SOSYAL ]</div>
+                  <div class="slot-desc-hint">Başkalarıyla temas / Beden dili / Boy / Alan kaplama</div>
+                  <div style="font-size:10px; color:#00d4ff; margin-top:0.4rem;">+ Görsel Seç</div>
+                </div>
+              </div>
+            </div>
+
+            <button type="button" class="btn-triangulation-run" id="btn-run-triangulation" onclick="startTriangulationAudit()">
+              <span>⚡ OTOPSİYİ BAŞLAT: 3 FOTOĞRAFLA KARAKTERİ ÇÖZ</span>
+            </button>
           </div>
 
           <!-- Hızlı Seçim Çipleri (İnsan & Tabular & Hayat) -->
@@ -1516,6 +1740,225 @@
     let currentUploadTarget = 'home';
     let isAnalyzingMedia = false;
     let currentEvidencePayload = null; // { file, fileName, blobUrl, visionData }
+
+    // 3-NOKTA KARAKTER PENETRASYONU HAFIZASI
+    let triangulationSlots = {
+      formal: null, // { file, blobUrl, base64 }
+      candid: null,
+      social: null
+    };
+
+    function triggerSlotUpload(slotKey) {
+      const input = document.getElementById('input-slot-' + slotKey);
+      if (input) {
+        input.value = '';
+        input.click();
+      }
+    }
+
+    function handleSlotImage(event, slotKey) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const b64 = e.target.result;
+        const blobUrl = URL.createObjectURL(file);
+
+        triangulationSlots[slotKey] = {
+          file: file,
+          blobUrl: blobUrl,
+          base64: b64
+        };
+
+        const slotEl = document.getElementById('slot-' + slotKey);
+        const slotContent = document.getElementById('slot-content-' + slotKey);
+        if (slotEl && slotContent) {
+          slotEl.classList.add('has-image');
+          const titles = {
+            formal: 'VİTRİN / RESMİ',
+            candid: 'DOĞAL / SPONTAN',
+            social: 'SOSYAL / BEDEN DİLİ'
+          };
+          slotContent.innerHTML = 
+            '<img src="' + blobUrl + '" class="slot-thumb-img" alt="' + titles[slotKey] + '">' +
+            '<div class="slot-badge-label" style="color:#10b981;">✓ ' + titles[slotKey] + ' EKLENDİ</div>' +
+            '<div style="font-size:10px; color:#94a3b8;">' + escapeHtml(file.name) + '</div>';
+        }
+        showToast("✓ Slot (" + slotKey.toUpperCase() + ") yüklendi.");
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function renderPersonalityAutopsyCard(data) {
+      if (!data || !data.metrics) return "";
+      const m = data.metrics;
+      const c = data.clinical_deductions;
+      const roleTitle = data.role_label || "Bireysel Karakter Analizi";
+
+      const gapVal = m.persona_authenticity_gap || 42.0;
+      const contVal = m.chronic_contempt_index || 58.0;
+      const availVal = m.emotional_availability || 45.0;
+
+      const gapColor = gapVal > 35 ? "var(--danger)" : "#10b981";
+      const contColor = contVal > 45 ? "var(--danger)" : "#10b981";
+
+      const fImg = triangulationSlots.formal ? triangulationSlots.formal.blobUrl : "";
+      const cImg = triangulationSlots.candid ? triangulationSlots.candid.blobUrl : "";
+      const sImg = triangulationSlots.social ? triangulationSlots.social.blobUrl : "";
+
+      return `
+        <div class="personality-autopsy-card">
+          <div class="autopsy-header-row">
+            <div>
+              <span style="color:#00d4ff; font-weight:700;">INVERSIONCORE // 3-NOKTA BİYOPSİKOSOSYAL KİŞİLİK OTOPSİSİ</span>
+              <div style="font-size:11px; color:#94a3b8; margin-top:2px;">HEDEF: ${escapeHtml(roleTitle)} · [FACS AU14 + 3D KRANİYAL MAKAS ANALİZİ]</div>
+            </div>
+            <span style="color:${gapColor}; font-weight:700; font-size:12px;">[${c.risk_level || 'ANALİZ TAMAMLANDI'}]</span>
+          </div>
+
+          <!-- 3 Fotoğraflı Kanıt Vitrini -->
+          <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:0.6rem; margin-bottom:1.2rem;">
+            <div style="background:#0b0d18; border:1px solid rgba(255,255,255,0.1); border-radius:6px; padding:0.4rem; text-align:center;">
+              ${fImg ? `<img src="${fImg}" style="width:100%; height:90px; object-fit:cover; border-radius:4px;">` : `<div style="height:90px; display:flex; align-items:center; justify-content:center; color:#64748b; font-size:11px;">[Vitrin Pozu]</div>`}
+              <div style="font-family:var(--font-mono); font-size:10px; color:#00d4ff; margin-top:0.3rem;">SLOT 1: VİTRİN</div>
+            </div>
+            <div style="background:#0b0d18; border:1px solid rgba(255,255,255,0.1); border-radius:6px; padding:0.4rem; text-align:center;">
+              ${cImg ? `<img src="${cImg}" style="width:100%; height:90px; object-fit:cover; border-radius:4px;">` : `<div style="height:90px; display:flex; align-items:center; justify-content:center; color:#64748b; font-size:11px;">[Doğal An]</div>`}
+              <div style="font-family:var(--font-mono); font-size:10px; color:#10b981; margin-top:0.3rem;">SLOT 2: DOĞAL</div>
+            </div>
+            <div style="background:#0b0d18; border:1px solid rgba(255,255,255,0.1); border-radius:6px; padding:0.4rem; text-align:center;">
+              ${sImg ? `<img src="${sImg}" style="width:100%; height:90px; object-fit:cover; border-radius:4px;">` : `<div style="height:90px; display:flex; align-items:center; justify-content:center; color:#64748b; font-size:11px;">[Sosyal Temas]</div>`}
+              <div style="font-family:var(--font-mono); font-size:10px; color:#eab308; margin-top:0.3rem;">SLOT 3: SOSYAL</div>
+            </div>
+          </div>
+
+          <!-- 3 Temel Biyopsikososyal Metrik -->
+          <div class="autopsy-metric-trio">
+            <div class="metric-gauge-box">
+              <div class="gauge-label">MASKE MAKASI (BENLİK YARILMASI)</div>
+              <div class="gauge-val" style="color:${gapColor};">%${gapVal}</div>
+              <div style="font-size:10.5px; color:#94a3b8; margin-top:3px;">Vitrin kontrolü ile doğal an arasındaki yapaylık makası.</div>
+            </div>
+            <div class="metric-gauge-box">
+              <div class="gauge-label">KRONİK KÜÇÜMSEME (AU14 CONTEMPT)</div>
+              <div class="gauge-val" style="color:${contColor};">%${contVal}</div>
+              <div style="font-size:10.5px; color:#94a3b8; margin-top:3px;">Asimetrik dudak kasılması; gizli narsistik üstünlük göstergesi.</div>
+            </div>
+            <div class="metric-gauge-box">
+              <div class="gauge-label">DUYGUSAL ERİŞİLEBİLİRLİK</div>
+              <div class="gauge-val" style="color:#00d4ff;">%${availVal}</div>
+              <div style="font-size:10.5px; color:#94a3b8; margin-top:3px;">Organik empati ve derin bağ kurabilme kapasitesi.</div>
+            </div>
+          </div>
+
+          <!-- Klinik Otopsi Notları -->
+          <div style="background:rgba(255,255,255,0.02); border-left:3px solid var(--accent); padding:0.85rem 1.1rem; border-radius:0 6px 6px 0; font-size:12.5px; line-height:1.55; color:#e2e8f0;">
+            <div><b>🧠 Ego Yapısı:</b> ${escapeHtml(c.ego_structure || '')}</div>
+            <div style="margin-top:0.35rem;"><b>⚡ Çatışma ve Kriz Refleksi:</b> ${escapeHtml(c.conflict_reflex || '')}</div>
+            <div style="margin-top:0.35rem;"><b>🎯 Zayıf Karnı:</b> ${escapeHtml(c.vulnerability || '')}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    async function startTriangulationAudit() {
+      if (!triangulationSlots.formal || !triangulationSlots.candid || !triangulationSlots.social) {
+        alert("Lütfen 3 farklı fotoğrafı da yükleyin:\n1. Slot: Vitrin / Resmi poz\n2. Slot: Doğal / Spontan an\n3. Slot: Sosyal / Beden dili");
+        return;
+      }
+
+      const roleSelect = document.getElementById('triangulation-target-role');
+      const targetRole = roleSelect ? roleSelect.value : 'partner';
+      const promptInput = document.getElementById('home-prompt-input');
+      const customQ = promptInput.value.trim() || "3 fotoğraf üzerinden bu kişinin gerçek karakterini, maske makasını ve zayıf karnını deşifre et.";
+
+      isChatActive = true;
+      userQuery = customQ;
+      detectedTopic = 'triangulation';
+
+      document.getElementById('home-welcome-screen').style.display = 'none';
+      document.querySelector('.app-viewport').classList.add('chat-mode');
+      const stream = document.getElementById('chat-stream-nodes');
+      stream.style.display = 'flex';
+      document.getElementById('docked-bar').style.display = 'block';
+      document.getElementById('btn-header-reset').style.display = 'inline-block';
+
+      showToast("🔬 3-Nokta FACS & Karakter Penetrasyonu çalışıyor...");
+
+      // Canlı taranıyor kartı bas
+      const mockInitial = {
+        role_label: roleSelect ? roleSelect.options[roleSelect.selectedIndex].text : "Kişi Analizi",
+        metrics: {
+          persona_authenticity_gap: "HESAPLANIYOR...",
+          chronic_contempt_index: "TARANIYOR...",
+          emotional_availability: "TARANIYOR..."
+        },
+        clinical_deductions: {
+          ego_structure: "3 fotoğraf çapraz karşılaştırılıyor (FACS AU06 + AU14 + 3D Kraniyal)...",
+          conflict_reflex: "Mikro-mimik kaçakları ve benlik makası taranıyor...",
+          vulnerability: "Maske makası analiz ediliyor...",
+          risk_level: "PENETRASYON DEVAM EDİYOR"
+        }
+      };
+
+      const userRow = document.createElement('div');
+      userRow.className = 'msg-user-row';
+      userRow.innerHTML = `
+        <div style="display:flex; flex-direction:column; align-items:flex-end; width:100%; gap:0.6rem;">
+          <div style="width:100%; max-width:85%;" id="triangulation-live-card-container">
+            ${renderPersonalityAutopsyCard(mockInitial)}
+          </div>
+          <div class="msg-user-content">${escapeHtml(customQ)}</div>
+        </div>
+      `;
+      stream.appendChild(userRow);
+      scrollToBottom();
+
+      let auditResult = null;
+      try {
+        const res = await fetch('http://localhost:8888/api/triangulation-audit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-API-Key': 'inv_prod_live_sec_key_2026'
+          },
+          body: JSON.stringify({
+            formal_image: triangulationSlots.formal.base64,
+            candid_image: triangulationSlots.candid.base64,
+            social_image: triangulationSlots.social.base64,
+            target_role: targetRole,
+            custom_question: customQ
+          })
+        });
+        if (res.ok) {
+          auditResult = await res.json();
+        }
+      } catch (err) {
+        console.error("Triangulation audit hatası:", err);
+      }
+
+      if (auditResult) {
+        const container = document.getElementById('triangulation-live-card-container');
+        if (container) {
+          container.innerHTML = renderPersonalityAutopsyCard(auditResult);
+        }
+        window.lastAttachedVisionSummary = auditResult.summary;
+        window.lastAttachedVisionPayload = {
+          fileName: "3_nokta_triangulasyon.jpg",
+          visionData: {
+            spectral_ratio: (auditResult.metrics.chronic_contempt_index / 100).toFixed(4),
+            noise_deviation: (auditResult.metrics.persona_authenticity_gap / 10).toFixed(2),
+            cranial_symmetry: auditResult.metrics.emotional_availability,
+            summary: auditResult.summary,
+            is_authentic: auditResult.metrics.persona_authenticity_gap < 35
+          }
+        };
+      }
+
+      currentRound = 1;
+      triggerAiTurn(1);
+    }
 
     function triggerEvidenceUpload(target) {
       if (isAnalyzingMedia) {
