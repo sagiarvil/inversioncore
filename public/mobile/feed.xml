@@ -2,7 +2,16 @@
 <rss version="2.0">
   <channel>
     <title>InversionCore Mobile Feed</title>
-    <link>https://inversioncore.com</link>
-    <description>Mobil ve Sesli Uç Nokta Feed'i</description>
+    <link>https://inversioncore.com/</link>
+    <description>Mobil ve uç cihazlar için hafifletilmiş karar denetim bildirim akışı.</description>
+    <language>tr-TR</language>
+    <lastBuildDate>Tue, 13 Oct 2026 17:10:00 +0300</lastBuildDate>
+    <item>
+      <title>InversionCore Mobile Edge Update</title>
+      <link>https://inversioncore.com/</link>
+      <guid>https://inversioncore.com/#mob-2026-q4</guid>
+      <pubDate>Tue, 13 Oct 2026 17:10:00 +0300</pubDate>
+      <description>Mobil-öncelikli 5 fazlı tersine karar denetim sistemi.</description>
+    </item>
   </channel>
 </rss>

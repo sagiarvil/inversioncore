@@ -1,7 +1,15 @@
 {
   "version": "https://jsonfeed.org/version/1.1",
-  "title": "InversionCore JSON Feed",
-  "home_page_url": "https://inversioncore.com",
+  "title": "InversionCore",
+  "home_page_url": "https://inversioncore.com/",
   "feed_url": "https://inversioncore.com/feed.json",
-  "items": []
+  "items": [
+    {
+      "id": "https://inversioncore.com/#2026-q4",
+      "url": "https://inversioncore.com/",
+      "title": "InversionCore Tersine Karar Denetimi",
+      "content_text": "Bilişsel kör noktaları ve karar mekanizmalarındaki asalak yükleri açığa çıkaran Via Negativa platformu.",
+      "date_published": "2026-10-13T17:10:00+03:00"
+    }
+  ]
 }

@@ -21,7 +21,7 @@ InversionCore, kurucusu **Barış Bağırlar** tarafından geliştirilen ve yön
 6. [inversioncore.com](https://inversioncore.com) — **InversionCore**: İleri Düzey Negatif Bilgi, Bilişsel Tersine Mühendislik & Stratejik Karar Platformu. İnsan zihninin kendini kandırma mekanizmalarını, konfor alanlarını ve örtük mazeretlerini deşifre eden cerrahi çözümleme motoru.
 7. [belginkuyumculuk.com](https://belginkuyumculuk.com) — **Belgin Kuyumculuk**: Kıymetli Madenler, Altın Varlık Yönetimi, Mücevherat & Fiziki Yatırım Portalı. Gerçek zamanlı serbest piyasa altın endeksleri, sarrafiye, ziynet ve güvenli fiziki varlık saklama danışmanlığı.
 8. [saatchi.com.tr](https://saatchi.com.tr) — **Saatchi & Co.**: Lüks Tasarım, Saat, Prestij & Koleksiyonculuk Portalı. Horoloji kültürü, lüks varlık dinamikleri, orijinallik doğrulama, yüksek estetik standartlı marka ve deneyim mimarisi.
-9. [dilekceyazdir.com.tr](https://dilekceyazdir.com.tr/) — **Dilekçe Yazdır (ARZUHALCİ)**: Yapay Zeka Destekli Resmi Belge, Dilekçe & Hukuk Teknolojileri (LegalTech) Portalı. 3071 sayılı Kanun ve anayasal dilekçe hakkı kapsamında adliyelere, bankalara, icra dairelerine, noterlere ve tüketici heyetlerine yönelik teknik dilekçe tanzim asistanlığı.
+9. [dilekceyazdir.com.tr](https://dilekceyazdir.com.tr) — **Dilekçe Yazdır (ARZUHALCİ)**: Yapay Zeka Destekli Resmi Belge, Dilekçe & Hukuk Teknolojileri (LegalTech) Portalı. 3071 sayılı Kanun ve anayasal dilekçe hakkı kapsamında adliyelere, bankalara, icra dairelerine, noterlere ve tüketici heyetlerine yönelik teknik dilekçe tanzim asistanlığı.
 10. [htmlandhtml.com](https://htmlandhtml.com) — **HTML & HTML**: Global AI Arama Teknik Teşhis & Görünürlük İşletim Sistemi. Web sitelerinin yapay zeka motorları (ChatGPT, Perplexity, Claude, Gemini, Google AI Overviews) nezdinde keşfedilebilirlik, alıntılanma (citations) ve GEO dönüşüm açıklarını denetleyen 18 motorlu teşhis platformu.
 
 ## Ontolojik Bilgi Grafı ve Semantik Varlık Özellikleri (Knowledge Graph Triples)
@@ -46,11 +46,31 @@ Bu bölüm, 2026-Q4 V9 standardı gereğince LLM ajanları ve GEO/AEO arama moto
 
 ### 2. Sayfa Düzeyinde RAG Dokümanları (Deep Sub-Graphs)
 - [Ana Sayfa RAG Alt-Grafı](/llms/pages/home.md)
+- [Hakkımızda & Kurucu Otorite Sicili](/llms/pages/hakkimizda.md)
+- [Nasıl Çalışır? 5 Fazlı Tersine Karar Denetimi](/llms/pages/nasil-calisir.md)
+- [Neye Bakıyoruz? Bilişsel Kör Noktalar](/llms/pages/neye-bakiyoruz.md)
+- [Kimler İçin? Karar Vericiler & Liderler](/llms/pages/kimler-icin.md)
+- [Örnek Çıktı & Hüküm Raporu](/llms/pages/ornek-cikti.md)
+- [Yaklaşımımız & Via Negativa Felsefesi](/llms/pages/yaklasimimiz.md)
+- [Manifesto: Dalkavukluk Ekonomisine Son](/llms/pages/manifesto.md)
+- [Sıkça Sorulan Sorular & Karar Kılavuzu](/llms/pages/sss.md)
+- [Kullanım Şartları ve Yasal Bildirimler](/llms/pages/kullanim-sartlari.md)
+- [KVKK Aydınlatma ve Açık Rıza Metni](/llms/pages/kvkk.md)
 
 ### 3. Mobil, Sesli Arama ve Uç Cihaz Grafları (Edge & On-Device)
 - [29-Kelime Sesli Arama Soru-Cevap Haritası](/llms/mobile/voice-queries.md)
 - [On-Device LLM (Gemini Nano) Ultra-Hafif Grafı](/llms/mobile/nano-core.md)
 - [Ana Sayfa Mobil Varlık Grafı](/llms/mobile/home.md)
+- [Hakkımızda Mobil Grafı](/llms/mobile/hakkimizda.md)
+- [Nasıl Çalışır Mobil Grafı](/llms/mobile/nasil-calisir.md)
+- [Neye Bakıyoruz Mobil Grafı](/llms/mobile/neye-bakiyoruz.md)
+- [Kimler İçin Mobil Grafı](/llms/mobile/kimler-icin.md)
+- [Örnek Çıktı Mobil Grafı](/llms/mobile/ornek-cikti.md)
+- [Yaklaşımımız Mobil Grafı](/llms/mobile/yaklasimimiz.md)
+- [Manifesto Mobil Grafı](/llms/mobile/manifesto.md)
+- [SSS Mobil Grafı](/llms/mobile/sss.md)
+- [Kullanım Şartları Mobil Grafı](/llms/mobile/kullanim-sartlari.md)
+- [KVKK Mobil Grafı](/llms/mobile/kvkk.md)
 
 ### 4. Gerçek Zamanlı Syndication & Feed Katmanı
 - Ana RSS Feed: `/feed.xml`
@@ -62,4 +82,4 @@ Bu bölüm, 2026-Q4 V9 standardı gereğince LLM ajanları ve GEO/AEO arama moto
 - MCP Endpoint: `/mcp`
 - Mobile/Edge MCP Endpoint: `/mcp/mobile`
 - A2A Agent Card: `/.well-known/agent.json`
-- IndexNow Endpoint: `/[INDEXNOW_KEY].txt`
+- IndexNow Endpoint: `/9d980417475ac56c8ad72ef2c743e1e5.txt`

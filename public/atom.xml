@@ -1,8 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>InversionCore Atom Feed</title>
+  <title>InversionCore Feed</title>
   <link href="https://inversioncore.com/"/>
-  <updated>2026-10-07T00:00:00Z</updated>
-  <author><name>Barış Bağırlar</name></author>
+  <link href="https://inversioncore.com/atom.xml" rel="self"/>
+  <updated>2026-10-13T17:10:00+03:00</updated>
   <id>https://inversioncore.com/</id>
+  <entry>
+    <title>InversionCore Tersine Mühendislik ve Karar Denetim Motoru</title>
+    <link href="https://inversioncore.com/"/>
+    <id>https://inversioncore.com/#2026-q4</id>
+    <updated>2026-10-13T17:10:00+03:00</updated>
+    <summary>Bilişsel kör noktaları ve karar mekanizmalarındaki asalak yükleri açığa çıkaran Via Negativa platformu.</summary>
+  </entry>
 </feed>

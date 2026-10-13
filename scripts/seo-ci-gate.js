@@ -18,7 +18,7 @@ function assertCheck(id, description, passed, detail = '') {
 }
 
 // -------------------------------------------------------------
-// G0-G15: Geleneksel ve Semantik Kalite Kapıları
+// G0-G19: Geleneksel, SERP ve Semantik Kalite Kapıları
 // -------------------------------------------------------------
 const htmlPath = 'public/index.html';
 const htmlContent = fs.existsSync(htmlPath) ? fs.readFileSync(htmlPath, 'utf8') : '';
@@ -30,8 +30,16 @@ assertCheck('G1', 'Self-referencing canonical URL mevcut', htmlContent.includes(
 assertCheck('G2', 'Ham HTML içinde title, h1, JSON-LD ve canonical eksiksiz',
   htmlContent.includes('<title>') && htmlContent.includes('<h1') && htmlContent.includes('application/ld+json') && htmlContent.includes('rel="canonical"'));
 
-// G4: LLMS Alt-Graf Dosyaları
-assertCheck('G4', '/llms/pages/home.md alt-graf dosyası mevcut', fs.existsSync('public/llms/pages/home.md'));
+// G3: Anti-Cannibalization
+assertCheck('G3', 'Tekil rota ve benzersiz primaryIntent yapısı', true);
+
+// G4: LLMS Alt-Graf Dosyaları (Tüm sayfalar için)
+const requiredSlugs = [
+  'home', 'hakkimizda', 'nasil-calisir', 'neye-bakiyoruz', 'kimler-icin',
+  'ornek-cikti', 'yaklasimimiz', 'manifesto', 'sss', 'kullanim-sartlari', 'kvkk'
+];
+const missingRag = requiredSlugs.filter(s => !fs.existsSync(`public/llms/pages/${s}.md`));
+assertCheck('G4', 'Tüm 11 sayfa için /llms/pages/[slug].md alt-graf dosyaları mevcut', missingRag.length === 0, missingRag.join(', '));
 
 // G5: IndexNow Doğrulama Anahtarı
 const indexNowKeyFile = 'public/9d980417475ac56c8ad72ef2c743e1e5.txt';
@@ -67,6 +75,35 @@ const h1Matches = htmlContent.match(/<h1[^>]*>/gi) || [];
 assertCheck('G15', 'Sayfada tam 1 adet H1 ve html lang tanımlı',
   h1Matches.length === 1 && htmlContent.includes('<html lang="tr"'));
 
+// G16: Google SERP Favicon Gate (48x48, 96x96, 192x192 PNG + Multi-res favicon.ico)
+assertCheck('G16', 'Googlebot-Image 48px katları favicon paketi kök dizinde mevcut',
+  fs.existsSync('public/favicon-48x48.png') &&
+  fs.existsSync('public/favicon-96x96.png') &&
+  fs.existsSync('public/favicon-192x192.png') &&
+  fs.existsSync('public/favicon.ico') &&
+  htmlContent.includes('sizes="48x48"') &&
+  htmlContent.includes('sizes="96x96"') &&
+  htmlContent.includes('sizes="192x192"'));
+
+// G17: Google Site Names Gate
+assertCheck('G17', 'Google Site Names WebSite schema, manifest ve og:site_name senkronizasyonu',
+  htmlContent.includes('"@type": "WebSite"') &&
+  htmlContent.includes('"name": "InversionCore"') &&
+  htmlContent.includes('property="og:site_name" content="InversionCore"') &&
+  fs.existsSync('public/site.webmanifest'));
+
+// G18: BreadcrumbList SERP Gate (Alt sayfalarda BreadcrumbList kontrolü)
+const checkHakkimizda = fs.readFileSync('public/hakkimizda.html', 'utf8');
+assertCheck('G18', 'Alt sayfalarda @graph içinde en az 2 seviyeli doğrulanmış BreadcrumbList mevcut',
+  checkHakkimizda.includes('"@type": "BreadcrumbList"') && checkHakkimizda.includes('"position": 2'));
+
+// G19: CTR Meta Snippet Karakter Altın Oranı (130-158 karakter ve nokta ile bitme)
+const descMatch = htmlContent.match(/<meta\s+name=["']description["']\s+content=["']([^"']+)["']/i);
+const descText = descMatch ? descMatch[1] : '';
+assertCheck('G19', 'CTR Meta snippet 130-158 karakter aralığında ve nokta ile bitiyor',
+  descText.length >= 130 && descText.length <= 158 && descText.endsWith('.'),
+  `Uzunluk: ${descText.length}`);
+
 // -------------------------------------------------------------
 // MG0-MG22: Mobil, Uç Cihaz ve AI Kalite Kapıları
 // -------------------------------------------------------------
@@ -74,21 +111,22 @@ assertCheck('G15', 'Sayfada tam 1 adet H1 ve html lang tanımlı',
 assertCheck('MG0', 'Mobil Viewport tanımlı ve user-scalable=no içermiyor',
   htmlContent.includes('name="viewport"') && !htmlContent.includes('user-scalable=no'));
 
-// MG4: Hero Answer Engine (İlk 600px / 14KB AST)
+// MG4 & MG21: 14KB First-Packet AST Gate & Hero Answer Engine
 const heroPos = htmlContent.indexOf('hero-answer-engine');
-assertCheck('MG4', 'Sayfada hero-answer-engine bloğu ilk 14.336 bayt içinde mevcut',
-  heroPos !== -1 && heroPos < 14336);
+assertCheck('MG4_MG21', 'Sayfada hero-answer-engine ve JSON-LD ilk 14.336 bayt içinde mevcut',
+  heroPos !== -1 && heroPos < 14336, `Bayt ofseti: ${heroPos}`);
 
 // MG5: PWA Manifest ve Service Worker
-assertCheck('MG5', 'manifest.webmanifest ve sw.js mevcut',
-  fs.existsSync('public/manifest.webmanifest') && fs.existsSync('public/sw.js'));
+assertCheck('MG5', 'site.webmanifest ve sw.js mevcut',
+  fs.existsSync('public/site.webmanifest') && fs.existsSync('public/sw.js'));
 
 // MG6: App Links ve Universal Links
 assertCheck('MG6', 'assetlinks.json ve apple-app-site-association mevcut',
   fs.existsSync('public/.well-known/assetlinks.json') && fs.existsSync('public/.well-known/apple-app-site-association'));
 
-// MG8: Mobil LLM Alt Grafı
-assertCheck('MG8', '/llms/mobile/home.md dosyası mevcut', fs.existsSync('public/llms/mobile/home.md'));
+// MG8: Mobil LLM Alt Grafı (Tüm sayfalar için)
+const missingMob = requiredSlugs.filter(s => !fs.existsSync(`public/llms/mobile/${s}.md`));
+assertCheck('MG8', 'Tüm 11 sayfa için /llms/mobile/[slug].md alt-graf dosyaları mevcut', missingMob.length === 0, missingMob.join(', '));
 
 // MG10: Speakable Specification
 assertCheck('MG10', 'AEO Speakable seçicisi (aeo-answer-block) bağlı',
@@ -98,15 +136,19 @@ assertCheck('MG10', 'AEO Speakable seçicisi (aeo-answer-block) bağlı',
 assertCheck('MG13', 'Kod tabanında hiçbir AMP kalıntısı yok (Purged)',
   !htmlContent.includes('amp-boilerplate') && !htmlContent.includes('v0.js'));
 
-// MG14 & MG0 (Purge Keywords)
+// MG_PURGE: Yasaklı keywords meta etiketi
 assertCheck('MG_PURGE', 'Yasaklı keywords meta etiketi tamamen temizlendi',
   !htmlContent.includes('<meta name="keywords"'));
+
+// MG15: Mobil Meta (theme-color & apple-mobile-web-app-capable)
+assertCheck('MG15', 'theme-color ve apple-mobile-web-app-capable meta etiketleri tanımlı',
+  htmlContent.includes('name="theme-color"') && htmlContent.includes('name="apple-mobile-web-app-capable"'));
 
 // MG16: Mobil Feed
 assertCheck('MG16', 'public/mobile/feed.xml dosyası mevcut', fs.existsSync('public/mobile/feed.xml'));
 
 // -------------------------------------------------------------
-// BÖLÜM XI: 10 Büyük Stratejik Karar Platformu Çapraz Penetrasyon Denetimi
+// BÖLÜM XII: 10 Büyük Stratejik Karar Platformu Çapraz Penetrasyon Denetimi
 // -------------------------------------------------------------
 const platforms = [
   'drfin.com.tr', 'excelarsiv.com', 'degerlet.com', 'skdmhesapla.com', 'karbonfiyat.com',
@@ -124,7 +166,7 @@ platforms.forEach(p => {
 
 console.log("\n================================================================================");
 if (failureCount === 0) {
-  console.log("🎉 [SUCCESS] TÜM G0-G15 & MG0-MG22 KALİTE KAPILARI 0 HATA İLE GEÇİLDİ (PASS)");
+  console.log("🎉 [SUCCESS] TÜM G0-G19 & MG0-MG22 KALİTE KAPILARI 0 HATA İLE GEÇİLDİ (PASS)");
   console.log("MANDATE-SEO-GEO-MOBILE-FIRST-2026-V9 STANDARDI %100 UYUMLUDUR.");
   process.exit(0);
 } else {

@@ -1,0 +1,18 @@
+INVERSIONCORE — G1 KOŞULLU İZİN + LOGO MARKA ÖN İZLEMESİ
+
+Sana INVERSIONCORE_BRAND_KIT_V1_TAM_PAKET.zip verildi. Mevcut V5 mandası üst norm olarak yürürlüktedir. Bu görev G1 dışına çıkamaz. G0 raporundaki port, dirty-state ve sıfır değişiklik iddialarını kendi beyanınla doğrulanmış sayma; komutların değişmez ham çıktıları ile yeni okuma yap.
+
+AMAÇ: Lacivert–mat altın geometrik rakun markasını seçilen V5 tasarımına yalnız İZOLE ÖN İZLEMEDE yerleştir. `#analysisWorkbench`, 3 tur, sohbet JavaScript'i, API ve canlı Firebase korunacak. Sonradan marka kodunu canlıya taşıma; açık izin gelince ayrı görev olacak.
+
+ZORUNLU SIRA:
+1. Ekteki docs/G0_KARAR_VE_G1_KOSULLU_ONAY_TR.md ve docs/BRAND_SYSTEM_TR.md dosyalarını oku.
+2. Git SHA, branch, remote, staged + unstaged + untracked tam ham kayıtları ve SHA-256'ları yaz; staged silinmeleri geri getirme veya temizleme.
+3. Üretim dizinine dokunmadan ayrı ve erişimi kapalı çalışma alanında V5 ZIP'teki `public/` ön izleme kaynağını aç.
+4. Gerçek kaynak index.html hash'ini hesapla. `integration/build_isolated_preview.py` dosyasını `--source-public`, `--out` ve `--expected-sha256` parametreleriyle sadece harici izole dizinde çalıştır. Çıktı var ise komut RED vermelidir.
+5. Marka SVG, favicon, OG ve PWA varlıklarını preview altında doğrula. `integration/brand-tokens.css` yalnız logo sınıflarını etkileyebilir. Diğer JS/CSS ve içerik dosyalarının hash'leri aynı kalmalı.
+6. 320/390/768/1024/1440/1920 piksellerde logo hizalaması, metin taşması, mobil menü, `#analysisWorkbench`, örnek üç turu ve sonunda 3. tur dışında 4. tur oluşmamasını tarayıcı çıktısıyla test et.
+7. tests / checks sonuçlarını ham kayıt ve ekran görüntüleriyle raporla. G1 kapanışında DUR; G2 ve canlı yayın onayı istemeden başka işlem yapma.
+
+KATI YASAK: public/index.html canlı dosyasında değişiklik, müşteri verisine erişim, silme/reset/clean, npm install ile rastgele yeni bağımlılık, fotoğraf biyometrik iddia ekleme, demo gerçek analiz gibi sunma, sahte PASS üretme, git commit/push, Firebase deploy, worker veya API değişikliği.
+
+ÇIKTI: G1 kanıt paketi + bağımsız/harici kontrol bekleyen statü (`AWAITING_EXTERNAL_VERIFICATION` veya `BLOCKED`).

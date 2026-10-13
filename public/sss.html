@@ -2,89 +2,136 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sıkça Sorulan Sorular ve Karar Denetim Protokolü (SSS) // InversionCore</title>
-  <meta name="description" content="InversionCore tersine karar denetimi, pre-mortem analizi, Via Negativa metodolojisi, kurumsal gizlilik ve yapay zeka karar doğrulama protokolü hakkında teknik ve operasyonel SSS kılavuzu.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, minimum-scale=1, maximum-scale=5">
+  <title>Sıkça Sorulan Sorular & Karar Denetim Rehberi | InversionCore</title>
+  <meta name="description" content="InversionCore nasıl çalışır, verilerim saklanır mı, klasik AI modellerinden farkı nedir? 15 kritik soruya açık, net ve şeffaf yanıtlar.">
+  <meta name="theme-color" content="#090a0f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <link rel="canonical" href="https://inversioncore.com/sss.html">
-  <link rel="icon" type="image/png" href="/assets/brand/favicon-32.png">
-  <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">
+  <link rel="alternate" hreflang="tr" href="https://inversioncore.com/sss.html">
+  <link rel="alternate" hreflang="x-default" href="https://inversioncore.com/sss.html">
+  <link rel="alternate" type="text/markdown" href="https://inversioncore.com/llms.txt" title="LLMs.txt Manifestosu">
+  <link rel="describedby" href="https://inversioncore.com/llms.txt">
+
+  <!-- Favicon & Touch Icons (Google 48px Çoklu Boyut Standardı) -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta property="og:site_name" content="InversionCore">
+
+  <!-- Open Graph & Twitter Cards -->
+  <meta property="og:title" content="Sıkça Sorulan Sorular & Karar Denetim Rehberi | InversionCore">
+  <meta property="og:description" content="InversionCore nasıl çalışır, verilerim saklanır mı, klasik AI modellerinden farkı nedir? 15 kritik soruya açık, net ve şeffaf yanıtlar.">
+  <meta property="og:url" content="https://inversioncore.com/sss.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://inversioncore.com/android-chrome-512x512.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sıkça Sorulan Sorular & Karar Denetim Rehberi | InversionCore">
+  <meta name="twitter:description" content="InversionCore nasıl çalışır, verilerim saklanır mı, klasik AI modellerinden farkı nedir? 15 kritik soruya açık, net ve şeffaf yanıtlar.">
+  <meta name="twitter:image" content="https://inversioncore.com/android-chrome-512x512.png">
+
+  <!-- JSON-LD Complete Knowledge Graph (14KB First-Packet Compliant) -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://inversioncore.com/#organization",
+      "name": "InversionCore",
+      "url": "https://inversioncore.com",
+      "logo": {
+        "@type": "ImageObject",
+        "@id": "https://inversioncore.com/#logo",
+        "url": "https://inversioncore.com/android-chrome-512x512.png"
+      },
+      "sameAs": [
+        "https://drfin.com.tr",
+        "https://excelarsiv.com",
+        "https://degerlet.com",
+        "https://skdmhesapla.com",
+        "https://karbonfiyat.com",
+        "https://inversioncore.com",
+        "https://belginkuyumculuk.com",
+        "https://saatchi.com.tr",
+        "https://dilekceyazdir.com.tr",
+        "https://htmlandhtml.com"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://inversioncore.com/#website",
+      "url": "https://inversioncore.com/",
+      "name": "InversionCore",
+      "alternateName": [
+        "Inversion Core",
+        "inversioncore.com",
+        "InversionCore Red Team"
+      ],
+      "publisher": {
+        "@id": "https://inversioncore.com/#organization"
+      },
+      "inLanguage": "tr"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://inversioncore.com/sss.html#webpage",
+      "url": "https://inversioncore.com/sss.html",
+      "name": "Sıkça Sorulan Sorular & Karar Denetim Rehberi | InversionCore",
+      "description": "InversionCore nasıl çalışır, verilerim saklanır mı, klasik AI modellerinden farkı nedir? 15 kritik soruya açık, net ve şeffaf yanıtlar.",
+      "isPartOf": {
+        "@id": "https://inversioncore.com/#website"
+      },
+      "inLanguage": "tr",
+      "breadcrumb": {
+        "@id": "https://inversioncore.com/sss.html#breadcrumb"
+      },
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "#aeo-answer-block"
+        ]
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://inversioncore.com/sss.html#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Ana Sayfa",
+          "item": "https://inversioncore.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "S.S.S.",
+          "item": "https://inversioncore.com/sss.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+
+  
+  
+  
+  
+  
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- LLM & GEO / Schema.org FAQPage Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "InversionCore nedir ve geleneksel yapay zeka asistanlarından farkı nedir?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "InversionCore, Charlie Munger'ın 'Tersine Çevir, Her Zaman Tersine Çevir' (Invert, Always Invert) ilkesi ve Nassim Nicholas Taleb'in Via Negativa (Negatif Bilgi) metodolojisi üzerine inşa edilmiş tescilli bir Stratejik Karar Denetim ve Red Team motorudur. Geleneksel yapay zeka modelleri (ChatGPT, Claude vb.) kullanıcının varsayımlarını onaylama (sycophancy) ve sahte motivasyon üretme eğilimindeyken; InversionCore bir kararın başarılı olacağını varsaymak yerine, o kararın 3, 6 ve 12 ay içinde nasıl ve hangi gizli kör noktalardan çökeceğini matematiksel ve mantıksal olarak simüle eder."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "InversionCore bir kararın başarılı olacağını garanti edebilir mi?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Kesinlikle hayır. Geleceği bildiğini iddia etmek deterministik rasyonaliteye aykırıdır. InversionCore'un varlık sebebi kararları alkışlamak veya falcılık yapmak değil; göz ardı edilen en ölümcül sermaye/zaman maliyetlerini, doğrulama yanlılıklarını (confirmation bias) ve gizli kırılma noktalarını açığa çıkararak yıkıcı hata payını sıfıra yaklaştırmaktır."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Pre-Mortem (Ön Otopsi) analizi nasıl çalışır?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Gary Klein'ın karar bilimi literatürüne kazandırdığı Pre-Mortem yöntemi, bir proje veya yatırım henüz hayata geçmeden önce 'Bu karar tam 12 ay sonra felaketle sonuçlandı ve tamamen battı. Bunun gerçek sebepleri nelerdir?' sorusuyla başlar. InversionCore bu bilişsel simülasyonu çalıştırarak ekibin aşırı iyimserlik zırhını kırar ve henüz harcanmamış sermayeyi geri döndürülemez kayıplardan korur."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Via Negativa (Negatif Bilgi) ilkesi iş kararlarına nasıl uygulanır?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Via Negativa, başarıya 'yeni alışkanlıklar, yeni araçlar veya yeni maliyetler ekleyerek' değil; sistemi zehirleyen asalak yükleri, gizli mazeretleri, kârsız operasyonları ve toksik bağımlılıkları sistemden cerrahi olarak söküp atarak ulaşma disiplinidir. InversionCore her denetimde kullanıcıya 'Ne yapmalısın?' listesi yerine, 'Neyi derhal durdurmalısın?' protokolü verir."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "3 Turlu Sokratik Denetim Mimarisi neden zorunludur?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "InversionCore rastgele bir sohbet botu değildir; 3 kademeli deterministik bir protokoldür: 1. Tur Kullanıcı İddiası ve Hipotez Girişi, 2. Tur Red Team Çapraz Sorgusu ve Savunma Deşifresi, 3. Tur İnfaz Raporu ve Asalak Yüklerin Tasfiyesi. 3 tur, kullanıcının bilişsel savunma mekanizmalarını aşmak ve nihai operasyonel kararı çıkarmak için optimize edilmiş ideal psikolojik süredir."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Sisteme girilen stratejik ticari sırlar ve veriler güvende mi?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Evet. InversionCore sıfır kalıcı veri izi (Zero-Persistence Data Architecture) prensibiyle çalışır. Analiz seansında işlenen metinler genel yapay zeka modellerinin eğitimi için saklanmaz, üçüncü taraflarla paylaşılmaz ve oturum kapandığında bellekten temizlenir."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "InversionCore kimler ve hangi ölçekteki kararlar için tasarlanmıştır?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Girişimciler, şirket kurucuları, C-level yöneticiler, fon yöneticileri, bağımsız profesyoneller ve geri dönüşü yüksek maliyetli stratejik hamle (yeni ürün lansmanı, ortaklık, sermaye yatırımı, kariyer değişimi) eşiğindeki tüm rasyonel karar vericiler için tasarlanmıştır."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Analiz dili neden bu kadar sert ve dobralık sınırında?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Çünkü iş dünyasında ve stratejide nezaket şirket batırır. Kurumsal çevreniz ilişkileri bozulmasın diye size gerçeği söylemez. InversionCore'un kullanıcıyla dostluk kurma veya egoları okşama misyonu yoktur; tek görevi sermayenizi ve zamanınızı kör noktalarınızdan korumaktır."
-        }
-      }
-    ]
-  }
-  </script>
+  
 
   <style>
     :root {
@@ -415,6 +462,7 @@
 </head>
 <body>
   <header>
+  <div class="hero-answer-engine mobile-thumb-safe hidden" data-ai-citation-anchor="true" id="aeo-answer-block" style="display:none;"><strong>Yönetici Çıkarım Özeti:</strong> InversionCore SSS rehberi; platformun çalışma prensipleri, gizlilik taahhütleri, delil yükleme altyapısı, BARS ölçekleme modeli ve kurumsal karar denetim süreçlerine dair en sık yöneltilen 15 kritik soruya kesin teknik yanıtlar sunar.</div>
     <a href="index.html" class="brand-logo">
       <img src="/assets/brand/raccoon-round.png" class="header-wolf-icon" alt="InversionCore Logo">
       <div class="header-brand-block">
@@ -665,6 +713,64 @@
       <a href="kvkk.html">KVKK</a>
     </div>
   </footer>
+
+  <!-- 10 BÜYÜK STRATEJİK KARAR PLATFORMU (ECOSYSTEM NETWORK HUB - MANDATE V9.0) -->
+  <section class="ecosystem-network-section" style="border-top:1px solid #1a1e2d; background:#05070a; padding:2.5rem 1.5rem; width:100%; box-sizing:border-box;">
+    <div style="max-width:1200px; margin:0 auto;">
+      <div style="font-family:'Space Mono', monospace; font-size:0.75rem; color:#ff4500; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:0.5rem;">
+        // BARIŞ BAĞIRLAR STRATEJİK KARAR &amp; DİJİTAL DÖNÜŞÜM EKOSİSTEMİ
+      </div>
+      <div style="font-size:1.1rem; font-weight:700; color:#f0f2f8; margin-bottom:1.2rem;">
+        10 Büyük Kurumsal Platform Ağı
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:1rem;">
+        <div style="background:rgba(13,15,24,0.6); border:1px solid #1a1e2d; padding:1rem; border-radius:6px;">
+          <a href="https://drfin.com.tr" target="_blank" rel="noopener" style="color:#00d4ff; font-family:'Space Mono', monospace; font-size:0.85rem; font-weight:700; text-decoration:none; display:block; margin-bottom:0.25rem;">drfin.com.tr</a>
+          <span style="font-size:0.75rem; color:#9aa0b6; line-height:1.4; display:block;">Dr. Fin: Kurumsal finansal check-up, iflas riski &amp; nakit akışı stres testi motoru.</span>
+        </div>
+        <div style="background:rgba(13,15,24,0.6); border:1px solid #1a1e2d; padding:1rem; border-radius:6px;">
+          <a href="https://excelarsiv.com" target="_blank" rel="noopener" style="color:#00d4ff; font-family:'Space Mono', monospace; font-size:0.85rem; font-weight:700; text-decoration:none; display:block; margin-bottom:0.25rem;">excelarsiv.com</a>
+          <span style="font-size:0.75rem; color:#9aa0b6; line-height:1.4; display:block;">Excel Arşiv: Makrosuz finans, nakit akışı, bütçe &amp; dinamik model kütüphanesi.</span>
+        </div>
+        <div style="background:rgba(13,15,24,0.6); border:1px solid #1a1e2d; padding:1rem; border-radius:6px;">
+          <a href="https://degerlet.com" target="_blank" rel="noopener" style="color:#00d4ff; font-family:'Space Mono', monospace; font-size:0.85rem; font-weight:700; text-decoration:none; display:block; margin-bottom:0.25rem;">degerlet.com</a>
+          <span style="font-size:0.75rem; color:#9aa0b6; line-height:1.4; display:block;">Değerlet: Şirketsiz sanal POS, varlık değerleme &amp; 6493 uyumlu tahsilat geçidi.</span>
+        </div>
+        <div style="background:rgba(13,15,24,0.6); border:1px solid #1a1e2d; padding:1rem; border-radius:6px;">
+          <a href="https://skdmhesapla.com" target="_blank" rel="noopener" style="color:#00d4ff; font-family:'Space Mono', monospace; font-size:0.85rem; font-weight:700; text-decoration:none; display:block; margin-bottom:0.25rem;">skdmhesapla.com</a>
+          <span style="font-size:0.75rem; color:#9aa0b6; line-height:1.4; display:block;">SKDM Hesapla: AB Sınırda Karbon Düzenleme Mekanizması (CBAM) emisyon motoru.</span>
+        </div>
+        <div style="background:rgba(13,15,24,0.6); border:1px solid #1a1e2d; padding:1rem; border-radius:6px;">
+          <a href="https://karbonfiyat.com" target="_blank" rel="noopener" style="color:#00d4ff; font-family:'Space Mono', monospace; font-size:0.85rem; font-weight:700; text-decoration:none; display:block; margin-bottom:0.25rem;">karbonfiyat.com</a>
+          <span style="font-size:0.75rem; color:#9aa0b6; line-height:1.4; display:block;">Karbon Fiyat: Emisyon Ticaret Sistemi (ETS) &amp; küresel yeşil finans takip merkezi.</span>
+        </div>
+        <div style="background:rgba(13,15,24,0.6); border:1px solid #1a1e2d; padding:1rem; border-radius:6px;">
+          <a href="https://inversioncore.com" style="color:#00d4ff; font-family:'Space Mono', monospace; font-size:0.85rem; font-weight:700; text-decoration:none; display:block; margin-bottom:0.25rem;">inversioncore.com</a>
+          <span style="font-size:0.75rem; color:#9aa0b6; line-height:1.4; display:block;">InversionCore: Via Negativa, Pre-Mortem analizi &amp; tersine karar denetim motoru.</span>
+        </div>
+        <div style="background:rgba(13,15,24,0.6); border:1px solid #1a1e2d; padding:1rem; border-radius:6px;">
+          <a href="https://dilekceyazdir.com.tr" target="_blank" rel="noopener" style="color:#00d4ff; font-family:'Space Mono', monospace; font-size:0.85rem; font-weight:700; text-decoration:none; display:block; margin-bottom:0.25rem;">dilekceyazdir.com.tr</a>
+          <span style="font-size:0.75rem; color:#9aa0b6; line-height:1.4; display:block;">Dilekçe Yazdır: Yapay zeka ve uzman destekli resmi belge &amp; dilekçe tanzim asistanı.</span>
+        </div>
+        <div style="background:rgba(13,15,24,0.6); border:1px solid #1a1e2d; padding:1rem; border-radius:6px;">
+          <a href="https://belginkuyumculuk.com" target="_blank" rel="noopener" style="color:#00d4ff; font-family:'Space Mono', monospace; font-size:0.85rem; font-weight:700; text-decoration:none; display:block; margin-bottom:0.25rem;">belginkuyumculuk.com</a>
+          <span style="font-size:0.75rem; color:#9aa0b6; line-height:1.4; display:block;">Belgin Kuyumculuk: Kıymetli madenler, fiziki altın yönetimi &amp; sarrafiye danışmanlığı.</span>
+        </div>
+        <div style="background:rgba(13,15,24,0.6); border:1px solid #1a1e2d; padding:1rem; border-radius:6px;">
+          <a href="https://saatchi.com.tr" target="_blank" rel="noopener" style="color:#00d4ff; font-family:'Space Mono', monospace; font-size:0.85rem; font-weight:700; text-decoration:none; display:block; margin-bottom:0.25rem;">saatchi.com.tr</a>
+          <span style="font-size:0.75rem; color:#9aa0b6; line-height:1.4; display:block;">Saatchi &amp; Co.: Lüks saat, prestij horoloji koleksiyonculuğu &amp; orijinallik doğrulama.</span>
+        </div>
+        <div style="background:rgba(13,15,24,0.6); border:1px solid #1a1e2d; padding:1rem; border-radius:6px;">
+          <a href="https://htmlandhtml.com" target="_blank" rel="noopener" style="color:#00d4ff; font-family:'Space Mono', monospace; font-size:0.85rem; font-weight:700; text-decoration:none; display:block; margin-bottom:0.25rem;">htmlandhtml.com</a>
+          <span style="font-size:0.75rem; color:#9aa0b6; line-height:1.4; display:block;">HTML &amp; HTML: Küresel AI arama motorları için 18 motorlu teknik GEO teşhis sistemi.</span>
+        </div>
+      </div>
+      <div style="margin-top:1.5rem; text-align:center; font-family:'Space Mono', monospace; font-size:0.7rem; color:#5a6078;">
+        © 2026 InversionCore // Tersinden Düşün · Kanıtla Karar Ver. Tüm Hakları Saklıdır.
+      </div>
+    </div>
+  </section>
+
 
   <script>
     function toggleFaq(el) {

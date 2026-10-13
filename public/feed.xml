@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>InversionCore Feed</title>
-    <link>https://inversioncore.com</link>
-    <description>Davranışsal Tersine Mühendislik ve Negatif Bilgi Platformu</description>
+    <title>InversionCore // Tersine Karar Denetim Motoru</title>
+    <link>https://inversioncore.com/</link>
+    <description>Davranışsal Tersine Mühendislik, Negatif Bilgi (Via Negativa) ve Bilişsel Karar Teşhis Akışı.</description>
     <language>tr-TR</language>
+    <lastBuildDate>Tue, 13 Oct 2026 17:10:00 +0300</lastBuildDate>
+    <atom:link href="https://inversioncore.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>InversionCore 2026-Q4 Kurumsal Karar Denetim Protokolü</title>
+      <link>https://inversioncore.com/</link>
+      <guid>https://inversioncore.com/#update-2026-q4</guid>
+      <pubDate>Tue, 13 Oct 2026 17:10:00 +0300</pubDate>
+      <description>Bilişsel kör noktaları, batık maliyetleri ve sahte mazeretleri cerrahi bir soğukkanlılıkla açığa çıkaran tersine denetim platformu.</description>
+    </item>
   </channel>
 </rss>
