@@ -238,15 +238,30 @@
               Tek bir fotoğraf aldatıcı olabilir. Karakter penetrasyonu için <b>en az 2 fotoğraf zorunludur</b>; 3. fotoğraf eklendiğinde ise <b>Maske Makası (Benlik Yarılması)</b> ve <b>Kronik Küçümseme (FACS AU14)</b> hesaplaması %100 hassasiyete ulaşır.
             </p>
 
+            <!-- Dinamik Yükleme Sayacı ve Rehberlik Rozeti -->
+            <div id="triangulation-upload-status-bar" style="background:#0c0f1a; border:1px solid #1e2438; border-radius:6px; padding:0.6rem 0.9rem; margin-bottom:1rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem;">
+              <div style="display:flex; align-items:center; gap:0.5rem; font-family:var(--font-mono); font-size:0.75rem;">
+                <span id="triangulation-count-badge" style="background:#1e293b; color:#94a3b8; padding:0.2rem 0.55rem; border-radius:4px; font-weight:700;">
+                  0 / 2 Fotoğraf Eklendi
+                </span>
+                <span id="triangulation-status-hint" style="color:#f59e0b;">
+                  ⚠️ Analiz için en az 2 fotoğraf gereklidir.
+                </span>
+              </div>
+              <div style="font-size:11px; color:#64748b; font-family:var(--font-sans);">
+                💡 <b>Mühendislik İlkesi:</b> 2 fotoğrafla çapraz makas çıkarılır; 3. fotoğraf derin penetrasyon için opsiyoneldir.
+              </div>
+            </div>
+
             <div class="triangulation-slots-grid">
               <!-- Slot 1: VİTRİN -->
               <div class="triangulation-slot" id="slot-formal" onclick="triggerSlotUpload('formal')">
                 <input type="file" id="input-slot-formal" accept="image/*" style="display:none;" onchange="handleSlotImage(event, 'formal')">
                 <div id="slot-content-formal">
                   <div style="font-size:24px; margin-bottom:0.3rem;">👔</div>
-                  <div class="slot-badge-label">[ SLOT 1: VİTRİN ]</div>
-                  <div class="slot-desc-hint">Resmi / Vesikalık / LinkedIn (Zorunlu / Önerilen)</div>
-                  <div style="font-size:10px; color:#00d4ff; margin-top:0.4rem;">+ Görsel Seç</div>
+                  <div class="slot-badge-label" style="color:#00d4ff;">[ SLOT 1: VİTRİN · ZORUNLU ]</div>
+                  <div class="slot-desc-hint">Resmi / Vesikalık / Sosyal Medya Maskesi</div>
+                  <div style="font-size:10px; color:#00d4ff; margin-top:0.4rem;">+ Fotoğraf Yükle</div>
                 </div>
               </div>
 
@@ -255,26 +270,26 @@
                 <input type="file" id="input-slot-candid" accept="image/*" style="display:none;" onchange="handleSlotImage(event, 'candid')">
                 <div id="slot-content-candid">
                   <div style="font-size:24px; margin-bottom:0.3rem;">☕</div>
-                  <div class="slot-badge-label">[ SLOT 2: DOĞAL ]</div>
-                  <div class="slot-desc-hint">Kamerayı unuttuğu an / Spontan (Zorunlu)</div>
-                  <div style="font-size:10px; color:#00d4ff; margin-top:0.4rem;">+ Görsel Seç</div>
+                  <div class="slot-badge-label" style="color:#10b981;">[ SLOT 2: DOĞAL · ZORUNLU ]</div>
+                  <div class="slot-desc-hint">Kamerayı unuttuğu an / Spontan / Günlük Poz</div>
+                  <div style="font-size:10px; color:#10b981; margin-top:0.4rem;">+ Fotoğraf Yükle</div>
                 </div>
               </div>
 
-              <!-- Slot 3: SOSYAL -->
-              <div class="triangulation-slot" id="slot-social" onclick="triggerSlotUpload('social')">
+              <!-- Slot 3: SOSYAL (OPSİYONEL) -->
+              <div class="triangulation-slot" id="slot-social" onclick="triggerSlotUpload('social')" style="border-style:dashed;">
                 <input type="file" id="input-slot-social" accept="image/*" style="display:none;" onchange="handleSlotImage(event, 'social')">
                 <div id="slot-content-social">
                   <div style="font-size:24px; margin-bottom:0.3rem;">👥</div>
-                  <div class="slot-badge-label">[ SLOT 3: SOSYAL ]</div>
-                  <div class="slot-desc-hint">Başkalarıyla temas / Beden dili (Opsiyonel / Ekstra Hassasiyet)</div>
-                  <div style="font-size:10px; color:#00d4ff; margin-top:0.4rem;">+ Görsel Seç</div>
+                  <div class="slot-badge-label" style="color:#eab308;">[ SLOT 3: SOSYAL · İSTEĞE BAĞLI ]</div>
+                  <div class="slot-desc-hint">Başkalarıyla temas / Beden dili (Opsiyonel Derinleştirici)</div>
+                  <div style="font-size:10px; color:#eab308; margin-top:0.4rem;">+ İsteğe Bağlı Ekle</div>
                 </div>
               </div>
             </div>
 
             <button type="button" class="btn-triangulation-run" id="btn-run-triangulation" onclick="startTriangulationAudit()">
-              <span>⚡ OTOPSİYİ BAŞLAT: ÇAPRAZ PENETRASYON İLE KARAKTERİ ÇÖZ</span>
+              <span id="btn-run-triangulation-text">⚡ OTOPSİYİ BAŞLAT: ÇAPRAZ PENETRASYON İLE KARAKTERİ ÇÖZ</span>
             </button>
           </div>
 
@@ -604,8 +619,54 @@
             '<div style="font-size:10px; color:#94a3b8;">' + escapeHtml(file.name) + '</div>';
         }
         showToast("✓ Slot (" + slotKey.toUpperCase() + ") yüklendi.");
+        updateTriangulationUploadCounter();
       };
       reader.readAsDataURL(file);
+    }
+
+    function updateTriangulationUploadCounter() {
+      const slots = [triangulationSlots.formal, triangulationSlots.candid, triangulationSlots.social];
+      const count = slots.filter(Boolean).length;
+      const badge = document.getElementById('triangulation-count-badge');
+      const hint = document.getElementById('triangulation-status-hint');
+      const btn = document.getElementById('btn-run-triangulation');
+      const btnText = document.getElementById('btn-run-triangulation-text');
+
+      if (badge && hint) {
+        if (count === 0) {
+          badge.style.background = '#1e293b';
+          badge.style.color = '#94a3b8';
+          badge.innerText = '0 / 2 Fotoğraf Eklendi';
+          hint.style.color = '#f59e0b';
+          hint.innerText = '⚠️ Analiz için en az 2 fotoğraf gereklidir.';
+          if (btn) btn.style.opacity = '0.6';
+          if (btnText) btnText.innerText = '⚡ EN AZ 2 FOTOĞRAF YÜKLEYİN';
+        } else if (count === 1) {
+          badge.style.background = '#3b82f620';
+          badge.style.color = '#38bdf8';
+          badge.innerText = '1 / 2 Fotoğraf Eklendi';
+          hint.style.color = '#38bdf8';
+          hint.innerText = '📸 1 fotoğraf daha ekleyin (Slot 2 veya Slot 3).';
+          if (btn) btn.style.opacity = '0.7';
+          if (btnText) btnText.innerText = '⚡ 2. FOTOĞRAFI EKLEYİN (ÇAPRAZ MAKAS İÇİN ŞART)';
+        } else if (count === 2) {
+          badge.style.background = '#10b98125';
+          badge.style.color = '#10b981';
+          badge.innerText = '2 Fotoğraf Eklendi (Analize Hazır ✓)';
+          hint.style.color = '#10b981';
+          hint.innerText = '✅ Çapraz penetrasyon hazır. İsteğe bağlı 3. fotoğraf derinliği artırır.';
+          if (btn) btn.style.opacity = '1';
+          if (btnText) btnText.innerText = '⚡ OTOPSİYİ BAŞLAT: 2 FOTOĞRAFLI ÇAPRAZ PENETRASYON';
+        } else if (count === 3) {
+          badge.style.background = '#00d4ff25';
+          badge.style.color = '#00d4ff';
+          badge.innerText = '3 / 3 Fotoğraf Eklendi (Maksimum Hassasiyet ⚡)';
+          hint.style.color = '#00d4ff';
+          hint.innerText = '🔥 3-Nokta tam triangülasyon devrede. Hata payı minimuma indi.';
+          if (btn) btn.style.opacity = '1';
+          if (btnText) btnText.innerText = '⚡ OTOPSİYİ BAŞLAT: 3-NOKTA TAM TRİANGÜLASYON OTOPSİSİ';
+        }
+      }
     }
 
     function renderPersonalityAutopsyCard(data) {
@@ -624,30 +685,99 @@
       const fImg = triangulationSlots.formal ? triangulationSlots.formal.blobUrl : "";
       const cImg = triangulationSlots.candid ? triangulationSlots.candid.blobUrl : "";
       const sImg = triangulationSlots.social ? triangulationSlots.social.blobUrl : "";
+      const loadedCount = [fImg, cImg, sImg].filter(Boolean).length;
+
+      const cId = 'autopsy-card-' + (++activeCardUniqueId);
+
+      // Her fotoğraf kutusu için dinamik mikro retikül seti
+      const renderReticles = (prefix) => `
+        <div class="facs-micro-reticle" id="${prefix}-r1" style="top:26%; left:34%;"></div>
+        <div class="facs-micro-reticle" id="${prefix}-r2" style="top:28%; left:62%;"></div>
+        <div class="facs-micro-reticle" id="${prefix}-r3" style="top:44%; left:48%;"></div>
+        <div class="facs-micro-reticle" id="${prefix}-r4" style="top:66%; left:38%;"></div>
+        <div class="facs-micro-reticle" id="${prefix}-r5" style="top:64%; left:58%;"></div>
+        <div class="facs-micro-reticle" id="${prefix}-r6" style="top:18%; left:48%;"></div>
+      `;
+
+      setTimeout(() => {
+        ['f', 'c', 's'].forEach(p => {
+          const rList = [
+            { id: `${cId}-${p}-r1`, baseT: 26, baseL: 34, spread: 5, speed: 420 },
+            { id: `${cId}-${p}-r2`, baseT: 28, baseL: 62, spread: 5, speed: 490 },
+            { id: `${cId}-${p}-r3`, baseT: 44, baseL: 48, spread: 3, speed: 360 },
+            { id: `${cId}-${p}-r4`, baseT: 66, baseL: 38, spread: 6, speed: 580 },
+            { id: `${cId}-${p}-r5`, baseT: 64, baseL: 58, spread: 6, speed: 460 },
+            { id: `${cId}-${p}-r6`, baseT: 18, baseL: 48, spread: 4, speed: 530 }
+          ];
+          rList.forEach(r => {
+            function move() {
+              const el = document.getElementById(r.id);
+              if (el) {
+                const dt = (Math.random() * r.spread * 2) - r.spread;
+                const dl = (Math.random() * r.spread * 2) - r.spread;
+                el.style.top = Math.max(8, Math.min(88, r.baseT + dt)) + '%';
+                el.style.left = Math.max(8, Math.min(88, r.baseL + dl)) + '%';
+                el.style.opacity = (Math.random() * 0.7 + 0.3).toFixed(2);
+              }
+              setTimeout(move, r.speed + Math.floor(Math.random() * 180));
+            }
+            move();
+          });
+        });
+      }, 80);
 
       return `
-        <div class="personality-autopsy-card">
+        <div class="personality-autopsy-card" id="${cId}">
           <div class="autopsy-header-row">
             <div>
               <span style="color:#00d4ff; font-weight:700;">INVERSIONCORE // 3-NOKTA BİYOPSİKOSOSYAL KİŞİLİK OTOPSİSİ</span>
-              <div style="font-size:11px; color:#94a3b8; margin-top:2px;">HEDEF: ${escapeHtml(roleTitle)} · [FACS AU14 + 3D KRANİYAL MAKAS ANALİZİ]</div>
+              <div style="font-size:11px; color:#94a3b8; margin-top:2px;">
+                HEDEF: ${escapeHtml(roleTitle)} · [${loadedCount} FOTOĞRAF ÇAPRAZ PENETRASYONU]
+              </div>
             </div>
             <span style="color:${gapColor}; font-weight:700; font-size:12px;">[${c.risk_level || 'ANALİZ TAMAMLANDI'}]</span>
           </div>
 
-          <!-- 3 Fotoğraflı Kanıt Vitrini -->
+          <!-- Çoklu Fotoğraflı Kanıt Vitrini (Hareketli Mikro FACS Odaklayıcılar) -->
           <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:0.6rem; margin-bottom:1.2rem;">
-            <div style="background:#0b0d18; border:1px solid rgba(255,255,255,0.1); border-radius:6px; padding:0.4rem; text-align:center;">
-              ${fImg ? `<img src="${fImg}" style="width:100%; height:90px; object-fit:cover; border-radius:4px;">` : `<div style="height:90px; display:flex; align-items:center; justify-content:center; color:#64748b; font-size:11px;">[Vitrin Pozu]</div>`}
-              <div style="font-family:var(--font-mono); font-size:10px; color:#00d4ff; margin-top:0.3rem;">SLOT 1: VİTRİN</div>
+            <!-- Slot 1 -->
+            <div style="background:#0b0d18; border:1px solid rgba(0,212,255,0.25); border-radius:6px; padding:0.4rem; text-align:center; position:relative; overflow:hidden;">
+              ${fImg ? `
+                <div style="position:relative; width:100%; height:95px; border-radius:4px; overflow:hidden;">
+                  <img src="${fImg}" style="width:100%; height:100%; object-fit:cover;">
+                  ${renderReticles(`${cId}-f`)}
+                </div>
+              ` : `<div style="height:95px; display:flex; align-items:center; justify-content:center; color:#64748b; font-size:11px; border:1px dashed #334155; border-radius:4px;">[Vitrin Pozu Yok]</div>`}
+              <div style="font-family:var(--font-mono); font-size:10px; color:#00d4ff; margin-top:0.35rem; font-weight:600;">SLOT 1: VİTRİN</div>
             </div>
-            <div style="background:#0b0d18; border:1px solid rgba(255,255,255,0.1); border-radius:6px; padding:0.4rem; text-align:center;">
-              ${cImg ? `<img src="${cImg}" style="width:100%; height:90px; object-fit:cover; border-radius:4px;">` : `<div style="height:90px; display:flex; align-items:center; justify-content:center; color:#64748b; font-size:11px;">[Doğal An]</div>`}
-              <div style="font-family:var(--font-mono); font-size:10px; color:#10b981; margin-top:0.3rem;">SLOT 2: DOĞAL</div>
+
+            <!-- Slot 2 -->
+            <div style="background:#0b0d18; border:1px solid rgba(16,185,129,0.25); border-radius:6px; padding:0.4rem; text-align:center; position:relative; overflow:hidden;">
+              ${cImg ? `
+                <div style="position:relative; width:100%; height:95px; border-radius:4px; overflow:hidden;">
+                  <img src="${cImg}" style="width:100%; height:100%; object-fit:cover;">
+                  ${renderReticles(`${cId}-c`)}
+                </div>
+              ` : `<div style="height:95px; display:flex; align-items:center; justify-content:center; color:#64748b; font-size:11px; border:1px dashed #334155; border-radius:4px;">[Doğal An Yok]</div>`}
+              <div style="font-family:var(--font-mono); font-size:10px; color:#10b981; margin-top:0.35rem; font-weight:600;">SLOT 2: DOĞAL</div>
             </div>
-            <div style="background:#0b0d18; border:1px solid rgba(255,255,255,0.1); border-radius:6px; padding:0.4rem; text-align:center;">
-              ${sImg ? `<img src="${sImg}" style="width:100%; height:90px; object-fit:cover; border-radius:4px;">` : `<div style="height:90px; display:flex; align-items:center; justify-content:center; color:#64748b; font-size:11px;">[Sosyal Temas]</div>`}
-              <div style="font-family:var(--font-mono); font-size:10px; color:#eab308; margin-top:0.3rem;">SLOT 3: SOSYAL</div>
+
+            <!-- Slot 3 (Opsiyonel Derinleştirici) -->
+            <div style="background:#0b0d18; border:1px solid ${sImg ? 'rgba(234,179,8,0.35)' : 'rgba(255,255,255,0.06)'}; border-radius:6px; padding:0.4rem; text-align:center; position:relative; overflow:hidden;">
+              ${sImg ? `
+                <div style="position:relative; width:100%; height:95px; border-radius:4px; overflow:hidden;">
+                  <img src="${sImg}" style="width:100%; height:100%; object-fit:cover;">
+                  ${renderReticles(`${cId}-s`)}
+                </div>
+              ` : `
+                <div style="height:95px; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#64748b; font-size:10.5px; border:1px dashed #334155; border-radius:4px; padding:0.3rem;">
+                  <span>[Opsiyonel Yuva]</span>
+                  <span style="font-size:9px; color:#94a3b8; margin-top:3px;">2 fotoğrafla analiz tamamlandı</span>
+                </div>
+              `}
+              <div style="font-family:var(--font-mono); font-size:10px; color:#eab308; margin-top:0.35rem; font-weight:600;">
+                SLOT 3: SOSYAL ${sImg ? '✓' : '(İSTEĞE BAĞLI)'}
+              </div>
             </div>
           </div>
 
@@ -655,17 +785,17 @@
           <div class="autopsy-metric-trio">
             <div class="metric-gauge-box">
               <div class="gauge-label">MASKE MAKASI (BENLİK YARILMASI)</div>
-              <div class="gauge-val" style="color:${gapColor};">%${gapVal}</div>
+              <div class="gauge-val" style="color:${gapColor};">${typeof gapVal === 'number' ? '%' + gapVal : gapVal}</div>
               <div style="font-size:10.5px; color:#94a3b8; margin-top:3px;">Vitrin kontrolü ile doğal an arasındaki yapaylık makası.</div>
             </div>
             <div class="metric-gauge-box">
               <div class="gauge-label">KRONİK KÜÇÜMSEME (AU14 CONTEMPT)</div>
-              <div class="gauge-val" style="color:${contColor};">%${contVal}</div>
+              <div class="gauge-val" style="color:${contColor};">${typeof contVal === 'number' ? '%' + contVal : contVal}</div>
               <div style="font-size:10.5px; color:#94a3b8; margin-top:3px;">Asimetrik dudak kasılması; gizli narsistik üstünlük göstergesi.</div>
             </div>
             <div class="metric-gauge-box">
               <div class="gauge-label">DUYGUSAL ERİŞİLEBİLİRLİK</div>
-              <div class="gauge-val" style="color:#00d4ff;">%${availVal}</div>
+              <div class="gauge-val" style="color:#00d4ff;">${typeof availVal === 'number' ? '%' + availVal : availVal}</div>
               <div style="font-size:10.5px; color:#94a3b8; margin-top:3px;">Organik empati ve derin bağ kurabilme kapasitesi.</div>
             </div>
           </div>
