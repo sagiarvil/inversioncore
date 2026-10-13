@@ -928,8 +928,9 @@
         });
 
         const endpoints = [
+          'https://volunteer-reputation-upgrading-appeared.trycloudflare.com/api/triangulation-audit',
           '/api/triangulation-audit',
-          'https://south-rehabilitation-prison-casino.trycloudflare.com/api/triangulation-audit'
+          'http://localhost:8888/api/triangulation-audit'
         ];
 
         for (let ep of endpoints) {
@@ -1496,7 +1497,7 @@
       const isLocal = ['localhost', '127.0.0.1'].includes(window.location.hostname);
       const endpoints = isLocal 
         ? ['http://localhost:8888/api/inversion-analyze']
-        : ['https://south-rehabilitation-prison-casino.trycloudflare.com/api/inversion-analyze', '/api/inversion-analyze'];
+        : ['https://volunteer-reputation-upgrading-appeared.trycloudflare.com/api/inversion-analyze', '/api/inversion-analyze'];
 
       for (const ep of endpoints) {
         try {

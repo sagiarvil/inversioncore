@@ -38,7 +38,8 @@ def call_groq_inference(prompt_text: str, system_prompt: str) -> Optional[str]:
         return None
 
     import urllib.request
-    models = ["qwen/qwen3.8-27b", "openai/gpt-oss-120b"]
+    # Resmi Groq Modelleri (Garantili Çalışan Sıra: Qwen 27B -> Llama 3.3 70B -> GPT-OSS 120B -> Llama 3.1 8B)
+    models = ["qwen/qwen3.8-27b", "llama-3.3-70b-versatile", "openai/gpt-oss-120b", "llama-3.1-8b-instant"]
 
     for k in keys:
         for model_id in models:

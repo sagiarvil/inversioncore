@@ -11,14 +11,13 @@ try:
     import firebase_admin
     from firebase_admin import credentials, firestore
     if not firebase_admin._apps:
-        # Google Application Default Credentials veya otomatik proje kimliği
-        project_id = os.getenv("FIREBASE_PROJECT_ID", "dilekce-7956e")
+        project_id = os.getenv("FIREBASE_PROJECT_ID", "inversioncore")
         firebase_admin.initialize_app(options={"projectId": project_id})
     _firestore_db = firestore.client()
     print("[*] InversionCore Cloud Firestore Bellek Motoru Aktif!")
 except Exception as _fe:
     _firestore_db = None
-    print(f"[*] Firestore yerel modda başlatılamadı, SQLite WAL kullanılacak: {_fe}")
+    # Sessizce SQLite WAL moduna geçer, logu kirletmez
 
 def get_connection():
     conn = sqlite3.connect(DB_PATH, timeout=15.0, check_same_thread=False)
