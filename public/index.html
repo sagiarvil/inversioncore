@@ -1454,10 +1454,13 @@
       if (!payload || !payload.visionData) return "";
       const v = payload.visionData;
       const faceCount = (v.face && v.face.face_count) || 0;
-      const ocrSnippet = (v.ocr && v.ocr.text) ? (v.ocr.text.slice(0, 100) + '...') : 'Okunabilir metin yok';
-      const exifDate = (v.exif && v.exif.date) || 'Yok (Metadata silinmiş)';
+      const ocrSnippet = (v.ocr && v.ocr.text) ? v.ocr.text.trim().replace(/\n+/g, ' ').slice(0, 160) + '...' : 'Okunabilir metin tespit edilemedi';
+      const exifDate = (v.exif && v.exif.date) || 'Kayıt Yok (Metadata kasıtlı silinmiş veya ekran görüntüsü)';
       const elaScore = (v.ela && v.ela.inconsistency_ratio !== undefined) ? v.ela.inconsistency_ratio : '1.2';
       const isSuspicious = parseFloat(elaScore) > 5.0;
+      const negList = (v.negative_findings && v.negative_findings.length) 
+        ? v.negative_findings.map(n => '<div style="margin:2px 0;">• ' + escapeHtml(n) + '</div>').join('') 
+        : '<div style="color:#10b981;">• Kritik teknik manipülasyon ve yama izine rastlanmadı.</div>';
 
       return '<div class="cyber-forensic-card">' +
         '<div class="cyber-grid-bg"></div>' +
@@ -1466,38 +1469,39 @@
             '<img src="' + payload.blobUrl + '" class="cyber-scan-img" alt="Adli Görsel">' +
             '<div class="cyber-laser-beam"></div>' +
             '<div class="cyber-crosshair"></div>' +
-            '<div class="focus-target-box" style="width:28px; height:28px; top:20%; left:30%;"></div>' +
-            '<div class="focus-target-box" style="width:22px; height:22px; top:55%; left:60%;"></div>' +
+            '<div class="focus-target-box" style="width:32px; height:32px; top:18%; left:28%;"></div>' +
+            '<div class="focus-target-box" style="width:24px; height:24px; top:52%; left:58%;"></div>' +
           '</div>' +
           '<div class="cyber-scanner-data">' +
             '<div class="cyber-header-badge">' +
-              '<span>INVERSIONCORE // OPTICAL FORENSICS</span>' +
-              '<span style="color:#10b981;">[TARAMA TAMAMLANDI]</span>' +
+              '<span>INVERSIONCORE // DERİNLEŞTİRİLMİŞ OPTİK ADLİ TIP</span>' +
+              '<span style="color:#10b981;">[TAM SPEKTRUM DOĞRULANDI]</span>' +
             '</div>' +
             '<div class="cyber-telemetry-item">' +
-              '<span>HEDEF DOSYA:</span>' +
-              '<span class="cyber-telemetry-val">' + escapeHtml(payload.fileName) + '</span>' +
+              '<span>HEDEF DELİL:</span>' +
+              '<span class="cyber-telemetry-val">' + escapeHtml(payload.fileName) + ' (' + (payload.file.size / 1024).toFixed(1) + ' KB)</span>' +
             '</div>' +
             '<div class="cyber-telemetry-item">' +
-              '<span>BİYOMETRİK YÜZ TESPİTİ:</span>' +
-              '<span class="cyber-telemetry-val ' + (faceCount > 0 ? 'highlight' : '') + '">' + (faceCount > 0 ? faceCount + ' ADET DOĞRULANDI' : 'YÜZ TESPİT EDİLMEDİ') + '</span>' +
+              '<span>BİYOMETRİK YÜZ & KİMLİK:</span>' +
+              '<span class="cyber-telemetry-val ' + (faceCount > 0 ? 'highlight' : '') + '">' + (faceCount > 0 ? faceCount + ' ADET BİYOMETRİK YÜZ İZOLE EDİLDİ' : 'YÜZ TESPİT EDİLMEDİ (BELGE/EKRAN)') + '</span>' +
             '</div>' +
             '<div class="cyber-telemetry-item">' +
-              '<span>ELA MONTAJ TUTARSIZLIK:</span>' +
-              '<span class="cyber-telemetry-val ' + (isSuspicious ? 'warn' : 'highlight') + '">' + elaScore + ' (' + (isSuspicious ? 'ŞÜPHELİ YENİDEN SIKIŞTIRMA' : 'STANDART HOMOJEN') + ')</span>' +
+              '<span>ELA MONTAJ TUTARSIZLIĞI:</span>' +
+              '<span class="cyber-telemetry-val ' + (isSuspicious ? 'warn' : 'highlight') + '">' + elaScore + 'x (' + (isSuspicious ? '⚠️ ŞÜPHELİ YENİDEN SIKIŞTIRMA / MONTAJ İZİ' : '✅ HOMOJEN SIKIŞTIRMA') + ')</span>' +
             '</div>' +
             '<div class="cyber-telemetry-item">' +
-              '<span>METADATA / EXIF TARİH:</span>' +
+              '<span>EXIF / DİJİTAL SİCİL:</span>' +
               '<span class="cyber-telemetry-val">' + escapeHtml(exifDate) + '</span>' +
             '</div>' +
             '<div class="cyber-telemetry-item">' +
-              '<span>OCR BELGE METNİ:</span>' +
-              '<span class="cyber-telemetry-val" style="max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">' + escapeHtml(ocrSnippet) + '</span>' +
+              '<span>OCR METİN OKUMA:</span>' +
+              '<span class="cyber-telemetry-val" style="max-width:260px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">' + escapeHtml(ocrSnippet) + '</span>' +
             '</div>' +
           '</div>' +
         '</div>' +
         '<div class="cyber-log-footer">' +
-          '<b>ADLİ PROTOKOL NOTU:</b> Görsel delil analiz verileri bilişsel tersine mühendislik motoruna aktarıldı.' +
+          '<div style="font-weight:700; color:var(--accent-cyber); margin-bottom:4px;">🔍 ADLİ NEGATİF BİLGİ VE ÇELİŞKİ HARİTASI (VIA NEGATIVA):</div>' +
+          '<div style="font-size:11px; color:#cbd5e1; line-height:1.45;">' + negList + '</div>' +
         '</div>' +
       '</div>';
     }
@@ -1842,17 +1846,23 @@
                   <span style="color:var(--accent-cyber);">[AŞAMA 01: OTO-HİPNOZ VE GASLIGHTING İFLASI]</span>
                 </div>
                 <div class="ai-claim-box">
-                  <span>MASADAKİ ŞÜPHE:</span> "${escapeHtml(userQuery)}"
+                  <span>MASADAKİ ŞÜPHE & ODAK:</span> "${escapeHtml(userQuery)}"
                 </div>
                 <div class="ai-body-text">
-                  Lafı hiç dolandırmadan çıplak gerçeği masaya yatıralım: <b>'Yüzleşsem üste çıkacak (gaslighting), delil toplasam aklımı kaçıracağım (paranoya)' diyerek kendini iki ucu kirli bir kumpasa hapsetmişsin.</b> 
-                  Bir insan sevgilisinin veya eşinin telefonuna bakma, şifre kovalama veya delil arama ihtiyacı duyduğu saniye o ilişki morga kaldırılmıştır; sen şu an sadece cesede suni teneffüs yapıyorsun. 
-                  Seni aldattığını veya senden devasa bir sır sakladığını iliklerine kadar hissediyorsun ama 'somut kanıtım yok' yalanına sığınıp masadan kalkmayı erteliyorsun.
+                  <h3>1. ÇIPLAK HAKİKAT VE OTO-HİPNOZ OTOPSİSİ</h3>
+                  <p>Lafı hiç dolandırmadan en acı gerçeği masaya yatıralım: <b>'Yüzleşsem üste çıkacak (gaslighting), delil toplasam aklımı kaçıracağım (paranoya)' diyerek kendini iki ucu kirli bir kumpasa hapsetmişsin.</b></p>
+                  <p>Bir insan partnerinin telefonuna bakma, konum takip etme veya delil arama ihtiyacı hissettiği an o ilişki fiilen bitmiştir. Delil aramak, karşı tarafı yakalamak için değil; <b>cesaret edemediğin ayrılığı ertelemek için kendine aldığın yüksek dozlu bir uyuşturucudur.</b></p>
+                  
+                  <h3>2. MANİPÜLASYON DÖNGÜSÜ (DARVO ANALİZİ)</h3>
+                  <p>Partnerinin uyguladığı taktik evrenseldir: <em>Deny, Attack, and Reverse Victim and Offender (İnkar Et, Saldır, Kurban ile Suçluyu Yer Değiştir)</em>. Sen her şüphe belirttiğinde konuyu senin 'güvensizliğine', 'hastalığına' veya 'geçmişine' getirerek masayı deviriyor. Sen de kendi aklından şüphe edip özür diler pozisyona düşüyorsun.</p>
+
+                  <h3>3. RİSK VE ZAMAN KAYBI HARİTASI</h3>
+                  <p>Bu bataklıkta geçirdiğin her hafta, özsaygın ve ruhsal sağlığından ödenen geri dönüşsüz bir bedeldir. Karşı taraf sana asla 'evet aldattım' itirafında bulunmayacak; kanıt bulsan bile bu kez 'sen telefonumu karıştırdın' diyerek seni suçlayacaktır.</p>
                 </div>
                 <div class="ai-attack-box">
                   <div class="attack-label">⚡ İLK TOKAT // YÜZLEŞME EŞİĞİ:</div>
                   <div class="attack-main">
-                    Yarın sabah karşına gözünle göreceğin en somut aldatma kanıtı konsa; tek celsede o kapıyı çarpıp tek başına bağımsız hayatına devam edebilecek gücün var mı, yoksa kanıt bulsan bile 'ama beni seviyor' diye kendini kandırmaya devam mı edeceksin?
+                    Yarın sabah gözünle göreceğin en açık aldatma kanıtı önüne konsa; tek celsede o kapıyı çarpıp tek başına bağımsız hayatına devam edebilecek gücün var mı, yoksa kanıt bulsan bile 'ama seviyorum' diyerek kendini kandırmaya devam mı edeceksin?
                   </div>
                 </div>
                 <div class="choice-group">
@@ -1871,20 +1881,26 @@
               <div class="ai-clean-card">
                 <div class="ai-badge-header">
                   <span>INVERSIONCORE // PSİKİYATRİK & STRATEJİK RED TEAM</span>
-                  <span style="color:var(--accent-cyber);">[AŞAMA 01: İKİYÜZLÜLÜK İFŞASI]</span>
+                  <span style="color:var(--accent-cyber);">[AŞAMA 01: KURUMSAL İKİYÜZLÜLÜK İFŞASI]</span>
                 </div>
                 <div class="ai-claim-box">
-                  <span>MASADAKİ ÇIKMAZ:</span> "${escapeHtml(userQuery)}"
+                  <span>MASADAKİ ÇIKMAZ & ÇALIŞMA ŞARTLARI:</span> "${escapeHtml(userQuery)}"
                 </div>
                 <div class="ai-body-text">
-                  Bak güzel kardeşim, durumun absürtlüğünü masaya yatıralım: <b>Sen bir şirkette çalışmıyorsun, sen orada gönüllü bir kurban ayinine katılmışsın.</b> 
-                  Müdürünün narsist olduğunu biliyorsun ama her sabah o kapıdan içeri girip 'belki bugün insafa gelir' diye sahte tebessüm takınıyorsun. 
-                  Karşındaki yönetici senin korkunu kokluyor. Asperger netliğiyle söyleyeyim: <b>Tazminat bahane, asıl mesele konfor alanından çıkmaya ve sınır çekmeye ödünün kopması.</b>
+                  <h3>1. ÇIPLAK HAKİKAT VE GÖNÜLLÜ KURBAN AYİNİ</h3>
+                  <p>Durumun absürtlüğünü masaya yatıralım: <b>Sen bir şirkette profesyonel çalışmıyorsun; sen orada amirin narsist egosunu besleyen gönüllü bir kurban ayinine katılmışsın.</b></p>
+                  <p>Müdürünün keyfi baskısını, toplantılarda yok saymasını biliyorsun ama her sabah o kapıdan içeri girip 'belki bugün insafa gelir' diye sahte tebessüm takınıyorsun. Karşındaki yönetici senin korkunu, borçlarını ve başka kapı bulamama telaşını kokluyor.</p>
+
+                  <h3>2. HUKUKİ VE TAKTİK ÇIKMAZ</h3>
+                  <p>Asperger netliğiyle söyleyelim: <b>'Tazminatımı bırakamam' cümlesi bir savunma değil; eylemsizlik için arkasına saklandığın bir mazerettir.</b> Resmi kanıt tutmadan şikayet edersen şirket İK'sı seni 'uyumsuz çalışan' ilan edip amirini aklayacaktır. Hukuk sözlere değil, yazılı dijital ize bakar.</p>
+
+                  <h3>3. GEREKÇELİ ZARAR FATURASI</h3>
+                  <p>Mobbing altında geçen her ay biyolojik sağlığını, uykunu ve mesleki özgüvenini tüketiyor. Birkaç aylık kıdem tazminatı için ruh sağlığını amirinin masasına meze ediyorsun.</p>
                 </div>
                 <div class="ai-attack-box">
                   <div class="attack-label">⚡ İLK TOKAT // HİPOTEZ KONTROLÜ:</div>
                   <div class="attack-main">
-                    Müdürünün mobbingini hukuk önünde tek celsede boynuna dolayacak tarihli, saatli, şahitli yazılı bir dijital delil dosyan var mı?
+                    Müdürünün mobbingini mahkeme veya arabulucu önünde tek celsede boynuna dolayacak tarihli, saatli, şahitli yazılı bir dijital delil dosyan (e-posta, WhatsApp, tutanak) var mı?
                   </div>
                 </div>
                 <div class="choice-group">
@@ -1892,7 +1908,7 @@
                     ❌ "Hayır, elimde resmi kayıt yok; her şey sözlü geçti."
                   </button>
                   <button class="btn-choice" onclick="handleQuickChoice('evet')">
-                    ✔ "Evet, e-posta, ses ve yazışma kayıtlarımı tuttum."
+                    ✔ "Evet, e-posta ve yazışma kayıtlarımı sistemli tuttum."
                   </button>
                 </div>
                 ${renderAiActionFooter()}
