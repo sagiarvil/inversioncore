@@ -190,14 +190,13 @@
     await new Promise(function (res, rej) { img.onload = res; img.onerror = rej; img.src = url; });
     var buffer = await file.arrayBuffer();
 
-    onProgress("EXIF adli tıp analizi...");
-    var exif = await exifForensics(buffer);
-    onProgress("ELA montaj tespiti...");
-    var ela = await elaAnalysis(img);
-    onProgress("Biyometri & yüz taraması...");
-    var face = await withTimeout(faceForensics(img), 5000, { motor: "face-api", face_count: 0, negative_findings: [] });
-    onProgress("OCR metin taraması...");
-    var ocr = await withTimeout(ocrForensics(file), 6000, { motor: "Tesseract", text: "", negative_findings: [] });
+    onProgress("Tüm adli motorlar paralel taranıyor (EXIF, ELA, Biyometri, OCR)...");
+    var [exif, ela, face, ocr] = await Promise.all([
+      exifForensics(buffer),
+      elaAnalysis(img),
+      withTimeout(faceForensics(img), 3500, { motor: "face-api", face_count: 0, negative_findings: [] }),
+      withTimeout(ocrForensics(file), 4000, { motor: "Tesseract", text: "", negative_findings: [] })
+    ]);
 
     var report = [exif, ela, face, ocr];
     var contradictions = crossContradictions(report, claimText || "");
