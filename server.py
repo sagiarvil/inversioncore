@@ -84,10 +84,21 @@ class TriangulationRequest(BaseModel):
     social_image: Optional[str] = Field(default=None, description="Slot 3: Sosyal / Beden dili (Base64)")
     target_role: str = Field(default="partner", description="Hedef rol")
     custom_question: Optional[str] = Field(default="", description="Kullanıcının özel sorusu veya şüphesi")
+    session_id: Optional[str] = Field(default="default_session", description="Oturum kimliği")
 
 @app.post("/api/triangulation-audit")
 async def triangulation_personality_audit(req: TriangulationRequest):
     try:
+        # Çift / Aynı Görsel Yükleme Koruması (Deduplication Check)
+        if req.formal_image and req.candid_image:
+            f_clean = req.formal_image.split(",", 1)[-1].strip()[:200]
+            c_clean = req.candid_image.split(",", 1)[-1].strip()[:200]
+            if f_clean == c_clean:
+                raise HTTPException(
+                    status_code=400, 
+                    detail="Aynı görseli iki kez yükleyemezsiniz. Maske Makasını hesaplamak için 1 Vitrin ve 1 Doğal olmak üzere 2 farklı durumsal fotoğraf şarttır."
+                )
+
         result = await asyncio.to_thread(
             HumanBehavioralProfiler.analyze_triangulation,
             formal_img=req.formal_image,
@@ -96,31 +107,34 @@ async def triangulation_personality_audit(req: TriangulationRequest):
             target_role=req.target_role,
             custom_question=req.custom_question or ""
         )
+        
+        # 2. Görsel Hafızanın Metin Sohbetine Akması (Cross-Modal Memory Bridge)
+        # Karakter otopsisi tamamlandığında özet ve profil doğrudan core_memory tablosuna işlenir
+        if req.session_id:
+            summary = result.get("summary", "")
+            metrics = result.get("metrics", {})
+            big5 = metrics.get("big_five_ocean", {})
+            profile_snapshot = (
+                f"Karakter Profili [{result.get('role_label')}]: "
+                f"Maske Makası %{metrics.get('persona_authenticity_gap')}, "
+                f"Küçümseme %{metrics.get('chronic_contempt_index')}, "
+                f"Açıklık %{big5.get('openness')}, Sorumluluk %{big5.get('conscientiousness')}, "
+                f"Uyumluluk %{big5.get('agreeableness')}. "
+                f"Ego: {result.get('clinical_deductions', {}).get('ego_structure')}. "
+                f"Risk: {result.get('clinical_deductions', {}).get('risk_level')}"
+            )
+            from inversion_memory import update_core_memory, append_message
+            update_core_memory(req.session_id, {
+                "opponent_profile": profile_snapshot,
+                "trauma_codes": f"Maske Makası: %{metrics.get('persona_authenticity_gap')}"
+            })
+            append_message(req.session_id, "system", f"[GÖRSEL KARAKTER OTOPSİSİ TAMAMLANDI]: {summary}", round_num=1)
+            
         return result
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Davranış ve Karakter Analiz Motoru Hatası: {str(e)}")
-
-class ForensicImageRequest(BaseModel):
-    image_base64: str = Field(description="Base64 kodlu görsel verisi")
-    file_name: str = Field(default="evidence.png", description="Dosya adı")
-    claim_text: Optional[str] = Field(default="", description="Kullanıcı iddiası / şüphesi")
-
-@app.post("/api/forensic-audit")
-async def forensic_image_audit(req: ForensicImageRequest):
-    try:
-        raw_b64 = req.image_base64
-        if "," in raw_b64:
-            raw_b64 = raw_b64.split(",", 1)[1]
-        image_bytes = base64.b64decode(raw_b64)
-        
-        result = await asyncio.to_thread(
-            ProfessionalForensicEngine.execute_complete_audit,
-            image_bytes=image_bytes,
-            file_name=req.file_name
-        )
-        return result
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Adli Bilişim Motoru Hatası: {str(e)}")
 
 @app.post("/api/dispatcher-route")
 async def route_task_endpoint(query: Optional[str] = "", images_count: int = 0, requested_role: Optional[str] = None):

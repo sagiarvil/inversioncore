@@ -6,7 +6,6 @@ from pydantic import BaseModel
 
 class EngineRoute(str, Enum):
     BEHAVIORAL_TRIANGULATION = "behavioral_triangulation"  # 2-3 Görsel: Karakter, Big Five, Maske Makası
-    DOCUMENT_FORENSICS       = "document_forensics"        # 1 Görsel/Belge: 2D FFT, PRNU, Sahtecilik
     FINANCIAL_PHYSICS        = "financial_physics"         # Metin/Sayı: Rust & Python Diferansiyel İflas, Fat-Tail, FTA
     WORKPLACE_LEGAL_MOBBING  = "workplace_legal_mobbing"   # Metin: İş Kanunu 24, TBK 417, Mobbing İhtarı
     RELATIONAL_GASLIGHTING   = "relational_gaslighting"    # Metin: Aldatma, DARVO, İlişki Feshi
@@ -41,30 +40,19 @@ class TaskDispatcher:
         img_count = len(images)
         q_lower = (query or "").lower()
 
-        # 1. Deterministik Veri Tipi Kuralı: 2 veya 3 görsel varsa doğrudan Karakter Motoru
+        # 1. Deterministik Kural: 2 veya 3 görsel varsa doğrudan Çoklu Karakter Penetrasyonu
         if img_count >= 2:
             return DispatcherDecision(
                 selected_route=EngineRoute.BEHAVIORAL_TRIANGULATION,
                 target_role=requested_role or "partner",
-                reasoning=f"{img_count} durumsal görsel tespit edildi. 3-Nokta Karakter Penetrasyonu devrede."
+                reasoning=f"{img_count} durumsal görsel tespit edildi. Çapraz Maske Makası ve Karakter Penetrasyonu devrede."
             )
 
-        # 2. Tek görsel kuralı: Belge/Montaj mı, tekil vesikalık mı?
         if img_count == 1:
-            if any(w in q_lower for w in cls.PROFILE_KEYS) or requested_role in [
-                "groom_candidate", "manager", "employee", "candidate_employee",
-                "founder_bottleneck", "leadership_blindspot", "career_sabotage",
-                "talent", "iq_cognition", "self", "partner", "business_partner", "friend"
-            ]:
-                return DispatcherDecision(
-                    selected_route=EngineRoute.BEHAVIORAL_TRIANGULATION,
-                    target_role=requested_role or "candidate_employee",
-                    reasoning="Tekil portre profilleme talebi. Davranışsal analiz motoru devrede."
-                )
             return DispatcherDecision(
-                selected_route=EngineRoute.DOCUMENT_FORENSICS,
-                target_role="document",
-                reasoning="1 adet görsel/belge tespit edildi. 2D FFT ve PRNU Adli Tahrifat Motoru devrede."
+                selected_route=EngineRoute.COGNITIVE_RED_TEAM,
+                target_role="general",
+                reasoning="Yetersiz görsel sayısı (Tek görselle karakter penetrasyonu yapılamaz, en az 2 görsel şarttır)."
             )
 
         # 3. Görselsiz Sadece Metin Girdisi: Anlamsal Yönlendirme
