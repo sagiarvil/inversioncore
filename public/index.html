@@ -939,15 +939,15 @@
         });
 
         const endpoints = [
+          'https://volunteer-reputation-upgrading-appeared.trycloudflare.com/api/triangulation-audit',
           '/api/triangulation-audit',
-          'https://api.inversioncore.com/api/triangulation-audit',
           'http://localhost:8888/api/triangulation-audit'
         ];
 
         for (let ep of endpoints) {
           try {
             const ctrl = new AbortController();
-            const tid = setTimeout(() => ctrl.abort(), 4000);
+            const tid = setTimeout(() => ctrl.abort(), 2500);
             const res = await fetch(ep, {
               method: 'POST',
               headers: {
@@ -1392,7 +1392,7 @@
 
     function startAuditFlow() {
       const input = document.getElementById('home-prompt-input');
-      const val = input.value.trim();
+      const val = input ? input.value.trim() : '';
       if (!val && !currentEvidencePayload) {
         alert("Lütfen masaya yatıracağınız kararı veya şüphenizi yazın.");
         return;
@@ -1403,12 +1403,15 @@
       userQuery = activeText;
       detectedTopic = detectCategory(activeText);
 
-      document.getElementById('home-welcome-screen').style.display = 'none';
+      const welcomeScreen = document.getElementById('home-welcome-screen');
+      if (welcomeScreen) welcomeScreen.style.setProperty('display', 'none', 'important');
+      
       const viewport = document.querySelector('.app-viewport');
       if (viewport) viewport.classList.add('chat-mode');
+      
       const stream = document.getElementById('chat-stream-nodes');
       if (stream) {
-        stream.style.display = 'flex';
+        stream.style.setProperty('display', 'flex', 'important');
         stream.style.minHeight = '100%';
         stream.style.width = '100%';
       }
@@ -1424,7 +1427,6 @@
       const activePayload = currentEvidencePayload || window.lastAttachedVisionPayload;
       appendUserMessage(activeText, activePayload);
       
-      // Delil çipini arayüzden gizle (mesaj akışına geçti, hafızayı silme)
       removeEvidenceChip('home', false);
 
       currentRound = 1;
@@ -1521,14 +1523,16 @@
 
       let backendReply = null;
       const isLocal = ['localhost', '127.0.0.1'].includes(window.location.hostname);
-      const endpoints = isLocal 
-        ? ['http://localhost:8888/api/inversion-analyze', '/api/inversion-analyze']
-        : ['/api/inversion-analyze', 'https://api.inversioncore.com/api/inversion-analyze', 'http://localhost:8888/api/inversion-analyze'];
+      const endpoints = [
+        'https://volunteer-reputation-upgrading-appeared.trycloudflare.com/api/inversion-analyze',
+        '/api/inversion-analyze',
+        'http://localhost:8888/api/inversion-analyze'
+      ];
 
       for (const ep of endpoints) {
         try {
           const controller = new AbortController();
-          const timer = setTimeout(() => controller.abort(), 4500);
+          const timer = setTimeout(() => controller.abort(), 2500);
           
           let combinedDecision = userQuery;
           let forensicContextObj = null;
