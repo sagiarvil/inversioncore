@@ -6,6 +6,7 @@
   <title>InversionCore | Tersine Karar Denetim ve Bilişsel Teşhis Motoru</title>
   <meta name="description" content="InversionCore, bilişsel kör noktaları, rasyonelleştirilmiş mazeretleri ve karar mekanizmalarındaki asalak yükleri açığa çıkaran tersine denetim platformudur.">
   <meta name="theme-color" content="#090a0f">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <link rel="canonical" href="https://inversioncore.com/">
   <link rel="alternate" hreflang="tr" href="https://inversioncore.com/">
@@ -940,7 +941,6 @@
 
         const endpoints = [
           'https://api.inversioncore.com/api/triangulation-audit',
-          '/api/triangulation-audit',
           'http://localhost:8888/api/triangulation-audit'
         ];
 
@@ -1525,7 +1525,6 @@
       const isLocal = ['localhost', '127.0.0.1'].includes(window.location.hostname);
       const endpoints = [
         'https://api.inversioncore.com/api/inversion-analyze',
-        '/api/inversion-analyze',
         'http://localhost:8888/api/inversion-analyze'
       ];
 
