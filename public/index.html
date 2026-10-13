@@ -2578,8 +2578,14 @@ Aksi takdirde İş Kanunu Madde 24/II uyarınca haklı fesih hakkımı kullanara
                 <button class="btn-act btn-act-copy" onclick="copyFullReport()">
                   📄 RAPORU KOPYALA
                 </button>
+                <button class="btn-act" style="background:#0284c7; color:#fff; border:1px solid #38bdf8;" onclick="exportDossierFile('txt')">
+                  💾 DOSYAYI İNDİR (.TXT)
+                </button>
+                <button class="btn-act" style="background:#0f766e; color:#fff; border:1px solid #2dd4bf;" onclick="exportDossierFile('json')">
+                  📊 ADLİ VERİ (.JSON)
+                </button>
                 <button class="btn-act btn-act-print" onclick="window.print()">
-                  🖨️ YAZDIR / PDF İNDİR
+                  🖨️ YAZDIR / PDF
                 </button>
                 <button class="btn-act btn-act-reset" onclick="resetToHome()">
                   🔄 YENİ BİR İLLÜZYON SORGULA
@@ -2665,12 +2671,78 @@ Aksi takdirde İş Kanunu Madde 24/II uyarınca haklı fesih hakkımı kullanara
       });
     }
 
-    function copyFullReport() {
-      const weapon = document.getElementById('weapon-pre') ? document.getElementById('weapon-pre').innerText : '';
-      const text = `INVERSIONCORE // TERSİNE KARAR VE İLLÜZYON DENETİM RAPORU\nOdak: ${userQuery}\nTespit Edilen Alan: ${detectedTopic.toUpperCase()}\nStratejik Hüküm ve Aksiyon Protokolü:\n${weapon}\n\nSistem: https://inversioncore.com`;
-      navigator.clipboard.writeText(text).then(() => {
-        showToast("Rapor kopyalandı!");
-      });
+    function exportDossierFile(format) {
+      const weaponEl = document.getElementById('weapon-pre');
+      const weapon = weaponEl ? weaponEl.innerText : '';
+      const dateStr = new Date().toISOString().replace(/[:.]/g, '-');
+      const activePayload = currentEvidencePayload || window.lastAttachedVisionPayload;
+      const vData = (activePayload && activePayload.visionData) || {};
+
+      let content = "";
+      let mimeType = "text/plain";
+      let fileName = "inversioncore-hukum-dosyasi-" + dateStr;
+
+      if (format === 'json') {
+        const dossierObj = {
+          protocol: "INVERSIONCORE // TIER-1 MULTIMODAL FORENSICS & RED TEAM",
+          timestamp: new Date().toISOString(),
+          case_focus: userQuery,
+          category: detectedTopic,
+          forensic_telemetry: {
+            attached_file: activePayload ? activePayload.fileName : null,
+            file_size_kb: activePayload ? (activePayload.file.size / 1024).toFixed(1) : null,
+            fft_spectral_ai_score: vData.spectral_ratio || null,
+            prnu_sensor_variance: vData.noise_deviation || null,
+            cranial_symmetry_percent: vData.cranial_symmetry || null,
+            forensic_verdict: vData.is_authentic ? "OTANTİK" : "MANİPÜLASYON ŞÜPHESİ"
+          },
+          action_weapon_protocol: weapon,
+          legal_basis: "TCK Md. 204 / TCK Md. 157-158 / İş Kanunu Md. 24 / TBK Md. 417",
+          system_signature: "InversionCore Autonomous Red Team Kernel (inversioncore.com)"
+        };
+        content = JSON.stringify(dossierObj, null, 2);
+        mimeType = "application/json";
+        fileName += ".json";
+      } else {
+        content = "=====================================================================\n" +
+          "INVERSIONCORE // TERSİNE KARAR VE ADLİ İLLÜZYON OTOPSİSİ\n" +
+          "RESMİ HÜKÜM DOSYASI VE CERRAHİ AKSİYON PROTOKOLÜ\n" +
+          "=====================================================================\n\n" +
+          "Tarih / Saat       : " + new Date().toLocaleString('tr-TR') + "\n" +
+          "İnceleme Odağı     : " + userQuery + "\n" +
+          "Tespit Edilen Alan : " + detectedTopic.toUpperCase() + "\n";
+
+        if (activePayload) {
+          content += "\n[ADLİ TIP & SİNYAL METRİKLERİ]:\n" +
+            "- İncelenen Dosya  : " + activePayload.fileName + " (" + (activePayload.file.size / 1024).toFixed(1) + " KB)\n" +
+            "- 2D FFT AI İzi   : " + (vData.spectral_ratio || 'N/A') + "\n" +
+            "- PRNU Varyansı    : " + (vData.noise_deviation || 'N/A') + " σ\n" +
+            "- Kraniyofasiyal S.: %" + (vData.cranial_symmetry || 'N/A') + "\n" +
+            "- Adli Hüküm       : " + (vData.is_authentic ? "GÖRSEL OTANTİK" : "MANİPÜLASYON SAPTANDI") + "\n";
+        }
+
+        content += "\n---------------------------------------------------------------------\n" +
+          "DOĞRUDAN AKSİYON SİLAHI // UYGULANACAK RESMİ PROTOKOL:\n" +
+          "---------------------------------------------------------------------\n\n" +
+          weapon + "\n\n" +
+          "=====================================================================\n" +
+          "Doğrulama İmzası   : InversionCore Red Team Engine v1.4.0\n" +
+          "Resmi Portal       : https://inversioncore.com\n" +
+          "=====================================================================\n";
+        mimeType = "text/plain";
+        fileName += ".txt";
+      }
+
+      const blob = new Blob([content], { type: mimeType + ';charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("💾 Hüküm dosyası dışa aktarıldı: " + fileName);
     }
 
     function showToast(msg) {
