@@ -70,6 +70,31 @@ async def health_check():
         "timestamp": time.time()
     }
 
+from forensic_engine import ProfessionalForensicEngine
+import base64
+
+class ForensicImageRequest(BaseModel):
+    image_base64: str = Field(description="Base64 kodlu görsel verisi")
+    file_name: str = Field(default="evidence.png", description="Dosya adı")
+    claim_text: Optional[str] = Field(default="", description="Kullanıcı iddiası / şüphesi")
+
+@app.post("/api/forensic-audit")
+async def forensic_image_audit(req: ForensicImageRequest):
+    try:
+        raw_b64 = req.image_base64
+        if "," in raw_b64:
+            raw_b64 = raw_b64.split(",", 1)[1]
+        image_bytes = base64.b64decode(raw_b64)
+        
+        result = await asyncio.to_thread(
+            ProfessionalForensicEngine.execute_complete_audit,
+            image_bytes=image_bytes,
+            file_name=req.file_name
+        )
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Adli Bilişim Motoru Hatası: {str(e)}")
+
 @app.post("/api/inversion-analyze", response_model=InversionOutput)
 async def analyze_decision(req: AnalyzeRequest):
     try:
