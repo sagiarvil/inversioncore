@@ -76,9 +76,9 @@ from behavioral_profiler import HumanBehavioralProfiler
 import base64
 
 class TriangulationRequest(BaseModel):
-    formal_image: str = Field(description="Slot 1: Vitrin / Resmi poz (Base64)")
-    candid_image: str = Field(description="Slot 2: Doğal / Spontan an (Base64)")
-    social_image: str = Field(description="Slot 3: Sosyal / Beden dili (Base64)")
+    formal_image: Optional[str] = Field(default=None, description="Slot 1: Vitrin / Resmi poz (Base64)")
+    candid_image: Optional[str] = Field(default=None, description="Slot 2: Doğal / Spontan an (Base64)")
+    social_image: Optional[str] = Field(default=None, description="Slot 3: Sosyal / Beden dili (Base64)")
     target_role: str = Field(default="partner", description="Hedef rol: partner | groom_candidate | business_partner | manager | self")
     custom_question: Optional[str] = Field(default="", description="Kullanıcının özel sorusu veya şüphesi")
 

@@ -118,18 +118,31 @@ class HumanBehavioralProfiler:
                               target_role: str = "partner",
                               custom_question: str = "") -> Dict[str, Any]:
         """
-        3 Görsel Üzerinden Çapraz Benlik Yarılması (Maske Makası) Hesaplaması.
+        2 veya 3 Görsel Üzerinden Çapraz Benlik Yarılması (Maske Makası) Hesaplaması.
+        En az 2 görsel zorunludur (örn. Vitrin + Doğal veya Doğal + Sosyal). 
+        3. görsel eklendiğinde hassasiyet ve güven aralığı en üst seviyeye çıkar.
         - formal_img: Slot 1 (Vitrin / Resmi Poz / LinkedIn)
         - candid_img: Slot 2 (Doğal / Kamerayı unuttuğu an)
         - social_img: Slot 3 (Sosyal / Başkalarının yanında / Beden dili)
         - target_role: 'partner' | 'groom_candidate' | 'business_partner' | 'self' | 'manager'
         """
-        f_units = cls.extract_facial_action_units(formal_img)
-        c_units = cls.extract_facial_action_units(candid_img)
-        s_units = cls.extract_facial_action_units(social_img)
+        valid_units = []
+        if formal_img:
+            valid_units.append(("formal", cls.extract_facial_action_units(formal_img)))
+        if candid_img:
+            valid_units.append(("candid", cls.extract_facial_action_units(candid_img)))
+        if social_img:
+            valid_units.append(("social", cls.extract_facial_action_units(social_img)))
+
+        if len(valid_units) < 2:
+            raise ValueError("Karakter penetrasyonu için en az 2 farklı durumsal görsel yüklenmelidir.")
+
+        unit_dict = dict(valid_units)
+        f_units = unit_dict.get("formal") or unit_dict.get("social") or valid_units[0][1]
+        c_units = unit_dict.get("candid") or valid_units[-1][1]
+        s_units = unit_dict.get("social") or c_units
 
         # 1. Maske Makası (Benlik Yarılması):
-        # Vitrindeki kasıtlı kontrol ile doğal andaki gerçek duygu arasındaki fark
         f_eye = f_units.get("au06_duchenne_eye_muscle", 0.45)
         c_eye = c_units.get("au06_duchenne_eye_muscle", 0.45)
         f_contempt = f_units.get("au14_contempt_asymmetry", 0.35)
@@ -140,7 +153,8 @@ class HumanBehavioralProfiler:
         mask_gap_percent = round(min(mask_gap * 100.0, 95.0), 1)
 
         # 2. Kronik Küçümseme (Chronic Contempt) İndeksi
-        avg_contempt = (f_contempt + c_contempt + s_contempt) / 3.0
+        all_contempts = [u.get("au14_contempt_asymmetry", 0.35) for _, u in valid_units]
+        avg_contempt = sum(all_contempts) / len(all_contempts)
         contempt_percent = round(avg_contempt * 100.0, 1)
 
         # 3. Duygusal Erişilebilirlik ve Narsisistik Zırh Teşhisi
