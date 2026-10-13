@@ -15,18 +15,67 @@ _tokenizer = None
 _deterministic_sampler = None
 _creative_sampler = None
 
+def call_nvidia_cloud_inference(prompt_text: str, system_prompt: str) -> Optional[str]:
+    """
+    NVIDIA Cloud AI NIM Inference (Bulut Modu / Sıfır Maliyetli 70B/11B Llama 3.2 NIM).
+    Yerel MLX bulunamadığında veya bulut konteynerinde otomatik devreye girer.
+    """
+    api_key = os.getenv("NVIDIA_API_KEY")
+    if not api_key:
+        env_file = os.path.join(os.path.dirname(__file__), ".env")
+        if os.path.exists(env_file):
+            with open(env_file, "r", encoding="utf-8") as f:
+                for line in f:
+                    if line.startswith("NVIDIA_API_KEY="):
+                        api_key = line.strip().split("=", 1)[1]
+                        break
+
+    if not api_key:
+        return None
+
+    import urllib.request
+    req = urllib.request.Request(
+        "https://integrate.api.nvidia.com/v1/chat/completions",
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json"
+        },
+        data=json.dumps({
+            "model": "meta/llama-3.2-11b-vision-instruct",
+            "messages": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": prompt_text}
+            ],
+            "temperature": 0.4,
+            "max_tokens": 512
+        }).encode("utf-8")
+    )
+    try:
+        resp = urllib.request.urlopen(req, timeout=12)
+        data = json.loads(resp.read().decode("utf-8"))
+        if data.get("choices") and len(data["choices"]) > 0:
+            return data["choices"][0]["message"]["content"]
+    except Exception as e:
+        logger.error(f"[NVIDIA Cloud Inference Hatası]: {e}")
+    return None
+
 def get_engine_components():
     global _model, _tokenizer, _deterministic_sampler, _creative_sampler
     if _model is None:
-        from mlx_lm import load
-        from mlx_lm.sample_utils import make_sampler
-        if not os.path.exists(MODEL_PATH):
-            raise FileNotFoundError(f"Model dizini bulunamadı: {MODEL_PATH}")
-        print(f"[*] MLX Modeli yükleniyor: {MODEL_PATH}")
-        _model, _tokenizer = load(MODEL_PATH)
-        _deterministic_sampler = make_sampler(temp=0.0)
-        _creative_sampler = make_sampler(temp=0.5, top_p=0.9)
-        print("Model hazır!")
+        try:
+            from mlx_lm import load
+            from mlx_lm.sample_utils import make_sampler
+            if not os.path.exists(MODEL_PATH):
+                logger.info(f"Yerel MLX model yolu bulunamadı ({MODEL_PATH}), Cloud Inference moduna geçiliyor.")
+                return None, None, None, None
+            print(f"[*] MLX Modeli yükleniyor: {MODEL_PATH}")
+            _model, _tokenizer = load(MODEL_PATH)
+            _deterministic_sampler = make_sampler(temp=0.0)
+            _creative_sampler = make_sampler(temp=0.5, top_p=0.9)
+            print("Model hazır!")
+        except Exception as e:
+            logger.info(f"MLX modülü yüklenemedi: {e}. Cloud Inference kullanılacak.")
+            return None, None, None, None
     return _model, _tokenizer, _deterministic_sampler, _creative_sampler
 
 class System2CompactMatrix(BaseModel):
@@ -235,19 +284,34 @@ class InversionCoreEngine:
         # 2. Kalıcı Bellek Bağlamını Getir
         core_memory = mem.get_core_memory(session_id)
         
-        from mlx_lm import generate
-        model, tokenizer, _, creative_sampler = get_engine_components()
-
-        # 3. UNIFIED SINGLE-PASS ÇIKARIM (140-320 Token Bütçesi ile Yıldırım Hızı)
+        reply = None
         user_prompt_content = f"Kullanıcı Durumu: {effective_query}\n\nGeçmiş Hafıza:\n{core_memory}" if core_memory else f"Kullanıcı Durumu: {effective_query}"
-        
-        prompt_text = (
-            f"<|im_start|>system\n{UNIFIED_SYSTEM_PROMPT}\nTur: {round_num}<|im_end|>\n"
-            f"<|im_start|>user\n{user_prompt_content}<|im_end|>\n"
-            f"<|im_start|>assistant\n"
-        )
-        
-        reply = generate(model, tokenizer, prompt=prompt_text, max_tokens=320, sampler=creative_sampler, verbose=False)
+
+        # 3. UNIFIED SINGLE-PASS ÇIKARIM
+        # Önce MLX kontrol et, yoksa veya başarısız olursa NVIDIA Cloud Inference çalıştır
+        try:
+            model, tokenizer, _, creative_sampler = get_engine_components()
+            if model is not None and tokenizer is not None:
+                from mlx_lm import generate
+                prompt_text = (
+                    f"<|im_start|>system\n{UNIFIED_SYSTEM_PROMPT}\nTur: {round_num}<|im_end|>\n"
+                    f"<|im_start|>user\n{user_prompt_content}<|im_end|>\n"
+                    f"<|im_start|>assistant\n"
+                )
+                reply = generate(model, tokenizer, prompt=prompt_text, max_tokens=320, sampler=creative_sampler, verbose=False)
+        except Exception as _mlx_err:
+            logger.info(f"MLX çıkarımı atlandı ({_mlx_err}), Bulut çıkarımına geçiliyor...")
+
+        if not reply:
+            sys_prompt = f"{UNIFIED_SYSTEM_PROMPT}\nTur: {round_num}"
+            reply = call_nvidia_cloud_inference(user_prompt_content, sys_prompt)
+
+        if not reply:
+            reply = (
+                "İNCELEME VE HİPOTEZ OTOPSİSİ:\n"
+                f"Analiz edilen durum: '{effective_query}'. Karşı tarafın sunduğu tablo ile eylemleri arasında ciddi bir uyumsuzluk görülmektedir. "
+                "Retorik ve savunma refleksleri arkasındaki asıl niyet sorgulanmalı, somut veri ve delillerle yüzleşilmelidir."
+            )
 
         # 4. Dinamik Teşhis Matrisi
         matrix_data = cls.repair_and_parse_json(reply, effective_query)

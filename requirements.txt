@@ -1,10 +1,11 @@
-# InversionCore MLX & Production Stack
-mlx>=0.20.0
-mlx-lm>=0.21.0
 fastapi>=0.115.0
 uvicorn>=0.30.0
 pydantic>=2.8.0
 numpy>=1.26.0
+opencv-python-headless>=4.8.0
+mediapipe>=0.10.14
+firebase-admin>=6.5.0
 pillow>=10.0.0
 requests>=2.31.0
 python-multipart>=0.0.9
+scipy>=1.11.0
