@@ -164,14 +164,17 @@ class HumanBehavioralProfiler:
         emotional_availability = round(max(100.0 - (mask_gap_percent * 0.6 + contempt_percent * 0.7), 8.0), 1)
 
         role_titles = {
-            "partner": "Sevgili / Partner Analizi",
-            "groom_candidate": "Damat / Eş Adayı Analizi",
-            "business_partner": "İş Ortağı / Yatırımcı Analizi",
-            "manager": "Patron / Amir / Yönetici Analizi",
-            "candidate_employee": "İşe Alınacak Personel Adayı Analizi (İş Ahlakı, Sadakat & Kriz)",
-            "employee": "Mevcut Personel / Çalışan Analizi (Sadakat & Performans)",
-            "talent": "Yetenek & Potansiyel Analizi (Stres Altında İcra)",
-            "iq_cognition": "Bilişsel Kapasite & Zihinsel Strateji Analizi (IQ)",
+            "candidate_employee": "İşe Alım Ön-Otopsisi (CV vs. Gerçek Yetenek & İş Ahlakı)",
+            "founder_bottleneck": "Patron musun, Şirketin Darboğazı mı? (Kurucu Bağımlılığı)",
+            "leadership_blindspot": "Liderlik Kör Nokta Haritası (Hogan Derailers & Baskı Analizi)",
+            "career_sabotage": "Kariyerini Sabote Eden Alışkanlıklar (Gelişim Engelleri)",
+            "partner": "Sevgili / Partner Analizi (Aldatma & Gaslighting)",
+            "groom_candidate": "Damat / Eş Adayı Analizi (Mali Şantaj & Aile Maskesi)",
+            "business_partner": "İş Ortağı / Yatırımcı Analizi (Sermaye Gaspı & Hile)",
+            "manager": "Patron / Amir Analizi (Mikro Yönetim & Mobbing)",
+            "employee": "Mevcut Personel / Çalışan (Sadakat & Performans)",
+            "talent": "Yetenek & İcra Kapasitesi (Boş Laf vs. Deep Work)",
+            "iq_cognition": "Bilişsel Kapasite & Zihinsel Strateji Analizi (Sistem-2 IQ)",
             "self": "Kendim İçin (Kişisel Kör Nokta / Öz-Benlik)",
             "friend": "Arkadaşım İçin (Güvenilirlik & Samimiyet)"
         }
@@ -189,6 +192,42 @@ class HumanBehavioralProfiler:
                 conflict_reflex = "Çözüm Odaklı Yaklaşım, Geri Bildirimi Gelişime Dönüştürme ve Krizde İnisiyatif Alma"
                 vulnerability = "Aşırı fedakarlık sonucu tükenmişlik (burnout) ve sınır çizememe"
                 risk_level = "GÜVENİLİR VE YÜKSEK KATMA DEĞERLİ ADAY // İŞE ALIM UYGUN"
+
+        elif target_role == "founder_bottleneck":
+            if is_narcissistic_armor:
+                ego_struct = "Aşırı Kontrol Manikliği, Şirketi Kendisiyle Özdeşleştirme ve Delegasyon Felci"
+                conflict_reflex = "Tüm Kararları Kendi Masasında Toplama, Ekibi Güçsüzleştirme ve Şirketin Büyümesini Tıkama"
+                vulnerability = "Yetki devretme zorunluluğu, profesyonel yönetim kurulu ve finansal şeffaflık"
+                risk_level = "ŞİRKETİN EN BÜYÜK DARBOĞAZI // KURUCU BAĞIMLILIĞI KRİTİK SEVİYEDE"
+            else:
+                ego_struct = "Sistem ve Süreç Odaklı, Delegasyon Disiplini Yüksek Ölçeklenebilir Kurucu"
+                conflict_reflex = "Ekibe Yetki Verme, Hatalara Alan Açma ve Stratejik Vizyona Odaklanma"
+                vulnerability = "Şirket dışı stratejik ortaklıklarda aşırı güven ve sözleşmesel boşluklar"
+                risk_level = "ÖLÇEKLENEBİLİR VE VİZYONER PATRON // DARBOĞAZ RİSKİ YOK"
+
+        elif target_role == "leadership_blindspot":
+            if is_narcissistic_armor:
+                ego_struct = "Hogan Derailers: Baskı Altında Ortaya Çıkan Kibir, Şüphecilik ve Mikro-Yönetim"
+                conflict_reflex = "Ekip Güvenini Yok Etme, Başarıyı Üstlenme, Hataları Astlara Fatura Etme"
+                vulnerability = "360 Derece isimsiz çalışan değerlendirmesi ve somut ekip memnuniyeti anketleri"
+                risk_level = "LİDERLİK RAYDAN ÇIKMA (DERAILER) RİSKİ YÜKSEK"
+            else:
+                ego_struct = "Duygusal Dayanıklılığı Yüksek, Empatik ve Psikolojik Güvenlik Sağlayan Lider"
+                conflict_reflex = "Krizde Sakin Kalma, Ekibi Kalkan Gibi Koruma ve Şeffaf Zor Konuşmalar Yapabilme"
+                vulnerability = "Duygusal yükü tek başına taşıyıp tükenme riski"
+                risk_level = "DENGELİ VE GELİŞTİRİCİ LİDER PROFİLİ"
+
+        elif target_role == "career_sabotage":
+            if is_narcissistic_armor:
+                ego_struct = "Sahte Konfor Alanı, Kronik Savunmacılık ve Gelişime Kapalı Haklılık İllüzyonu"
+                conflict_reflex = "Erteleme, Başkalarını Suçlama ve Kendi Kariyer Fırsatlarını Pasifçe Sabote Etme"
+                vulnerability = "Somut KPI ve performans açıklarının yüzüne vurulması"
+                risk_level = "KRONİK KARİYER KÖRLÜĞÜ // ACİL ZİHNİYET DÖNÜŞÜMÜ ŞART"
+            else:
+                ego_struct = "Öğrenme Çevikliği Yüksek, Eleştiriye Açık ve İcra Odaklı Kariyer Zihniyeti"
+                conflict_reflex = "Konfor Alanını Terk Etme, Yeni Yetkinlikler Edinme ve Proaktif Adım Atma"
+                vulnerability = "Kendini gereğinden fazla sorgulama ve Impostor Sendromu"
+                risk_level = "YÜKSEK TERFİ VE GELİŞİM POTANSİYELİ"
 
         elif target_role == "groom_candidate":
             if is_narcissistic_armor:
