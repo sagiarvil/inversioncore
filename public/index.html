@@ -1622,11 +1622,15 @@
             '<div class="evidence-chip-sub">ADLİ GÖRSEL ANALİZİ HAZIR // ODAKLANMA KİLİTLİ</div>' +
           '</div>' +
         '</div>' +
-        '<button type="button" class="btn-chip-remove" onclick="removeEvidenceChip(\'' + target + '\')" title="Delili Kaldır">✕</button>';
+        '<button type="button" class="btn-chip-remove" onclick="removeEvidenceChip(\'' + target + '\', true)" title="Delili Kaldır">✕</button>';
     }
 
-    function removeEvidenceChip(target) {
-      currentEvidencePayload = null;
+    function removeEvidenceChip(target, forceClear) {
+      if (forceClear) {
+        currentEvidencePayload = null;
+        window.lastAttachedVisionPayload = null;
+        window.lastAttachedVisionSummary = null;
+      }
       const chipId = target === 'home' ? 'home-evidence-chip' : 'chat-evidence-chip';
       const chipEl = document.getElementById(chipId);
       if (chipEl) {
@@ -1635,7 +1639,7 @@
       }
       const homeHint = document.getElementById('home-upload-hint');
       if (homeHint) homeHint.innerText = "// FOTOĞRAF / BELGE EKLE VEYA SHIFT + ENTER";
-      showToast("Delil görseli kaldırıldı.");
+      if (forceClear) showToast("Delil görseli kaldırıldı.");
     }
 
     function renderCyberForensicCard(payload) {
@@ -1895,10 +1899,11 @@
       document.getElementById('docked-bar').style.display = 'block';
       document.getElementById('btn-header-reset').style.display = 'inline-block';
 
-      appendUserMessage(activeText, currentEvidencePayload);
+      const activePayload = currentEvidencePayload || window.lastAttachedVisionPayload;
+      appendUserMessage(activeText, activePayload);
       
-      // Delil çipini temizle (mesaj akışına geçti)
-      removeEvidenceChip('home');
+      // Delil çipini arayüzden gizle (mesaj akışına geçti, hafızayı silme)
+      removeEvidenceChip('home', false);
 
       currentRound = 1;
       triggerAiTurn(1);
@@ -1910,8 +1915,9 @@
       if (!val && !currentEvidencePayload) return;
 
       const activeText = val || "Görsel delil sunuldu.";
-      appendUserMessage(activeText, currentEvidencePayload);
-      removeEvidenceChip('chat');
+      const activePayload = currentEvidencePayload || window.lastAttachedVisionPayload;
+      appendUserMessage(activeText, activePayload);
+      removeEvidenceChip('chat', false);
 
       input.value = "";
       input.style.height = "52px";
