@@ -168,16 +168,28 @@ class HumanBehavioralProfiler:
             "groom_candidate": "Damat / Eş Adayı Analizi",
             "business_partner": "İş Ortağı / Yatırımcı Analizi",
             "manager": "Patron / Amir / Yönetici Analizi",
-            "self": "Kendim İçin (Kişisel Kör Nokta / Öz-Benlik)",
-            "friend": "Arkadaşım İçin (Güvenilirlik & Samimiyet)",
-            "employee": "Personel / Çalışan Analizi (Sadakat & Kriz Dayanımı)",
+            "candidate_employee": "İşe Alınacak Personel Adayı Analizi (İş Ahlakı, Sadakat & Kriz)",
+            "employee": "Mevcut Personel / Çalışan Analizi (Sadakat & Performans)",
             "talent": "Yetenek & Potansiyel Analizi (Stres Altında İcra)",
-            "iq_cognition": "Bilişsel Kapasite & Zihinsel Strateji Analizi (IQ)"
+            "iq_cognition": "Bilişsel Kapasite & Zihinsel Strateji Analizi (IQ)",
+            "self": "Kendim İçin (Kişisel Kör Nokta / Öz-Benlik)",
+            "friend": "Arkadaşım İçin (Güvenilirlik & Samimiyet)"
         }
         role_label = role_titles.get(target_role, "Bireysel Karakter Analizi")
 
         # 4. Klinik ve Davranış Bilimsel Teşhis Çıkarımları
-        if is_narcissistic_armor:
+        if target_role == "candidate_employee":
+            if is_narcissistic_armor:
+                ego_struct = "Aşırı Şişirilmiş CV Vitrini, Otorite Çatışması Potansiyeli ve Pasif-Agresif İş Tutumu"
+                conflict_reflex = "Sorumluluktan Kaçma, Hataları Ekibe Yıkma ve İlk Krizde Gemiyi Terk Etme Eğilimi"
+                vulnerability = "Eleştiriye tahammülsüzlük, detaylı teknik hesap sorulması ve somut metrik takibi"
+                risk_level = "YÜKSEK TOKSİK PERSONEL RİSKİ // İŞE ALIM TAVSİYE EDİLMEZ"
+            else:
+                ego_struct = "Yüksek İçsel Motivasyon, Dürüst Yetkinlik Beyanı ve Sorumluluk Bilinci"
+                conflict_reflex = "Çözüm Odaklı Yaklaşım, Geri Bildirimi Gelişime Dönüştürme ve Krizde İnisiyatif Alma"
+                vulnerability = "Aşırı fedakarlık sonucu tükenmişlik (burnout) ve sınır çizememe"
+                risk_level = "GÜVENİLİR VE YÜKSEK KATMA DEĞERLİ ADAY // İŞE ALIM UYGUN"
+        elif is_narcissistic_armor:
             ego_struct = "Yüksek Kontrollü Sahte Benlik (False Self) ve Narsisistik Savunma Zırhı"
             conflict_reflex = "DARVO (Deny, Attack, Reverse Victim and Offender) / Suçluluk Yansıtma ve Sessizlikle Cezalandırma (Silent Treatment)"
             vulnerability = "Statü kaybı, yetersizliğinin fark edilmesi ve karşı tarafın bağımsız sınır çizmesi"
