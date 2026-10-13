@@ -123,7 +123,7 @@ class InversionCoreEngine:
         # Eğer 3-Nokta Karakter Penetrasyonu veya forensic_context iletildiyse bağlama cerrahi olarak enjekte et
         if forensic_context and isinstance(forensic_context, dict):
             # 1. 3-Nokta Karakter & Biyopsikososyal Penetrasyon Modu
-            if "persona_authenticity_gap" in forensic_context or forensic_context.get("type") == "behavioral_triangulation":
+            if "persona_authenticity_gap" in forensic_context or forensic_context.get("type") == "behavioral_triangulation" or forensic_context.get("dispatcher_route") == "behavioral_triangulation":
                 role = forensic_context.get("role_label", "Kişi Analizi")
                 mask_gap = forensic_context.get("persona_authenticity_gap", "38.5")
                 contempt = forensic_context.get("chronic_contempt_index", "42.0")
@@ -131,6 +131,18 @@ class InversionCoreEngine:
                 ego_struct = forensic_context.get("ego_structure", "Yüksek Kontrollü Sahte Benlik")
                 conflict = forensic_context.get("conflict_reflex", "DARVO / Suçluluk Yansıtma")
                 vuln = forensic_context.get("vulnerability", "Statü ve kontrol kaybı")
+                big_five = forensic_context.get("big_five_ocean", {})
+                
+                ocean_str = ""
+                if big_five and isinstance(big_five, dict):
+                    ocean_str = (
+                        f"- Büyük Beşli (OCEAN Kişilik Profili): "
+                        f"Deneyime Açıklık: %{big_five.get('openness', 50)} | "
+                        f"Sorumluluk/Öz-Disiplin: %{big_five.get('conscientiousness', 60)} | "
+                        f"Dışadönüklük: %{big_five.get('extraversion', 55)} | "
+                        f"Uyumluluk: %{big_five.get('agreeableness', 45)} | "
+                        f"Duygusal Denge (Nörotizm Direnci): %{big_five.get('emotional_stability', 50)}\n"
+                    )
                 
                 behavioral_injection = (
                     f"\n\n[INVERSIONCORE // 3-NOKTA BİYOPSİKOSOSYAL KİŞİLİK OTOPSİSİ MATRİSİ]:\n"
@@ -138,15 +150,31 @@ class InversionCoreEngine:
                     f"- Maske Makası (Benlik Yarılması): %{mask_gap}\n"
                     f"- Kronik Küçümseme (FACS AU14 Contempt İndeksi): %{contempt}\n"
                     f"- Duygusal Erişilebilirlik: %{availability}\n"
+                    f"{ocean_str}"
                     f"- Ego Yapısı: {ego_struct}\n"
                     f"- Çatışma Refleksi: {conflict}\n"
                     f"- Zayıf Karnı: {vuln}\n\n"
-                    f"ÖZEL TALİMAT (DAVRANIŞ BİLİMİ & ADLİ PSİKOLOJİ): Bu verileri kullanarak kişinin derin karakterini, "
-                    f"vitrin maskesinin arkasındaki gerçek niyetini, kriz anında uygulayacağı manipülasyonu (DARVO, sessiz ceza, gaslighting) "
+                    f"ÖZEL TALİMAT (DAVRANIŞ BİLİMİ, HOGAN DERAILERS & CIPD DEĞERLENDİRMESİ): Bu verileri kullanarak kişinin derin karakterini, "
+                    f"vitrin maskesinin arkasındaki gerçek niyetini, kriz anında uygulayacağı manipülasyonu (DARVO, sessiz ceza, gaslighting, kurucu darboğazı) "
                     f"ve kullanıcıya kuracağı tahakkümü acımasız bir cerrah gibi deşifre et. 'Piksel/montaj' analizi değil; GERÇEK İNSAN VE KARAKTER OTOPSİSİ yap!"
                 )
                 if behavioral_injection not in effective_query:
                     effective_query = f"{effective_query}{behavioral_injection}"
+            elif forensic_context.get("dispatcher_route") == "workplace_legal_mobbing":
+                mobbing_injection = (
+                    f"\n\n[INVERSIONCORE // İŞ HUKUKU & MOBBİNG TAHKİKAT MOTORU DEVREDE]:\n"
+                    f"- Odak: 4857 Sayılı İş Kanunu m.24/II (Haklı Nedenle Derhal Fesih), TBK m.417 (İşçinin Kişiliğinin Korunması)\n"
+                    f"- Delil Matrisi: Hiyerarşik baskı, görevi yaptırmama, yıldırma, yazılı delil zinciri ve arabuluculuk/ihtar stratejisi.\n"
+                    f"TALİMAT: Çalışanın haklarını, işverenin mobbing riskini ve izlenecek somut hukuki stratejiyi adım adım çıkar."
+                )
+                effective_query = f"{effective_query}{mobbing_injection}"
+            elif forensic_context.get("dispatcher_route") == "relational_gaslighting":
+                relational_injection = (
+                    f"\n\n[INVERSIONCORE // İKİLİ İLİŞKİ TOKSİSİTE & DARVO DEŞİFRE MOTORU DEVREDE]:\n"
+                    f"- Odak: Manipülatif narsisistik döngü, suçluluk yükleme, gerçeklik algısıyla oynama (Gaslighting) ve sınır ihlali.\n"
+                    f"TALİMAT: Karşı tarafın savunma taktiklerini kır, kurban psikolojisinden çıkaran rasyonel protokolü hazırla."
+                )
+                effective_query = f"{effective_query}{relational_injection}"
             else:
                 # 2. Standart Adli Sinyal Modu
                 file_name = forensic_context.get("file", "delil_gorseli.png")

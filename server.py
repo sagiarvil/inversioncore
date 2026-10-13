@@ -73,13 +73,14 @@ async def health_check():
 
 from forensic_engine import ProfessionalForensicEngine
 from behavioral_profiler import HumanBehavioralProfiler
+from task_dispatcher import TaskDispatcher, EngineRoute
 import base64
 
 class TriangulationRequest(BaseModel):
     formal_image: Optional[str] = Field(default=None, description="Slot 1: Vitrin / Resmi poz (Base64)")
     candid_image: Optional[str] = Field(default=None, description="Slot 2: Doğal / Spontan an (Base64)")
     social_image: Optional[str] = Field(default=None, description="Slot 3: Sosyal / Beden dili (Base64)")
-    target_role: str = Field(default="partner", description="Hedef rol: partner | groom_candidate | business_partner | manager | self")
+    target_role: str = Field(default="partner", description="Hedef rol")
     custom_question: Optional[str] = Field(default="", description="Kullanıcının özel sorusu veya şüphesi")
 
 @app.post("/api/triangulation-audit")
@@ -119,10 +120,44 @@ async def forensic_image_audit(req: ForensicImageRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Adli Bilişim Motoru Hatası: {str(e)}")
 
+@app.post("/api/dispatcher-route")
+async def route_task_endpoint(query: Optional[str] = "", images_count: int = 0, requested_role: Optional[str] = None):
+    decision = TaskDispatcher.resolve_route(
+        query=query or "",
+        images=["img"] * images_count if images_count > 0 else [],
+        requested_role=requested_role
+    )
+    return decision
+
 @app.post("/api/inversion-analyze", response_model=InversionOutput)
 async def analyze_decision(req: AnalyzeRequest):
     try:
         user_input = req.decision if req.decision else req.query
+        
+        # Görev ve Niyet Yönlendirme Analizi (TaskDispatcher)
+        detected_images = []
+        if req.forensic_context and isinstance(req.forensic_context, dict):
+            if req.forensic_context.get("image_base64"):
+                detected_images.append(req.forensic_context.get("image_base64"))
+            if req.forensic_context.get("formal_image"):
+                detected_images.append(req.forensic_context.get("formal_image"))
+            if req.forensic_context.get("candid_image"):
+                detected_images.append(req.forensic_context.get("candid_image"))
+            if req.forensic_context.get("social_image"):
+                detected_images.append(req.forensic_context.get("social_image"))
+        
+        dispatch = TaskDispatcher.resolve_route(
+            query=user_input,
+            images=detected_images,
+            requested_role=req.forensic_context.get("target_role") if req.forensic_context else None
+        )
+
+        # Dispatcher kararı forensic_context içine enjekte edilerek LLM'in doğru motora odaklanması sağlanır
+        active_context = dict(req.forensic_context or {})
+        active_context["dispatcher_route"] = dispatch.selected_route.value
+        active_context["dispatcher_reasoning"] = dispatch.reasoning
+        active_context["dispatcher_target_role"] = dispatch.target_role
+
         # MLX çıkarımı FastAPI event-loop'unu dondurmasın diye threadpool'a devredilir
         result = await asyncio.to_thread(
             InversionCoreEngine.process_turn,
@@ -130,7 +165,7 @@ async def analyze_decision(req: AnalyzeRequest):
             user_query=user_input,
             round_num=req.round,
             decision=req.decision,
-            forensic_context=req.forensic_context
+            forensic_context=active_context
         )
         return result
     except Exception as e:

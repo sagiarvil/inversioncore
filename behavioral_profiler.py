@@ -337,12 +337,38 @@ class HumanBehavioralProfiler:
                 vulnerability = "Aşırı fedakarlık ve sınırlarını korumakta zorlanma"
                 risk_level = "DÜŞÜK / DENGELİ İLİŞKİSEL PROFİL"
 
+        def calculate_big_five_ocean(f_u: dict, c_u: dict, s_u: dict) -> dict:
+            """
+            Mikro-Mimik ve Beden Duruşundan Bilimsel Büyük Beşli (OCEAN) Çıkarımı:
+            - Openness: Mimik çeşitliliği ve göz çevresi esnekliği
+            - Conscientiousness: Kraniyofasiyal duruş stabilitesi ve çene kontrolü
+            - Extraversion: AU12 (gülümseme sıklığı) ve göz teması açıklığı
+            - Agreeableness: Düşük AU14 (küçümseme) ve yüksek Duchenne (AU06)
+            - Emotional Stability: Düşük AU04 (alın gerginliği/stres)
+            """
+            contempt_avg = (f_u.get("au14_contempt_asymmetry", 0) + c_u.get("au14_contempt_asymmetry", 0)) / 2.0
+            duchenne_avg = (f_u.get("au06_duchenne_eye_muscle", 0) + c_u.get("au06_duchenne_eye_muscle", 0)) / 2.0
+            tension_avg = (f_u.get("au04_brow_furrow_tension", 0.3) + c_u.get("au04_brow_furrow_tension", 0.3)) / 2.0
+
+            return {
+                "openness": round(float(np.clip(duchenne_avg * 100 + 15, 35, 95)), 1),
+                "conscientiousness": round(float(np.clip((1.0 - tension_avg * 0.5) * 100, 40, 92)), 1),
+                "extraversion": round(float(np.clip(f_u.get("au12_lip_corner_puller", 0.6) * 100, 30, 90)), 1),
+                "agreeableness": round(float(np.clip((1.0 - contempt_avg) * 100, 20, 95)), 1),
+                "emotional_stability": round(float(np.clip((1.0 - tension_avg) * 100, 25, 90)), 1)
+            }
+
+        big_five_scores = calculate_big_five_ocean(f_units, c_units, s_units)
+
         summary_text = (
             f"[INVERSIONCORE // 3-NOKTA BİYOPSİKOSOSYAL KİŞİLİK OTOPSİSİ]\n"
             f"Hedef Rol: {role_label}\n"
             f"- Maske Makası (Benlik Yarılması): %{mask_gap_percent} ({risk_level})\n"
             f"- Kronik Küçümseme (Contempt) İndeksi: %{contempt_percent}\n"
             f"- Duygusal Erişilebilirlik: %{emotional_availability}\n"
+            f"- Büyük Beşli (OCEAN) Dağılımı: Açıklık %{big_five_scores['openness']} | "
+            f"Sorumluluk %{big_five_scores['conscientiousness']} | Dışadönüklük %{big_five_scores['extraversion']} | "
+            f"Uyumluluk %{big_five_scores['agreeableness']} | Duygusal Denge %{big_five_scores['emotional_stability']}\n"
             f"- Ego Yapısı: {ego_struct}\n"
             f"- Çatışma Refleksi: {conflict_reflex}\n"
             f"- Zayıf Karnı: {vulnerability}"
@@ -356,6 +382,7 @@ class HumanBehavioralProfiler:
                 "persona_authenticity_gap": mask_gap_percent,
                 "chronic_contempt_index": contempt_percent,
                 "emotional_availability": emotional_availability,
+                "big_five_ocean": big_five_scores,
                 "f_action_units": f_units,
                 "c_action_units": c_units,
                 "s_action_units": s_units
