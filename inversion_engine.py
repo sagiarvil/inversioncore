@@ -140,7 +140,7 @@ class InversionCoreEngine:
             f"<|im_start|>assistant\n"
         )
         
-        reply = generate(model, tokenizer, prompt=prompt_text, max_tokens=600, sampler=creative_sampler, verbose=False)
+        reply = generate(model, tokenizer, prompt=prompt_text, max_tokens=320, sampler=creative_sampler, verbose=False)
 
         # 4. Dinamik Teşhis Matrisi
         matrix_data = cls.repair_and_parse_json(reply, effective_query)

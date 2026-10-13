@@ -1965,7 +1965,7 @@
       for (const ep of endpoints) {
         try {
           const controller = new AbortController();
-          const timer = setTimeout(() => controller.abort(), 20000);
+          const timer = setTimeout(() => controller.abort(), 45000);
           
           let combinedDecision = userQuery;
           if (window.lastAttachedVisionSummary) {
@@ -2022,12 +2022,21 @@
               <div class="ai-body-text">${formatMarkdown(backendReply)}</div>
               ${round < 3 ? `
               <div class="choice-group">
-                <button class="btn-choice bad" onclick="handleQuickChoice('hayir')">
-                  ❌ "Yüzleşmekten çekiniyorum / Elimde resmi delil yok."
-                </button>
-                <button class="btn-choice" onclick="handleQuickChoice('evet')">
-                  ✔ "Hazırım, gerçeğin ve protokolün üzerine gideceğim."
-                </button>
+                ${detectedTopic === 'forensic' ? `
+                  <button class="btn-choice bad" onclick="handleQuickChoice('hayir')">
+                    ❌ "Açıklamasını dinleyeceğim; belki geçerli bir sebebi vardır."
+                  </button>
+                  <button class="btn-choice" onclick="handleQuickChoice('evet')">
+                    ✔ "Adli tahrifatı gördüm; iletişimi derhal kesip blokluyorum."
+                  </button>
+                ` : `
+                  <button class="btn-choice bad" onclick="handleQuickChoice('hayir')">
+                    ❌ "Yüzleşmekten çekiniyorum / Elimde resmi delil yok."
+                  </button>
+                  <button class="btn-choice" onclick="handleQuickChoice('evet')">
+                    ✔ "Hazırım, gerçeğin ve protokolün üzerine gideceğim."
+                  </button>
+                `}
               </div>` : `
               <div class="report-btn-row" style="margin-top:1.2rem;">
                 <button class="btn-act btn-act-copy" onclick="copyFullReport()">📄 RAPORU KOPYALA</button>
@@ -2495,15 +2504,27 @@ Aksi takdirde İş Kanunu Madde 24/II uyarınca haklı fesih hakkımı kullanara
 
     function handleQuickChoice(type) {
       if (type === 'hayir') {
-        appendUserMessage("Korkuyorum / Yüzleşecek gücüm yok.");
+        if (detectedTopic === 'forensic') {
+          appendUserMessage("Açıklamasını dinleyeceğim; belki geçerli bir sebebi vardır.");
+        } else {
+          appendUserMessage("Korkuyorum / Yüzleşecek gücüm yok.");
+        }
         currentRound = 2;
         triggerAiTurn(2);
       } else if (type === 'evet') {
-        appendUserMessage("Hazırım; gerçeği gördüğüm an bitireceğim.");
+        if (detectedTopic === 'forensic') {
+          appendUserMessage("Adli tahrifatı gördüm; iletişimi derhal kesip blokluyorum.");
+        } else {
+          appendUserMessage("Hazırım; gerçeği gördüğüm an bitireceğim.");
+        }
         currentRound = 2;
         triggerAiTurn(2);
       } else if (type.includes('final')) {
-        appendUserMessage("Tiyatroyu bitiriyorum; net aksiyon protokolünü verin.");
+        if (detectedTopic === 'forensic') {
+          appendUserMessage("Hazırım; sahte kimlik kilitlendi, nihai hüküm protokolünü verin.");
+        } else {
+          appendUserMessage("Tiyatroyu bitiriyorum; net aksiyon protokolünü verin.");
+        }
         currentRound = 3;
         triggerAiTurn(3);
       }
