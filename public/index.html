@@ -879,11 +879,22 @@
       detectedTopic = 'triangulation';
 
       document.getElementById('home-welcome-screen').style.display = 'none';
-      document.querySelector('.app-viewport').classList.add('chat-mode');
+      const viewport = document.querySelector('.app-viewport');
+      if (viewport) viewport.classList.add('chat-mode');
       const stream = document.getElementById('chat-stream-nodes');
-      stream.style.display = 'flex';
-      document.getElementById('docked-bar').style.display = 'block';
-      document.getElementById('btn-header-reset').style.display = 'inline-block';
+      if (stream) {
+        stream.style.display = 'flex';
+        stream.style.minHeight = '100%';
+        stream.style.width = '100%';
+      }
+      const scrollArea = document.getElementById('scroll-area');
+      if (scrollArea) {
+        scrollArea.scrollTop = 0;
+      }
+      const dockedBar = document.getElementById('docked-bar');
+      if (dockedBar) dockedBar.style.display = 'block';
+      const btnReset = document.getElementById('btn-header-reset');
+      if (btnReset) btnReset.style.display = 'inline-block';
 
       showToast("🔬 3-Nokta FACS & Karakter Penetrasyonu çalışıyor...");
 
@@ -907,7 +918,7 @@
       userRow.className = 'msg-user-row';
       userRow.innerHTML = `
         <div style="display:flex; flex-direction:column; align-items:flex-end; width:100%; gap:0.6rem;">
-          <div style="width:100%; max-width:85%;" id="triangulation-live-card-container">
+          <div style="width:100%; max-width:100%;" id="triangulation-live-card-container">
             ${renderPersonalityAutopsyCard(mockInitial)}
           </div>
           <div class="msg-user-content">${escapeHtml(customQ)}</div>
@@ -957,20 +968,24 @@
         console.error("Triangulation audit hatası:", err);
       }
 
-      if (auditResult) {
+      if (auditResult && auditResult.metrics) {
         const container = document.getElementById('triangulation-live-card-container');
         if (container) {
           container.innerHTML = renderPersonalityAutopsyCard(auditResult);
         }
-        window.lastAttachedVisionSummary = auditResult.summary;
+        window.lastAttachedVisionSummary = auditResult.summary || '3-Nokta FACS & Karakter Penetrasyonu Raporu';
+        const m = auditResult.metrics;
+        const contVal = typeof m.chronic_contempt_index === 'number' ? m.chronic_contempt_index : 54.0;
+        const gapVal = typeof m.persona_authenticity_gap === 'number' ? m.persona_authenticity_gap : 42.0;
+        const availVal = typeof m.emotional_availability === 'number' ? m.emotional_availability : 45.0;
         window.lastAttachedVisionPayload = {
           fileName: "3_nokta_triangulasyon.jpg",
           visionData: {
-            spectral_ratio: (auditResult.metrics.chronic_contempt_index / 100).toFixed(4),
-            noise_deviation: (auditResult.metrics.persona_authenticity_gap / 10).toFixed(2),
-            cranial_symmetry: auditResult.metrics.emotional_availability,
-            summary: auditResult.summary,
-            is_authentic: auditResult.metrics.persona_authenticity_gap < 35
+            spectral_ratio: (contVal / 100).toFixed(4),
+            noise_deviation: (gapVal / 10).toFixed(2),
+            cranial_symmetry: availVal,
+            summary: auditResult.summary || '3-Nokta FACS Karakter Analizi',
+            is_authentic: gapVal < 35
           }
         };
       }
@@ -1389,11 +1404,22 @@
       detectedTopic = detectCategory(activeText);
 
       document.getElementById('home-welcome-screen').style.display = 'none';
-      document.querySelector('.app-viewport').classList.add('chat-mode');
+      const viewport = document.querySelector('.app-viewport');
+      if (viewport) viewport.classList.add('chat-mode');
       const stream = document.getElementById('chat-stream-nodes');
-      stream.style.display = 'flex';
-      document.getElementById('docked-bar').style.display = 'block';
-      document.getElementById('btn-header-reset').style.display = 'inline-block';
+      if (stream) {
+        stream.style.display = 'flex';
+        stream.style.minHeight = '100%';
+        stream.style.width = '100%';
+      }
+      const scrollArea = document.getElementById('scroll-area');
+      if (scrollArea) {
+        scrollArea.scrollTop = 0;
+      }
+      const dockedBar = document.getElementById('docked-bar');
+      if (dockedBar) dockedBar.style.display = 'block';
+      const btnReset = document.getElementById('btn-header-reset');
+      if (btnReset) btnReset.style.display = 'inline-block';
 
       const activePayload = currentEvidencePayload || window.lastAttachedVisionPayload;
       appendUserMessage(activeText, activePayload);
@@ -2061,9 +2087,14 @@ Aksi takdirde İş Kanunu Madde 24/II uyarınca haklı fesih hakkımı kullanara
     function scrollToBottom() {
       const area = document.getElementById('scroll-area');
       if (!area) return;
-      area.scrollTo({ top: area.scrollHeight + 500, behavior: 'smooth' });
+      area.scrollTop = area.scrollHeight;
+      if (typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function') {
+        window.requestAnimationFrame(() => {
+          if (area.scrollTo) area.scrollTo({ top: area.scrollHeight + 500, behavior: 'smooth' });
+        });
+      }
       setTimeout(() => {
-        area.scrollTo({ top: area.scrollHeight + 500, behavior: 'smooth' });
+        area.scrollTop = area.scrollHeight;
       }, 150);
     }
 

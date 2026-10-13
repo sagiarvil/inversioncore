@@ -204,6 +204,17 @@
     .app-viewport.chat-mode .conversation-column {
       height: auto !important;
       min-height: 100%;
+      display: flex !important;
+      flex-direction: column !important;
+    }
+
+    #chat-stream-nodes {
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+      width: 100%;
+      min-height: 100%;
+      box-sizing: border-box;
     }
 
     .app-viewport:not(.chat-mode) .conversation-column {
