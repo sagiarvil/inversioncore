@@ -295,10 +295,27 @@
 
           <!-- Hızlı Seçim Çipleri (İnsan & Tabular & Hayat) -->
           <div class="chips-group">
-            <button class="chip-btn" onclick="applyPreset(1)">🔥 Ofis İçi Mobbing & Ast-Üst Savaşı</button>
-            <button class="chip-btn" onclick="applyPreset(2)">🩸 Aldatma Şüphesi & İlişki Çıkmazı</button>
-            <button class="chip-btn" onclick="applyPreset(3)">⚡ Konuşulamayan Tabular & İtiraflar</button>
-            <button class="chip-btn" onclick="applyPreset(4)">💀 Varoluşsal Bıkkınlık & Yaşam İflası</button>
+            <button class="chip-btn" id="chip-btn-1" onclick="selectTopicPreset(1)">🔥 Ofis İçi Mobbing & Ast-Üst Savaşı</button>
+            <button class="chip-btn" id="chip-btn-2" onclick="selectTopicPreset(2)">🩸 Aldatma Şüphesi & İlişki Çıkmazı</button>
+            <button class="chip-btn" id="chip-btn-3" onclick="selectTopicPreset(3)">⚡ Konuşulamayan Tabular & İtiraflar</button>
+            <button class="chip-btn" id="chip-btn-4" onclick="selectTopicPreset(4)">💀 Varoluşsal Bıkkınlık & Yaşam İflası</button>
+          </div>
+
+          <!-- KİŞİYE ÖZEL & SOMUT ANALİZ İÇİN ZORUNLU VERİ REHBERİ (DİNAMİK KART) -->
+          <div id="topic-guidance-dock" class="topic-guidance-card" style="display:none; width:100%; max-width:820px; margin:1rem auto 0.5rem auto; text-align:left;">
+            <div class="guidance-header">
+              <span class="guidance-badge" id="guidance-badge">// DERİN ANALİZ REHBERİ</span>
+              <span style="font-family:var(--font-mono); font-size:11px; color:#f59e0b;">⚠️ Sıradan ve yüzeysel cevap almamak için şu somut detayları metninize ekleyin:</span>
+              <button type="button" class="btn-guidance-close" onclick="closeTopicGuidance()" title="Kapat">✕</button>
+            </div>
+            <div class="guidance-title" id="guidance-title">Konu Başlığı</div>
+            <div class="guidance-checklist" id="guidance-checklist">
+              <!-- JS ile dinamik doldurulur -->
+            </div>
+            <div class="guidance-actions">
+              <span class="guidance-hint">💡 Bu maddeler metninizde ne kadar somut olursa, motor o kadar cerrahi ve kişiye özel tokat/reçete üretir.</span>
+              <button type="button" class="btn-guidance-fill" onclick="applyGuidanceTemplate()">Taslağı Giriş Kutusuna Aktar ➔</button>
+            </div>
           </div>
 
           <!-- ==================== EDİTORYAL DERİN BİLGİ & MANİFESTO BLOKLARI ==================== -->
@@ -1264,18 +1281,127 @@
     }
 
 
-    const PRESETS = {
-      1: "İş yerinde müdürüm tarafından sistematik mobbinge uğruyorum. Yaptığım işler küçümseniyor, toplantılarda yok sayılıyorum ama tazminatımı bırakıp istifa etmeye cesaretim yok.",
-      2: "Uzun süredir devam eden ilişkimde partnerimin benden bir şeyler sakladığını ve aldattığını seziyorum. Yüzleşmeye kalksam üste çıkacak, susup delil toplamaya çalışsam aklımı kaçıracağım.",
-      3: "Toplumun, ailemin veya çevremin asla kabul etmeyeceği yasak bir arzum ve bastırdığım bir sırrım var. Bunu kimseye anlatamıyorum, içimde büyüyen bu gerilim beni çürütüyor.",
-      4: "Sabahları uyanmak için hiçbir neden bulamıyorum. Kariyer, para, ilişkiler hepsi sahte ve içi boş bir tiyatro gibi geliyor. Herkes mutlu taklidi yaparken ben bu varoluşsal bataklıktan çıkamıyorum."
+    const TOPIC_GUIDES = {
+      1: {
+        badge: "💼 İŞ HUKUKU & MOBBİNG TAHKİKAT REHBERİ",
+        title: "Ofis İçi Mobbing & Ast-Üst Savaşı İçin Somut Veri Kılavuzu",
+        items: [
+          "<b>1. Somut Olay ve Rol:</b> Karşı taraf kim? (Doğrudan amir, şirket ortağı, İK?). Hangi somut olayla başladı?",
+          "<b>2. Yazılı Delil Durumu:</b> Elinde e-posta, WhatsApp, toplantı notu, görev dışı yazılı talimat veya şahit var mı?",
+          "<b>3. Hukuki & Mali Boyut:</b> Çalışma süreniz ne kadar (kıdem)? Maaşınız gerçek bordroda mı gösteriliyor? İstifa baskısı var mı?",
+          "<b>4. Psikolojik Taktik:</b> Toplantılardan dışlama, lakap takma, yetki gaspı veya performans düşüklüğü yaftası mı uygulanıyor?"
+        ],
+        template: "Şirketteki pozisyonum: [Pozisyonunuz / Kıdem süreniz]\nMobbing uygulayan: [Doğrudan müdür / İK]\nSomut baskı yöntemi: [Toplantıdan dışlama / Yetki gaspı / Aşağılama]\nYazılı delil / şahit durumu: [Var / Yok]\nAsıl korkum / amacım: [Tazminatımı alıp haklı fesih yapmak / Arabuluculuk]\nDetaylar: "
+      },
+      2: {
+        badge: "🩸 İLİŞKİSEL TERSİNE MÜHENDİSLİK & GASLIGHTING REHBERİ",
+        title: "Aldatma Şüphesi & İlişki Çıkmazı İçin Somut Veri Kılavuzu",
+        items: [
+          "<b>1. Şüphenin Somut Dayanağı:</b> İçgüdü mü, yoksa yakalanan mesaj, saat çelişkisi, harcama veya telefon gizleme mi?",
+          "<b>2. Yüzleşme ve Tepki:</b> Daha önce sorduğunda ne yaptı? (DARVO: Suçluluk yükleme, seni paranoyak ilan etme, sessizlik cezası?).",
+          "<b>3. Bağımlılık Asimetrisi:</b> Evli misiniz? Ortak çocuk, borç veya aynı ev mi var? Neden ayrılamıyorsun (maddi mi, duygusal mı)?",
+          "<b>4. Kırmızı Çizgi:</b> Bu ilişkide yüzleşip bitirmeye gerçekten hazır mısın, yoksa sadece kendini kandıracak bir teselli mi arıyorsun?"
+        ],
+        template: "İlişki durumu ve süresi: [Evli / Sevgili / Ortak ev]\nSomut şüphe kaynağı: [Telefon saklama / Yalan beyan / Değişen davranış]\nKarşı tarafın savunma refleksi: [Beni suçluyor / Üste çıkıyor / Sessiz kalıyor]\nBeni orada tutan asıl kilit: [Duygusal bağımlılık / Maddi mecburiyet / Çocuk]\nDetaylar: "
+      },
+      3: {
+        badge: "⚡ SIFIR SANSÜR & TABU CERRAHİSİ REHBERİ",
+        title: "Konuşulamayan Tabular & İtiraflar İçin Somut Veri Kılavuzu",
+        items: [
+          "<b>1. Tabunun Doğası:</b> Cinsel fantezi mi, yasak ilişki mi, gizli bağımlılık mı, finansal/ailevi bir sır mı?",
+          "<b>2. Zarar ve Rıza Sınırı:</b> Bu durum reşit yetişkinler arasında mı, bir canlının rızasını ve can güvenliğini ihlal ediyor mu?",
+          "<b>3. Şantaj ve İtibar Tehdidi:</b> Bu sır açığa çıkarsa işini, aileni veya özgürlüğünü kaybetme tehlikesi var mı?",
+          "<b>4. Asıl Çıkmaz:</b> Suçluluk krizinde misin, yoksa bu arzuyu hayatını mahvetmeden nasıl yöneteceğini mi bilmiyorsun?"
+        ],
+        template: "Bastırdığım konunun özü: [Fantezi / Yasak ilişki / Gizli borç / Sır]\nBu durumun hayatıma somut riski: [Şantaj tehdidi / Ailevi çöküş / Sadece zihinsel suçluluk]\nKimler biliyor: [Sadece ben / Karşı taraf]\nAsıl çözmek istediğim kilit: [Suçluluktan kurtulmak / Risk analizi]\nDetaylar: "
+      },
+      4: {
+        badge: "💀 VAROLUŞSAL OTOPSİ & SİRKADİYEN REHBER",
+        title: "Varoluşsal Bıkkınlık & Yaşam İflası İçin Somut Veri Kılavuzu",
+        items: [
+          "<b>1. Biyolojik Gerçeklik:</b> Günde kaç saat uyuyorsun? Ekran başında kaç saat geçiyor? Güneş ışığı ve fiziksel hareket var mı?",
+          "<b>2. Sınır İhlalleri:</b> Hayatında kime 'HAYIR' diyemiyorsun? Kimlerin onayını almak için sahte benlik sergiliyorsun?",
+          "<b>3. Asalak Yükler:</b> Seni enerjisiz bırakan şey hedefsizlik mi, yoksa taşımak zorunda olmadığın ailevi/sosyal yükler mi?",
+          "<b>4. En Son Radikal Karar:</b> En son ne zaman sadece kendin için, başkalarının ne diyeceğini umursamadan bir karar aldın?"
+        ],
+        template: "Mevcut durumum ve yaşım: [Yaş / Meslek / Günlük rutin]\nBeni tüketen ana yük: [Kimseye hayır diyememek / Anlamsızlık / Onay bağımlılığı]\nBiyolojik durumum: [Uykusuzluk / Ekran bağımlılığı / Hareketsizlik]\nNeyi değiştirmeye cesaretim yok: [İşi bırakmak / Çevreyi elemek / Yalnız kalmak]\nDetaylar: "
+      }
     };
 
+    let activeSelectedTopicId = null;
+
+    function selectTopicPreset(id) {
+      activeSelectedTopicId = id;
+      const guide = TOPIC_GUIDES[id];
+      if (!guide) return;
+
+      // Çipleri vurgula
+      [1, 2, 3, 4].forEach(i => {
+        const btn = document.getElementById('chip-btn-' + i);
+        if (btn) {
+          if (i === id) {
+            btn.style.borderColor = 'var(--accent)';
+            btn.style.color = '#fff';
+            btn.style.background = '#1e2438';
+          } else {
+            btn.style.borderColor = 'var(--border)';
+            btn.style.color = '#9ea4bc';
+            btn.style.background = '#111420';
+          }
+        }
+      });
+
+      // Rehber kartını doldur ve aç
+      const dock = document.getElementById('topic-guidance-dock');
+      const badge = document.getElementById('guidance-badge');
+      const title = document.getElementById('guidance-title');
+      const list = document.getElementById('guidance-checklist');
+
+      if (dock && badge && title && list) {
+        badge.innerText = guide.badge;
+        title.innerText = guide.title;
+        list.innerHTML = guide.items.map(item => '<div class="guidance-item">' + item + '</div>').join('');
+        dock.style.display = 'block';
+      }
+
+      // Input kutusuna odaklan ve placeholder'ı güncelle
+      const input = document.getElementById('home-prompt-input');
+      if (input) {
+        input.placeholder = "Yukarıdaki rehber maddelerini dikkate alarak durumunuzu detaylandırın (Ne kadar somut veri, o kadar cerrahi otopsi)...";
+        input.focus();
+      }
+    }
+
+    function applyGuidanceTemplate() {
+      if (!activeSelectedTopicId || !TOPIC_GUIDES[activeSelectedTopicId]) return;
+      const guide = TOPIC_GUIDES[activeSelectedTopicId];
+      const input = document.getElementById('home-prompt-input');
+      if (input) {
+        input.value = guide.template;
+        autoGrow(input);
+        input.focus();
+        // İmleci sona al
+        input.setSelectionRange(input.value.length, input.value.length);
+        showToast("Taslak yüklendi! Lütfen köşeli parantez içlerini kendi durumunuza göre doldurun.");
+      }
+    }
+
+    function closeTopicGuidance() {
+      const dock = document.getElementById('topic-guidance-dock');
+      if (dock) dock.style.display = 'none';
+      [1, 2, 3, 4].forEach(i => {
+        const btn = document.getElementById('chip-btn-' + i);
+        if (btn) {
+          btn.style.borderColor = 'var(--border)';
+          btn.style.color = '#9ea4bc';
+          btn.style.background = '#111420';
+        }
+      });
+      activeSelectedTopicId = null;
+    }
+
     function applyPreset(id) {
-      const el = document.getElementById('home-prompt-input');
-      el.value = PRESETS[id];
-      autoGrow(el);
-      startAuditFlow();
+      selectTopicPreset(id);
     }
 
     function autoGrow(textarea) {
