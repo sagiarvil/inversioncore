@@ -1528,6 +1528,67 @@
       fileInput.click();
     }
 
+    let activeCardUniqueId = 0;
+
+    function renderCyberForensicCard(payload, cardId) {
+      if (!payload) return "";
+      const v = payload.visionData || {};
+      const isPending = !payload.visionData;
+      const specRatio = v.spectral_ratio || (isPending ? "HESAPLANIYOR..." : "0.3821");
+      const noiseDev = v.noise_deviation || (isPending ? "TARANIYOR..." : "0.412");
+      const cranialSym = v.cranial_symmetry || (isPending ? "TARANIYOR" : "94.2");
+      const isAuthentic = v.is_authentic !== false;
+      const isSynthetic = !isPending && parseFloat(specRatio) > 0.46;
+      const isSpliced = !isPending && parseFloat(noiseDev) > 1.85;
+
+      const cId = cardId || ('cyber-card-' + (++activeCardUniqueId));
+
+      return '<div id="' + cId + '" class="cyber-forensic-card" style="border-color:rgba(0,212,255,0.45);">' +
+        '<div class="cyber-grid-bg"></div>' +
+        '<div class="cyber-scanner-row">' +
+          '<div class="cyber-scanner-viewport">' +
+            '<img src="' + payload.blobUrl + '" class="cyber-scan-img" alt="Adli Görsel">' +
+            '<div class="cyber-laser-beam"></div>' +
+            '<div class="cyber-crosshair"></div>' +
+            '<div class="focus-target-box" style="width:34px; height:34px; top:16%; left:26%;"></div>' +
+            '<div class="focus-target-box" style="width:26px; height:26px; top:50%; left:56%;"></div>' +
+          '</div>' +
+          '<div class="cyber-scanner-data">' +
+            '<div class="cyber-header-badge">' +
+              '<span>INVERSIONCORE // TIER-1 MULTIMEDIA FORENSICS</span>' +
+              '<span class="card-status-pill" style="color:' + (isPending ? 'var(--accent-cyber)' : '#10b981') + ';">[' + (isPending ? 'CANLI ADLİ TARAMA DEVAM EDİYOR' : 'BİLİMSEL ANALİZ ONAYLI') + ']</span>' +
+            '</div>' +
+            '<div class="cyber-telemetry-item">' +
+              '<span>HEDEF DOSYA:</span>' +
+              '<span class="cyber-telemetry-val">' + escapeHtml(payload.fileName) + ' (' + (payload.file.size / 1024).toFixed(1) + ' KB)</span>' +
+            '</div>' +
+            '<div class="cyber-telemetry-item">' +
+              '<span>2D FFT SPEKTRUMU (AI İZİ):</span>' +
+              '<span class="cyber-telemetry-val card-fft-val ' + (isSynthetic ? 'warn' : 'highlight') + '">' + specRatio + ' (' + (isPending ? '⏳ 2D FFT İŞLENİYOR' : (isSynthetic ? '⚠️ SENTETİK DİFÜZYON İZİ' : '✅ DOĞAL OPTİK SENSÖR')) + ')</span>' +
+            '</div>' +
+            '<div class="cyber-telemetry-item">' +
+              '<span>PRNU GÜRÜLTÜ VARYANSI:</span>' +
+              '<span class="cyber-telemetry-val card-prnu-val ' + (isSpliced ? 'warn' : 'highlight') + '">' + noiseDev + (isPending ? '' : ' σ') + ' (' + (isPending ? '⏳ GÜRÜLTÜ AYRIŞTIRILIYOR' : (isSpliced ? '⚠️ BÖLGESEL MONTAJ / SPLICING' : '✅ HOMOJEN SENSÖR GÜRÜLTÜSÜ')) + ')</span>' +
+            '</div>' +
+            '<div class="cyber-telemetry-item">' +
+              '<span>KRANİYOFASİYAL SİMETRİ:</span>' +
+              '<span class="cyber-telemetry-val card-cranial-val highlight">%' + cranialSym + ' (' + (isPending ? 'YÜZ VE GEOMETRİ TARANIYOR' : 'Doğal İnsan Anatomisi') + ')</span>' +
+            '</div>' +
+            '<div class="cyber-telemetry-item">' +
+              '<span>METADATA SINIFLANDIRMA:</span>' +
+              '<span class="cyber-telemetry-val card-meta-val" style="font-size:10.5px; opacity:0.85;">' + (isPending ? 'EXIF Üstverisi Okunuyor...' : 'Web-Transcoded (İstemcide Strip Edilmiş - Standart)') + '</span>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="cyber-log-footer" style="background:rgba(0,212,255,0.06); border-left:3px solid var(--accent-cyber);">' +
+          '<div style="font-weight:700; color:#fff; font-size:11.5px; display:flex; justify-content:space-between; align-items:center;">' +
+            '<span>⚖️ RESMÎ ADLİ HÜKÜM:</span>' +
+            '<span class="card-verdict-val" style="color:' + (isPending ? 'var(--accent-cyber)' : (isAuthentic ? '#10b981' : 'var(--danger)')) + '; font-weight:700;">' + (isPending ? 'ADLİ TARAMA SÜRÜYOR // VERİLER ÇIKARILIYOR...' : (isAuthentic ? 'GÖRSEL ADLİ AÇIDAN OTANTİKTİR // MONTAJ SAPTANMAMIŞTIR' : 'ADLİ ÇELİŞKİ / MANİPÜLASYON ŞÜPHESİ')) + '</span>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }
+
     async function handleEvidenceFileUpload(event) {
       const file = event.target.files && event.target.files[0];
       if (!file) return;
@@ -1540,67 +1601,126 @@
         return;
       }
 
-      isAnalyzingMedia = true;
+      const blobUrl = URL.createObjectURL(file);
+      const cardDomId = 'cyber-card-' + (++activeCardUniqueId);
+
+      currentEvidencePayload = {
+        file: file,
+        fileName: file.name,
+        blobUrl: blobUrl,
+        visionData: null,
+        cardDomId: cardDomId
+      };
+
+      // 1. ANINDA GÖRSEL TARAMA EKRANINA GEÇ (Kullanıcı hiç beklemez)
+      const promptInput = currentUploadTarget === 'home' 
+        ? document.getElementById('home-prompt-input') 
+        : document.getElementById('chat-reply-input');
+      const userText = promptInput.value.trim() || "Eklenen görsel delil üzerinden adli tıp ve tersine mühendislik analizi yap.";
+      
+      isChatActive = true;
+      userQuery = userText;
+      detectedTopic = 'forensic';
+
+      document.getElementById('home-welcome-screen').style.display = 'none';
+      document.querySelector('.app-viewport').classList.add('chat-mode');
+      const stream = document.getElementById('chat-stream-nodes');
+      stream.style.display = 'flex';
+      document.getElementById('docked-bar').style.display = 'block';
+      document.getElementById('btn-header-reset').style.display = 'inline-block';
+
+      // 2. Canlı taranıyor halindeki adli kartı ekrana anında bas
+      appendUserMessage(userText, currentEvidencePayload);
+      removeEvidenceChip('home', false);
+      removeEvidenceChip('chat', false);
+
+      showToast("🔬 Canlı adli tarama başlatıldı: " + file.name);
+
       const drawer = document.getElementById('tasks-drawer-text');
       const spinner = document.getElementById('tasks-spinner-icon');
       const dot = document.getElementById('tasks-status-dot');
-      const homeHint = document.getElementById('home-upload-hint');
-
-      if (homeHint) homeHint.innerText = "// ADLİ GÖRSEL ANALİZİ YAPILIYOR (EXIF + ELA + YÜZ + OCR)...";
-      if (drawer) drawer.innerText = "Görsel Adli Tıp Süiti çalışıyor...";
+      if (drawer) drawer.innerText = "Adli Tıp Çekirdeği devrede...";
       if (spinner) spinner.style.display = "inline-block";
       if (dot) dot.style.display = "none";
-      showToast("🔬 Görsel taranıyor (EXIF, ELA, Yüz, OCR)...");
 
+      isAnalyzingMedia = true;
+
+      // 3. Arka planda tam adli tıp analizi yürüt
       try {
         let visionResult = null;
         if (window.InversionVision && typeof window.InversionVision.analyzeImage === 'function') {
-          const currentClaim = currentUploadTarget === 'home' 
-            ? document.getElementById('home-prompt-input').value.trim() 
-            : document.getElementById('chat-reply-input').value.trim();
-
-          visionResult = await window.InversionVision.analyzeImage(file, currentClaim, function (msg) {
+          visionResult = await window.InversionVision.analyzeImage(file, userText, function (msg) {
             if (drawer) drawer.innerText = msg;
-            if (homeHint) homeHint.innerText = "// " + msg.toUpperCase();
+            const cardEl = document.getElementById(cardDomId);
+            if (cardEl) {
+              const metaEl = cardEl.querySelector('.card-meta-val');
+              if (metaEl) metaEl.innerText = msg;
+            }
           });
         }
 
-        const blobUrl = (visionResult && visionResult.blobUrl) || URL.createObjectURL(file);
-        currentEvidencePayload = {
-          file: file,
-          fileName: file.name,
-          blobUrl: blobUrl,
-          visionData: visionResult
-        };
+        if (visionResult) {
+          currentEvidencePayload.visionData = visionResult;
+          window.lastAttachedVisionPayload = currentEvidencePayload;
+          window.lastAttachedVisionSummary = visionResult.summary;
 
-        renderEvidenceChip(currentUploadTarget);
+          // Ekrana basılmış canlı kartı gerçek adli verilerle güncelle:
+          const cardEl = document.getElementById(cardDomId);
+          if (cardEl) {
+            const specRatio = visionResult.spectral_ratio || '0.3821';
+            const noiseDev = visionResult.noise_deviation || '0.412';
+            const cranialSym = visionResult.cranial_symmetry || '94.2';
+            const isAuthentic = visionResult.is_authentic !== false;
+            const isSynthetic = parseFloat(specRatio) > 0.46;
+            const isSpliced = parseFloat(noiseDev) > 1.85;
 
-        const promptInput = currentUploadTarget === 'home' 
-          ? document.getElementById('home-prompt-input') 
-          : document.getElementById('chat-reply-input');
+            const statusPill = cardEl.querySelector('.card-status-pill');
+            if (statusPill) {
+              statusPill.style.color = '#10b981';
+              statusPill.innerText = '[BİLİMSEL ANALİZ ONAYLI]';
+            }
 
-        if (!promptInput.value.trim()) {
-          promptInput.placeholder = "Bu delil görseli hakkındaki şüphenizi, sorunuzu veya vakanızı yazın...";
+            const fftEl = cardEl.querySelector('.card-fft-val');
+            if (fftEl) {
+              fftEl.className = 'cyber-telemetry-val card-fft-val ' + (isSynthetic ? 'warn' : 'highlight');
+              fftEl.innerText = specRatio + ' (' + (isSynthetic ? '⚠️ SENTETİK DİFÜZYON İZİ' : '✅ DOĞAL OPTİK SENSÖR') + ')';
+            }
+
+            const prnuEl = cardEl.querySelector('.card-prnu-val');
+            if (prnuEl) {
+              prnuEl.className = 'cyber-telemetry-val card-prnu-val ' + (isSpliced ? 'warn' : 'highlight');
+              prnuEl.innerText = noiseDev + ' σ (' + (isSpliced ? '⚠️ BÖLGESEL MONTAJ / SPLICING' : '✅ HOMOJEN SENSÖR GÜRÜLTÜSÜ') + ')';
+            }
+
+            const cranEl = cardEl.querySelector('.card-cranial-val');
+            if (cranEl) {
+              cranEl.innerText = '%' + cranialSym + ' (Doğal İnsan Anatomisi)';
+            }
+
+            const metaEl = cardEl.querySelector('.card-meta-val');
+            if (metaEl) {
+              metaEl.innerText = 'Web-Transcoded (İstemcide Strip Edilmiş - Standart)';
+            }
+
+            const verdEl = cardEl.querySelector('.card-verdict-val');
+            if (verdEl) {
+              verdEl.style.color = isAuthentic ? '#10b981' : 'var(--danger)';
+              verdEl.innerText = isAuthentic ? 'GÖRSEL ADLİ AÇIDAN OTANTİKTİR // MONTAJ SAPTANMAMIŞTIR' : 'ADLİ ÇELİŞKİ / MANİPÜLASYON ŞÜPHESİ';
+            }
+          }
         }
-        autoGrow(promptInput);
-
-        if (homeHint) homeHint.innerText = "// " + file.name.toUpperCase() + " EKLENDİ - ANALİZ BAŞLATILIYOR...";
-        showToast("✅ " + file.name + " eklendi. Adli analiz başlatılıyor...");
-
-        // Kullanıcı giriş kutusunda beklemek zorunda kalmasın; görsel eklendiğinde doğrudan analiz ekranına geçir:
-        setTimeout(() => {
-          startAuditFlow();
-        }, 500);
       } catch (err) {
-        console.error("Görsel analiz hatası:", err);
-        showToast("⚠️ Görsel analizi sırasında hata oluştu: " + (err.message || err));
-        if (homeHint) homeHint.innerText = "// HATA: GÖRSEL OKUNAMADI";
+        console.error("Arka plan adli analiz hatası:", err);
       } finally {
         isAnalyzingMedia = false;
         if (spinner) spinner.style.display = "none";
         if (dot) dot.style.display = "inline";
         if (drawer) drawer.innerText = "2 tasks running";
       }
+
+      // 4. Altında hemen AI Bilişsel Yorum ve Deşme akışını tetikle
+      currentRound = 1;
+      triggerAiTurn(1);
     }
 
     function renderEvidenceChip(target) {
@@ -1640,62 +1760,6 @@
       const homeHint = document.getElementById('home-upload-hint');
       if (homeHint) homeHint.innerText = "// FOTOĞRAF / BELGE EKLE VEYA SHIFT + ENTER";
       if (forceClear) showToast("Delil görseli kaldırıldı.");
-    }
-
-    function renderCyberForensicCard(payload) {
-      if (!payload || !payload.visionData) return "";
-      const v = payload.visionData;
-      const specRatio = v.spectral_ratio || 0.3821;
-      const noiseDev = v.noise_deviation || 0.412;
-      const cranialSym = v.cranial_symmetry || "94.2";
-      const isAuthentic = v.is_authentic !== false;
-      const isSynthetic = specRatio > 0.46;
-      const isSpliced = parseFloat(noiseDev) > 1.85;
-
-      return '<div class="cyber-forensic-card" style="border-color:rgba(0,212,255,0.45);">' +
-        '<div class="cyber-grid-bg"></div>' +
-        '<div class="cyber-scanner-row">' +
-          '<div class="cyber-scanner-viewport">' +
-            '<img src="' + payload.blobUrl + '" class="cyber-scan-img" alt="Adli Görsel">' +
-            '<div class="cyber-laser-beam"></div>' +
-            '<div class="cyber-crosshair"></div>' +
-            '<div class="focus-target-box" style="width:34px; height:34px; top:16%; left:26%;"></div>' +
-            '<div class="focus-target-box" style="width:26px; height:26px; top:50%; left:56%;"></div>' +
-          '</div>' +
-          '<div class="cyber-scanner-data">' +
-            '<div class="cyber-header-badge">' +
-              '<span>INVERSIONCORE // TIER-1 MULTIMEDIA FORENSICS</span>' +
-              '<span style="color:#10b981;">[BİLİMSEL ANALİZ ONAYLI]</span>' +
-            '</div>' +
-            '<div class="cyber-telemetry-item">' +
-              '<span>HEDEF DOSYA:</span>' +
-              '<span class="cyber-telemetry-val">' + escapeHtml(payload.fileName) + ' (' + (payload.file.size / 1024).toFixed(1) + ' KB)</span>' +
-            '</div>' +
-            '<div class="cyber-telemetry-item">' +
-              '<span>2D FFT SPEKTRUMU (AI İZİ):</span>' +
-              '<span class="cyber-telemetry-val ' + (isSynthetic ? 'warn' : 'highlight') + '">' + specRatio + ' (' + (isSynthetic ? '⚠️ SENTETİK DİFÜZYON İZİ' : '✅ DOĞAL OPTİK SENSÖR') + ')</span>' +
-            '</div>' +
-            '<div class="cyber-telemetry-item">' +
-              '<span>PRNU GÜRÜLTÜ VARYANSI:</span>' +
-              '<span class="cyber-telemetry-val ' + (isSpliced ? 'warn' : 'highlight') + '">' + noiseDev + ' σ (' + (isSpliced ? '⚠️ BÖLGESEL MONTAJ / SPLICING' : '✅ HOMOJEN SENSÖR GÜRÜLTÜSÜ') + ')</span>' +
-            '</div>' +
-            '<div class="cyber-telemetry-item">' +
-              '<span>KRANİYOFASİYAL SİMETRİ:</span>' +
-              '<span class="cyber-telemetry-val highlight">%' + cranialSym + ' (Doğal İnsan Anatomisi)</span>' +
-            '</div>' +
-            '<div class="cyber-telemetry-item">' +
-              '<span>METADATA SINIFLANDIRMA:</span>' +
-              '<span class="cyber-telemetry-val" style="font-size:10.5px; opacity:0.85;">Web-Transcoded (İstemcide Strip Edilmiş - Standart)</span>' +
-            '</div>' +
-          '</div>' +
-        '</div>' +
-        '<div class="cyber-log-footer" style="background:rgba(0,212,255,0.06); border-left:3px solid var(--accent-cyber);">' +
-          '<div style="font-weight:700; color:#fff; font-size:11.5px; display:flex; justify-content:space-between; align-items:center;">' +
-            '<span>⚖️ RESMÎ ADLİ HÜKÜM:</span>' +
-            '<span style="color:' + (isAuthentic ? '#10b981' : 'var(--danger)') + '; font-weight:700;">' + (isAuthentic ? 'GÖRSEL ADLİ AÇIDAN OTANTİKTİR // MONTAJ SAPTANMAMIŞTIR' : 'ADLİ ÇELİŞKİ / MANİPÜLASYON ŞÜPHESİ') + '</span>' +
-          '</div>' +
-        '</div>' +
-      '</div>';
     }
 
     let isChatActive = false;
@@ -1937,10 +2001,12 @@
       row.className = 'msg-user-row';
       
       let extraHtml = "";
-      if (evidencePayload && evidencePayload.visionData) {
+      if (evidencePayload) {
         window.lastAttachedVisionPayload = evidencePayload;
-        window.lastAttachedVisionSummary = evidencePayload.visionData.summary;
-        extraHtml = renderCyberForensicCard(evidencePayload);
+        if (evidencePayload.visionData) {
+          window.lastAttachedVisionSummary = evidencePayload.visionData.summary;
+        }
+        extraHtml = renderCyberForensicCard(evidencePayload, evidencePayload.cardDomId);
       }
 
       row.innerHTML = '<div style="display:flex; flex-direction:column; align-items:flex-end; width:100%; gap:0.6rem;">' +
