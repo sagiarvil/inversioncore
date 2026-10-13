@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/exifreader@4.23.1/dist/exifreader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/exifreader@4.23.1/dist/exif-reader.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
   <script src="/vision_forensics.js"></script>
   <style>
@@ -1190,17 +1190,13 @@ Bu görsel bulgularını ve şüpheyi tersine sorgula:`;
 
         if (currentUploadTarget === 'home') {
           const homeInput = document.getElementById('home-prompt-input');
-          homeInput.value = (homeInput.value.trim() ? homeInput.value.trim() + "
-
-" : "") + formattedPayload;
+          homeInput.value = (homeInput.value.trim() ? homeInput.value.trim() + "\n\n" : "") + formattedPayload;
           autoGrow(homeInput);
           if (homeHint) homeHint.innerText = `// ${file.name.toUpperCase()} ANALİZ EDİLDİ - PARÇALA'YA BASIN`;
           showToast(`✅ ${file.name} analiz edildi ve rapora eklendi!`);
         } else {
           const chatInput = document.getElementById('chat-reply-input');
-          chatInput.value = (chatInput.value.trim() ? chatInput.value.trim() + "
-
-" : "") + formattedPayload;
+          chatInput.value = (chatInput.value.trim() ? chatInput.value.trim() + "\n\n" : "") + formattedPayload;
           autoGrow(chatInput);
           showToast(`✅ ${file.name} görsel bulguları cevaba eklendi!`);
         }

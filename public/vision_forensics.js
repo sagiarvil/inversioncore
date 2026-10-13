@@ -2,25 +2,43 @@
   "use strict";
 
   var CDN = {
-    exif: "https://cdn.jsdelivr.net/npm/exifreader@4.23.1/dist/exifreader.js",
+    exif: "https://cdn.jsdelivr.net/npm/exifreader@4.23.1/dist/exif-reader.js",
     face: "https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js",
-    tfjs: "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.0.0/dist/transformers.min.js"
+    tesseract: "https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"
   };
   var FACE_WEIGHTS = "https://cdn.jsdelivr.net/gh/justadudewhohacks/face-api.js@master/weights";
 
   function loadScript(src) {
     return new Promise(function (resolve, reject) {
+      if (document.querySelector('script[src="' + src + '"]')) {
+        return resolve();
+      }
       var s = document.createElement("script");
       s.src = src; s.async = true;
-      s.onload = resolve; s.onerror = function () { reject(new Error("CDN yuklenemedi: " + src)); };
+      s.onload = resolve; 
+      s.onerror = function () { reject(new Error("CDN yuklenemedi: " + src)); };
       document.head.appendChild(s);
     });
+  }
+
+  function withTimeout(promise, ms, fallback) {
+    return Promise.race([
+      promise,
+      new Promise(function (resolve) {
+        setTimeout(function () { resolve(fallback); }, ms);
+      })
+    ]);
   }
 
   // ---------- MOTOR 1: EXIF FORENSICS (negatif bilgi: yokluk) ----------
   async function exifForensics(buffer) {
     try {
-      if (!window.ExifReader) await loadScript(CDN.exif);
+      if (!window.ExifReader) {
+        await withTimeout(loadScript(CDN.exif), 4000, null);
+      }
+      if (!window.ExifReader) {
+        return { motor: "ExifReader", error: "ExifReader yuklenemedi", negative_findings: ["EXIF kütüphanesi hazır değil"] };
+      }
       var tags = window.ExifReader.load(buffer, { expanded: true });
       var gps = tags.gps || {};
       var exif = tags.exif || {};
@@ -38,12 +56,12 @@
       return {
         motor: "ExifReader",
         has_date: hasDate, has_gps: hasGPS, has_device: hasMake,
-        date: exif.DateTimeOriginal || exif.DateTime || null,
+        date: (exif.DateTimeOriginal && exif.DateTimeOriginal.description) || (exif.DateTime && exif.DateTime.description) || null,
         gps: hasGPS ? { lat: gps.latitude, lon: gps.longitude } : null,
         negative_findings: findings
       };
     } catch (e) {
-      return { motor: "ExifReader", error: String(e), negative_findings: ["EXIF okunamadi"] };
+      return { motor: "ExifReader", error: String(e), negative_findings: ["EXIF okunamadi: standart web formati"] };
     }
   }
 
@@ -84,13 +102,22 @@
   // ---------- MOTOR 3: YUZ + DUYGU (kisi fotografindan yorum) ----------
   async function faceForensics(img) {
     try {
-      if (!window.faceapi) await loadScript(CDN.face);
-      await window.faceapi.nets.tinyFaceDetector.loadFromUri(FACE_WEIGHTS);
-      await window.faceapi.nets.faceExpressionNet.loadFromUri(FACE_WEIGHTS);
-      await window.faceapi.nets.ageGenderNet.loadFromUri(FACE_WEIGHTS);
+      if (!window.faceapi) {
+        await withTimeout(loadScript(CDN.face), 3500, null);
+      }
+      if (!window.faceapi) {
+        return { motor: "face-api", face_count: 0, negative_findings: ["Yuz motoru CDN baglantisi atlandi"] };
+      }
+      await withTimeout(Promise.all([
+        window.faceapi.nets.tinyFaceDetector.loadFromUri(FACE_WEIGHTS),
+        window.faceapi.nets.faceExpressionNet.loadFromUri(FACE_WEIGHTS),
+        window.faceapi.nets.ageGenderNet.loadFromUri(FACE_WEIGHTS)
+      ]), 5000, null);
+
       var det = await window.faceapi
         .detectAllFaces(img, new window.faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.5 }))
         .withFaceExpressions().withAgeAndGender();
+
       if (!det || det.length === 0) {
         return { motor: "face-api", face_count: 0, negative_findings: ["Yuz tespit edilmedi: 'kisi fotografi' iddiasi dogrulanamiyor"] };
       }
@@ -106,31 +133,25 @@
       if (faces.length > 1) findings.push("Birden fazla yuz (" + faces.length + "): kimlik iddiasi belirsiz");
       return { motor: "face-api", face_count: faces.length, faces: faces, negative_findings: findings };
     } catch (e) {
-      return { motor: "face-api", error: String(e), negative_findings: ["Yuz motoru yuklenemedi"] };
+      return { motor: "face-api", error: String(e), negative_findings: ["Yuz motoru atlandi"] };
     }
   }
 
-  // ---------- MOTOR 4: BLIP CAPTION (sahne/nesne, OCR'in goremedigi) ----------
-  async function captionForensics(img) {
-    try {
-      if (!window.transformers) await loadScript(CDN.tfjs);
-      var t = window.transformers;
-      var cap = await t.pipeline("image-to-text", "Xenova/blip-image-captioning-base");
-      var out = await cap(img);
-      var text = (out && out[0] && out[0].generated_text) || "";
-      return { motor: "BLIP", caption: text, negative_findings: text ? [] : ["Gorsel aciklamasi uretilemedi"] };
-    } catch (e) {
-      return { motor: "BLIP", error: String(e), negative_findings: ["Caption motoru yuklenemedi"] };
-    }
-  }
-
-  // ---------- MOTOR 5: OCR (zaten kurulu Tesseract) ----------
+  // ---------- MOTOR 4: OCR (Tesseract) ----------
   async function ocrForensics(file) {
     try {
-      if (!window.Tesseract) return { motor: "Tesseract", error: "Tesseract yuklu degil", negative_findings: [] };
-      var res = await window.Tesseract.recognize(file, "tur+eng");
+      if (!window.Tesseract) {
+        await withTimeout(loadScript(CDN.tesseract), 3500, null);
+      }
+      if (!window.Tesseract) {
+        return { motor: "Tesseract", error: "Tesseract yuklenemedi", negative_findings: [] };
+      }
+      var res = await withTimeout(window.Tesseract.recognize(file, "tur+eng"), 8000, null);
+      if (!res) {
+        return { motor: "Tesseract", text: "", negative_findings: ["OCR zaman asimina ugradi"] };
+      }
       var text = ((res.data && res.data.text) || "").trim();
-      return { motor: "Tesseract", text: text, negative_findings: text.length < 5 ? ["Gorselde anlamlı metin yok"] : [] };
+      return { motor: "Tesseract", text: text, negative_findings: text.length < 5 ? ["Gorselde anlamli metin yok"] : [] };
     } catch (e) {
       return { motor: "Tesseract", error: String(e), negative_findings: [] };
     }
@@ -163,24 +184,22 @@
   // ---------- ANA GIRIS ----------
   async function analyzeImage(file, claimText, onProgress) {
     onProgress = onProgress || function () {};
-    onProgress("Gorsel cozumleniyor...");
+    onProgress("Görsel çözümleniyor...");
     var url = URL.createObjectURL(file);
     var img = new Image();
     await new Promise(function (res, rej) { img.onload = res; img.onerror = rej; img.src = url; });
     var buffer = await file.arrayBuffer();
 
-    onProgress("EXIF forensics...");
+    onProgress("EXIF adli tıp analizi...");
     var exif = await exifForensics(buffer);
-    onProgress("ELA (montaj tespiti)...");
+    onProgress("ELA montaj tespiti...");
     var ela = await elaAnalysis(img);
-    onProgress("Yuz + duygu analizi...");
-    var face = await faceForensics(img);
-    onProgress("Sahne aciklamasi (BLIP)...");
-    var cap = await captionForensics(img);
-    onProgress("OCR...");
-    var ocr = await ocrForensics(file);
+    onProgress("Yüz ve mimik tespiti...");
+    var face = await withTimeout(faceForensics(img), 6000, { motor: "face-api", face_count: 0, negative_findings: [] });
+    onProgress("OCR metin taraması...");
+    var ocr = await withTimeout(ocrForensics(file), 8000, { motor: "Tesseract", text: "", negative_findings: [] });
 
-    var report = [exif, ela, face, cap, ocr];
+    var report = [exif, ela, face, ocr];
     var contradictions = crossContradictions(report, claimText || "");
     var negative = [];
     report.forEach(function (r) { (r.negative_findings || []).forEach(function (f) { negative.push(r.motor + ": " + f); }); });
@@ -188,13 +207,13 @@
 
     var summary = [
       "[GORSEL TERSINE MUHENDISLIK RAPORU]",
-      "Yuz sayisi: " + (face.face_count !== undefined ? face.face_count : "bilinmiyor"),
-      "Sahne: " + (cap.caption || "yok"),
-      "OCR metin: " + ((ocr.text || "").slice(0, 200) || "yok"),
+      "Dosya: " + file.name + " (" + (file.size / 1024).toFixed(1) + " KB)",
+      "Yuz tespiti: " + (face.face_count !== undefined ? face.face_count + " adet" : "yok"),
+      "OCR metin: " + ((ocr.text || "").slice(0, 150) || "metin bulunamadi"),
       "EXIF tarih: " + (exif.date || "yok") + " | GPS: " + (exif.gps ? "var" : "yok"),
-      "ELA tutarsizlik: " + (ela.inconsistency_ratio !== undefined ? ela.inconsistency_ratio : "n/a"),
+      "ELA montaj skoru: " + (ela.inconsistency_ratio !== undefined ? ela.inconsistency_ratio : "n/a"),
       "NEGATIF BULGULAR:",
-      negative.length ? negative.map(function (n) { return "  - " + n; }).join("\n") : "  - bulgu yok"
+      negative.length ? negative.map(function (n) { return "  - " + n; }).join("\n") : "  - Kritik manipülasyon izi yok"
     ].join("\n");
 
     URL.revokeObjectURL(url);
