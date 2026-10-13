@@ -1584,8 +1584,15 @@
         }
         autoGrow(promptInput);
 
-        if (homeHint) homeHint.innerText = "// " + file.name.toUpperCase() + " EKLENDİ - PARÇALA'YA BASIN";
-        showToast("✅ " + file.name + " eklendi. Sorunuzu yazıp analizi başlatın!");
+        if (homeHint) homeHint.innerText = "// " + file.name.toUpperCase() + " EKLENDİ - ANALİZ BAŞLATILIYOR...";
+        showToast("✅ " + file.name + " eklendi. Adli analiz başlatılıyor...");
+
+        // Kullanıcı giriş kutusunda beklemek zorunda kalmasın; görsel eklendiğinde otonom olarak parçalama analizini başlat:
+        setTimeout(() => {
+          if (!isChatActive) {
+            startAuditFlow();
+          }
+        }, 650);
       } catch (err) {
         console.error("Görsel analiz hatası:", err);
         showToast("⚠️ Görsel analizi sırasında hata oluştu: " + (err.message || err));
@@ -1927,6 +1934,7 @@
       
       let extraHtml = "";
       if (evidencePayload && evidencePayload.visionData) {
+        window.lastAttachedVisionPayload = evidencePayload;
         window.lastAttachedVisionSummary = evidencePayload.visionData.summary;
         extraHtml = renderCyberForensicCard(evidencePayload);
       }
@@ -2055,7 +2063,8 @@
           }
         } else if (round === 1) {
           if (detectedTopic === 'forensic') {
-            const vData = (currentEvidencePayload && currentEvidencePayload.visionData) || {};
+            const ep = currentEvidencePayload || window.lastAttachedVisionPayload || {};
+            const vData = ep.visionData || {};
             const specVal = vData.spectral_ratio || '0.7558';
             const noiseVal = vData.noise_deviation || '10.15';
             const cranialVal = vData.cranial_symmetry || '79.6';
