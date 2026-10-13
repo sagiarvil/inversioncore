@@ -342,39 +342,46 @@ class InversionCoreEngine:
         user_prompt_content = f"Kullanıcı Durumu: {effective_query}\n\nGeçmiş Hafıza:\n{core_memory}" if core_memory else f"Kullanıcı Durumu: {effective_query}"
 
         # 3. UNIFIED SANSÜRSÜZ ÇIKARIM MOTORU
-        # HİYERARŞİ:
-        # 1. Groq Ultra Hızlı Sansürsüz Motor (Qwen 27B / GPT-OSS 120B - Sıfır Filtre, Anında Çıkarım)
-        # 2. Yerel Apple Silicon MLX Modeli (Varsa ve aktifse)
-        # 3. NVIDIA Cloud NIM (Llama 3.2 11B Vision & Instruct)
+        # KESİN HİYERARŞİ:
+        # 1. ÖNCELİK: Mac Yerel Apple Silicon MLX Modeli (Qwen 2.5 14B Abliterated - Mac açıksa ve model yüklüyse İLK KAYNAK)
+        # 2. ÖNCELİK: Groq API Havuzu (Qwen 27B / GPT-OSS 120B - Mac kapalıysa veya yerel model yetişemezse ultra hızlı bulut)
+        # 3. ÖNCELİK: NVIDIA Cloud NIM API (Llama 3.2 11B Vision & Instruct)
         
         sys_prompt = f"{UNIFIED_SYSTEM_PROMPT}\nTur: {round_num}"
 
-        # 1. Öncelik: Groq API (Ultra Hızlı Llama/Qwen Sansürsüz Motor)
+        # 1. ÖNCELİK: Mac Üzerindeki Yerel Qwen 14B MLX Modeli
         try:
-            reply = call_groq_inference(user_prompt_content, sys_prompt)
-            if reply:
-                logger.info("[*] InversionCore Groq Sansürsüz Çıkarım Başarılı.")
-        except Exception as _g_err:
-            logger.info(f"Groq çıkarım atlandı ({_g_err})")
+            model, tokenizer, _, creative_sampler = get_engine_components()
+            if model is not None and tokenizer is not None:
+                from mlx_lm import generate
+                prompt_text = (
+                    f"<|im_start|>system\n{UNIFIED_SYSTEM_PROMPT}\nTur: {round_num}<|im_end|>\n"
+                    f"<|im_start|>user\n{user_prompt_content}<|im_end|>\n"
+                    f"<|im_start|>assistant\n"
+                )
+                reply = generate(model, tokenizer, prompt=prompt_text, max_tokens=320, sampler=creative_sampler, verbose=False)
+                if reply:
+                    logger.info("[*] InversionCore [1. Kaynak: Mac Qwen 14B MLX] Çıkarımı Başarılı.")
+        except Exception as _mlx_err:
+            logger.info(f"Yerel MLX çıkarımı başarısız veya atlandı ({_mlx_err}), 2. Kaynak Groq API'ye geçiliyor...")
 
-        # 2. Öncelik: Yerel MLX
+        # 2. ÖNCELİK: Groq API Havuzu (Mac kapalıysa / Buluttaysa / MLX hata verirse)
         if not reply:
             try:
-                model, tokenizer, _, creative_sampler = get_engine_components()
-                if model is not None and tokenizer is not None:
-                    from mlx_lm import generate
-                    prompt_text = (
-                        f"<|im_start|>system\n{UNIFIED_SYSTEM_PROMPT}\nTur: {round_num}<|im_end|>\n"
-                        f"<|im_start|>user\n{user_prompt_content}<|im_end|>\n"
-                        f"<|im_start|>assistant\n"
-                    )
-                    reply = generate(model, tokenizer, prompt=prompt_text, max_tokens=320, sampler=creative_sampler, verbose=False)
-            except Exception as _mlx_err:
-                logger.info(f"MLX çıkarımı atlandı ({_mlx_err})")
+                reply = call_groq_inference(user_prompt_content, sys_prompt)
+                if reply:
+                    logger.info("[*] InversionCore [2. Kaynak: Groq API Sansürsüz LPU] Çıkarımı Başarılı.")
+            except Exception as _g_err:
+                logger.info(f"Groq çıkarım atlandı ({_g_err}), 3. Kaynak NVIDIA NIM'e geçiliyor...")
 
-        # 3. Öncelik: NVIDIA Cloud NIM Fallback
+        # 3. ÖNCELİK: NVIDIA Cloud NIM API Fallback
         if not reply:
-            reply = call_nvidia_cloud_inference(user_prompt_content, sys_prompt)
+            try:
+                reply = call_nvidia_cloud_inference(user_prompt_content, sys_prompt)
+                if reply:
+                    logger.info("[*] InversionCore [3. Kaynak: NVIDIA Cloud NIM] Çıkarımı Başarılı.")
+            except Exception as _nv_err:
+                logger.info(f"NVIDIA çıkarım atlandı ({_nv_err})")
 
         # 4. Deterministik Güvenlik Fallback
         if not reply:
