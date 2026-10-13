@@ -1628,7 +1628,7 @@
           if (detectedTopic === 'triangulation') {
             const roleSelect = document.getElementById('triangulation-target-role');
             const targetRole = roleSelect ? roleSelect.value : 'partner';
-            const roleLabel = roleSelect ? roleSelect.options[roleSelect.selectedIndex].text : "Karakter Analizi";
+            const roleLabel = roleSelect ? roleSelect.options[roleSelect.selectedIndex].text : "Kişilik & Karakter Analizi";
             const auditData = window.lastAttachedVisionPayload && window.lastAttachedVisionPayload.visionData ? window.lastAttachedVisionPayload.visionData : {};
             const maskGap = auditData.noise_deviation ? (auditData.noise_deviation * 10).toFixed(1) : '42.0';
             const contempt = auditData.spectral_ratio ? (auditData.spectral_ratio * 100).toFixed(1) : '54.0';
@@ -1636,37 +1636,39 @@
             content = `
               <div class="ai-clean-card">
                 <div class="ai-badge-header">
-                  <span>INVERSIONCORE // 3-NOKTA BİYOPSİKOSOSYAL KİŞİLİK OTOPSİSİ</span>
-                  <span style="color:var(--accent-cyber);">[AŞAMA 01: VİTRİN DEŞİFRESİ & DERİN NARSİSİZM PROTOKOLÜ]</span>
+                  <span>INVERSIONCORE // BİYOPSİKOSOSYAL KİŞİLİK VE KARAKTER OTOPSİSİ</span>
+                  <span style="color:var(--accent-cyber);">[AŞAMA 01: VİTRİN DEŞİFRESİ, ZAYIF KARIN VE GÜÇLÜ YANLAR]</span>
                 </div>
                 <div class="ai-claim-box">
-                  <span>HEDEF VE CERRAHİ ODAK:</span> [${escapeHtml(roleLabel)}] "${escapeHtml(userQuery)}"
+                  <span>ANALİZ EDİLEN PROFİL & ROL:</span> [${escapeHtml(roleLabel)}] "${escapeHtml(userQuery)}"
                 </div>
                 <div class="ai-body-text">
-                  <h3>1. ÇIPLAK HAKİKAT // BİYOLOJİK MASKE MAKASI & BENLİK YARILMASI</h3>
-                  <p>Karşında 'kusursuz bir profesyonel, fedakâr bir sevgili veya vizyoner bir kurucu' yok. Karşında, derin yetersizlik anksiyetesini cilalı bir vitrinle bastırmaya çalışan ve bunu sürdürebilmek için devasa bir zihinsel enerji yakan <b>kronik bir maske operatörü</b> var. Paul Ekman FACS (Facial Action Coding System) ve 3D Kraniyofasiyal Geometri verilerini duygusuzca masaya yatırıyoruz: Bu kişinin resmi vitrin pozu ile kriz/doğal anları arasında <b>%${maskGap} oranında Patolojik Benlik Yarılması (Maske Makası)</b> ve <b>%${contempt} Kronik Küçümseme (AU14 Buccinator Motor Kas İzi)</b> tespit edildi.</p>
-                  <p>Bu rakam ne anlama geliyor biliyor musun? Bu insan seni dinlerken veya seninle çalışırken sana saygı duymuyor. Yüzün sağ-sol motor asimetrisindeki o 120 milisaniyelik mikro-kıvrılma; karşı tarafı içten içe 'kullanışlı bir basamak' veya 'manipüle edilebilir bir figüran' olarak kodladığının inkar edilemez biyolojik suçüstü belgesidir. İnsanlar ağızlarıyla istedikleri yalanı söyler, CV'lerine istedikleri parıltılı unvanları yazar; ancak otonom sinir sistemi ve yüz kaslarının kriz refleksi yalan söylemeyi beceremez.</p>
+                  <h3>1. ÇIPLAK HAKİKAT // KİRLİ ÇAMAŞIRLAR, MASKE VE DERİN NARSİSİZM</h3>
+                  <p>Karşında sunduğu o parıltılı özgeçmişe, cilalı kelimelere ve yapay nezakete sahip biri yok. Karşında, içindeki derin yetersizlik korkusunu dışarıya 'her şeyi bilen, kusursuz ve vazgeçilmez' imajı çizerek bastırmaya çalışan <b>profesyonel bir maske operatörü</b> var. Bu kişinin resmi vitrin halleri ile doğal anlarındaki yüz gerilimi arasında <b>%${maskGap} oranında belirgin bir Benlik Yarılması</b> ve <b>%${contempt} gizli küçümseme refleksi</b> yatıyor.</p>
+                  <p>Bu ne demek? Bu insan seninle konuşurken seni eşit bir ortak veya saygı duyulacak bir muhatap olarak görmüyor; kendi çıkarları için 'yönetilmesi ve kontrol edilmesi gereken bir figüran' olarak kodluyor. Bir hata yaptığında suçu asla üzerine almaz; konuyu döndürüp dolaştırıp senin yetersizliğine, sistemin eksikliğine veya dış koşullara bağlar. Yüzüne gülerken arkadan iş çevirmeyi, sorumluluktan kaçmayı ve köşeye sıkıştığında mağdur edebiyatına sarılmayı refleks haline getirmiştir. Güç zehirlenmesine ve gizli kibire inanılmaz derecede meyillidir.</p>
 
-                  <h3>2. DAVRANIŞSAL OTOPSİ // DARVO DÖNGÜSÜ & KORKAK NARSİSİZM MEKANİZMASI</h3>
-                  <p><b>[${escapeHtml(roleLabel)}]:</b> Bu profille masaya oturduğunda başına gelecek senaryo tesadüf değildir; önceden yazılmış deterministik bir trajedi algoritmasıdır. İlk fazda seni sözde nezaketi, vaatleri ve 'biz bir aileyiz / sen benim için çok özelsin' narkozuyla uyuşturacak. Gardını düşürdüğün ve taviz verdiğin an, sistem ikinci faza geçecek: <b>Asimetrik suçluluk yükleme ve DARVO (Deny, Attack, Reverse Victim and Offender)</b>.</p>
-                  <p>Kendi beceriksizliğini, gizli tembelliğini veya sadakatsizliğini asla sahiplenmeyecek. Bir hata yaptığında özür dilemek yerine; konuyu senin ses tonuna, geçmişteki alakasız bir detayına veya şirketin/ilişkinin genel şartlarına bağlayarak seni savunma makamına hapsedecek. Sen kendini aklamaya çalışırken, o arkasına yaslanıp kontrolü elinde tutmanın gizli hazzını yaşayacak. Köşeye sıkıştığında ise devreye pasif-agresif sessizlik cezası (silent treatment) girecek. Çünkü çatışmayı yetişkin gibi yönetebilecek bir iç omurgaya sahip değil.</p>
+                  <h3>2. İNKAR EDİLEMEZ GÜÇLÜ YANLAR VE YÜKSEK POTANSİYEL // BU KİŞİ NEREDE İŞ YAPAR?</h3>
+                  <p>Ancak her şeyi çöpe atamayız; bu insanın masaya koyduğu ve doğru yönetilirse devasa katma değer üretecek çok somut güçleri var:</p>
+                  <p><b>• Acımasız İcraat ve Sonuç Odaklılık:</b> Duygularıyla değil hırslarıyla hareket ettiği için, başkalarının çekindiği zorlu pazarlıklarda, kriz yönetiminde ve sert rekabet ortamlarında müthiş bir direnç gösterir. Önüne net bir hedef koyduğunda, engelleri ezip geçerek o sonucu teslim eder.</p>
+                  <p><b>• Vitrin ve İkna Kabiliyeti:</b> Sosyal zekası ve dış dünyaya oynama yeteneği üst seviyededir. Müşteri bağlama, şirket temsilciliği, fon bulma ve kitleleri peşinden sürükleme konusunda doğal bir cazibeye sahiptir. İnsanları neyin motive ettiğini çok iyi sezer ve bunu hedefe ulaşmak için ustalıkla kullanır.</p>
+                  <p><b>• Stres Altında Soğukkanlılık:</b> Panik yapmaz. Herkesin eli ayağı birbirine dolandığında o arkasına yaslanıp rasyonel çıkarım yapabilir. Kendi çıkarlarıyla şirketin/ekibin çıkarları örtüştüğü sürece durdurulamaz bir lokomotif gibi çalışır.</p>
 
-                  <h3>3. STRATEJİK HÜKÜM // BOŞ UMUDA VE MAZERETLERE KESİN İNFAZ</h3>
-                  <p>Biz burada senin duygularını okşamak veya sana 'pozitif enerji' satmak için bulunmuyoruz. Acı gerçek şudur: <b>Değişmeyecek.</b> 'Onu dönüştürürüm, bana karşı böyle olmaz, belki zamanla anlar' diyerek kendini kandırdığın her gün; kendi zamanından, itibarından ve nakit sermayenden o narsisistik deliğe haraç ödüyorsun. Maske makasının %${maskGap} seviyesine fırladığı bir profil, kriz anında seni ilk otobüsün altına fırlatacak pimi çekilmiş bir el bombasıdır.</p>
-                  <p>Ya bu gerçeği şimdi, bedel ödemeden önce masaya bir çekiç gibi vurup ameliyatı yapacaksın; ya da birkaç ay sonra dolandırılmış, aldatılmış veya mobbing ile kapının önüne konulmuş halde aynı otopsi masasına ağlayarak geri döneceksin. Tercih senin, ancak fatura daima sana kesilecek.</p>
+                  <h3>3. STRATEJİK HÜKÜM // KULLANMA KILAVUZU VE NET REÇETE</h3>
+                  <p><b>Bu kişiyle nasıl çalışılır veya nasıl yaşanır?:</b> Onu 'dostun, sırdaşın veya vicdan ortağın' yapmayacaksın. Ona asla sınırsız inisiyatif veya denetimsiz yetki vermeyeceksin. Bu profille masaya otururken tek bir kural vardır: <b>Çelik gibi sözleşmeler, net yazılı KPI'lar ve sıfır duygusal taviz.</b></p>
+                  <p>Güçlü yanlarını şirketin satışına, kriz yönetimine ve büyümesine koşturacaksın; ancak kasanın anahtarını, stratejik kararları ve ekibin iç huzurunu asla onun insafına bırakmayacaksın. Maskesini bildiğini ona hissettirdiğin anda sana saygı duymak ve çizgide kalmak zorunda kalacaktır.</p>
                 </div>
                 <div class="ai-attack-box">
-                  <div class="attack-label">⚡ İLK TOKAT // KÖK NEDEN VE BOĞAZA DAYANAN BIÇAK:</div>
+                  <div class="attack-label">⚡ İLK TOKAT // KARAR VE SINIR EŞİĞİ:</div>
                   <div class="attack-main">
-                    Bu insanın vitrin illüzyonuna ve tatlı diline kanmayı bırakıp; kriz anında sergileyeceği gerçek yüzü, manipülasyon tehdidini ve asalak doğasını peşinen kabul ederek katı sınırlar çekmeye (veya ilişkiyi/süreci derhal feshetmeye) cesaretin var mı, yoksa mazeretlerin arkasına saklanmaya devam mı edeceksin?
+                    Bu insanın hem narsisistik risklerini ve manipülasyon açığını bilip hem de yüksek icraat gücünü katı kurallarla yönetmeye hazır mısın, yoksa tatlı diline kanıp ipleri eline vermeye mi niyetlisin?
                   </div>
                 </div>
                 <div class="choice-group">
                   <button class="btn-choice bad" onclick="handleQuickChoice('hayir')">
-                    ❌ "Korkuyorum; hala iyi niyetine inanmak ve biraz daha taviz vermek istiyorum."
+                    ❌ "Riskleri çok yüksek; bu egoyla uğraşamam, eliyorum / uzak duruyorum."
                   </button>
                   <button class="btn-choice" onclick="handleQuickChoice('evet')">
-                    ✔ "Maske makasını gördüm; tiyatroyu bitiriyorum, cerrahi sınırı çekiyorum."
+                    ✔ "Güçlü yanlarını kullanacağım; katı sınırlar ve yazılı kurallarla sürece alıyorum."
                   </button>
                 </div>
                 ${renderAiActionFooter()}
