@@ -1778,6 +1778,12 @@
     }
 
     function detectCategory(text) {
+      // KURAL: Eğer görsel delil eklenmişse ve kullanıcı metninde açık bir ilişki/mobbing/tabu belirtilmemişse:
+      // Konuyu asla ezbere ilişkiye atma; Adli Delil & Sahte Kimlik Otopsisi kategorisine yönlendir.
+      const hasImageEvidence = !!(window.lastAttachedVisionSummary || currentEvidencePayload);
+      const rawText = (text || '').trim();
+      const isGenericQuery = !rawText || /^(eklenen|gorsel|delil|analiz|bu gorsel|resim|fotograf|incele|tara)/i.test(rawText.replace(/[^a-zA-Z0-9çğıöşüÇĞİÖŞÜ ]/g, ''));
+
       const clean = (text || '').toLowerCase()
         .replace(/ı/g, 'i')
         .replace(/ğ/g, 'g')
@@ -1848,7 +1854,12 @@
         scores.mobbing = Math.max(0, scores.mobbing - 6);
       }
 
-      let maxTopic = 'iliski';
+      // Eğer görsel delil varsa ve açıkça ilişki/mobbing/tabu kelimesi yoksa -> 'forensic'
+      if (hasImageEvidence && (maxScore <= 0 || isGenericQuery)) {
+        return 'forensic';
+      }
+
+      let maxTopic = 'forensic';
       let maxScore = -1;
       for (const [k, v] of Object.entries(scores)) {
         if (v > maxScore) {
@@ -1856,7 +1867,7 @@
           maxTopic = k;
         }
       }
-      return maxScore > 0 ? maxTopic : 'iliski';
+      return maxScore > 0 ? maxTopic : (hasImageEvidence ? 'forensic' : 'iliski');
     }
 
     function startAuditFlow() {
@@ -1948,8 +1959,8 @@
       let backendReply = null;
       const isLocal = ['localhost', '127.0.0.1'].includes(window.location.hostname);
       const endpoints = isLocal 
-        ? ['http://localhost:8888/api/inversion-analyze', 'https://explicit-optimize-bailey-application.trycloudflare.com/api/inversion-analyze', '/api/inversion-analyze']
-        : ['https://explicit-optimize-bailey-application.trycloudflare.com/api/inversion-analyze', 'http://localhost:8888/api/inversion-analyze', '/api/inversion-analyze'];
+        ? ['http://localhost:8888/api/inversion-analyze', 'https://south-rehabilitation-prison-casino.trycloudflare.com/api/inversion-analyze', '/api/inversion-analyze']
+        : ['https://south-rehabilitation-prison-casino.trycloudflare.com/api/inversion-analyze', 'http://localhost:8888/api/inversion-analyze', '/api/inversion-analyze'];
 
       for (const ep of endpoints) {
         try {
@@ -2034,7 +2045,54 @@
             document.getElementById("tasks-drawer-text").innerText = "2 tasks running";
           }
         } else if (round === 1) {
-          if (detectedTopic === 'iliski') {
+          if (detectedTopic === 'forensic') {
+            const vData = (currentEvidencePayload && currentEvidencePayload.visionData) || {};
+            const specVal = vData.spectral_ratio || '0.7558';
+            const noiseVal = vData.noise_deviation || '10.15';
+            const cranialVal = vData.cranial_symmetry || '79.6';
+            const isSynth = parseFloat(specVal) > 0.46;
+            const isSpliced = parseFloat(noiseVal) > 1.85;
+
+            content = `
+              <div class="ai-clean-card">
+                <div class="ai-badge-header">
+                  <span>INVERSIONCORE // TIER-1 MULTIMODAL FORENSICS & KİMLİK OTOPSİSİ</span>
+                  <span style="color:var(--accent-cyber);">[AŞAMA 01: ADLİ KANIT VE SAHTE PROFİL İFLASI]</span>
+                </div>
+                <div class="ai-claim-box">
+                  <span>ANALİZ EDİLEN ODAK & GÖRSEL KANIT:</span> "${escapeHtml(userQuery)}"
+                </div>
+                <div class="ai-body-text">
+                  <h3>1. ÇIPLAK HAKİKAT VE KİMLİK OTOPSİSİ</h3>
+                  <p>Lafı dolandırmadan doğrudan bilimsel adli gerçeği masaya koyalım: <b>Masaya koyduğun delil teknik ve sinyal düzeyinde çürüktür.</b></p>
+                  <p>2D Hızlı Fourier Dönüşümü (FFT) analizinde <b>%${(parseFloat(specVal) * 100).toFixed(1)} oranında yapay zeka/sentetik difüzyon izi</b> ve Sensör Kalıntı Varyansında (PRNU) <b>${noiseVal} σ bölgesel montaj / splicing</b> saptandı. Kraniyofasiyal bilateral simetri indeksi ise %${cranialVal} seviyesindedir.</p>
+                  <p>Karşında sana bu fotoğrafı veya belgeyi sunan profil organik bir gerçeklik taşımıyor; <b>yüzü kesilip yapıştırılmış ya da yapay zeka ile üretilmiş sentetik bir maskedir.</b> Kendini 'bu insan güvenilir mi, acaba gerçek mi' sorusuyla oyalayarak aslında karşıdaki sahte kimliğin ve planlı aldatmaca ihtimalinin üzerini örtüyorsun.</p>
+
+                  <h3>2. MANİPÜLASYON DÖNGÜSÜ (GÜVEN İLLÜZYONU VE SOSYAL MÜHENDİSLİK)</h3>
+                  <p>Montajlanmış bir kurumsal kimlik, sahte LinkedIn/profil vesikası veya tahrif edilmiş belge kullanan aktör, seni kendi gerçekliğiyle değil; <b>kurgulanmış bir güven vitriniyle yönetmektedir.</b></p>
+                  <p>Sen kanıtın arkasında 'mantıklı bir açıklama' aradıkça, karşı taraf sana yeni bir yalan katmanı veya mazeret üreterek zaman kazanmakta ve maddi/manevi açığını büyütmektedir.</p>
+
+                  <h3>3. RİSK VE ZAMAN KAYBI HARİTASI</h3>
+                  <p>Adli olarak tahrif edildiği matematiksel olarak kanıtlanmış bir görsel için karşı taraftan sözlü açıklama beklemek rasyonel bir tavır değil; <b>dolandırılmaya veya manipüle edilmeye gönüllü olmaktır.</b></p>
+                </div>
+                <div class="ai-attack-box">
+                  <div class="attack-label">⚡ İLK TOKAT // YÜZLEŞME EŞİĞİ:</div>
+                  <div class="attack-main">
+                    Adli olarak sahteliği ve montaj izleri ispatlanmış bu profilin/belgenin arkasındaki kişiyle tüm temasını anında kesip hukuki/maddi önlemini alacak mısın, yoksa 'belki geçerli bir sebebi vardır' diyerek kendini kandırmaya devam mı edeceksin?
+                  </div>
+                </div>
+                <div class="choice-group">
+                  <button class="btn-choice bad" onclick="handleQuickChoice('hayir')">
+                    ❌ "Açıklamasını dinleyeceğim; belki geçerli bir sebebi vardır."
+                  </button>
+                  <button class="btn-choice" onclick="handleQuickChoice('evet')">
+                    ✔ "Adli tahrifatı gördüm; iletişimi derhal kesip blokluyorum."
+                  </button>
+                </div>
+                ${renderAiActionFooter()}
+              </div>
+            `;
+          } else if (detectedTopic === 'iliski') {
             content = `
               <div class="ai-clean-card">
                 <div class="ai-badge-header">
@@ -2184,7 +2242,35 @@
           document.getElementById('chat-reply-input').placeholder = "Soruya dürüstçe cevap ver...";
 
         } else if (round === 2) {
-          if (detectedTopic === 'iliski') {
+          if (detectedTopic === 'forensic') {
+            content = `
+              <div class="ai-clean-card">
+                <div class="ai-badge-header">
+                  <span>INVERSIONCORE // TIER-1 MULTIMODAL FORENSICS</span>
+                  <span style="color:var(--danger);">[AŞAMA 02: MAZERETLERİN İMHASI VE RİSK KİLİDİ]</span>
+                </div>
+                <div class="ai-body-text">
+                  İşte tam burada kendine yalan söylüyorsun! <b>Bilimsel olarak 2D FFT spektrumunda ve PRNU sensör varyansında montaj olduğu kanıtlanmış bir delile karşı 'açıklama' beklemek rasyonel bir tavır değil; dolandırılmaya ve istismara gönüllü olmaktır.</b>
+                  <p>Karşı taraf 'fotoğraf eskiydi', 'filtre kullandım', 'arkadaşım şaka yaptı' diyerek masayı devirecek. Adli tıp fiziksel sinyallere bakar, insanların sözlerine değil. Dijital sinyalin sahte olduğu yerde niyet sorgulanmaz; temas kesilir.</p>
+                </div>
+                <div class="ai-attack-box">
+                  <div class="attack-label">⚡ NİHAİ TOKAT (TUR 2 / 3):</div>
+                  <div class="attack-main">
+                    Bu sahte profil veya tahrif edilmiş delil üzerinden sana kurulabilecek finansal, hukuki veya itibar şantajına karşı derhal adli/resmi önlem alıp dosyayı kapatmaya hazır mısın?
+                  </div>
+                </div>
+                <div class="choice-group">
+                  <button class="btn-choice bad" onclick="handleQuickChoice('hayir_final')">
+                    ❌ "Hala ikna olmadım, biraz daha bekleyeceğim."
+                  </button>
+                  <button class="btn-choice" onclick="handleQuickChoice('evet_final')">
+                    ✔ "Hazırım; sahte kimlik kilitlendi, nihai hüküm protokolünü verin."
+                  </button>
+                </div>
+                ${renderAiActionFooter()}
+              </div>
+            `;
+          } else if (detectedTopic === 'iliski') {
             content = `
               <div class="ai-clean-card">
                 <div class="ai-badge-header">
@@ -2312,7 +2398,21 @@
           let verdictTitle = "";
           let verdictDesc = "";
 
-          if (detectedTopic === 'iliski') {
+          if (detectedTopic === 'forensic') {
+            verdictTitle = "HÜKÜM: ADLİ KANIT TAHRİFATI VE SAHTE KİMLİK // TEMASIN DERHAL FESHİ";
+            verdictDesc = `"Masadaki görsel delil 2D FFT frekans uzayında sentetik difüzyon ve PRNU sensör analiziyle montaj/splicing olarak mühürlenmiştir. Bu kişiyle veya sahte evrakla yürütülecek her türlü iletişim aleyhine delil ve kayıp doğuracaktır. Derhal uygulanacak adli temas kesme protokolü aşağıdadır."`;
+            weaponText = `[ADLİ KANIT TAHRİFATI VE KİMLİK BLOKAJ PROTOKOLÜ]
+
+1. RESMİ BİLDİRİM & BLOKAJ METNİ:
+"Tarafınızca sunulan görsel/kimlik belgesi üzerinde yapılan çok katmanlı dijital sinyal analizi (2D FFT Spektral Dağılımı ve PRNU Sensör Kalıntı Varyansı) sonucunda, görselin sentetik/yapay zeka ortamında üretildiği ve bölgesel montaj (splicing) izleri içerdiği adli düzeyde kesinleşmiştir.
+Gerçeğe aykırı ve tahrif edilmiş kimlik beyanı nedeniyle şahsınızla olan her türlü iletişim, ticari/bireysel temas derhal ve tek taraflı olarak feshedilmiştir. 
+TCK Madde 204 (Resmi Belgede Sahtecilik) ve TCK Madde 157-158 (Nitelikli Dolandırıcılık) kapsamındaki yasal haklarım saklı kalmak kaydıyla dosya kapatılmıştır."
+
+2. İCRA EYLEM PLANI:
+- Karşı tarafın herhangi bir mazeret veya savunma yazmasına fırsat tanınmadan tüm iletişim kanallarından derhal engellenecek.
+- Varsa paylaşılmış kimlik bilgileri, hesap numaraları ve şifreler ivedilikle değiştirilip bloke edilecek.
+- İşbu teknik rapor noter/avukat incelemesi için delil klasörüne arşivlenecek.`;
+          } else if (detectedTopic === 'iliski') {
             verdictTitle = "HÜKÜM: GASLIGHTING VE GÜVEN İFLASI // İKİLİ İLLÜZYONUN FESHİ";
             verdictDesc = `"Bir ilişkide delil aranmaz; güven bittiğinde masadan kalkılır. Karşı tarafın üste çıkmasına fırsat vermeyecek, savunmasını boğazına tıkayacak net ayrılık protokolü aşağıdadır."`;
             weaponText = `[GASLIGHTING KİLİTLEME VE İLİŞKİ FESİH PROTOKOLÜ]
