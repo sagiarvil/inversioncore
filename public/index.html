@@ -892,6 +892,7 @@
       if (scrollArea) {
         scrollArea.scrollTop = 0;
       }
+      window.scrollTo(0, 0);
       const dockedBar = document.getElementById('docked-bar');
       if (dockedBar) dockedBar.style.display = 'block';
       const btnReset = document.getElementById('btn-header-reset');
@@ -1419,6 +1420,7 @@
       if (scrollArea) {
         scrollArea.scrollTop = 0;
       }
+      window.scrollTo(0, 0);
       const dockedBar = document.getElementById('docked-bar');
       if (dockedBar) dockedBar.style.display = 'block';
       const btnReset = document.getElementById('btn-header-reset');
@@ -2093,12 +2095,9 @@ Aksi takdirde İş Kanunu Madde 24/II uyarınca haklı fesih hakkımı kullanara
       area.scrollTop = area.scrollHeight;
       if (typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function') {
         window.requestAnimationFrame(() => {
-          if (area.scrollTo) area.scrollTo({ top: area.scrollHeight + 500, behavior: 'smooth' });
+          area.scrollTop = area.scrollHeight;
         });
       }
-      setTimeout(() => {
-        area.scrollTop = area.scrollHeight;
-      }, 150);
     }
 
     function resetToHome() {
