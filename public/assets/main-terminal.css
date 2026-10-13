@@ -1513,3 +1513,89 @@
       color: #000;
       box-shadow: 0 0 12px rgba(0, 212, 255, 0.4);
     }
+
+    /* ------------------- CHAT KUTUSU İÇİ SOMUT VERİ REHBERİ (İNCE, ZARİF, TİPOGRAFİK) ------------------- */
+    .input-embedded-guide {
+      background: rgba(14, 17, 28, 0.95);
+      border: 1px solid rgba(0, 212, 255, 0.25);
+      border-left: 3px solid var(--accent-cyber);
+      border-radius: 8px;
+      padding: 0.65rem 0.85rem;
+      margin-bottom: 0.65rem;
+      text-align: left;
+      animation: fadeInGuide 0.2s ease-out;
+    }
+
+    @keyframes fadeInGuide {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .input-guide-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.35rem;
+      flex-wrap: wrap;
+    }
+
+    .input-guide-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--accent-cyber);
+      letter-spacing: 0.08em;
+    }
+
+    .input-guide-subtitle {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #f59e0b;
+      flex: 1;
+    }
+
+    .input-guide-close-btn {
+      background: transparent;
+      border: none;
+      color: #64748b;
+      font-size: 13px;
+      cursor: pointer;
+      padding: 0 4px;
+      line-height: 1;
+      transition: color 0.15s;
+    }
+    .input-guide-close-btn:hover {
+      color: #fff;
+    }
+
+    .input-guide-title {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    .input-guide-bullets {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 0.45rem;
+    }
+
+    .input-guide-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 4px;
+      padding: 0.45rem 0.6rem;
+      font-size: 11.5px;
+      color: #94a3b8;
+      line-height: 1.4;
+      font-family: var(--font-sans);
+    }
+
+    .input-guide-item b {
+      color: #00d4ff;
+      font-weight: 600;
+    }

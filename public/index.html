@@ -179,10 +179,29 @@
             Kibirli miyiz? <b>Sonuna kadar.</b> Çünkü etrafındaki herkesin sana <i>"harika fikir"</i> dediği yerde, milyonluk hatanı cebinden ödemeden önce o zayıf varsayımını parçalayacak tek filtresiz akıl burasıdır.
           </p>
 
+          <!-- Hızlı Konu Seçimi: Giriş Kutusunun Hemen Üstünde -->
+          <div class="chips-group" style="margin-bottom: 0.85rem;">
+            <button class="chip-btn" id="chip-btn-1" onclick="selectTopicPreset(1)">🔥 Ofis İçi Mobbing & Ast-Üst Savaşı</button>
+            <button class="chip-btn" id="chip-btn-2" onclick="selectTopicPreset(2)">🩸 Aldatma Şüphesi & İlişki Çıkmazı</button>
+            <button class="chip-btn" id="chip-btn-3" onclick="selectTopicPreset(3)">⚡ Konuşulamayan Tabular & İtiraflar</button>
+            <button class="chip-btn" id="chip-btn-4" onclick="selectTopicPreset(4)">💀 Varoluşsal Bıkkınlık & Yaşam İflası</button>
+          </div>
+
           <!-- 360° KAYARAK DÖNEN İNCE NEON ÇİZGİSİ OLAN GİRİŞ KUTUSU (HOME'DA MERKEZDE) -->
           <div class="laser-border-box" id="home-laser-box">
             <div class="laser-inner-dock">
               <div id="home-evidence-chip" class="evidence-preview-chip" style="display:none;"></div>
+
+              <!-- SEÇİLEN KONU İÇİN CHAT KUTUSU İÇİ SOMUT VERİ İPUÇLARI (İNCE & NET) -->
+              <div id="input-topic-guide-card" class="input-embedded-guide" style="display:none;">
+                <div class="input-guide-header">
+                  <span id="input-guide-badge" class="input-guide-badge">// ZORUNLU SOMUT VERİ REHBERİ</span>
+                  <span class="input-guide-subtitle">⚠️ Sıradan cevap almamak için durumunuzu yazarken şu 4 noktayı ekleyin:</span>
+                  <button type="button" class="input-guide-close-btn" onclick="closeTopicGuidance()" title="Rehberi Kapat">✕</button>
+                </div>
+                <div id="input-guide-title" class="input-guide-title"></div>
+                <div id="input-guide-bullets" class="input-guide-bullets"></div>
+              </div>
               <textarea 
                 id="home-prompt-input" 
                 class="chatgpt-auto-input" 
@@ -293,30 +312,7 @@
             </button>
           </div>
 
-          <!-- Hızlı Seçim Çipleri (İnsan & Tabular & Hayat) -->
-          <div class="chips-group">
-            <button class="chip-btn" id="chip-btn-1" onclick="selectTopicPreset(1)">🔥 Ofis İçi Mobbing & Ast-Üst Savaşı</button>
-            <button class="chip-btn" id="chip-btn-2" onclick="selectTopicPreset(2)">🩸 Aldatma Şüphesi & İlişki Çıkmazı</button>
-            <button class="chip-btn" id="chip-btn-3" onclick="selectTopicPreset(3)">⚡ Konuşulamayan Tabular & İtiraflar</button>
-            <button class="chip-btn" id="chip-btn-4" onclick="selectTopicPreset(4)">💀 Varoluşsal Bıkkınlık & Yaşam İflası</button>
-          </div>
-
-          <!-- KİŞİYE ÖZEL & SOMUT ANALİZ İÇİN ZORUNLU VERİ REHBERİ (DİNAMİK KART) -->
-          <div id="topic-guidance-dock" class="topic-guidance-card" style="display:none; width:100%; max-width:820px; margin:1rem auto 0.5rem auto; text-align:left;">
-            <div class="guidance-header">
-              <span class="guidance-badge" id="guidance-badge">// DERİN ANALİZ REHBERİ</span>
-              <span style="font-family:var(--font-mono); font-size:11px; color:#f59e0b;">⚠️ Sıradan ve yüzeysel cevap almamak için şu somut detayları metninize ekleyin:</span>
-              <button type="button" class="btn-guidance-close" onclick="closeTopicGuidance()" title="Kapat">✕</button>
-            </div>
-            <div class="guidance-title" id="guidance-title">Konu Başlığı</div>
-            <div class="guidance-checklist" id="guidance-checklist">
-              <!-- JS ile dinamik doldurulur -->
-            </div>
-            <div class="guidance-actions">
-              <span class="guidance-hint">💡 Bu maddeler metninizde ne kadar somut olursa, motor o kadar cerrahi ve kişiye özel tokat/reçete üretir.</span>
-              <button type="button" class="btn-guidance-fill" onclick="applyGuidanceTemplate()">Taslağı Giriş Kutusuna Aktar ➔</button>
-            </div>
-          </div>
+          
 
           <!-- ==================== EDİTORYAL DERİN BİLGİ & MANİFESTO BLOKLARI ==================== -->
           <div class="editorial-scroll-container" style="width:100%; max-width:860px; margin:3.5rem auto 2rem auto; text-align:left;">
@@ -1291,6 +1287,7 @@
           "<b>3. Hukuki & Mali Boyut:</b> Çalışma süreniz ne kadar (kıdem)? Maaşınız gerçek bordroda mı gösteriliyor? İstifa baskısı var mı?",
           "<b>4. Psikolojik Taktik:</b> Toplantılardan dışlama, lakap takma, yetki gaspı veya performans düşüklüğü yaftası mı uygulanıyor?"
         ],
+        placeholder: "Örn: 3 yıllık kıdemliyim, müdürüm toplantılardan dışlıyor ve yazılı delilim yok... (Aşağıdaki maddeleri dahil ederek yazın)",
         template: "Şirketteki pozisyonum: [Pozisyonunuz / Kıdem süreniz]\nMobbing uygulayan: [Doğrudan müdür / İK]\nSomut baskı yöntemi: [Toplantıdan dışlama / Yetki gaspı / Aşağılama]\nYazılı delil / şahit durumu: [Var / Yok]\nAsıl korkum / amacım: [Tazminatımı alıp haklı fesih yapmak / Arabuluculuk]\nDetaylar: "
       },
       2: {
@@ -1302,6 +1299,7 @@
           "<b>3. Bağımlılık Asimetrisi:</b> Evli misiniz? Ortak çocuk, borç veya aynı ev mi var? Neden ayrılamıyorsun (maddi mi, duygusal mı)?",
           "<b>4. Kırmızı Çizgi:</b> Bu ilişkide yüzleşip bitirmeye gerçekten hazır mısın, yoksa sadece kendini kandıracak bir teselli mi arıyorsun?"
         ],
+        placeholder: "Örn: 2 yıllık evliyiz, telefonunu benden kaçırıyor ve sorunca beni suçluyor... (Aşağıdaki maddeleri dahil ederek yazın)",
         template: "İlişki durumu ve süresi: [Evli / Sevgili / Ortak ev]\nSomut şüphe kaynağı: [Telefon saklama / Yalan beyan / Değişen davranış]\nKarşı tarafın savunma refleksi: [Beni suçluyor / Üste çıkıyor / Sessiz kalıyor]\nBeni orada tutan asıl kilit: [Duygusal bağımlılık / Maddi mecburiyet / Çocuk]\nDetaylar: "
       },
       3: {
@@ -1313,6 +1311,7 @@
           "<b>3. Şantaj ve İtibar Tehdidi:</b> Bu sır açığa çıkarsa işini, aileni veya özgürlüğünü kaybetme tehlikesi var mı?",
           "<b>4. Asıl Çıkmaz:</b> Suçluluk krizinde misin, yoksa bu arzuyu hayatını mahvetmeden nasıl yöneteceğini mi bilmiyorsun?"
         ],
+        placeholder: "Örn: Kimseye anlatamadığım bir ilişki/sır var, açığa çıkarsa ailem yıkılır... (Aşağıdaki maddeleri dahil ederek yazın)",
         template: "Bastırdığım konunun özü: [Fantezi / Yasak ilişki / Gizli borç / Sır]\nBu durumun hayatıma somut riski: [Şantaj tehdidi / Ailevi çöküş / Sadece zihinsel suçluluk]\nKimler biliyor: [Sadece ben / Karşı taraf]\nAsıl çözmek istediğim kilit: [Suçluluktan kurtulmak / Risk analizi]\nDetaylar: "
       },
       4: {
@@ -1324,6 +1323,7 @@
           "<b>3. Asalak Yükler:</b> Seni enerjisiz bırakan şey hedefsizlik mi, yoksa taşımak zorunda olmadığın ailevi/sosyal yükler mi?",
           "<b>4. En Son Radikal Karar:</b> En son ne zaman sadece kendin için, başkalarının ne diyeceğini umursamadan bir karar aldın?"
         ],
+        placeholder: "Örn: 30 yaşındayım, kimseye hayır diyemiyorum, günde 12 saat ekrandayım... (Aşağıdaki maddeleri dahil ederek yazın)",
         template: "Mevcut durumum ve yaşım: [Yaş / Meslek / Günlük rutin]\nBeni tüketen ana yük: [Kimseye hayır diyememek / Anlamsızlık / Onay bağımlılığı]\nBiyolojik durumum: [Uykusuzluk / Ekran bağımlılığı / Hareketsizlik]\nNeyi değiştirmeye cesaretim yok: [İşi bırakmak / Çevreyi elemek / Yalnız kalmak]\nDetaylar: "
       }
     };
@@ -1351,38 +1351,42 @@
         }
       });
 
-      // Rehber kartını doldur ve aç
-      const dock = document.getElementById('topic-guidance-dock');
-      const badge = document.getElementById('guidance-badge');
-      const title = document.getElementById('guidance-title');
-      const list = document.getElementById('guidance-checklist');
+      // Chat kutusu içindeki ince rehber panelini doldur ve görünür yap
+      const card = document.getElementById('input-topic-guide-card');
+      const badge = document.getElementById('input-guide-badge');
+      const title = document.getElementById('input-guide-title');
+      const bullets = document.getElementById('input-guide-bullets');
 
-      if (dock && badge && title && list) {
+      if (card && badge && title && bullets) {
         badge.innerText = guide.badge;
         title.innerText = guide.title;
-        list.innerHTML = guide.items.map(item => '<div class="guidance-item">' + item + '</div>').join('');
-        dock.style.display = 'block';
+        bullets.innerHTML = guide.items.map(item => '<div class="input-guide-item">' + item + '</div>').join('');
+        card.style.display = 'block';
       }
 
-      // Input kutusuna odaklan ve placeholder'ı güncelle
+      // Input kutusuna odaklan
       const input = document.getElementById('home-prompt-input');
       if (input) {
-        input.placeholder = "Yukarıdaki rehber maddelerini dikkate alarak durumunuzu detaylandırın (Ne kadar somut veri, o kadar cerrahi otopsi)...";
+        input.placeholder = guide.placeholder || "Yukarıdaki 4 soruyu dikkate alarak durumunuzu yazın (Ne kadar somut veri, o kadar cerrahi otopsi)...";
         input.focus();
       }
     }
 
-    function applyGuidanceTemplate() {
-      if (!activeSelectedTopicId || !TOPIC_GUIDES[activeSelectedTopicId]) return;
-      const guide = TOPIC_GUIDES[activeSelectedTopicId];
+    function closeTopicGuidance() {
+      const card = document.getElementById('input-topic-guide-card');
+      if (card) card.style.display = 'none';
+      [1, 2, 3, 4].forEach(i => {
+        const btn = document.getElementById('chip-btn-' + i);
+        if (btn) {
+          btn.style.borderColor = 'var(--border)';
+          btn.style.color = '#9ea4bc';
+          btn.style.background = '#111420';
+        }
+      });
+      activeSelectedTopicId = null;
       const input = document.getElementById('home-prompt-input');
       if (input) {
-        input.value = guide.template;
-        autoGrow(input);
-        input.focus();
-        // İmleci sona al
-        input.setSelectionRange(input.value.length, input.value.length);
-        showToast("Taslak yüklendi! Lütfen köşeli parantez içlerini kendi durumunuza göre doldurun.");
+        input.placeholder = "Bugün hangi kararı veya şüphenizi masaya yatırmak istiyorsunuz? (Yazın, stres testine sokalım...)";
       }
     }
 
