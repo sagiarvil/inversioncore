@@ -65,7 +65,7 @@ class AnalyzeRequest(BaseModel):
 async def health_check():
     return {
         "status": "healthy",
-        "engine": "MLX Qwen2.5-14B Abliterated",
+        "engine": "InversionCore Neural Engine",
         "architecture": "Single-Pass Fast Engine with SQLite WAL Memory",
         "timestamp": time.time()
     }
