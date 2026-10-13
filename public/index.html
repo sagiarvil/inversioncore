@@ -189,10 +189,16 @@
       flex: 1;
       height: 100%;
       overflow-y: auto;
-      padding: 0.5rem 1rem 140px 1rem;
+      padding: 1rem 1rem 240px 1rem;
       scroll-behavior: smooth;
       display: flex;
       flex-direction: column;
+    }
+
+    /* Chat modunda alt çubuğun içeriği örtmesini engellemek için geniş güvenli alan */
+    .app-viewport.chat-mode .messages-scroll-area {
+      padding-bottom: 260px !important;
+      overflow-y: auto !important;
     }
 
     /* Ana ekranda taşmayı kesinlikle sıfırla */
@@ -209,7 +215,11 @@
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
-      height: 100%;
+    }
+
+    .app-viewport.chat-mode .conversation-column {
+      height: auto !important;
+      min-height: 100%;
     }
 
     .app-viewport:not(.chat-mode) .conversation-column {
@@ -1523,11 +1533,19 @@
       s = s.replace(/^\s*[-*]\s+([^\n]+)/gm, '<li>$1</li>');
       s = s.replace(/(<li>[\s\S]*?<\/li>)/g, '<ul>$1</ul>');
       s = s.replace(/<\/ul>\s*<ul>/g, '');
+
+      // Özel Inversion Etiket Kartları
+      s = s.replace(/\[TOKAT\]:?\s*([^\n]+)/g, '<div class="ai-attack-box" style="margin:0.8rem 0; border-left:3px solid var(--danger);"><div class="attack-label">⚡ TOKAT // ACI GERÇEK</div><div class="attack-main">$1</div></div>');
+      s = s.replace(/\[DEŞME\]:?\s*([\s\S]*?)(?=\[(?:YÜZLEŞME|DELİL|AKSİYON)|$)/g, '<div class="ai-claim-box" style="margin:0.8rem 0; border-left:3px solid var(--accent-cyber);"><span style="color:var(--accent-cyber);">🔍 PSİKOLOJİK & STRATEJİK DEŞME:</span> $1</div>');
+      s = s.replace(/\[DELİL & RİSK HARİTASI\]:?\s*([\s\S]*?)(?=\[(?:YÜZLEŞME|AKSİYON)|$)/g, '<div class="ai-claim-box" style="margin:0.8rem 0; border-left:3px solid var(--warning);"><span style="color:var(--warning);">⚠️ DELİL VE RİSK HARİTASI:</span> $1</div>');
+      s = s.replace(/\[(?:YÜZLEŞME SORUSU|YÜZLEŞME EŞİĞİ)\]:?\s*([\s\S]*?)(?=\[AKSİYON|$)/g, '<div class="ai-attack-box" style="margin:0.8rem 0; border-left:3px solid var(--accent);"><div class="attack-label" style="color:var(--accent);">🎯 YÜZLEŞME EŞİĞİ</div><div class="attack-main">$1</div></div>');
+      s = s.replace(/\[(?:AKSİYON SİLAHI|AKSİYON SİLAHI \/\/ UYGULANACAK PROTOKOL)\]:?\s*([\s\S]*?)$/g, '<div class="weapon-box" style="margin:1rem 0;"><div class="weapon-top"><span style="color:var(--accent-cyber);">⚡ DOĞRUDAN AKSİYON SİLAHI / PROTOKOL</span><button onclick="copyWeaponText()" style="background:var(--accent-cyber); color:#000; border:none; padding:0.2rem 0.6rem; font-family:var(--font-mono); font-size:0.68rem; font-weight:700; cursor:pointer; border-radius:4px;">KOPYALA</button></div><pre class="weapon-pre" style="font-size:12.5px; color:#f1f5f9; white-space:pre-wrap;">$1</pre></div>');
+
       const paragraphs = s.split('\n\n');
       const formatted = paragraphs.map(p => {
         const trimmed = p.trim();
         if (!trimmed) return '';
-        if (trimmed.startsWith('<h') || trimmed.startsWith('<pre') || trimmed.startsWith('<ul') || trimmed.startsWith('<div class="chk-row"')) {
+        if (trimmed.startsWith('<h') || trimmed.startsWith('<pre') || trimmed.startsWith('<ul') || trimmed.startsWith('<div')) {
           return trimmed;
         }
         return '<p>' + trimmed.replace(/\n/g, '<br>') + '</p>';
@@ -1757,8 +1775,8 @@
       let backendReply = null;
       const isLocal = ['localhost', '127.0.0.1'].includes(window.location.hostname);
       const endpoints = isLocal 
-        ? ['http://localhost:8888/api/inversion-analyze', 'https://gst-toxic-uploaded-weekly.trycloudflare.com/api/inversion-analyze', '/api/inversion-analyze']
-        : ['https://gst-toxic-uploaded-weekly.trycloudflare.com/api/inversion-analyze', 'http://localhost:8888/api/inversion-analyze', '/api/inversion-analyze'];
+        ? ['http://localhost:8888/api/inversion-analyze', 'https://explicit-optimize-bailey-application.trycloudflare.com/api/inversion-analyze', '/api/inversion-analyze']
+        : ['https://explicit-optimize-bailey-application.trycloudflare.com/api/inversion-analyze', 'http://localhost:8888/api/inversion-analyze', '/api/inversion-analyze'];
 
       for (const ep of endpoints) {
         try {
@@ -2215,7 +2233,11 @@ Aksi takdirde İş Kanunu Madde 24/II uyarınca haklı fesih hakkımı kullanara
 
     function scrollToBottom() {
       const area = document.getElementById('scroll-area');
-      area.scrollTo({ top: area.scrollHeight, behavior: 'smooth' });
+      if (!area) return;
+      area.scrollTo({ top: area.scrollHeight + 500, behavior: 'smooth' });
+      setTimeout(() => {
+        area.scrollTo({ top: area.scrollHeight + 500, behavior: 'smooth' });
+      }, 150);
     }
 
     function resetToHome() {
