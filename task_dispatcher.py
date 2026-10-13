@@ -7,6 +7,7 @@ from pydantic import BaseModel
 class EngineRoute(str, Enum):
     BEHAVIORAL_TRIANGULATION = "behavioral_triangulation"  # 2-3 Görsel: Karakter, Big Five, Maske Makası
     DOCUMENT_FORENSICS       = "document_forensics"        # 1 Görsel/Belge: 2D FFT, PRNU, Sahtecilik
+    FINANCIAL_PHYSICS        = "financial_physics"         # Metin/Sayı: Rust & Python Diferansiyel İflas, Fat-Tail, FTA
     WORKPLACE_LEGAL_MOBBING  = "workplace_legal_mobbing"   # Metin: İş Kanunu 24, TBK 417, Mobbing İhtarı
     RELATIONAL_GASLIGHTING   = "relational_gaslighting"    # Metin: Aldatma, DARVO, İlişki Feshi
     COGNITIVE_RED_TEAM       = "cognitive_red_team"        # Genel Karar Otopsisi / Pre-Mortem
@@ -17,6 +18,10 @@ class DispatcherDecision(BaseModel):
     reasoning: str
 
 class TaskDispatcher:
+    FINANCIAL_KEYS = [
+        "nakit", "sermaye", "bütçe", "kira", "gider", "maliyet", "gelir", "para", "borç",
+        "yatırım", "runway", "iflas", "zarar", "kar", "faiz", "kredi", "dolar", "tl", "euro"
+    ]
     MOBBING_KEYS = [
         "patron", "müdür", "istifa", "tazminat", "maaş", "şirket", "ofis", 
         "amir", "mobbing", "ik", "işveren", "mesai", "çalışan", "baskı", "tutanak"
@@ -63,6 +68,14 @@ class TaskDispatcher:
             )
 
         # 3. Görselsiz Sadece Metin Girdisi: Anlamsal Yönlendirme
+        # Finansal / Sermaye / Gider rakamları veya anahtarları varsa Rust & Python Fizik Motoru
+        if any(w in q_lower for w in cls.FINANCIAL_KEYS) or re.search(r'[0-9]+.*(?:tl|\$|usd|euro|nakit|kira|sermaye)', q_lower):
+            return DispatcherDecision(
+                selected_route=EngineRoute.FINANCIAL_PHYSICS,
+                target_role="financial_strategist",
+                reasoning="Finansal / Sermaye / Risk dinamikleri tespit edildi. Rust & Python Diferansiyel İflas ve Fat-Tail Motoru devrede."
+            )
+
         if any(w in q_lower for w in cls.MOBBING_KEYS):
             return DispatcherDecision(
                 selected_route=EngineRoute.WORKPLACE_LEGAL_MOBBING,

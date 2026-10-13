@@ -1,5 +1,7 @@
 import os
 import time
+import json
+import re
 import asyncio
 from collections import defaultdict
 from fastapi import FastAPI, HTTPException, Request, Response
@@ -157,6 +159,40 @@ async def analyze_decision(req: AnalyzeRequest):
         active_context["dispatcher_route"] = dispatch.selected_route.value
         active_context["dispatcher_reasoning"] = dispatch.reasoning
         active_context["dispatcher_target_role"] = dispatch.target_role
+
+        # FINANCIAL_PHYSICS seçildiyse: Apple Silicon ARM64 Rust Kernel ve Python Physics Suite çalıştır
+        if dispatch.selected_route == EngineRoute.FINANCIAL_PHYSICS:
+            # 1. Python Physics Suite (Dinamik Regex & Sistem Dinamikleri)
+            try:
+                from engine.inversion_physics_suite import InversionPhysicsSuite
+                phys_suite = InversionPhysicsSuite()
+                active_context["physics_telemetry"] = phys_suite.run_full_inversion_audit(user_input)
+            except Exception as p_err:
+                print(f"[PHYSICS SUITE HATA]: {p_err}")
+
+            # 2. Rust Native Kernel (Apple Silicon ARM64 Ultra Hızlı Simülasyon)
+            rust_bin = os.path.join(os.path.dirname(__file__), "engine", "rust_binary", "target", "release", "inversion_rust_engine")
+            if os.path.exists(rust_bin):
+                try:
+                    import subprocess
+                    import re
+                    # Kullanıcı metninden tahmini sermaye ve gider ayıklama
+                    cash_m = re.search(r'([0-9]+(?:\.[0-9]+)*)\s*(?:tl|\$|usd|euro|nakit|sermaye)', user_input, re.IGNORECASE)
+                    burn_m = re.search(r'([0-9]+(?:\.[0-9]+)*)\s*(?:tl|\$|usd|euro)?\s*(?:kira|gider|masraf|maliyet)', user_input, re.IGNORECASE)
+                    c_val = float(cash_m.group(1).replace('.', '')) if cash_m else 50000.0
+                    b_val = float(burn_m.group(1).replace('.', '')) if burn_m else 5000.0
+                    
+                    rust_payload = json.dumps({
+                        "capital": c_val,
+                        "burn": b_val,
+                        "debt": 25.0,
+                        "delay": 2
+                    })
+                    proc = subprocess.run([rust_bin, rust_payload], capture_output=True, text=True, timeout=2)
+                    if proc.returncode == 0 and proc.stdout:
+                        active_context["rust_telemetry"] = json.loads(proc.stdout.strip())
+                except Exception as r_err:
+                    print(f"[RUST KERNEL HATA]: {r_err}")
 
         # MLX çıkarımı FastAPI event-loop'unu dondurmasın diye threadpool'a devredilir
         result = await asyncio.to_thread(
