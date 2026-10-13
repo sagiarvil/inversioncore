@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nasıl Çalışır? // InversionCore</title>
+  <title>Nasıl Çalışır? & Biz Ne Yaparız? // InversionCore</title>
   <link rel="icon" type="image/png" href="/assets/brand/favicon-32.png">
   <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,15 +14,20 @@
       --bg: #090a0f;
       --bg-panel: #0d0f18;
       --bg-card: #10131e;
+      --bg-card-hover: #141826;
       --accent: #ff4500;
       --accent-hover: #ff5511;
       --accent-glow: rgba(255, 69, 0, 0.45);
       --accent-cyber: #00d4ff;
+      --accent-yellow: #ffb700;
       --border: #1a1e2d;
+      --border-accent: rgba(255, 69, 0, 0.35);
+      --border-cyber: rgba(0, 212, 255, 0.35);
       --text: #f0f2f8;
       --text-muted: #8d92a6;
       --text-dim: #5a6078;
       --danger: #ff2a4b;
+      --success: #10b981;
       --font-display: 'Anton', Impact, 'Arial Black', sans-serif;
       --font-mono: 'Space Mono', Consolas, Monaco, monospace;
       --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -50,7 +55,7 @@
       pointer-events: none;
     }
 
-    /* STANDART HEADER (HER SAYFADA BİREBİR AYNI 64PX ÖLÇEK) */
+    /* STANDART HEADER (64PX) */
     header {
       position: sticky;
       top: 0;
@@ -128,149 +133,393 @@
       text-transform: uppercase;
       border-radius: 4px;
       transition: background 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
     }
     .btn-cta:hover { background: var(--accent-hover); }
 
-    /* ALT SAYFALAR İÇİN STANDART KAPSAYICI VE TİPOGRAFİ */
+    /* KAPSAYICI */
     .container {
-      max-width: 980px;
-      margin: 2.5rem auto 4rem auto;
+      max-width: 1040px;
+      margin: 2.5rem auto 4.5rem auto;
       padding: 0 1.5rem;
     }
 
+    .section-wrap {
+      margin-bottom: 4.5rem;
+      position: relative;
+    }
+
+    /* EYEBROW */
     .eyebrow {
       font-family: var(--font-mono);
-      font-size: 0.72rem;
+      font-size: 0.74rem;
       color: var(--accent);
       letter-spacing: 0.16em;
       text-transform: uppercase;
       margin-bottom: 0.8rem;
-      display: block;
+      display: inline-block;
+      background: rgba(255, 69, 0, 0.08);
+      border: 1px solid rgba(255, 69, 0, 0.25);
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
     }
 
     .hero-h1 {
       font-family: var(--font-display);
-      font-size: clamp(2.3rem, 4.6vw, 3.8rem);
+      font-size: clamp(2.4rem, 4.8vw, 3.9rem);
       text-transform: uppercase;
       color: #fff;
       line-height: 1.05;
-      margin-bottom: 1rem;
+      margin-bottom: 1.2rem;
       letter-spacing: 0.02em;
     }
     .hero-h1 em { color: var(--accent); font-style: normal; }
 
     .hero-p {
-      color: var(--text-muted);
-      font-size: 1.05rem;
-      line-height: 1.6;
-      margin-bottom: 2.5rem;
-      max-width: 740px;
+      color: #dce1ee;
+      font-size: 1.12rem;
+      line-height: 1.68;
+      margin-bottom: 1.8rem;
+      max-width: 860px;
       font-weight: 300;
     }
 
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.4rem;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-      gap: 1.4rem;
-    }
-
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      padding: 1.8rem;
-      border-radius: 8px;
+    /* TERMINAL STATUS BAR */
+    .terminal-status-bar {
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-    }
-
-    .card-num {
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.6rem;
+      background: #08090f;
+      border: 1px solid var(--border);
+      padding: 0.75rem 1.2rem;
+      border-radius: 8px;
       font-family: var(--font-mono);
       font-size: 0.72rem;
-      color: var(--accent);
-      margin-bottom: 0.7rem;
-      text-transform: uppercase;
+      color: #94a3b8;
+      margin-bottom: 2rem;
     }
-
-    .card-h3 {
-      font-family: var(--font-display);
-      font-size: 1.55rem;
-      text-transform: uppercase;
-      color: #fff;
-      margin-bottom: 0.7rem;
-      line-height: 1.15;
-    }
-
-    .card-p {
-      color: var(--text-muted);
-      font-size: 0.92rem;
-      line-height: 1.6;
-      margin-bottom: 1.2rem;
-    }
-
-    .card-link {
-      font-family: var(--font-mono);
-      font-size: 0.74rem;
+    .terminal-pill {
+      color: var(--accent-cyber);
       font-weight: 700;
-      color: var(--accent);
+    }
+    .terminal-sep {
+      color: #334155;
+    }
+
+    .btn-hero-primary {
+      background: linear-gradient(135deg, #ff4500, #ff1a00);
+      color: #000;
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
+      padding: 0.75rem 2rem;
+      border-radius: 6px;
+      box-shadow: 3px 3px 0px #fff;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+    .btn-hero-primary:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 4px 4px 0px #fff;
+      background: #ff5511;
     }
 
-    .quote-box {
-      background: rgba(255, 69, 0, 0.08);
-      border-left: 4px solid var(--accent);
-      padding: 1.5rem 1.8rem;
-      border-radius: 4px;
-      margin-bottom: 2.5rem;
-    }
-
-    .quote-text {
-      font-size: 1.15rem;
-      font-style: italic;
+    /* BÖLÜM 2: KARŞILAŞTIRMA MATRİSİ */
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      text-transform: uppercase;
       color: #fff;
-      line-height: 1.6;
-      margin-bottom: 0.8rem;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.02em;
+    }
+    .section-title em { color: var(--accent); font-style: normal; }
+
+    .matrix-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.8rem;
     }
 
-    .quote-author {
+    .matrix-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2rem;
+      position: relative;
+    }
+    .matrix-card.bad {
+      border-top: 3px solid var(--danger);
+    }
+    .matrix-card.good {
+      border-top: 3px solid var(--success);
+      background: #0b0f1a;
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.08);
+    }
+
+    .matrix-card-title {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .matrix-card.bad .matrix-card-title { color: var(--danger); }
+    .matrix-card.good .matrix-card-title { color: var(--success); }
+
+    .matrix-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.95rem;
+      font-size: 0.95rem;
+      color: #cbd5e1;
+    }
+    .matrix-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      line-height: 1.5;
+    }
+    .matrix-list .icon-cross {
+      color: var(--danger);
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+    .matrix-list .icon-check {
+      color: var(--success);
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    .quote-munger {
+      background: rgba(255, 69, 0, 0.05);
+      border-left: 3px solid var(--accent);
+      padding: 1.2rem 1.6rem;
+      border-radius: 0 6px 6px 0;
+      font-style: italic;
+      color: #f1f5f9;
+      font-size: 1.05rem;
+      margin-top: 1rem;
+    }
+    .quote-munger span {
+      display: block;
+      margin-top: 0.4rem;
+      font-style: normal;
       font-family: var(--font-mono);
       font-size: 0.78rem;
       color: var(--accent);
     }
 
-    .content-box {
+    /* BÖLÜM 3: 3 TURLU PROTOKOL (TIMELINE) */
+    .timeline-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+
+    .timeline-step {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      padding: 2.2rem;
-      border-radius: 8px;
-      margin-bottom: 2rem;
+      border-radius: 10px;
+      padding: 1.8rem 2rem;
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 1.5rem;
+      transition: border-color 0.15s;
     }
-    .content-box h2 {
+    .timeline-step:hover {
+      border-color: var(--border-accent);
+    }
+
+    .step-badge {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .step-badge .step-num {
       font-family: var(--font-display);
-      font-size: 1.6rem;
+      font-size: 2.2rem;
+      line-height: 1;
+      color: #fff;
+    }
+
+    .step-content h3 {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
       text-transform: uppercase;
       color: #fff;
-      margin: 1.6rem 0 0.8rem 0;
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.02em;
     }
-    .content-box h2:first-child { margin-top: 0; }
-    .content-box p { color: #d0d4e4; font-size: 0.98rem; margin-bottom: 1.2rem; line-height: 1.65; }
-    .content-box ul { margin-left: 1.5rem; color: #d0d4e4; margin-bottom: 1.5rem; }
-    .content-box li { margin-bottom: 0.5rem; }
+    .step-desc-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      font-size: 0.94rem;
+      color: #cbd5e1;
+      line-height: 1.55;
+    }
+    .step-desc-row b {
+      color: #fff;
+    }
+    .step-rule {
+      margin-top: 0.6rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--accent-yellow);
+      background: rgba(255, 183, 0, 0.08);
+      border-left: 2px solid var(--accent-yellow);
+      padding: 0.35rem 0.65rem;
+    }
 
-    .stamp-box {
-      border: 2px dashed var(--accent);
-      background: rgba(255, 69, 0, 0.05);
+    /* BÖLÜM 4: 5 MÜDAHALE ALANI */
+    .grid-5 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 1.3rem;
+    }
+    .card-5 {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.6rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.15s;
+    }
+    .card-5:hover {
+      border-color: var(--accent);
+      background: var(--bg-card-hover);
+    }
+    .card-5-indicator {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--accent-cyber);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+      text-transform: uppercase;
+    }
+    .card-5-title {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 0.6rem;
+      line-height: 1.2;
+    }
+    .card-5-desc {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    /* BÖLÜM 5: ADLİ GÖRSEL VE KANIT DOĞRULAMA */
+    .forensic-hero-box {
+      background: #06070e;
+      border: 1px solid var(--border-cyber);
+      border-radius: 12px;
+      padding: 2.2rem;
+      box-shadow: 0 0 40px rgba(0, 212, 255, 0.08);
+      position: relative;
+      overflow: hidden;
+    }
+    .forensic-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.3rem;
+      margin-top: 1.8rem;
+    }
+    .forensic-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 8px;
       padding: 1.4rem;
-      margin: 1.8rem 0;
+    }
+    .forensic-card h4 {
       font-family: var(--font-mono);
       font-size: 0.85rem;
+      color: var(--accent-cyber);
+      margin-bottom: 0.55rem;
+      font-weight: 700;
+    }
+    .forensic-card p {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      line-height: 1.55;
+    }
+
+    /* BÖLÜM 6: VERİ GÜVENLİĞİ VE GİZLİLİK */
+    .security-box {
+      background: #080a12;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.8rem;
+    }
+    .security-item h4 {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--success);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .security-item p {
+      font-size: 0.92rem;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
+    /* BÖLÜM 7: NİHAİ ÇAĞRI */
+    .final-callout-box {
+      background: linear-gradient(180deg, #10121d 0%, #07080d 100%);
+      border: 1px solid rgba(255, 69, 0, 0.4);
+      border-radius: 12px;
+      padding: 3rem 2rem;
+      text-align: center;
+      box-shadow: 0 0 50px rgba(255, 69, 0, 0.12);
+    }
+    .final-callout-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.8vw, 2.9rem);
+      text-transform: uppercase;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .final-callout-title em {
+      color: var(--accent);
+      font-style: normal;
+    }
+    .final-callout-sub {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 680px;
+      margin: 0 auto 2rem auto;
       line-height: 1.6;
     }
 
@@ -283,9 +532,19 @@
       color: #5a6078;
       text-align: center;
     }
-</style>
+
+    @media (max-width: 640px) {
+      .timeline-step {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+      }
+      .header-actions { display: none; }
+    }
+  </style>
 </head>
 <body>
+
+  <!-- ==================== STANDART 64PX HEADER ==================== -->
   <header>
     <a href="index.html" class="brand-logo">
       <img src="/assets/brand/raccoon-round.png" class="header-wolf-icon" alt="InversionCore">
@@ -295,49 +554,243 @@
       </div>
     </a>
     <ul class="nav-links">
-      <li><a href="yaklasimimiz.html" class="">Yaklaşımımız</a></li>
-      <li><a href="kimler-icin.html" class="">Kimler İçin?</a></li>
-      <li><a href="neye-bakiyoruz.html" class="">Neye Bakıyoruz?</a></li>
+      <li><a href="yaklasimimiz.html">Yaklaşımımız</a></li>
+      <li><a href="kimler-icin.html">Kimler İçin?</a></li>
+      <li><a href="neye-bakiyoruz.html">Neye Bakıyoruz?</a></li>
       <li><a href="nasil-calisir.html" class="active">Nasıl Çalışır?</a></li>
-      <li><a href="ornek-cikti.html" class="">Örnek Çıktı</a></li>
-      <li><a href="hakkimizda.html" class="">Hakkımızda</a></li>
-      <li><a href="sss.html" class="">S.S.S.</a></li>
-      <li><a href="manifesto.html" class="">Manifesto</a></li>
+      <li><a href="ornek-cikti.html">Örnek Çıktı</a></li>
+      <li><a href="hakkimizda.html">Hakkımızda</a></li>
+      <li><a href="sss.html">S.S.S.</a></li>
+      <li><a href="manifesto.html">Manifesto</a></li>
     </ul>
     <a href="index.html" class="btn-cta">ANALİZE BAŞLA ➔</a>
   </header>
+
   <div class="container">
-    <span class="eyebrow">// ÇALIŞMA PROTOKOLÜ</span>
-    <h1 class="hero-h1">ÜÇ TUR. <em>TEK KARAR ÇİZGİSİ.</em></h1>
-    <p class="hero-p">
-      Her cevap, bir sonraki sorgulamanın temelini oluşturur. Sistem sizi köşeye sıkıştırır; kaçamak cevapları kabul etmez.
-    </p>
 
-    <div class="grid-3">
-      <div class="card">
-        <div class="card-num">01 / İLK TUR</div>
-        <h3 class="card-h3">KONUNUZU YAZIN</h3>
-        <p class="card-p">İlk kırılma noktalarını ortaya çıkarır ve en önemli belirsizlik için tek soru sorar. Kendinize söylediğiniz yalanı ilk saniyede tespit eder.</p>
-        <span class="card-link">İddia Girişi ➔</span>
+    <!-- ==================== BÖLÜM 1: HERO & MANİFESTO ==================== -->
+    <section class="section-wrap">
+      <span class="eyebrow">// INVERSIONCORE PROTOKOLÜ: RED TEAM KARAR CERRAHİSİ</span>
+      <h1 class="hero-h1">
+        BİZ SİZİ ALKIŞLAMAYIZ.<br>
+        <em>KARARLARINIZIN OTOPSİSİNİ</em> HENÜZ HAYATTAYKEN YAPARIZ.
+      </h1>
+      <p class="hero-p">
+        Bir kararı hayata geçirdikten sonra öğrenilen dersin adı tecrübe değil, zarardır. InversionCore; kendinize söylediğiniz yalanları, görmezden geldiğiniz kırmızı bayrakları ve konfor alanı mazeretlerinizi henüz bedel ödemeden önce cerrahi netlikle parçalamak için tasarlanmış tersine mühendislik motorudur.
+      </p>
+
+      <div class="terminal-status-bar">
+        <span class="terminal-pill">[ 3 TURLU DİYALEKTİK KİLİT ]</span>
+        <span class="terminal-sep">•</span>
+        <span class="terminal-pill">[ %100 VIA NEGATIVA ]</span>
+        <span class="terminal-sep">•</span>
+        <span class="terminal-pill">[ 0 MOTİVASYON ZIRVASI ]</span>
+        <span class="terminal-sep">•</span>
+        <span class="terminal-pill">[ ADLİ STANDART ]</span>
       </div>
 
-      <div class="card">
-        <div class="card-num">02 / İKİNCİ TUR</div>
-        <h3 class="card-h3">CEVABINIZLA DERİNLEŞİN</h3>
-        <p class="card-p">İlk cevaba göre karşı senaryoyu günceller; kaçamak cevapları eler ve karar için gereken son kritik soruyu sorar.</p>
-        <span class="card-link">Savunma Testi ➔</span>
+      <a href="index.html" class="btn-hero-primary">
+        OTOPSİYİ BAŞLAT — İDDİANI GİR ➔
+      </a>
+    </section>
+
+    <!-- ==================== BÖLÜM 2: DÜNYA İLE AYRIM ==================== -->
+    <section class="section-wrap">
+      <h2 class="section-title">YANLIŞ KAPIDAYIZSANIZ <em>GERİ DÖNÜN</em></h2>
+      <div class="matrix-grid">
+        <div class="matrix-card bad">
+          <div class="matrix-card-title">✗ KLASİK DANIŞMANLIK & KİŞİSEL GELİŞİM</div>
+          <ul class="matrix-list">
+            <li><span class="icon-cross">✗</span> <span>Duymak istediklerinizi söyler, sırtınızı sıvazlar.</span></li>
+            <li><span class="icon-cross">✗</span> <span>"Pozitif düşün, evren seni duyacak" safsatası satar.</span></li>
+            <li><span class="icon-cross">✗</span> <span>Kurban rolünüzü besler, sorumluluk almayı erteler.</span></li>
+            <li><span class="icon-cross">✗</span> <span>Hatalı kararlarınızın faturasını gerçek hayatta ödetir.</span></li>
+          </ul>
+        </div>
+
+        <div class="matrix-card good">
+          <div class="matrix-card-title">✓ INVERSIONCORE YAKLAŞIMI</div>
+          <ul class="matrix-list">
+            <li><span class="icon-check">✓</span> <span>Duymaktan en çok korktuğunuz gerçeği masaya koyar.</span></li>
+            <li><span class="icon-check">✓</span> <span>Jacobi İlkesi (Inversion): "Nasıl başarırım?" değil, "Nasıl batarım?" sorusunu çözer.</span></li>
+            <li><span class="icon-check">✓</span> <span>Savunma kalkanlarınızı ve rasyonelleştirmelerinizi tek tek yıkar.</span></li>
+            <li><span class="icon-check">✓</span> <span>Karar uygulanmadan önce en kötü senaryoyu simüle edip zırh giydirir.</span></li>
+          </ul>
+        </div>
       </div>
 
-      <div class="card">
-        <div class="card-num">03 / FİNAL</div>
-        <h3 class="card-h3">GEREKÇELİ SONUCU ALIN</h3>
-        <p class="card-p">Kritik riskler, kanıt boşlukları, koşullu hüküm ve öncelikli aksiyonlarla raporu tamamlar. Karşı tarafa gönderilecek resmi ihtar metnini üretir.</p>
-        <span class="card-link">Hüküm Dosyası ➔</span>
+      <div class="quote-munger">
+        “Nerede öleceğimi bilmek isterdim, böylece oraya asla gitmezdim.”
+        <span>— Charlie Munger</span>
       </div>
-    </div>
+    </section>
+
+    <!-- ==================== BÖLÜM 3: 3 TURLU DİYALEKTİK PROTOKOL ==================== -->
+    <section class="section-wrap">
+      <span class="eyebrow">// ÇALIŞMA PROTOKOLÜ</span>
+      <h2 class="section-title">3 TURLU DİYALEKTİK PROTOKOL <em>(NASIL ÇALIŞIR?)</em></h2>
+      
+      <div class="timeline-wrap">
+        <!-- ADIM 01 -->
+        <div class="timeline-step">
+          <div class="step-badge">
+            <span class="step-num">01</span>
+            <span>İLK TUR</span>
+          </div>
+          <div class="step-content">
+            <h3>İDDİA GİRİŞİ // KIRILMA NOKTASI TESPİTİ</h3>
+            <div class="step-desc-row">
+              <div><b>Ne Olur?:</b> Çıkmazınızı, ilişkinizi, iş yerindeki mobbingi veya yeni projenizi yazarsınız.</div>
+              <div><b>Sistem Ne Yapar?:</b> Metninizdeki ilk tutarsızlığı, gizli tavizi ve bağımlılık asimetrisini yakalar. Size kaçamayacağınız tek bir doğrudan soru sorar.</div>
+            </div>
+            <div class="step-rule">⚠️ KURAL: Kaçamak cevap verilemez; sistem lafı dolandırmanıza izin vermez.</div>
+          </div>
+        </div>
+
+        <!-- ADIM 02 -->
+        <div class="timeline-step">
+          <div class="step-badge">
+            <span class="step-num">02</span>
+            <span>İKİNCİ TUR</span>
+          </div>
+          <div class="step-content">
+            <h3>SAVUNMA TESTİ // MAZERETLERİN İMHASI</h3>
+            <div class="step-desc-row">
+              <div><b>Ne Olur?:</b> Soruya verdiğiniz savunma ve açıklamayı girersiniz.</div>
+              <div><b>Sistem Ne Yapar?:</b> "Ama onu seviyorum", "Sektörde iş yok", "Patron aslında iyi biri" gibi kendinizi kandırdığınız savunma mekanizmalarını eler. Olaydaki gerçek güç farkını ve karşı tarafın manipülasyonunu (DARVO / Gaslighting) deşifre eder.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADIM 03 -->
+        <div class="timeline-step">
+          <div class="step-badge">
+            <span class="step-num">03</span>
+            <span>FİNAL</span>
+          </div>
+          <div class="step-content">
+            <h3>HÜKÜM DOSYASI // EYLEM SİLAHI</h3>
+            <div class="step-desc-row">
+              <div><b>Ne Olur?:</b> Analiz tamamlanır.</div>
+              <div><b>Elinize Ne Geçer?:</b> Motivasyon tavsiyesi değil; doğrudan kopyalayıp kullanabileceğiniz somut eylem silahı:</div>
+              <ul style="margin-left:1.4rem; margin-top:0.3rem;">
+                <li>Türk Borçlar Kanunu / İş Kanunu zemininde Haklı Fesih İhtarnamesi Taslağı,</li>
+                <li>Karşı tarafa çekilecek Net Sınır ve Ayrılık Protokolü,</li>
+                <li>Noter/avukat standardında indirilebilir Vektörel Hüküm Raporu (PDF).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== BÖLÜM 4: MÜDAHALE ALANLARI ==================== -->
+    <section class="section-wrap">
+      <span class="eyebrow">// ÇÖZÜM ALANLARI</span>
+      <h2 class="section-title">MÜDAHALE ALANLARI <em>(HANGİ KRİZLERİ ÇÖZERİZ?)</em></h2>
+      
+      <div class="grid-5">
+        <div class="card-5">
+          <div class="card-5-indicator">[ ALAN 01 // İLİŞKİ & GÜVEN ]</div>
+          <div class="card-5-title">İLİŞKİ, ALDATMA & GASLIGHTING OTOPSİSİ</div>
+          <div class="card-5-desc">Partner manipülasyonu, delil arama illüzyonuna sığınarak ayrılığı erteleme korkusu ve sınır ihlalleri. İlişkiyi tamir etmeye çalışmaz; fesih reçetesi çıkarır.</div>
+        </div>
+
+        <div class="card-5">
+          <div class="card-5-indicator">[ ALAN 02 // HUKUK & KARİYER ]</div>
+          <div class="card-5-title">İŞ YERİ MOBBİNGİ & NARSİST YÖNETİM ZIRHI</div>
+          <div class="card-5-desc">Keyfi amir baskısı ve hiyerarşik hak gaspları. İş Kanunu Md. 24 ve TBK Md. 417 çerçevesinde tazminat ve haklı fesih stratejisi kurar.</div>
+        </div>
+
+        <div class="card-5">
+          <div class="card-5-indicator">[ ALAN 03 // MAHREMİYET & ÖZGÜRLÜK ]</div>
+          <div class="card-5-title">BASTIRILMIŞ TABULAR & SIR CERRAHİSİ</div>
+          <div class="card-5-desc">Toplumsal ikiyüzlülük, şantaj kaygısı, ifşa korkusu ve utanç tabuları. Sıfır ahlakçı sansürle dinler, rasyonel eylem hattı çizer.</div>
+        </div>
+
+        <div class="card-5">
+          <div class="card-5-indicator">[ ALAN 04 // SİRKADİYEN & BİYOLOJİ ]</div>
+          <div class="card-5-title">VAROLUŞSAL TÜKENMİŞLİK & BİYOLOJİK İFLAS</div>
+          <div class="card-5-desc">Dopamin reseptör yanması, sınır çizememe ve "herkesi memnun etme" hastalığı. Radikal "hayır" protokolü ve sirkadiyen sıfırlama dayatır.</div>
+        </div>
+
+        <div class="card-5">
+          <div class="card-5-indicator">[ ALAN 05 // STRATEJİ & RİSK ]</div>
+          <div class="card-5-title">STRATEJİK ÖN-ÖLÜM ANALİZİ (PRE-MORTEM)</div>
+          <div class="card-5-desc">Yeni bir işe veya yatırıma girmeden önce: "Bu iş 1 yıl sonra battı, neden battı?" simülasyonuyla kör noktaları önceden imha eder.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== BÖLÜM 5: ADLİ GÖRSEL VE KANIT DOĞRULAMA ==================== -->
+    <section class="section-wrap">
+      <div class="forensic-hero-box">
+        <span class="eyebrow" style="color:var(--accent-cyber); border-color:var(--border-cyber); background:rgba(0,212,255,0.06);">
+          // TIER-1 MULTIMEDIA FORENSICS ENGINE
+        </span>
+        <h2 class="section-title" style="margin-top:0.6rem;">GÖZ YANILIR, <em>SİNYAL YANILMAZ</em></h2>
+        <p style="color:#cbd5e1; font-size:1.05rem; max-width:820px; line-height:1.65;">
+          Ekran görüntüleri, banka dekontları veya şüpheli belgeler üzerindeki fiziksel manipülasyonu inceleyen optik çekirdek:
+        </p>
+
+        <div class="forensic-grid-3">
+          <div class="forensic-card">
+            <h4>2D FFT SPEKTRAL ANALİZİ</h4>
+            <p>Görselin insan çekimi mi yoksa yapay zeka (Deepfake/Midjourney/Diffusion) üretimi mi olduğunu frekans uzayında periyodik ızgara izlerinden ayıklar.</p>
+          </div>
+
+          <div class="forensic-card">
+            <h4>SENSÖR GÜRÜLTÜ BÜTÜNLÜĞÜ (PRNU)</h4>
+            <p>Fotoğraftaki kes-yapıştır ve montaj izlerini, kamera sensörünün bıraktığı bölgesel piksel varyans sapmasından (σ) matematiksel olarak tespit eder.</p>
+          </div>
+
+          <div class="forensic-card">
+            <h4>BİYOMETRİK KRANİYOFASİYAL SİMETRİ</h4>
+            <p>Falcılık yapmaz; InsightFace ve kranial eksen standardında yüzdeki anatomik motor asimetriyi ve oranları saf geometri olarak ölçer.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== BÖLÜM 6: VERİ GÜVENLİĞİ VE GİZLİLİK ==================== -->
+    <section class="section-wrap">
+      <span class="eyebrow">// GİZLİLİK VE VERİ GÜVENCESİ</span>
+      <h2 class="section-title">VERİ GÜVENLİĞİ VE <em>GİZLİLİK ZIRHI</em></h2>
+
+      <div class="security-box">
+        <div class="security-item">
+          <h4>🔒 KVKK_GUARD YEREL MASKELEME</h4>
+          <p>Girdiğiniz isimler, TCKN'ler, şirket unvanları ve IBAN'lar model katmanına geçmeden önce bellekte sıfır bilgi protokolüyle maskelenir ve anonimleştirilir.</p>
+        </div>
+
+        <div class="security-item">
+          <h4>🛡️ SIFIR İZ / EPHEMERAL OTURUM</h4>
+          <p>Konuşmanız bittiğinde veya oturumu kapattığınızda verileriniz ticari modellerin eğitim havuzuna satılmaz; yerel şifrelenmiş veritabanında sadece sizin oturumunuz için tutulur.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== BÖLÜM 7: NİHAİ ÇAĞRI ==================== -->
+    <section class="section-wrap">
+      <div class="final-callout-box">
+        <h2 class="final-callout-title">
+          RAHATLATILMAK İSTİYORSANIZ BURASI SİZE GÖRE DEĞİL.<br>
+          <em>HAKİKATE HAZIRSANIZ</em> OTOPSİ BAŞLASIN.
+        </h2>
+        <p class="final-callout-sub">
+          İlk sorudan sonra geri dönüş yoktur. Kendinize söylediğiniz mazeretleri kapıda bırakın.
+        </p>
+        <a href="index.html" class="btn-hero-primary" style="font-size:1.45rem; padding:0.9rem 2.4rem;">
+          İDDİANI MASAYA YATIR — BAŞLA ➔
+        </a>
+      </div>
+    </section>
+
   </div>
+
   <footer>
     <div>© 2026 InversionCore. Tersinden Düşün · Kanıtla Karar Ver. Tüm Hakları Saklıdır.</div>
   </footer>
+
 </body>
 </html>
