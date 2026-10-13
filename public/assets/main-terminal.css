@@ -1556,17 +1556,28 @@
     }
 
     .input-guide-close-btn {
-      background: transparent;
-      border: none;
-      color: #64748b;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #cbd5e1;
       font-size: 13px;
+      font-weight: 700;
       cursor: pointer;
-      padding: 0 4px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       line-height: 1;
-      transition: color 0.15s;
+      transition: all 0.15s ease;
+      flex-shrink: 0;
+      margin-left: auto;
     }
     .input-guide-close-btn:hover {
-      color: #fff;
+      background: rgba(239, 68, 68, 0.25);
+      border-color: #ef4444;
+      color: #ffffff;
+      transform: scale(1.08);
     }
 
     .input-guide-title {

@@ -210,10 +210,8 @@
                 oninput="autoGrow(this)"
                 onkeydown="handleHomeKey(event)"></textarea>
 
-              <div class="laser-bottom-bar">
-                <div style="display:flex; align-items:center; gap:0.6rem;">
-                  <span class="laser-hint" id="home-upload-hint">// KARAR METNİNİ YAZIN · GÖRSEL ANALİZİ İÇİN AŞAĞIDAKİ SLOTA EKLEYİN</span>
-                </div>
+              <div class="laser-bottom-bar" style="justify-content:flex-end;">
+                <span class="laser-hint" id="home-upload-hint" style="display:none;"></span>
                 <button class="btn-laser-send" onclick="startAuditFlow()">
                   <span>PARÇALA</span> ➔
                 </button>
@@ -1390,19 +1388,7 @@
       }
     }
 
-    function closeTopicGuidance() {
-      const dock = document.getElementById('topic-guidance-dock');
-      if (dock) dock.style.display = 'none';
-      [1, 2, 3, 4].forEach(i => {
-        const btn = document.getElementById('chip-btn-' + i);
-        if (btn) {
-          btn.style.borderColor = 'var(--border)';
-          btn.style.color = '#9ea4bc';
-          btn.style.background = '#111420';
-        }
-      });
-      activeSelectedTopicId = null;
-    }
+
 
     function applyPreset(id) {
       selectTopicPreset(id);
