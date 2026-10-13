@@ -201,15 +201,14 @@
       overflow-y: auto !important;
     }
 
-    /* Ana ekranda taşmayı kesinlikle sıfırla */
+    /* Ana ekranda da kullanıcı aşağı kaydırıp tüm metinleri ve açıklamaları okuyabilmeli */
     .app-viewport:not(.chat-mode) .messages-scroll-area {
-      padding: 0 1rem;
-      overflow: hidden;
-      justify-content: center;
+      padding: 1.5rem 1rem 60px 1rem;
+      overflow-y: auto;
     }
 
     .conversation-column {
-      max-width: 820px;
+      max-width: 860px;
       width: 100%;
       margin: 0 auto;
       display: flex;
@@ -223,20 +222,17 @@
     }
 
     .app-viewport:not(.chat-mode) .conversation-column {
-      justify-content: center;
-      height: 100%;
+      height: auto;
     }
 
-    /* ------------------- HOME WELCOME STATE (HER EKRANA %100 SIĞAR) ------------------- */
+    /* ------------------- HOME WELCOME STATE ------------------- */
     .home-welcome {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       text-align: center;
-      padding: 0.2rem 1rem;
-      height: 100%;
-      max-height: calc(100vh - 70px);
+      padding: 1rem 0 3rem 0;
+      width: 100%;
       box-sizing: border-box;
     }
 
@@ -1283,6 +1279,183 @@
             <button class="chip-btn" onclick="applyPreset(3)">⚡ Konuşulamayan Tabular & İtiraflar</button>
             <button class="chip-btn" onclick="applyPreset(4)">💀 Varoluşsal Bıkkınlık & Yaşam İflası</button>
           </div>
+
+          <!-- ==================== EDİTORYAL DERİN BİLGİ & MANİFESTO BLOKLARI ==================== -->
+          <div class="editorial-scroll-container" style="width:100%; max-width:860px; margin:3.5rem auto 2rem auto; text-align:left;">
+            
+            <!-- BÖLÜM 1: MANİFESTO -->
+            <section class="editorial-section" style="margin-bottom:3.5rem; border-bottom:1px solid #1a1e2d; padding-bottom:2.5rem;">
+              <span class="editorial-eyebrow" style="font-family:var(--font-mono); font-size:0.72rem; color:var(--accent); letter-spacing:0.16em; text-transform:uppercase; background:rgba(255,69,0,0.08); border:1px solid rgba(255,69,0,0.25); padding:0.25rem 0.65rem; border-radius:4px; display:inline-block; margin-bottom:0.8rem;">// RED TEAM KARAR CERRAHİSİ PROTOKOLÜ</span>
+              <h2 style="font-family:var(--font-display); font-size:clamp(1.8rem, 3.2vw, 2.6rem); text-transform:uppercase; color:#fff; line-height:1.15; margin-bottom:1rem;">
+                BİZ SİZİ ALKIŞLAMAYIZ.<br>
+                <span style="color:var(--accent);">KARARLARINIZIN OTOPSİSİNİ</span> HENÜZ HAYATTAYKEN YAPARIZ.
+              </h2>
+              <p style="color:#cbd5e1; font-size:1.02rem; line-height:1.68; font-weight:300; margin-bottom:1.2rem;">
+                Bir kararı hayata geçirdikten sonra öğrenilen dersin adı tecrübe değil, <b>zarardır</b>. InversionCore; kendinize söylediğiniz yalanları, görmezden geldiğiniz kırmızı bayrakları ve konfor alanı mazeretlerinizi henüz bedel ödemeden önce cerrahi netlikle parçalamak için tasarlanmış bir <b>Tersine Mühendislik ve Karar Denetim Motoru</b>dur.
+              </p>
+              <div style="display:flex; flex-wrap:wrap; gap:0.5rem; background:#08090f; border:1px solid #1a1e2d; padding:0.65rem 1rem; border-radius:6px; font-family:var(--font-mono); font-size:0.72rem; color:#94a3b8;">
+                <span style="color:#00d4ff; font-weight:700;">[ 3 TURLU DİYALEKTİK KİLİT ]</span>
+                <span style="color:#334155;">•</span>
+                <span style="color:#00d4ff; font-weight:700;">[ %100 VIA NEGATIVA ]</span>
+                <span style="color:#334155;">•</span>
+                <span style="color:#00d4ff; font-weight:700;">[ 0 MOTİVASYON ZIRVASI ]</span>
+                <span style="color:#334155;">•</span>
+                <span style="color:#00d4ff; font-weight:700;">[ ADLİ DÜZEY STANDART ]</span>
+              </div>
+            </section>
+
+            <!-- BÖLÜM 2: DÜNYA İLE AYRIM -->
+            <section class="editorial-section" style="margin-bottom:3.5rem; border-bottom:1px solid #1a1e2d; padding-bottom:2.5rem;">
+              <h2 style="font-family:var(--font-display); font-size:1.85rem; text-transform:uppercase; color:#fff; margin-bottom:1.2rem;">
+                YANLIŞ KAPIDAYIZSANIZ <span style="color:var(--accent);">GERİ DÖNÜN</span>
+              </h2>
+              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:1.2rem; margin-bottom:1.5rem;">
+                <div style="background:#10131e; border:1px solid #1a1e2d; border-top:3px solid #ff2a4b; border-radius:8px; padding:1.5rem;">
+                  <div style="font-family:var(--font-mono); font-size:0.8rem; font-weight:700; color:#ff2a4b; margin-bottom:1rem;">✗ KLASİK DANIŞMANLIK & KİŞİSEL GELİŞİM</div>
+                  <ul style="list-style:none; display:flex; flex-direction:column; gap:0.75rem; font-size:0.9rem; color:#94a3b8;">
+                    <li style="display:flex; gap:0.5rem;"><span style="color:#ff2a4b; font-weight:700;">✗</span> <span>Duymak istediklerinizi söyler, sırtınızı sıvazlar.</span></li>
+                    <li style="display:flex; gap:0.5rem;"><span style="color:#ff2a4b; font-weight:700;">✗</span> <span>"Pozitif düşün, evren seni duyacak" safsatası satar.</span></li>
+                    <li style="display:flex; gap:0.5rem;"><span style="color:#ff2a4b; font-weight:700;">✗</span> <span>Kurban rolünüzü besler, sorumluluk almayı erteler.</span></li>
+                    <li style="display:flex; gap:0.5rem;"><span style="color:#ff2a4b; font-weight:700;">✗</span> <span>Hatalı kararlarınızın faturasını gerçek hayatta ödetir.</span></li>
+                  </ul>
+                </div>
+                <div style="background:#0b0f1a; border:1px solid #1a1e2d; border-top:3px solid #10b981; border-radius:8px; padding:1.5rem; box-shadow:0 0 25px rgba(16,185,129,0.06);">
+                  <div style="font-family:var(--font-mono); font-size:0.8rem; font-weight:700; color:#10b981; margin-bottom:1rem;">✓ INVERSIONCORE YAKLAŞIMI</div>
+                  <ul style="list-style:none; display:flex; flex-direction:column; gap:0.75rem; font-size:0.9rem; color:#cbd5e1;">
+                    <li style="display:flex; gap:0.5rem;"><span style="color:#10b981; font-weight:700;">✓</span> <span>Duymaktan en çok korktuğunuz gerçeği masaya koyar.</span></li>
+                    <li style="display:flex; gap:0.5rem;"><span style="color:#10b981; font-weight:700;">✓</span> <span>Jacobi İlkesi: "Nasıl başarırım?" değil, "Nasıl batarım?" sorusunu çözer.</span></li>
+                    <li style="display:flex; gap:0.5rem;"><span style="color:#10b981; font-weight:700;">✓</span> <span>Savunma kalkanlarınızı ve rasyonelleştirmelerinizi tek tek yıkar.</span></li>
+                    <li style="display:flex; gap:0.5rem;"><span style="color:#10b981; font-weight:700;">✓</span> <span>Karar uygulanmadan önce en kötü senaryoyu simüle edip zırh giydirir.</span></li>
+                  </ul>
+                </div>
+              </div>
+              <div style="background:rgba(255,69,0,0.05); border-left:3px solid var(--accent); padding:1rem 1.4rem; border-radius:0 6px 6px 0; font-style:italic; color:#f1f5f9; font-size:0.98rem;">
+                “Nerede öleceğimi bilmek isterdim, böylece oraya asla gitmezdim.”
+                <span style="display:block; margin-top:0.3rem; font-style:normal; font-family:var(--font-mono); font-size:0.75rem; color:var(--accent);">— Charlie Munger</span>
+              </div>
+            </section>
+
+            <!-- BÖLÜM 3: 3 TURLU PROTOKOL -->
+            <section class="editorial-section" style="margin-bottom:3.5rem; border-bottom:1px solid #1a1e2d; padding-bottom:2.5rem;">
+              <span class="editorial-eyebrow" style="font-family:var(--font-mono); font-size:0.72rem; color:var(--accent); letter-spacing:0.16em; text-transform:uppercase; background:rgba(255,69,0,0.08); border:1px solid rgba(255,69,0,0.25); padding:0.25rem 0.65rem; border-radius:4px; display:inline-block; margin-bottom:0.8rem;">// İŞLEYİŞ PROTOKOLÜ</span>
+              <h2 style="font-family:var(--font-display); font-size:1.85rem; text-transform:uppercase; color:#fff; margin-bottom:1.5rem;">
+                3 TURLU DİYALEKTİK PROTOKOL <span style="color:var(--accent);">(NASIL ÇALIŞIR?)</span>
+              </h2>
+              <div style="display:flex; flex-direction:column; gap:1.2rem;">
+                <div style="background:#10131e; border:1px solid #1a1e2d; border-radius:8px; padding:1.4rem; display:grid; grid-template-columns:120px 1fr; gap:1.2rem;">
+                  <div style="font-family:var(--font-mono); font-size:0.75rem; font-weight:700; color:var(--accent);">
+                    <div style="font-family:var(--font-display); font-size:2rem; color:#fff; line-height:1;">01</div>
+                    İLK TUR
+                  </div>
+                  <div>
+                    <h3 style="font-family:var(--font-display); font-size:1.25rem; text-transform:uppercase; color:#fff; margin-bottom:0.4rem;">İDDİA GİRİŞİ // KIRILMA NOKTASI TESPİTİ</h3>
+                    <p style="font-size:0.9rem; color:#cbd5e1; line-height:1.5; margin-bottom:0.5rem;"><b>Ne Olur?:</b> Çıkmazınızı, ilişkinizi, iş yerindeki mobbingi veya yeni projenizi yazarsınız.<br><b>Sistem Ne Yapar?:</b> Metninizdeki ilk tutarsızlığı, gizli tavizi ve bağımlılık asimetrisini yakalar. Kaçamayacağınız tek bir doğrudan soru sorar.</p>
+                    <div style="font-family:var(--font-mono); font-size:0.75rem; color:#ffb700; background:rgba(255,183,0,0.08); border-left:2px solid #ffb700; padding:0.25rem 0.5rem;">⚠️ KURAL: Kaçamak cevap verilemez; lafı dolandırmanıza izin verilmez.</div>
+                  </div>
+                </div>
+
+                <div style="background:#10131e; border:1px solid #1a1e2d; border-radius:8px; padding:1.4rem; display:grid; grid-template-columns:120px 1fr; gap:1.2rem;">
+                  <div style="font-family:var(--font-mono); font-size:0.75rem; font-weight:700; color:var(--accent);">
+                    <div style="font-family:var(--font-display); font-size:2rem; color:#fff; line-height:1;">02</div>
+                    İKİNCİ TUR
+                  </div>
+                  <div>
+                    <h3 style="font-family:var(--font-display); font-size:1.25rem; text-transform:uppercase; color:#fff; margin-bottom:0.4rem;">SAVUNMA TESTİ // MAZERETLERİN İMHASI</h3>
+                    <p style="font-size:0.9rem; color:#cbd5e1; line-height:1.5;"><b>Ne Olur?:</b> Soruya verdiğiniz savunma ve açıklamayı girersiniz.<br><b>Sistem Ne Yapar?:</b> "Ama onu seviyorum", "Sektörde iş yok" gibi rasyonelleştirmeleri eler. Gerçek güç farkını, istismarı ve manipülasyonu (DARVO / Gaslighting) deşifre eder.</p>
+                  </div>
+                </div>
+
+                <div style="background:#10131e; border:1px solid #1a1e2d; border-radius:8px; padding:1.4rem; display:grid; grid-template-columns:120px 1fr; gap:1.2rem;">
+                  <div style="font-family:var(--font-mono); font-size:0.75rem; font-weight:700; color:var(--accent);">
+                    <div style="font-family:var(--font-display); font-size:2rem; color:#fff; line-height:1;">03</div>
+                    FİNAL
+                  </div>
+                  <div>
+                    <h3 style="font-family:var(--font-display); font-size:1.25rem; text-transform:uppercase; color:#fff; margin-bottom:0.4rem;">HÜKÜM DOSYASI // EYLEM SİLAHI</h3>
+                    <p style="font-size:0.9rem; color:#cbd5e1; line-height:1.5;"><b>Ne Olur?:</b> Analiz tamamlanır. Motivasyon konuşması yerine: Türk Borçlar Kanunu / İş Kanunu zemininde <b>Haklı Fesih İhtarnamesi</b>, karşı tarafa çekilecek <b>Net Sınır ve Ayrılık Protokolü</b> ve noter standardında indirilebilir <b>Hüküm Raporu</b> teslim edilir.</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- BÖLÜM 4: 5 MÜDAHALE ALANI -->
+            <section class="editorial-section" style="margin-bottom:3.5rem; border-bottom:1px solid #1a1e2d; padding-bottom:2.5rem;">
+              <span class="editorial-eyebrow" style="font-family:var(--font-mono); font-size:0.72rem; color:var(--accent); letter-spacing:0.16em; text-transform:uppercase; background:rgba(255,69,0,0.08); border:1px solid rgba(255,69,0,0.25); padding:0.25rem 0.65rem; border-radius:4px; display:inline-block; margin-bottom:0.8rem;">// MÜDAHALE DOKTRİNİ</span>
+              <h2 style="font-family:var(--font-display); font-size:1.85rem; text-transform:uppercase; color:#fff; margin-bottom:1.5rem;">
+                MÜDAHALE ALANLARI <span style="color:var(--accent);">(HANGİ KRİZLERİ ÇÖZERİZ?)</span>
+              </h2>
+              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:1rem;">
+                <div style="background:#10131e; border:1px solid #1a1e2d; border-radius:8px; padding:1.2rem;">
+                  <div style="font-family:var(--font-mono); font-size:0.68rem; color:#00d4ff; font-weight:700; margin-bottom:0.4rem;">[ ALAN 01 // İLİŞKİ & GÜVEN ]</div>
+                  <h4 style="font-family:var(--font-display); font-size:1.15rem; color:#fff; margin-bottom:0.4rem;">İLİŞKİ, ALDATMA & GASLIGHTING</h4>
+                  <p style="font-size:0.85rem; color:#94a3b8; line-height:1.5;">Partner manipülasyonu, delil arayarak ayrılığı erteleme illüzyonu ve sınır ihlalleri. İlişkiyi tamir etmeye çalışmaz; net fesih reçetesi çıkarır.</p>
+                </div>
+                <div style="background:#10131e; border:1px solid #1a1e2d; border-radius:8px; padding:1.2rem;">
+                  <div style="font-family:var(--font-mono); font-size:0.68rem; color:#00d4ff; font-weight:700; margin-bottom:0.4rem;">[ ALAN 02 // HUKUK & KARİYER ]</div>
+                  <h4 style="font-family:var(--font-display); font-size:1.15rem; color:#fff; margin-bottom:0.4rem;">İŞ YERİ MOBBİNGİ & NARSİST YÖNETİM</h4>
+                  <p style="font-size:0.85rem; color:#94a3b8; line-height:1.5;">Keyfi amir baskısı ve hak gaspları. İş Kanunu Md. 24 ve TBK Md. 417 çerçevesinde tazminat ve haklı fesih stratejisi kurar.</p>
+                </div>
+                <div style="background:#10131e; border:1px solid #1a1e2d; border-radius:8px; padding:1.2rem;">
+                  <div style="font-family:var(--font-mono); font-size:0.68rem; color:#00d4ff; font-weight:700; margin-bottom:0.4rem;">[ ALAN 03 // MAHREMİYET & SIR ]</div>
+                  <h4 style="font-family:var(--font-display); font-size:1.15rem; color:#fff; margin-bottom:0.4rem;">BASTIRILMIŞ TABULAR & SIR CERRAHİSİ</h4>
+                  <p style="font-size:0.85rem; color:#94a3b8; line-height:1.5;">Toplumsal ikiyüzlülük, şantaj kaygısı, ifşa korkusu ve utanç tabuları. Sıfır ahlakçı sansürle dinler, rasyonel eylem hattı çizer.</p>
+                </div>
+                <div style="background:#10131e; border:1px solid #1a1e2d; border-radius:8px; padding:1.2rem;">
+                  <div style="font-family:var(--font-mono); font-size:0.68rem; color:#00d4ff; font-weight:700; margin-bottom:0.4rem;">[ ALAN 04 // SİRKADİYEN & SAĞLIK ]</div>
+                  <h4 style="font-family:var(--font-display); font-size:1.15rem; color:#fff; margin-bottom:0.4rem;">VAROLUŞSAL TÜKENMİŞLİK & İFLAS</h4>
+                  <p style="font-size:0.85rem; color:#94a3b8; line-height:1.5;">Dopamin reseptör yanması, sınır çizememe ve "herkesi memnun etme" hastalığı. Radikal "hayır" protokolü ve sirkadiyen sıfırlama dayatır.</p>
+                </div>
+                <div style="background:#10131e; border:1px solid #1a1e2d; border-radius:8px; padding:1.2rem;">
+                  <div style="font-family:var(--font-mono); font-size:0.68rem; color:#00d4ff; font-weight:700; margin-bottom:0.4rem;">[ ALAN 05 // STRATEJİ & RİSK ]</div>
+                  <h4 style="font-family:var(--font-display); font-size:1.15rem; color:#fff; margin-bottom:0.4rem;">STRATEJİK ÖN-ÖLÜM (PRE-MORTEM)</h4>
+                  <p style="font-size:0.85rem; color:#94a3b8; line-height:1.5;">Yeni bir işe veya yatırıma girmeden önce: "Bu iş 1 yıl sonra battı, neden battı?" simülasyonuyla kör noktaları önceden imha eder.</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- BÖLÜM 5: ADLİ GÖRSEL ANALİZİ (VISION FORENSICS) -->
+            <section class="editorial-section" style="margin-bottom:3.5rem; border-bottom:1px solid #1a1e2d; padding-bottom:2.5rem;">
+              <div style="background:#06070e; border:1px solid rgba(0,212,255,0.35); border-radius:10px; padding:1.8rem; box-shadow:0 0 35px rgba(0,212,255,0.06);">
+                <span style="font-family:var(--font-mono); font-size:0.7rem; color:#00d4ff; border:1px solid rgba(0,212,255,0.3); background:rgba(0,212,255,0.06); padding:0.2rem 0.5rem; border-radius:4px; text-transform:uppercase;">// TIER-1 MULTIMEDIA FORENSICS ENGINE</span>
+                <h3 style="font-family:var(--font-display); font-size:1.6rem; text-transform:uppercase; color:#fff; margin:0.8rem 0 0.5rem 0;">GÖZ YANILIR, <span style="color:#00d4ff;">SİNYAL YANILMAZ</span></h3>
+                <p style="color:#cbd5e1; font-size:0.95rem; line-height:1.6; margin-bottom:1.4rem;">Kullanıcının yüklediği ekran görüntüleri, banka dekontları veya fotoğraflar üzerinde 4 motorlu adli analiz yürütülür:</p>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:1rem;">
+                  <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(0,212,255,0.2); border-radius:6px; padding:1.1rem;">
+                    <h5 style="font-family:var(--font-mono); font-size:0.8rem; color:#00d4ff; margin-bottom:0.4rem;">2D FFT SPEKTRAL ANALİZ</h5>
+                    <p style="font-size:0.84rem; color:#94a3b8; line-height:1.45;">Görselin insan çekimi mi yoksa yapay zeka (Deepfake/Midjourney/Diffusion) üretimi mi olduğunu frekans uzayında periyodik ızgara izlerinden ayıklar.</p>
+                  </div>
+                  <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(0,212,255,0.2); border-radius:6px; padding:1.1rem;">
+                    <h5 style="font-family:var(--font-mono); font-size:0.8rem; color:#00d4ff; margin-bottom:0.4rem;">SENSÖR GÜRÜLTÜSÜ (PRNU)</h5>
+                    <p style="font-size:0.84rem; color:#94a3b8; line-height:1.45;">Fotoğraftaki kes-yapıştır ve montaj izlerini, kamera sensörünün bıraktığı bölgesel piksel varyans sapmasından (σ) matematiksel olarak tespit eder.</p>
+                  </div>
+                  <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(0,212,255,0.2); border-radius:6px; padding:1.1rem;">
+                    <h5 style="font-family:var(--font-mono); font-size:0.8rem; color:#00d4ff; margin-bottom:0.4rem;">KRANİYOFASİYAL SİMETRİ</h5>
+                    <p style="font-size:0.84rem; color:#94a3b8; line-height:1.45;">Falcılık yapmaz; InsightFace ve kranial eksen standardında yüzdeki anatomik motor asimetriyi ve oranları saf geometri olarak ölçer.</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- BÖLÜM 6: VERİ GÜVENLİĞİ VE GİZLİLİK -->
+            <section class="editorial-section" style="margin-bottom:2.5rem;">
+              <span class="editorial-eyebrow" style="font-family:var(--font-mono); font-size:0.72rem; color:var(--accent); letter-spacing:0.16em; text-transform:uppercase; background:rgba(255,69,0,0.08); border:1px solid rgba(255,69,0,0.25); padding:0.25rem 0.65rem; border-radius:4px; display:inline-block; margin-bottom:0.8rem;">// GİZLİLİK VE VERİ GÜVENCESİ</span>
+              <h2 style="font-family:var(--font-display); font-size:1.85rem; text-transform:uppercase; color:#fff; margin-bottom:1.2rem;">
+                VERİ GÜVENLİĞİ VE <span style="color:#10b981;">GİZLİLİK ZIRHI</span>
+              </h2>
+              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:1.2rem;">
+                <div style="background:#080a12; border:1px solid #1a1e2d; border-radius:8px; padding:1.4rem;">
+                  <h4 style="font-family:var(--font-mono); font-size:0.85rem; color:#10b981; margin-bottom:0.5rem;">🔒 KVKK_GUARD YEREL MASKELEME</h4>
+                  <p style="font-size:0.88rem; color:#cbd5e1; line-height:1.55;">Girdiğiniz isimler, TCKN'ler, şirket unvanları ve IBAN'lar model katmanına geçmeden önce bellekte sıfır bilgi protokolüyle maskelenir ve anonimleştirilir.</p>
+                </div>
+                <div style="background:#080a12; border:1px solid #1a1e2d; border-radius:8px; padding:1.4rem;">
+                  <h4 style="font-family:var(--font-mono); font-size:0.85rem; color:#10b981; margin-bottom:0.5rem;">🛡️ SIFIR İZ / EPHEMERAL OTURUM</h4>
+                  <p style="font-size:0.88rem; color:#cbd5e1; line-height:1.55;">Konuşmanız bittiğinde verileriniz ticari modellerin eğitim havuzuna satılmaz; yerel şifrelenmiş veritabanında sadece sizin oturumunuz için tutulur.</p>
+                </div>
+              </div>
+            </section>
+
+          </div>
+
         </div>
 
         <!-- CHAT DİYALOGLARI BURAYA DÜŞER -->
