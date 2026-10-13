@@ -209,12 +209,20 @@
     }
 
     #chat-stream-nodes {
-      display: flex;
+      display: none;
       flex-direction: column;
       gap: 1.8rem;
       width: 100%;
       min-height: auto !important;
       box-sizing: border-box;
+    }
+
+    .app-viewport.chat-mode #chat-stream-nodes {
+      display: flex !important;
+    }
+
+    .app-viewport.chat-mode #home-welcome-screen {
+      display: none !important;
     }
 
     .app-viewport:not(.chat-mode) .conversation-column {

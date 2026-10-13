@@ -524,7 +524,7 @@
         </div>
 
         <!-- CHAT DİYALOGLARI BURAYA DÜŞER -->
-        <div id="chat-stream-nodes" style="display:none; flex-direction:column; gap:2.2rem;"></div>
+        <div id="chat-stream-nodes" class="chat-stream-nodes" style="flex-direction:column; gap:2.2rem;"></div>
 
       </div>
     </div>
@@ -2214,7 +2214,8 @@ Aksi takdirde İş Kanunu Madde 24/II uyarınca haklı fesih hakkımı kullanara
     }
 
     function escapeHtml(text) {
-      return text.replace(/[&<>"']/g, function(m) {
+      if (text === null || text === undefined) return '';
+      return String(text).replace(/[&<>"']/g, function(m) {
         return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
       });
     }
