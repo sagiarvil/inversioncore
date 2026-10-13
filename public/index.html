@@ -822,16 +822,16 @@
           '<div class="cyber-scanner-viewport">' +
             '<img src="' + payload.blobUrl + '" class="cyber-scan-img" alt="Adli Görsel">' +
             '<div class="cyber-laser-beam"></div>' +
+            '<div class="cyber-laser-beam"></div>' +
             '<div class="cyber-crosshair"></div>' +
-            '<div class="focus-target-box" id="' + cId + '-box1" style="width:26px; height:26px; top:22%; left:32%;"></div>' +
-            '<div class="focus-target-box" id="' + cId + '-box2" style="width:22px; height:22px; top:24%; left:58%;"></div>' +
-            '<div class="focus-target-box" id="' + cId + '-box3" style="width:20px; height:20px; top:42%; left:46%;"></div>' +
-            '<div class="focus-target-box" id="' + cId + '-box4" style="width:28px; height:18px; top:58%; left:42%;"></div>' +
-            '<div class="facs-micro-reticle" id="' + cId + '-f1" style="top:20%; left:34%;"><span class="facs-label-tag">AU06</span></div>' +
-            '<div class="facs-micro-reticle" id="' + cId + '-f2" style="top:22%; left:60%;"><span class="facs-label-tag">AU06</span></div>' +
-            '<div class="facs-micro-reticle" id="' + cId + '-f3" style="top:60%; left:38%;"><span class="facs-label-tag">AU14</span></div>' +
-            '<div class="facs-micro-reticle" id="' + cId + '-f4" style="top:58%; left:56%;"><span class="facs-label-tag">AU12</span></div>' +
-            '<div class="facs-micro-reticle" id="' + cId + '-f5" style="top:14%; left:47%;"><span class="facs-label-tag">AU04</span></div>' +
+            '<div class="facs-micro-reticle" id="' + cId + '-f1" style="top:22%; left:35%;"></div>' +
+            '<div class="facs-micro-reticle" id="' + cId + '-f2" style="top:24%; left:58%;"></div>' +
+            '<div class="facs-micro-reticle" id="' + cId + '-f3" style="top:38%; left:47%;"></div>' +
+            '<div class="facs-micro-reticle" id="' + cId + '-f4" style="top:58%; left:40%;"></div>' +
+            '<div class="facs-micro-reticle" id="' + cId + '-f5" style="top:57%; left:55%;"></div>' +
+            '<div class="facs-micro-reticle" id="' + cId + '-f6" style="top:16%; left:46%;"></div>' +
+            '<div class="facs-micro-reticle" id="' + cId + '-f7" style="top:70%; left:48%;"></div>' +
+            '<div class="facs-micro-reticle" id="' + cId + '-f8" style="top:48%; left:28%;"></div>' +
           '</div>' +
           '<div class="cyber-scanner-data">' +
             '<div class="cyber-header-badge">' +
@@ -874,41 +874,37 @@
       const cardEl = document.getElementById(cardId);
       if (!cardEl) return;
 
-      const waypoints = [
-        // Sağ göz & Duchenne AU06
-        { id: cardId + '-box1', targets: [ { t: '20%', l: '30%', w: '26px', h: '26px' }, { t: '22%', l: '33%', w: '28px', h: '28px' }, { t: '19%', l: '28%', w: '24px', h: '24px' } ] },
-        // Sol göz & Bakış Ekseni
-        { id: cardId + '-box2', targets: [ { t: '22%', l: '56%', w: '24px', h: '24px' }, { t: '25%', l: '60%', w: '22px', h: '22px' }, { t: '20%', l: '54%', w: '26px', h: '26px' } ] },
-        // Burun köprüsü & 3D Kraniyal Merkez
-        { id: cardId + '-box3', targets: [ { t: '38%', l: '45%', w: '22px', h: '22px' }, { t: '43%', l: '47%', w: '18px', h: '18px' }, { t: '36%', l: '44%', w: '20px', h: '20px' } ] },
-        // Dudak kıvrımı & AU14 Küçümseme Asimetrisi
-        { id: cardId + '-box4', targets: [ { t: '56%', l: '40%', w: '30px', h: '18px' }, { t: '58%', l: '45%', w: '26px', h: '16px' }, { t: '60%', l: '38%', w: '32px', h: '20px' } ] },
-        // Mikro FACS AU retikülleri
-        { id: cardId + '-f1', targets: [ { t: '18%', l: '32%' }, { t: '21%', l: '35%' }, { t: '17%', l: '30%' } ] },
-        { id: cardId + '-f2', targets: [ { t: '20%', l: '58%' }, { t: '23%', l: '62%' }, { t: '19%', l: '56%' } ] },
-        { id: cardId + '-f3', targets: [ { t: '58%', l: '36%' }, { t: '61%', l: '39%' }, { t: '57%', l: '35%' } ] },
-        { id: cardId + '-f4', targets: [ { t: '56%', l: '54%' }, { t: '59%', l: '58%' }, { t: '55%', l: '52%' } ] },
-        { id: cardId + '-f5', targets: [ { t: '13%', l: '45%' }, { t: '15%', l: '48%' }, { t: '12%', l: '44%' } ] }
+      const reticles = [
+        { id: cardId + '-f1', baseT: 22, baseL: 35, spread: 4, speed: 450 }, // Sağ Göz / AU06
+        { id: cardId + '-f2', baseT: 24, baseL: 58, spread: 4, speed: 520 }, // Sol Göz / AU06
+        { id: cardId + '-f3', baseT: 38, baseL: 47, spread: 3, speed: 380 }, // Burun Kemeri / Kraniyal Aks
+        { id: cardId + '-f4', baseT: 58, baseL: 40, spread: 5, speed: 600 }, // Dudak Sağ Kıvrım / AU14
+        { id: cardId + '-f5', baseT: 57, baseL: 55, spread: 5, speed: 480 }, // Dudak Sol Kıvrım / AU12
+        { id: cardId + '-f6', baseT: 16, baseL: 46, spread: 3, speed: 550 }, // Alın / AU04 Corrugator
+        { id: cardId + '-f7', baseT: 68, baseL: 48, spread: 4, speed: 640 }, // Çene / Alt Yüz Simetrisi
+        { id: cardId + '-f8', baseT: 45, baseL: 30, spread: 6, speed: 700 }  // Yanak / Doku PRNU Varyansı
       ];
 
-      let step = 0;
-      const intervalId = setInterval(function() {
-        if (!document.getElementById(cardId)) {
-          clearInterval(intervalId);
-          return;
-        }
-        step++;
-        waypoints.forEach(function(wp) {
-          const el = document.getElementById(wp.id);
-          if (el && wp.targets.length) {
-            const tgt = wp.targets[step % wp.targets.length];
-            el.style.top = tgt.t;
-            el.style.left = tgt.l;
-            if (tgt.w) el.style.width = tgt.w;
-            if (tgt.h) el.style.height = tgt.h;
+      reticles.forEach(function(r) {
+        function moveReticle() {
+          if (!document.getElementById(cardId)) return;
+          const el = document.getElementById(r.id);
+          if (el) {
+            const dt = (Math.random() * r.spread * 2) - r.spread;
+            const dl = (Math.random() * r.spread * 2) - r.spread;
+            el.style.top = (r.baseT + dt).toFixed(1) + '%';
+            el.style.left = (r.baseL + dl).toFixed(1) + '%';
+            el.style.opacity = (0.35 + Math.random() * 0.65).toFixed(2);
+            // Rastgele mikro pulsasyon
+            const sz = 5 + Math.floor(Math.random() * 3);
+            el.style.width = sz + 'px';
+            el.style.height = sz + 'px';
           }
-        });
-      }, 700);
+          const nextDelay = r.speed + Math.floor(Math.random() * 250);
+          setTimeout(moveReticle, nextDelay);
+        }
+        setTimeout(moveReticle, Math.floor(Math.random() * 300));
+      });
     }
 
     async function handleEvidenceFileUpload(event) {
@@ -923,127 +919,38 @@
         return;
       }
 
-      const blobUrl = URL.createObjectURL(file);
-      const cardDomId = 'cyber-card-' + (++activeCardUniqueId);
+      // Kullanıcı doğrudan ana inputtan fotoğraf eklerse Slot 1'e otomatik yerleştirip 2. görsel kuralını tetikle:
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const b64 = e.target.result;
+        const blobUrl = URL.createObjectURL(file);
 
-      currentEvidencePayload = {
-        file: file,
-        fileName: file.name,
-        blobUrl: blobUrl,
-        visionData: null,
-        cardDomId: cardDomId
+        triangulationSlots.formal = {
+          file: file,
+          blobUrl: blobUrl,
+          base64: b64
+        };
+
+        const slotEl = document.getElementById('slot-formal');
+        const slotContent = document.getElementById('slot-content-formal');
+        if (slotEl && slotContent) {
+          slotEl.classList.add('has-image');
+          slotContent.innerHTML = 
+            '<img src="' + blobUrl + '" class="slot-thumb-img" alt="VİTRİN">' +
+            '<div class="slot-badge-label" style="color:#10b981;">✓ 1. GÖRSEL EKLENDİ</div>' +
+            '<div style="font-size:10px; color:#94a3b8;">' + escapeHtml(file.name) + '</div>';
+        }
+
+        // Kullanıcıyı uyar: En az 2 görsel zorunludur!
+        const hintEl = document.getElementById('home-upload-hint');
+        if (hintEl) hintEl.innerText = "// 1. GÖRSEL ALINDI. LÜTFEN EN AZ 2. GÖRSELİ DE YÜKLEYİN.";
+        
+        alert("✓ 1. Fotoğraf hafızaya alındı.\n\n⚠️ KURAL: Bilimsel karakter penetrasyonu ve Maske Makası (Benlik Yarılması) hesabı için EN AZ 2 GÖRSEL ŞARTTIR (Örn: Vitrin + Doğal An).\n\nLütfen Slot 2'ye de bir fotoğraf yükleyin. İsteğe bağlı olarak daha derin analiz için 3. fotoğrafı da ekleyebilirsiniz.");
+        
+        // Slot 2'yi aç
+        triggerSlotUpload('candid');
       };
-
-      // 1. ANINDA GÖRSEL TARAMA EKRANINA GEÇ (Kullanıcı hiç beklemez)
-      const promptInput = currentUploadTarget === 'home' 
-        ? document.getElementById('home-prompt-input') 
-        : document.getElementById('chat-reply-input');
-      const userText = promptInput.value.trim() || "Eklenen görsel delil üzerinden adli tıp ve tersine mühendislik analizi yap.";
-      
-      isChatActive = true;
-      userQuery = userText;
-      detectedTopic = 'forensic';
-
-      document.getElementById('home-welcome-screen').style.display = 'none';
-      document.querySelector('.app-viewport').classList.add('chat-mode');
-      const stream = document.getElementById('chat-stream-nodes');
-      stream.style.display = 'flex';
-      document.getElementById('docked-bar').style.display = 'block';
-      document.getElementById('btn-header-reset').style.display = 'inline-block';
-
-      // 2. Canlı taranıyor halindeki adli kartı ekrana anında bas
-      appendUserMessage(userText, currentEvidencePayload);
-      startDynamicReticleScanner(cardDomId);
-      removeEvidenceChip('home', false);
-      removeEvidenceChip('chat', false);
-
-      showToast("🔬 Canlı adli tarama başlatıldı: " + file.name);
-
-      const drawer = document.getElementById('tasks-drawer-text');
-      const spinner = document.getElementById('tasks-spinner-icon');
-      const dot = document.getElementById('tasks-status-dot');
-      if (drawer) drawer.innerText = "Adli Tıp Çekirdeği devrede...";
-      if (spinner) spinner.style.display = "inline-block";
-      if (dot) dot.style.display = "none";
-
-      isAnalyzingMedia = true;
-
-      // 3. Arka planda tam adli tıp analizi yürüt
-      try {
-        let visionResult = null;
-        if (window.InversionVision && typeof window.InversionVision.analyzeImage === 'function') {
-          visionResult = await window.InversionVision.analyzeImage(file, userText, function (msg) {
-            if (drawer) drawer.innerText = msg;
-            const cardEl = document.getElementById(cardDomId);
-            if (cardEl) {
-              const metaEl = cardEl.querySelector('.card-meta-val');
-              if (metaEl) metaEl.innerText = msg;
-            }
-          });
-        }
-
-        if (visionResult) {
-          currentEvidencePayload.visionData = visionResult;
-          window.lastAttachedVisionPayload = currentEvidencePayload;
-          window.lastAttachedVisionSummary = visionResult.summary;
-
-          // Ekrana basılmış canlı kartı gerçek adli verilerle güncelle:
-          const cardEl = document.getElementById(cardDomId);
-          if (cardEl) {
-            const specRatio = visionResult.spectral_ratio || '0.3821';
-            const noiseDev = visionResult.noise_deviation || '0.412';
-            const cranialSym = visionResult.cranial_symmetry || '94.2';
-            const isAuthentic = visionResult.is_authentic !== false;
-            const isSynthetic = parseFloat(specRatio) > 0.46;
-            const isSpliced = parseFloat(noiseDev) > 1.85;
-
-            const statusPill = cardEl.querySelector('.card-status-pill');
-            if (statusPill) {
-              statusPill.style.color = '#10b981';
-              statusPill.innerText = '[BİLİMSEL ANALİZ ONAYLI]';
-            }
-
-            const fftEl = cardEl.querySelector('.card-fft-val');
-            if (fftEl) {
-              fftEl.className = 'cyber-telemetry-val card-fft-val ' + (isSynthetic ? 'warn' : 'highlight');
-              fftEl.innerText = specRatio + ' (' + (isSynthetic ? '⚠️ SENTETİK DİFÜZYON İZİ' : '✅ DOĞAL OPTİK SENSÖR') + ')';
-            }
-
-            const prnuEl = cardEl.querySelector('.card-prnu-val');
-            if (prnuEl) {
-              prnuEl.className = 'cyber-telemetry-val card-prnu-val ' + (isSpliced ? 'warn' : 'highlight');
-              prnuEl.innerText = noiseDev + ' σ (' + (isSpliced ? '⚠️ BÖLGESEL MONTAJ / SPLICING' : '✅ HOMOJEN SENSÖR GÜRÜLTÜSÜ') + ')';
-            }
-
-            const cranEl = cardEl.querySelector('.card-cranial-val');
-            if (cranEl) {
-              cranEl.innerText = '%' + cranialSym + ' (Doğal İnsan Anatomisi)';
-            }
-
-            const metaEl = cardEl.querySelector('.card-meta-val');
-            if (metaEl) {
-              metaEl.innerText = 'Web-Transcoded (İstemcide Strip Edilmiş - Standart)';
-            }
-
-            const verdEl = cardEl.querySelector('.card-verdict-val');
-            if (verdEl) {
-              verdEl.style.color = isAuthentic ? '#10b981' : 'var(--danger)';
-              verdEl.innerText = isAuthentic ? 'GÖRSEL ADLİ AÇIDAN OTANTİKTİR // MONTAJ SAPTANMAMIŞTIR' : 'ADLİ ÇELİŞKİ / MANİPÜLASYON ŞÜPHESİ';
-            }
-          }
-        }
-      } catch (err) {
-        console.error("Arka plan adli analiz hatası:", err);
-      } finally {
-        isAnalyzingMedia = false;
-        if (spinner) spinner.style.display = "none";
-        if (dot) dot.style.display = "inline";
-        if (drawer) drawer.innerText = "2 tasks running";
-      }
-
-      // 4. Altında hemen AI Bilişsel Yorum ve Deşme akışını tetikle
-      currentRound = 1;
-      triggerAiTurn(1);
+      reader.readAsDataURL(file);
     }
 
     function renderEvidenceChip(target) {

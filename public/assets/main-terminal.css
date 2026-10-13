@@ -1089,67 +1089,47 @@
     }
 
     .focus-target-box {
-      position: absolute;
-      border: 1px solid #10b981;
-      background: rgba(16, 185, 129, 0.08);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      animation: targetPulse 1.2s ease-in-out infinite;
-      box-shadow: 0 0 6px rgba(16, 185, 129, 0.45);
-      border-radius: 2px;
-      pointer-events: none;
-    }
-    .focus-target-box::before, .focus-target-box::after {
-      content: "";
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      border-color: #00d4ff;
-    }
-    .focus-target-box::before {
-      top: -2px; left: -2px;
-      border-top: 1.5px solid #00d4ff;
-      border-left: 1.5px solid #00d4ff;
-    }
-    .focus-target-box::after {
-      bottom: -2px; right: -2px;
-      border-bottom: 1.5px solid #00d4ff;
-      border-right: 1.5px solid #00d4ff;
+      display: none !important; /* Hantal büyük kutular tamamen kaldırıldı */
     }
     .facs-micro-reticle {
       position: absolute;
-      width: 14px;
-      height: 14px;
-      border: 1.2px solid #10b981;
-      background: rgba(16, 185, 129, 0.15);
-      border-radius: 2px;
-      box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
-      transition: top 0.35s ease, left 0.35s ease, width 0.35s ease, height 0.35s ease, opacity 0.3s ease;
+      width: 6px;
+      height: 6px;
+      border: 1px solid #10b981;
+      background: rgba(16, 185, 129, 0.35);
+      border-radius: 1px;
+      box-shadow: 0 0 5px #10b981;
       pointer-events: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+      z-index: 10;
     }
     .facs-micro-reticle::before {
       content: "";
-      width: 2px;
-      height: 2px;
-      background: #00d4ff;
-      border-radius: 50%;
-      box-shadow: 0 0 4px #00d4ff;
+      position: absolute;
+      inset: -3px;
+      border: 0.8px dashed rgba(0, 212, 255, 0.6);
+      border-radius: 2px;
+      animation: microSpin 3s linear infinite;
+    }
+    @keyframes microSpin {
+      100% { transform: rotate(360deg); }
     }
     .facs-label-tag {
       position: absolute;
-      top: -14px;
-      left: 0;
+      bottom: -11px;
+      left: 50%;
+      transform: translateX(-50%);
       font-family: var(--font-mono);
-      font-size: 7.5px;
-      color: #10b981;
-      background: rgba(5, 7, 10, 0.85);
-      padding: 0 2px;
+      font-size: 6.5px;
+      color: #00d4ff;
+      background: rgba(4, 6, 10, 0.75);
+      padding: 0 1.5px;
       border-radius: 1px;
       white-space: nowrap;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.02em;
       pointer-events: none;
+      line-height: 1;
+      opacity: 0.8;
     }
     @keyframes targetPulse {
       0%, 100% { transform: scale(1); opacity: 0.95; }
