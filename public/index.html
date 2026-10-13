@@ -985,7 +985,7 @@
             '</div>' +
             '<div class="cyber-telemetry-item">' +
               '<span>HEDEF DOSYA:</span>' +
-              '<span class="cyber-telemetry-val">' + escapeHtml(payload.fileName) + ' (' + (payload.file.size / 1024).toFixed(1) + ' KB)</span>' +
+              '<span class="cyber-telemetry-val">' + escapeHtml(payload.fileName || "Görsel Delil") + ' (' + ((payload.file && payload.file.size ? payload.file.size : 153600) / 1024).toFixed(1) + ' KB)</span>' +
             '</div>' +
             '<div class="cyber-telemetry-item">' +
               '<span>2D FFT SPEKTRUMU (AI İZİ):</span>' +
@@ -1086,14 +1086,22 @@
             '<div style="font-size:10px; color:#94a3b8;">' + escapeHtml(file.name) + '</div>';
         }
 
-        // Kullanıcıyı uyar: En az 2 görsel zorunludur!
+        // Ana chat giriş çipine de bağla (böylece tek görsel yükleyip Enter'a basıldığında da adli analiz kusursuz çalışır):
+        const cardDomId = 'cyber-card-' + (++activeCardUniqueId);
+        currentEvidencePayload = {
+          file: file,
+          fileName: file.name,
+          blobUrl: blobUrl,
+          visionData: null,
+          cardDomId: cardDomId
+        };
+        renderEvidenceChip('home');
+        updateTriangulationUploadCounter();
+
         const hintEl = document.getElementById('home-upload-hint');
-        if (hintEl) hintEl.innerText = "// 1. GÖRSEL ALINDI. LÜTFEN EN AZ 2. GÖRSELİ DE YÜKLEYİN.";
+        if (hintEl) hintEl.innerText = "// 1. FOTOĞRAF ALINDI · ENTER İLE ADLİ ANALİZİ BAŞLAT VEYA 2. FOTOĞRAFI EKLE";
         
-        alert("✓ 1. Fotoğraf hafızaya alındı.\n\n⚠️ KURAL: Bilimsel karakter penetrasyonu ve Maske Makası (Benlik Yarılması) hesabı için EN AZ 2 GÖRSEL ŞARTTIR (Örn: Vitrin + Doğal An).\n\nLütfen Slot 2'ye de bir fotoğraf yükleyin. İsteğe bağlı olarak daha derin analiz için 3. fotoğrafı da ekleyebilirsiniz.");
-        
-        // Slot 2'yi aç
-        triggerSlotUpload('candid');
+        showToast("✓ Fotoğraf eklendi. Enter'a basarak tekil adli analizi başlatabilir veya 2. fotoğrafı yükleyerek karakter makasını hesaplayabilirsiniz.");
       };
       reader.readAsDataURL(file);
     }
@@ -1104,15 +1112,19 @@
       const chipEl = document.getElementById(chipId);
       if (!chipEl) return;
 
+      const fSizeKb = (currentEvidencePayload.file && currentEvidencePayload.file.size) 
+        ? (currentEvidencePayload.file.size / 1024).toFixed(0) 
+        : '150';
+
       chipEl.style.display = 'flex';
       chipEl.innerHTML = 
         '<div style="display:flex; align-items:center; gap:0.65rem;">' +
-          '<img src="' + currentEvidencePayload.blobUrl + '" class="evidence-chip-thumb" alt="Delil">' +
+          '<img src="' + (currentEvidencePayload.blobUrl || '') + '" class="evidence-chip-thumb" alt="Delil">' +
           '<div class="evidence-chip-meta">' +
             '<div class="evidence-chip-title">' +
               '<span style="color:#10b981;">●</span>' +
-              '<span>' + escapeHtml(currentEvidencePayload.fileName) + '</span>' +
-              '<span style="font-size:10px; opacity:0.6;">(' + (currentEvidencePayload.file.size / 1024).toFixed(0) + ' KB)</span>' +
+              '<span>' + escapeHtml(currentEvidencePayload.fileName || "Görsel Delil") + '</span>' +
+              '<span style="font-size:10px; opacity:0.6;">(' + fSizeKb + ' KB)</span>' +
             '</div>' +
             '<div class="evidence-chip-sub">ADLİ GÖRSEL ANALİZİ HAZIR // ODAKLANMA KİLİTLİ</div>' +
           '</div>' +
@@ -1302,11 +1314,6 @@
         scores.mobbing = Math.max(0, scores.mobbing - 6);
       }
 
-      // Eğer görsel delil varsa ve açıkça ilişki/mobbing/tabu kelimesi yoksa -> 'forensic'
-      if (hasImageEvidence && (maxScore <= 0 || isGenericQuery)) {
-        return 'forensic';
-      }
-
       let maxTopic = 'forensic';
       let maxScore = -1;
       for (const [k, v] of Object.entries(scores)) {
@@ -1315,6 +1322,12 @@
           maxTopic = k;
         }
       }
+
+      // Eğer görsel delil varsa ve açıkça ilişki/mobbing/tabu kelimesi yoksa -> 'forensic'
+      if (hasImageEvidence && (maxScore <= 0 || isGenericQuery)) {
+        return 'forensic';
+      }
+
       return maxScore > 0 ? maxTopic : (hasImageEvidence ? 'forensic' : 'iliski');
     }
 
@@ -1409,16 +1422,43 @@
         document.getElementById("tasks-drawer-text").innerText = "Analyzing decision matrix...";
       }
 
+      // 1. KULLANICI ASLA SİYAH/BOŞ EKRAN GÖRMEZ: Anında Canlı İskelet / Analiz Kartı Yerleştir
+      const stream = document.getElementById('chat-stream-nodes');
+      const row = document.createElement('div');
+      row.className = 'msg-ai-row';
+      const aiCardDomId = 'ai-turn-card-' + Date.now();
+
+      row.innerHTML = `
+        <div class="ai-clean-card" id="${aiCardDomId}" style="border-color:rgba(0,212,255,0.4);">
+          <div class="ai-badge-header">
+            <div class="model-pill">
+              <span style="color:#00d4ff;">●</span>
+              <span>InversionCore // Cognitive Audit</span>
+            </div>
+            <span class="phase-pill">[AŞAMA 0${round}: CERRAHİ OTOPSİ BAŞLATILDI]</span>
+          </div>
+          <div class="ai-claim-box">
+            <span>ANALİZ EDİLEN ODAK:</span> "${escapeHtml(userQuery)}"
+          </div>
+          <div class="ai-body-text" style="display:flex; align-items:center; gap:0.8rem; color:#94a3b8; padding:1.2rem 0;">
+            <div class="tasks-spinner" style="display:inline-block; border-top-color:#00d4ff; width:18px; height:18px;"></div>
+            <span>İnversiyon motoru delil ve beyanı sınıyor; ilk tokat ve karar matrisi hesaplanıyor...</span>
+          </div>
+        </div>
+      `;
+      stream.appendChild(row);
+      scrollToBottom();
+
       let backendReply = null;
       const isLocal = ['localhost', '127.0.0.1'].includes(window.location.hostname);
       const endpoints = isLocal 
-        ? ['http://localhost:8888/api/inversion-analyze', '/api/inversion-analyze']
-        : ['/api/inversion-analyze', 'https://south-rehabilitation-prison-casino.trycloudflare.com/api/inversion-analyze'];
+        ? ['http://localhost:8888/api/inversion-analyze']
+        : ['https://south-rehabilitation-prison-casino.trycloudflare.com/api/inversion-analyze', '/api/inversion-analyze'];
 
       for (const ep of endpoints) {
         try {
           const controller = new AbortController();
-          const timer = setTimeout(() => controller.abort(), 45000);
+          const timer = setTimeout(() => controller.abort(), 4500);
           
           let combinedDecision = userQuery;
           let forensicContextObj = null;
@@ -1468,10 +1508,6 @@
       }
 
       setTimeout(() => {
-        const stream = document.getElementById('chat-stream-nodes');
-        const row = document.createElement('div');
-        row.className = 'msg-ai-row';
-
         let content = "";
 
         if (backendReply) {
@@ -2017,7 +2053,6 @@ Aksi takdirde İş Kanunu Madde 24/II uyarınca haklı fesih hakkımı kullanara
         }
 
         row.innerHTML = content;
-        stream.appendChild(row);
         scrollToBottom();
       }, 550);
     }
