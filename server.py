@@ -60,6 +60,7 @@ class AnalyzeRequest(BaseModel):
     query: Optional[str] = Field(default="", description="Kullanıcı sorgusu")
     session_id: str = "default_session"
     round: int = 1
+    forensic_context: Optional[dict] = Field(default=None, description="Adli görsel ve sinyal matrisi")
 
 @app.get("/api/health")
 async def health_check():
@@ -105,7 +106,8 @@ async def analyze_decision(req: AnalyzeRequest):
             session_id=req.session_id,
             user_query=user_input,
             round_num=req.round,
-            decision=req.decision
+            decision=req.decision,
+            forensic_context=req.forensic_context
         )
         return result
     except Exception as e:
