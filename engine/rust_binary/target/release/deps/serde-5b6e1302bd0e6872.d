@@ -1,0 +1,14 @@
+/Users/macair1/projects/inversioncore/engine/rust_binary/target/release/deps/serde-5b6e1302bd0e6872.d: /Users/macair1/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs /Users/macair1/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs /Users/macair1/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs /Users/macair1/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs /Users/macair1/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs /Users/macair1/projects/inversioncore/engine/rust_binary/target/release/build/serde-e66b3819c3c35164/out/private.rs
+
+/Users/macair1/projects/inversioncore/engine/rust_binary/target/release/deps/libserde-5b6e1302bd0e6872.rlib: /Users/macair1/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs /Users/macair1/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs /Users/macair1/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs /Users/macair1/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs /Users/macair1/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs /Users/macair1/projects/inversioncore/engine/rust_binary/target/release/build/serde-e66b3819c3c35164/out/private.rs
+
+/Users/macair1/projects/inversioncore/engine/rust_binary/target/release/deps/libserde-5b6e1302bd0e6872.rmeta: /Users/macair1/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs /Users/macair1/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs /Users/macair1/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs /Users/macair1/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs /Users/macair1/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs /Users/macair1/projects/inversioncore/engine/rust_binary/target/release/build/serde-e66b3819c3c35164/out/private.rs
+
+/Users/macair1/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs:
+/Users/macair1/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs:
+/Users/macair1/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs:
+/Users/macair1/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs:
+/Users/macair1/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs:
+/Users/macair1/projects/inversioncore/engine/rust_binary/target/release/build/serde-e66b3819c3c35164/out/private.rs:
+
+# env-dep:OUT_DIR=/Users/macair1/projects/inversioncore/engine/rust_binary/target/release/build/serde-e66b3819c3c35164/out
