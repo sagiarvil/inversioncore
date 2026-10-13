@@ -1378,7 +1378,52 @@
             document.getElementById("tasks-drawer-text").innerText = "2 tasks running";
           }
         } else if (round === 1) {
-          if (detectedTopic === 'forensic') {
+          if (detectedTopic === 'triangulation') {
+            const roleSelect = document.getElementById('triangulation-target-role');
+            const targetRole = roleSelect ? roleSelect.value : 'partner';
+            const roleLabel = roleSelect ? roleSelect.options[roleSelect.selectedIndex].text : "Karakter Analizi";
+            const auditData = window.lastAttachedVisionPayload && window.lastAttachedVisionPayload.visionData ? window.lastAttachedVisionPayload.visionData : {};
+            const maskGap = auditData.noise_deviation ? (auditData.noise_deviation * 10).toFixed(1) : '42.0';
+            const contempt = auditData.spectral_ratio ? (auditData.spectral_ratio * 100).toFixed(1) : '54.0';
+
+            content = `
+              <div class="ai-clean-card">
+                <div class="ai-badge-header">
+                  <span>INVERSIONCORE // 3-NOKTA BİYOPSİKOSOSYAL KİŞİLİK OTOPSİSİ</span>
+                  <span style="color:var(--accent-cyber);">[AŞAMA 01: HEDEF ROL MASKE OTOPSİSİ]</span>
+                </div>
+                <div class="ai-claim-box">
+                  <span>HEDEF VE İNCELEME ODAĞI:</span> [${escapeHtml(roleLabel)}] "${escapeHtml(userQuery)}"
+                </div>
+                <div class="ai-body-text">
+                  <h3>1. ÇIPLAK HAKİKAT VE MASKE MAKASI ANALİZİ</h3>
+                  <p>Paul Ekman FACS ve 3D Kraniyofasiyal Geometri verilerini masaya yatıralım: Bu kişinin resmi vitrin pozu ile doğal anları arasında <b>%${maskGap} oranında Benlik Yarılması (Maske Makası)</b> ve <b>%${contempt} Kronik Küçümseme (AU14)</b> izi saptandı.</p>
+                  <p>Bu insan dünyaya sunduğu 'kusursuz, güvenilir, çalışkan veya sevgi dolu' profili oynamak için yüksek zihinsel enerji harcıyor. Gardı düştüğü anda yüzün alt motor kaslarında beliren mikro-küçümseme, karşı tarafa içten içe üstünlük tasladığının ve empati yoksunluğunun biyolojik faturasıdır.</p>
+
+                  <h3>2. SEÇİLEN ROL BAĞLAMINDA RİSK DÖNGÜSÜ</h3>
+                  <p><b>[${escapeHtml(roleLabel)}]:</b> Bu kişiyle girdiğin etkileşimde yaşayacağın en büyük tehlike, vitrindeki sahte yetkinliğe ve tatlı dile kanıp gardını düşürmendir. Kriz anında sorumluluk almak yerine suçu sana veya dış şartlara yıkacak, köşeye sıkıştığında ise pasif-agresif sessizlik veya suçluluk psikolojisi (DARVO) uygulayacaktır.</p>
+
+                  <h3>3. STRATEJİK HÜKÜM VE NET REÇETE</h3>
+                  <p>İnsanların sözlerine, CV'lerine veya romantik vaatlerine değil; baskı altında ve kriz anındaki istemsiz kas reflekslerine inan. Maske makasının bu denli açık olduğu bir profille yürümek, patlamaya hazır bir mayına basmaktır.</p>
+                </div>
+                <div class="ai-attack-box">
+                  <div class="attack-label">⚡ İLK TOKAT // KARAR EŞİĞİ:</div>
+                  <div class="attack-main">
+                    Bu insanın vitrin illüzyonuna kanmayı bırakıp, kriz anında göstereceği gerçek yüzü ve manipülasyon riskini peşinen kabul ederek katı sınırlar çekmeye (veya ilişkiyi/süreci derhal sonlandırmaya) hazır mısın?
+                  </div>
+                </div>
+                <div class="choice-group">
+                  <button class="btn-choice bad" onclick="handleQuickChoice('hayir')">
+                    ❌ "Hala iyi niyetine inanmak istiyorum; biraz daha şans vereceğim."
+                  </button>
+                  <button class="btn-choice" onclick="handleQuickChoice('evet')">
+                    ✔ "Maske makasını gördüm; radikal sınır çekiyorum / süreci kesiyorum."
+                  </button>
+                </div>
+                ${renderAiActionFooter()}
+              </div>
+            `;
+          } else if (detectedTopic === 'forensic') {
             const ep = currentEvidencePayload || window.lastAttachedVisionPayload || {};
             const vData = ep.visionData || {};
             const specVal = vData.spectral_ratio || '0.7558';

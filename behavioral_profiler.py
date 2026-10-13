@@ -177,7 +177,7 @@ class HumanBehavioralProfiler:
         }
         role_label = role_titles.get(target_role, "Bireysel Karakter Analizi")
 
-        # 4. Klinik ve Davranış Bilimsel Teşhis Çıkarımları
+        # 4. Hedefe Özel Klinik, Nöropsikiyatrik ve Davranış Bilimsel Teşhis Çıkarımları
         if target_role == "candidate_employee":
             if is_narcissistic_armor:
                 ego_struct = "Aşırı Şişirilmiş CV Vitrini, Otorite Çatışması Potansiyeli ve Pasif-Agresif İş Tutumu"
@@ -189,16 +189,114 @@ class HumanBehavioralProfiler:
                 conflict_reflex = "Çözüm Odaklı Yaklaşım, Geri Bildirimi Gelişime Dönüştürme ve Krizde İnisiyatif Alma"
                 vulnerability = "Aşırı fedakarlık sonucu tükenmişlik (burnout) ve sınır çizememe"
                 risk_level = "GÜVENİLİR VE YÜKSEK KATMA DEĞERLİ ADAY // İŞE ALIM UYGUN"
-        elif is_narcissistic_armor:
-            ego_struct = "Yüksek Kontrollü Sahte Benlik (False Self) ve Narsisistik Savunma Zırhı"
-            conflict_reflex = "DARVO (Deny, Attack, Reverse Victim and Offender) / Suçluluk Yansıtma ve Sessizlikle Cezalandırma (Silent Treatment)"
-            vulnerability = "Statü kaybı, yetersizliğinin fark edilmesi ve karşı tarafın bağımsız sınır çizmesi"
-            risk_level = "YÜKSEK MANİPÜLASYON RİSKİ"
-        else:
-            ego_struct = "Bütünleşik, Uyumlu ve Organik Benlik Yapısı"
-            conflict_reflex = "Rasyonel Uzlaşma, Duygusal Temas ve Geri Bildirimi Sindirebilme"
-            vulnerability = "Aşırı sorumluluk alma ve sınırlarını korumakta zorlanma"
-            risk_level = "DÜŞÜK / DENGELİ KARAKTER PROFİLİ"
+
+        elif target_role == "groom_candidate":
+            if is_narcissistic_armor:
+                ego_struct = "Sosyal Statü İllüzyonu, Aileye Karşı Sahte Uyum ve Bastırılmış Kontrol Manikliği"
+                conflict_reflex = "Evlilik İçi Mali Şantaj, Aileleri Birbirine Düşürme ve Duygusal Soğukluk (Stonewalling)"
+                vulnerability = "Mali durumunun kurcalanması ve gerçek aile bağlarının sorgulanması"
+                risk_level = "YÜKSEK EVLİLİK VE PROTOKOL RİSKİ // DERİN TAHDİT ŞÜPHESİ"
+            else:
+                ego_struct = "Olgun, Sorumluluk Alabilen ve Şeffaf Aile Benliği"
+                conflict_reflex = "Empatik Dinleme, Krizde Koruyucu Tutum ve Ortak Bütçe Sadakati"
+                vulnerability = "Aşırı iyi niyet ve aile baskısına karşı koymakta gecikme"
+                risk_level = "DENGELİ VE UYUMLU EŞ PROFİLİ"
+
+        elif target_role == "business_partner":
+            if is_narcissistic_armor:
+                ego_struct = "Kolektif Parayı Kendi Mülkü Görme Eğilimi ve Girişimci Megalomanisi"
+                conflict_reflex = "Muhasebe Kayıtlarını Gizleme, Finansal Manipülasyon ve Ortağı Tasfiye Etme Taktikleri"
+                vulnerability = "Bağımsız denetim, resmi banka ekstreleri ve hukuki sözleşme kısıtları"
+                risk_level = "YÜKSEK SERMAYE VE DOLANDIRILMA RİSKİ // ORTAKLIK ÖNERİLMEZ"
+            else:
+                ego_struct = "Sözleşmeye Sadık, Sermaye Disiplini Yüksek ve Rasyonel Tüccar Zihniyeti"
+                conflict_reflex = "Şeffaf Hesaplaşma, Risk Paylaşımı ve Profesyonel Ayrışabilme Kapasitesi"
+                vulnerability = "Aşırı muhafazakar sermaye yönetimi ve büyüme fırsatlarını kaçırma"
+                risk_level = "GÜVENİLİR TİCARİ MİMARİ // YATIRIMA UYGUN"
+
+        elif target_role == "manager":
+            if is_narcissistic_armor:
+                ego_struct = "Mikro-Yönetim Hastalığı, Astların Emeğini Gasp Etme ve Kurumsal Sadizm"
+                conflict_reflex = "Keyfi Mobbing, İzole Etme, Performansı Karalama ve Kurban Rolüne Geçme"
+                vulnerability = "Üst yönetimin veya hukukun yazılı delillerle devreye girmesi"
+                risk_level = "TOKSİK AMİR // HUKUKİ HAKLI FESİH DELİLİ TOPLANMALI"
+            else:
+                ego_struct = "Liyakat Odaklı, Delegasyon Kabiliyeti Yüksek ve Adil Yönetici"
+                conflict_reflex = "Doğrudan Masada Çözüm, Emeğin Takdiri ve Kariyer Alanı Açma"
+                vulnerability = "Şirket politikasında aşırı şeffaf kalarak üst yönetimle ters düşme"
+                risk_level = "LİYAKATLİ VE KORUYUCU YÖNETİCİ"
+
+        elif target_role == "employee":
+            if is_narcissistic_armor:
+                ego_struct = "Gizli Tembellik, Dedikodu Ağı ve Şirket Kaynaklarını İstismar Eğilimi"
+                conflict_reflex = "Mesaiye Uymama, Görev Sabotajı ve Hak Arayışı Adı Altında Şantaj"
+                vulnerability = "Günlük dijital aktivite logları ve somut KPI denetimleri"
+                risk_level = "OPERASYONEL ASALAK // TAZMİNATSIZ FESİH İNCELENMELİ"
+            else:
+                ego_struct = "Sadık, İşi Sahiplenen ve Katma Değer Üreten Çekirdek Personel"
+                conflict_reflex = "Geri Bildirim Alma, Fazladan Mesai Harcama ve Kurumu Koruma"
+                vulnerability = "Düşük maaş veya takdirsizlik durumunda sessiz istifa (quiet quitting)"
+                risk_level = "DEĞERLİ ÇALIŞAN // ÖDÜLLENDİRİLMELİ"
+
+        elif target_role == "talent":
+            if is_narcissistic_armor:
+                ego_struct = "Sahte Deha Sendromu, Şişirilmiş Portfolyo ve Sürdürülemez Başlangıç Hırsı"
+                conflict_reflex = "İlk Zorlukta Pes Etme, İlham Bekleme Mazereti ve Disiplinsizlik"
+                vulnerability = "Zaman kısıtlı canlı kodlama / canlı uygulama sınavı"
+                risk_level = "DÜŞÜK İCRA KAPASİTESİ // SADECE LAF ÜRETİR"
+            else:
+                ego_struct = "Derin Çalışma (Deep Work) Kapasitesi, Odaklanma Gücü ve Yüksek Öğrenme Hızı"
+                conflict_reflex = "Hatalardan Ders Çıkarma, Merak Odaklı Derinleşme ve Sessiz İcra"
+                vulnerability = "Aşırı mükemmeliyetçilik ve ürün tesliminde gecikme"
+                risk_level = "ÜST DÜZEY YETENEK // YATIRIM YAPILMALI"
+
+        elif target_role == "iq_cognition":
+            if is_narcissistic_armor:
+                ego_struct = "Bilişsel Kibir, Yüzeysel Jargon Ezberi ve Mantık Tutarsızlıklarını Saklama"
+                conflict_reflex = "Sofistike Demagoji, Konuyu Çarpıtma ve Karşı Tarafı Cahil İlan Etme"
+                vulnerability = "Birinci ilkelerden (First Principles) matematiksel kök neden sorgusu"
+                risk_level = "BİLİŞSEL YÜZEYSELLİK // STRATEJİK HATA POTANSİYELİ"
+            else:
+                ego_struct = "Yüksek Sistem-2 Muhakemesi, Olasılıksal Düşünce ve Asperger Düzeyinde Berraklık"
+                conflict_reflex = "Veriye Dayalı Fikir Değiştirme, Kör Noktaları Kendi Kendine İmha Etme"
+                vulnerability = "Sosyal nezaket kurallarını önemsememe ve aşırı dobra üslup"
+                risk_level = "YÜKSEK STRATEJİK VE MANTIKSAL IQ KAPASİTESİ"
+
+        elif target_role == "self":
+            if is_narcissistic_armor:
+                ego_struct = "Kendini Kandırma (Self-Deception) ve Başarısızlığı Dış Etkenlere Yıkma"
+                conflict_reflex = "Rasyonelleştirilmiş Bahaneler, Eylemsizlik ve Sahte Konfor Alanı"
+                vulnerability = "Aynaya çıplak gözle bakmak ve gerçek finansal/ilişkisel faturayı görmek"
+                risk_level = "BİLİŞSEL İFLAS EŞİĞİ // ACİL ŞOK RADİKAL PROTOKOL GEREKLİ"
+            else:
+                ego_struct = "Öz-Farkındalığı Yüksek, Gerçekçi ve Büyümeye Açık Öz-Benlik"
+                conflict_reflex = "Kendi Hatalarını Kabul Etme ve Radikal Disiplin Kurabilme"
+                vulnerability = "Kendine aşırı yüklenme ve acımasız özeleştiri"
+                risk_level = "GÜÇLÜ ÖZ-BENLİK // DÖNÜŞÜM KAPASİTESİ TAM"
+
+        elif target_role == "friend":
+            if is_narcissistic_armor:
+                ego_struct = "Fırsatçı Yakınlık, Gizli Haset ve Zayıf Anı Kollayan Sosyal Parazitlik"
+                conflict_reflex = "Arkadan Konuşma, Sırları Üçüncü Kişilere Taşıma ve Pasif-Agresif İğnelemeler"
+                vulnerability = "Sınır çekilmesi ve menfaat kapısının kapatılması"
+                risk_level = "TOKSİK DOSTLUK // DERHAL MESAFE KONULMALI"
+            else:
+                ego_struct = "Karşılıksız Destek, Ketum ve Zor Günde Yanında Duran Gerçek Dost"
+                conflict_reflex = "Yüzüne Karşı Dobra Eleştiri, Arkasından Koruma ve Tam Sadakat"
+                vulnerability = "Kendi sınırlarını dostluk uğruna ihmal etme"
+                risk_level = "GÜVENİLİR VE DEĞERLİ DOST PROFİLİ"
+
+        else: # partner
+            if is_narcissistic_armor:
+                ego_struct = "Yüksek Kontrollü Sahte Benlik (False Self) ve Narsisistik Savunma Zırhı"
+                conflict_reflex = "DARVO (Deny, Attack, Reverse Victim and Offender) / Gaslighting ve Sessiz Ceza"
+                vulnerability = "Statü kaybı, yetersizliğinin fark edilmesi ve bağımsız sınır çekilmesi"
+                risk_level = "YÜKSEK İLİŞKİSEL MANİPÜLASYON RİSKİ // DERHAL FESİH"
+            else:
+                ego_struct = "Bütünleşik, Uyumlu ve Organik Benlik Yapısı"
+                conflict_reflex = "Rasyonel Uzlaşma, Duygusal Temas ve Empatik İletişim"
+                vulnerability = "Aşırı fedakarlık ve sınırlarını korumakta zorlanma"
+                risk_level = "DÜŞÜK / DENGELİ İLİŞKİSEL PROFİL"
 
         summary_text = (
             f"[INVERSIONCORE // 3-NOKTA BİYOPSİKOSOSYAL KİŞİLİK OTOPSİSİ]\n"
