@@ -18,16 +18,18 @@ class HumanBehavioralProfiler:
             return image_data
         if isinstance(image_data, bytes):
             nparr = np.frombuffer(image_data, np.uint8)
-            return cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+            decoded_img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+            return decoded_img
         if isinstance(image_data, str):
-            if os.path.exists(image_data):
+            if len(image_data) < 512 and os.path.exists(image_data):
                 return cv2.imread(image_data)
             if "," in image_data:
                 image_data = image_data.split(",", 1)[1]
             try:
                 decoded = base64.b64decode(image_data)
                 nparr = np.frombuffer(decoded, np.uint8)
-                return cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+                decoded_img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+                return decoded_img
             except Exception:
                 return None
         return None
@@ -166,7 +168,11 @@ class HumanBehavioralProfiler:
             "groom_candidate": "Damat / Eş Adayı Analizi",
             "business_partner": "İş Ortağı / Yatırımcı Analizi",
             "manager": "Patron / Amir / Yönetici Analizi",
-            "self": "Kişisel Kör Nokta / Öz-Benlik Analizi"
+            "self": "Kendim İçin (Kişisel Kör Nokta / Öz-Benlik)",
+            "friend": "Arkadaşım İçin (Güvenilirlik & Samimiyet)",
+            "employee": "Personel / Çalışan Analizi (Sadakat & Kriz Dayanımı)",
+            "talent": "Yetenek & Potansiyel Analizi (Stres Altında İcra)",
+            "iq_cognition": "Bilişsel Kapasite & Zihinsel Strateji Analizi (IQ)"
         }
         role_label = role_titles.get(target_role, "Bireysel Karakter Analizi")
 

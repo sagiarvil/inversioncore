@@ -215,7 +215,11 @@
                   <option value="groom_candidate">Damat / Eş Adayı Analizi</option>
                   <option value="business_partner">İş Ortağı / Yatırımcı Analizi</option>
                   <option value="manager">Patron / Amir Analizi</option>
-                  <option value="self">Kişisel Kör Nokta (Öz-Benlik)</option>
+                  <option value="self">Kendim İçin (Kişisel Kör Nokta / Öz-Benlik)</option>
+                  <option value="friend">Arkadaşım İçin (Güvenilirlik &amp; Samimiyet)</option>
+                  <option value="employee">Personel / Çalışan Analizi (Sadakat &amp; Kriz)</option>
+                  <option value="talent">Yetenek &amp; Potansiyel Analizi (İcra Kapasitesi)</option>
+                  <option value="iq_cognition">IQ / Bilişsel Kapasite Analizi</option>
                 </select>
               </div>
             </div>
@@ -726,22 +730,39 @@
 
       let auditResult = null;
       try {
-        const res = await fetch('http://localhost:8888/api/triangulation-audit', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-API-Key': 'inv_prod_live_sec_key_2026'
-          },
-          body: JSON.stringify({
-            formal_image: triangulationSlots.formal.base64,
-            candid_image: triangulationSlots.candid.base64,
-            social_image: triangulationSlots.social.base64,
-            target_role: targetRole,
-            custom_question: customQ
-          })
+        const payloadBody = JSON.stringify({
+          formal_image: triangulationSlots.formal ? triangulationSlots.formal.base64 : null,
+          candid_image: triangulationSlots.candid ? triangulationSlots.candid.base64 : null,
+          social_image: triangulationSlots.social ? triangulationSlots.social.base64 : null,
+          target_role: targetRole,
+          custom_question: customQ
         });
-        if (res.ok) {
-          auditResult = await res.json();
+
+        const endpoints = [
+          '/api/triangulation-audit',
+          'https://south-rehabilitation-prison-casino.trycloudflare.com/api/triangulation-audit',
+          'http://localhost:8888/api/triangulation-audit'
+        ];
+
+        for (let ep of endpoints) {
+          try {
+            const ctrl = new AbortController();
+            const tid = setTimeout(() => ctrl.abort(), 4000);
+            const res = await fetch(ep, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-API-Key': 'inv_prod_live_sec_key_2026'
+              },
+              body: payloadBody,
+              signal: ctrl.signal
+            });
+            clearTimeout(tid);
+            if (res.ok) {
+              auditResult = await res.json();
+              break;
+            }
+          } catch(e) {}
         }
       } catch (err) {
         console.error("Triangulation audit hatası:", err);
