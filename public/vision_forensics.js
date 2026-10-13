@@ -190,7 +190,15 @@
     await new Promise(function (res, rej) { img.onload = res; img.onerror = rej; img.src = url; });
     var buffer = await file.arrayBuffer();
 
-    onProgress("Tier-1 Bilimsel Adli Bilişim Motoru (2D FFT, PRNU Varyansı, Kraniyofasiyal Simetri) çalışıyor...");
+    onProgress("Adli motorlar ve Tier-1 Sinyal Analizi çalışıyor...");
+
+    // İstemci tarafı EXIF, ELA, Yüz ve OCR analizlerini paralel çalıştır
+    var [exif, ela, face, ocr] = await Promise.all([
+      exifForensics(buffer).catch(function(e) { return { motor: "ExifReader", error: String(e), negative_findings: [] }; }),
+      elaAnalysis(img).catch(function(e) { return { motor: "ELA", error: String(e), negative_findings: [] }; }),
+      withTimeout(faceForensics(img), 3500, { motor: "face-api", face_count: 0, negative_findings: [] }),
+      withTimeout(ocrForensics(file), 4000, { motor: "Tesseract", text: "", negative_findings: [] })
+    ]);
 
     var backendTier1 = null;
     try {
