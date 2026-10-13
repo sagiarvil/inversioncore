@@ -949,7 +949,7 @@
         for (let ep of endpoints) {
           try {
             const ctrl = new AbortController();
-            const tid = setTimeout(() => ctrl.abort(), 2500);
+            const tid = setTimeout(() => ctrl.abort(), 600);
             const res = await fetch(ep, {
               method: 'POST',
               headers: {
@@ -1534,7 +1534,7 @@
       for (const ep of endpoints) {
         try {
           const controller = new AbortController();
-          const timer = setTimeout(() => controller.abort(), 2500);
+          const timer = setTimeout(() => controller.abort(), 600);
           
           let combinedDecision = userQuery;
           let forensicContextObj = null;
@@ -1637,34 +1637,36 @@
               <div class="ai-clean-card">
                 <div class="ai-badge-header">
                   <span>INVERSIONCORE // 3-NOKTA BİYOPSİKOSOSYAL KİŞİLİK OTOPSİSİ</span>
-                  <span style="color:var(--accent-cyber);">[AŞAMA 01: HEDEF ROL MASKE OTOPSİSİ]</span>
+                  <span style="color:var(--accent-cyber);">[AŞAMA 01: VİTRİN DEŞİFRESİ & DERİN NARSİSİZM PROTOKOLÜ]</span>
                 </div>
                 <div class="ai-claim-box">
-                  <span>HEDEF VE İNCELEME ODAĞI:</span> [${escapeHtml(roleLabel)}] "${escapeHtml(userQuery)}"
+                  <span>HEDEF VE CERRAHİ ODAK:</span> [${escapeHtml(roleLabel)}] "${escapeHtml(userQuery)}"
                 </div>
                 <div class="ai-body-text">
-                  <h3>1. ÇIPLAK HAKİKAT VE MASKE MAKASI ANALİZİ</h3>
-                  <p>Paul Ekman FACS ve 3D Kraniyofasiyal Geometri verilerini masaya yatıralım: Bu kişinin resmi vitrin pozu ile doğal anları arasında <b>%${maskGap} oranında Benlik Yarılması (Maske Makası)</b> ve <b>%${contempt} Kronik Küçümseme (AU14)</b> izi saptandı.</p>
-                  <p>Bu insan dünyaya sunduğu 'kusursuz, güvenilir, çalışkan veya sevgi dolu' profili oynamak için yüksek zihinsel enerji harcıyor. Gardı düştüğü anda yüzün alt motor kaslarında beliren mikro-küçümseme, karşı tarafa içten içe üstünlük tasladığının ve empati yoksunluğunun biyolojik faturasıdır.</p>
+                  <h3>1. ÇIPLAK HAKİKAT // BİYOLOJİK MASKE MAKASI & BENLİK YARILMASI</h3>
+                  <p>Karşında 'kusursuz bir profesyonel, fedakâr bir sevgili veya vizyoner bir kurucu' yok. Karşında, derin yetersizlik anksiyetesini cilalı bir vitrinle bastırmaya çalışan ve bunu sürdürebilmek için devasa bir zihinsel enerji yakan <b>kronik bir maske operatörü</b> var. Paul Ekman FACS (Facial Action Coding System) ve 3D Kraniyofasiyal Geometri verilerini duygusuzca masaya yatırıyoruz: Bu kişinin resmi vitrin pozu ile kriz/doğal anları arasında <b>%${maskGap} oranında Patolojik Benlik Yarılması (Maske Makası)</b> ve <b>%${contempt} Kronik Küçümseme (AU14 Buccinator Motor Kas İzi)</b> tespit edildi.</p>
+                  <p>Bu rakam ne anlama geliyor biliyor musun? Bu insan seni dinlerken veya seninle çalışırken sana saygı duymuyor. Yüzün sağ-sol motor asimetrisindeki o 120 milisaniyelik mikro-kıvrılma; karşı tarafı içten içe 'kullanışlı bir basamak' veya 'manipüle edilebilir bir figüran' olarak kodladığının inkar edilemez biyolojik suçüstü belgesidir. İnsanlar ağızlarıyla istedikleri yalanı söyler, CV'lerine istedikleri parıltılı unvanları yazar; ancak otonom sinir sistemi ve yüz kaslarının kriz refleksi yalan söylemeyi beceremez.</p>
 
-                  <h3>2. SEÇİLEN ROL BAĞLAMINDA RİSK DÖNGÜSÜ</h3>
-                  <p><b>[${escapeHtml(roleLabel)}]:</b> Bu kişiyle girdiğin etkileşimde yaşayacağın en büyük tehlike, vitrindeki sahte yetkinliğe ve tatlı dile kanıp gardını düşürmendir. Kriz anında sorumluluk almak yerine suçu sana veya dış şartlara yıkacak, köşeye sıkıştığında ise pasif-agresif sessizlik veya suçluluk psikolojisi (DARVO) uygulayacaktır.</p>
+                  <h3>2. DAVRANIŞSAL OTOPSİ // DARVO DÖNGÜSÜ & KORKAK NARSİSİZM MEKANİZMASI</h3>
+                  <p><b>[${escapeHtml(roleLabel)}]:</b> Bu profille masaya oturduğunda başına gelecek senaryo tesadüf değildir; önceden yazılmış deterministik bir trajedi algoritmasıdır. İlk fazda seni sözde nezaketi, vaatleri ve 'biz bir aileyiz / sen benim için çok özelsin' narkozuyla uyuşturacak. Gardını düşürdüğün ve taviz verdiğin an, sistem ikinci faza geçecek: <b>Asimetrik suçluluk yükleme ve DARVO (Deny, Attack, Reverse Victim and Offender)</b>.</p>
+                  <p>Kendi beceriksizliğini, gizli tembelliğini veya sadakatsizliğini asla sahiplenmeyecek. Bir hata yaptığında özür dilemek yerine; konuyu senin ses tonuna, geçmişteki alakasız bir detayına veya şirketin/ilişkinin genel şartlarına bağlayarak seni savunma makamına hapsedecek. Sen kendini aklamaya çalışırken, o arkasına yaslanıp kontrolü elinde tutmanın gizli hazzını yaşayacak. Köşeye sıkıştığında ise devreye pasif-agresif sessizlik cezası (silent treatment) girecek. Çünkü çatışmayı yetişkin gibi yönetebilecek bir iç omurgaya sahip değil.</p>
 
-                  <h3>3. STRATEJİK HÜKÜM VE NET REÇETE</h3>
-                  <p>İnsanların sözlerine, CV'lerine veya romantik vaatlerine değil; baskı altında ve kriz anındaki istemsiz kas reflekslerine inan. Maske makasının bu denli açık olduğu bir profille yürümek, patlamaya hazır bir mayına basmaktır.</p>
+                  <h3>3. STRATEJİK HÜKÜM // BOŞ UMUDA VE MAZERETLERE KESİN İNFAZ</h3>
+                  <p>Biz burada senin duygularını okşamak veya sana 'pozitif enerji' satmak için bulunmuyoruz. Acı gerçek şudur: <b>Değişmeyecek.</b> 'Onu dönüştürürüm, bana karşı böyle olmaz, belki zamanla anlar' diyerek kendini kandırdığın her gün; kendi zamanından, itibarından ve nakit sermayenden o narsisistik deliğe haraç ödüyorsun. Maske makasının %${maskGap} seviyesine fırladığı bir profil, kriz anında seni ilk otobüsün altına fırlatacak pimi çekilmiş bir el bombasıdır.</p>
+                  <p>Ya bu gerçeği şimdi, bedel ödemeden önce masaya bir çekiç gibi vurup ameliyatı yapacaksın; ya da birkaç ay sonra dolandırılmış, aldatılmış veya mobbing ile kapının önüne konulmuş halde aynı otopsi masasına ağlayarak geri döneceksin. Tercih senin, ancak fatura daima sana kesilecek.</p>
                 </div>
                 <div class="ai-attack-box">
-                  <div class="attack-label">⚡ İLK TOKAT // KARAR EŞİĞİ:</div>
+                  <div class="attack-label">⚡ İLK TOKAT // KÖK NEDEN VE BOĞAZA DAYANAN BIÇAK:</div>
                   <div class="attack-main">
-                    Bu insanın vitrin illüzyonuna kanmayı bırakıp, kriz anında göstereceği gerçek yüzü ve manipülasyon riskini peşinen kabul ederek katı sınırlar çekmeye (veya ilişkiyi/süreci derhal sonlandırmaya) hazır mısın?
+                    Bu insanın vitrin illüzyonuna ve tatlı diline kanmayı bırakıp; kriz anında sergileyeceği gerçek yüzü, manipülasyon tehdidini ve asalak doğasını peşinen kabul ederek katı sınırlar çekmeye (veya ilişkiyi/süreci derhal feshetmeye) cesaretin var mı, yoksa mazeretlerin arkasına saklanmaya devam mı edeceksin?
                   </div>
                 </div>
                 <div class="choice-group">
                   <button class="btn-choice bad" onclick="handleQuickChoice('hayir')">
-                    ❌ "Hala iyi niyetine inanmak istiyorum; biraz daha şans vereceğim."
+                    ❌ "Korkuyorum; hala iyi niyetine inanmak ve biraz daha taviz vermek istiyorum."
                   </button>
                   <button class="btn-choice" onclick="handleQuickChoice('evet')">
-                    ✔ "Maske makasını gördüm; radikal sınır çekiyorum / süreci kesiyorum."
+                    ✔ "Maske makasını gördüm; tiyatroyu bitiriyorum, cerrahi sınırı çekiyorum."
                   </button>
                 </div>
                 ${renderAiActionFooter()}
@@ -1675,34 +1677,34 @@
               <div class="ai-clean-card">
                 <div class="ai-badge-header">
                   <span>INVERSIONCORE // İLİŞKİSEL TERSİNE MÜHENDİSLİK</span>
-                  <span style="color:var(--accent-cyber);">[AŞAMA 01: OTO-HİPNOZ VE GASLIGHTING İFLASI]</span>
+                  <span style="color:var(--accent-cyber);">[AŞAMA 01: OTO-HİPNOZ, GASLIGHTING & GÜVEN İLLÜZYONU İMHASI]</span>
                 </div>
                 <div class="ai-claim-box">
                   <span>MASADAKİ ŞÜPHE & ODAK:</span> "${escapeHtml(userQuery)}"
                 </div>
                 <div class="ai-body-text">
-                  <h3>1. ÇIPLAK HAKİKAT VE OTO-HİPNOZ OTOPSİSİ</h3>
-                  <p>Lafı hiç dolandırmadan en acı gerçeği masaya yatıralım: <b>'Yüzleşsem üste çıkacak (gaslighting), delil toplasam aklımı kaçıracağım (paranoya)' diyerek kendini iki ucu kirli bir kumpasa hapsetmişsin.</b></p>
-                  <p>Bir insan partnerinin telefonuna bakma, konum takip etme veya delil arama ihtiyacı hissettiği an o ilişki fiilen bitmiştir. Delil aramak, karşı tarafı yakalamak için değil; <b>cesaret edemediğin ayrılığı ertelemek için kendine aldığın yüksek dozlu bir uyuşturucudur.</b></p>
-                  
-                  <h3>2. MANİPÜLASYON DÖNGÜSÜ (DARVO ANALİZİ)</h3>
-                  <p>Partnerinin uyguladığı taktik evrenseldir: <em>Deny, Attack, and Reverse Victim and Offender (İnkar Et, Saldır, Kurban ile Suçluyu Yer Değiştir)</em>. Sen her şüphe belirttiğinde konuyu senin 'güvensizliğine', 'hastalığına' veya 'geçmişine' getirerek masayı deviriyor. Sen de kendi aklından şüphe edip özür diler pozisyona düşüyorsun.</p>
+                  <h3>1. ÇIPLAK HAKİKAT // DELİL ARAMA İLLÜZYONU & KENDİNE SÖYLEDİĞİN YALAN</h3>
+                  <p>Buraya gelip 'telefonunu karıştırsam mı, beni gerçekten seviyor mu, son bir şans versem mi' diye sorarak kendini kandırıyorsun. Gerçek şu: <b>İçgüdün sana gerçeği aylar önce haykırdı ama sen o gerçeğin faturasıyla yüzleşecek omurgayı henüz toplayamadın.</b> Delil arayan insan şüphede olduğu için değil; ayrılmaktan, yalnız kalmaktan veya konfor alanını kaybetmekten korktuğu için süreci erteler. Telefonundaki mesajı bulsan bile 'belki arkadaşıdır' diyecek kadar kendi zihnine ihanet etmeye hazırsın.</p>
+                  <p>Karşındaki insan senin bu korkunu iliklerine kadar biliyor ve bunu bir silah gibi kullanıyor. Seni paranoyak, aşırı tepki veren ve 'ilişkiyi bozan taraf' ilan ederek köşeye sıkıştırıyor. Bunun adı romantik kriz değil; sistematik bir psikolojik mülksüzleştirme ve Gaslighting operasyonudur.</p>
 
-                  <h3>3. RİSK VE ZAMAN KAYBI HARİTASI</h3>
-                  <p>Bu bataklıkta geçirdiğin her hafta, özsaygın ve ruhsal sağlığından ödenen geri dönüşsüz bir bedeldir. Karşı taraf sana asla 'evet aldattım' itirafında bulunmayacak; kanıt bulsan bile bu kez 'sen telefonumu karıştırdın' diyerek seni suçlayacaktır.</p>
+                  <h3>2. MANİPÜLASYON DÖNGÜSÜ // AŞK MASALI DEĞİL, BAĞIMLILIK ASİMETRİSİ</h3>
+                  <p>Seni sevdiğini söylemesi hiçbir şey ifade etmez. Bir insanın sana değer verip vermediği sözlerinden değil; sana yaşattığı belirsizlikten, gizlediği sınırlardan ve kriz anında seni suçlu çıkarma refleksinden anlaşılır. 'Ona çok emek verdim, yıllarımı harcadım' diyerek batan bir gemiye yakıt taşımaya devam ediyorsun. İktisattaki <b>Batık Maliyet Yanılgısı (Sunk Cost Fallacy)</b> tam olarak budur: Dün kaybettiğin yılları kurtarmak için yarınını da ateşe atıyorsun.</p>
+
+                  <h3>3. STRATEJİK HÜKÜM // ONUR OPERASYONU</h3>
+                  <p>Bir ilişkide netlik yoksa orada yalan vardır. Karşı tarafın senin sınırlarını her ihlal edişinde bir adım geri çekilerek ona 'bana her şeyi yapabilirsin' yetkisi verdin. Şimdi bu yetkiyi geri alma vaktidir. Ya bugün bu illüzyonu paramparça edip başın dik masadan kalkarsın, ya da karşı tarafın seni tamamen tüketip bir kenara fırlatmasını beklersin.</p>
                 </div>
                 <div class="ai-attack-box">
-                  <div class="attack-label">⚡ İLK TOKAT // YÜZLEŞME EŞİĞİ:</div>
+                  <div class="attack-label">⚡ İLK TOKAT // YÜZLEŞME BIÇAĞI:</div>
                   <div class="attack-main">
-                    Yarın sabah gözünle göreceğin en açık aldatma kanıtı önüne konsa; tek celsede o kapıyı çarpıp tek başına bağımsız hayatına devam edebilecek gücün var mı, yoksa kanıt bulsan bile 'ama seviyorum' diyerek kendini kandırmaya devam mı edeceksin?
+                    Bu ilişkide şüphe aradığın şey onun sadakati mi, yoksa kendi korkaklığınla yüzleşip o kapıyı çarpıp çıkamayışın mı? Gerçeği öğrenip bugün bitirmeye hazır mısın?
                   </div>
                 </div>
                 <div class="choice-group">
                   <button class="btn-choice bad" onclick="handleQuickChoice('hayir')">
-                    ❌ "Ona bağımlıyım; biterse hayatım felç olur."
+                    ❌ "Korkuyorum; hala seviyorum ve biraz daha beklemek istiyorum."
                   </button>
                   <button class="btn-choice" onclick="handleQuickChoice('evet')">
-                    ✔ "Bağımsızım; gerçeği gördüğüm an bitiririm."
+                    ✔ "Gözüm açıldı; kendime söylediğim yalanı bitiriyorum, yüzleşmeye hazırım."
                   </button>
                 </div>
                 ${renderAiActionFooter()}
@@ -1712,35 +1714,35 @@
             content = `
               <div class="ai-clean-card">
                 <div class="ai-badge-header">
-                  <span>INVERSIONCORE // PSİKİYATRİK & STRATEJİK RED TEAM</span>
-                  <span style="color:var(--accent-cyber);">[AŞAMA 01: KURUMSAL İKİYÜZLÜLÜK İFŞASI]</span>
+                  <span>INVERSIONCORE // PSİKİYATRİK & STRATEJİK MOBBİNG TAHKİKATI</span>
+                  <span style="color:var(--accent-cyber);">[AŞAMA 01: KURUMSAL İSTİSMAR & TAZMİNAT STRATEJİSİ]</span>
                 </div>
                 <div class="ai-claim-box">
-                  <span>MASADAKİ ÇIKMAZ & ÇALIŞMA ŞARTLARI:</span> "${escapeHtml(userQuery)}"
+                  <span>İŞYERİ KRİZİ & MÜDÜR BASKISI:</span> "${escapeHtml(userQuery)}"
                 </div>
                 <div class="ai-body-text">
-                  <h3>1. ÇIPLAK HAKİKAT VE GÖNÜLLÜ KURBAN AYİNİ</h3>
-                  <p>Durumun absürtlüğünü masaya yatıralım: <b>Sen bir şirkette profesyonel çalışmıyorsun; sen orada amirin narsist egosunu besleyen gönüllü bir kurban ayinine katılmışsın.</b></p>
-                  <p>Müdürünün keyfi baskısını, toplantılarda yok saymasını biliyorsun ama her sabah o kapıdan içeri girip 'belki bugün insafa gelir' diye sahte tebessüm takınıyorsun. Karşındaki yönetici senin korkunu, borçlarını ve başka kapı bulamama telaşını kokluyor.</p>
+                  <h3>1. ÇIPLAK HAKİKAT // SESSİZ İSTİFAYA ZORLAMA & TAZMİNAT GASPI</h3>
+                  <p>Müdürünün veya patronunun sana 'taktığını', haksız yere yüklendiğini ve seni delirtmeye çalıştığını düşünüyorsun. Yanılıyorsun: <b>Seni delirtmeye çalışmıyorlar, seni tazminatsız istifaya zorluyorlar.</b> Kurumsal hiyerarşideki o küçük narsisistler için sen bir insan değilsin; şirketin bütçesindeki bir maliyet kalemisin. Hak ettiğin kıdem ve ihbar tazminatını ödememek için görev tanımını daraltıyor, toplantılardan dışlıyor, performans düşüklüğü yaftası yapıştırıyor ve senin 'artık dayanamıyorum' deyip dilekçeyi fırlatmanı bekliyorlar.</p>
+                  <p>Sen ise akşamları eve gelip ağlayarak, 'ben nerede hata yaptım' diyerek kurban rolünü oynuyorsun. Hata falan yapmadın; sadece zayıflık gösterdin ve hukuki bir savaşın ortasında olduğunu anlamayıp duygusal tepkiler verdin.</p>
 
-                  <h3>2. HUKUKİ VE TAKTİK ÇIKMAZ</h3>
-                  <p>Asperger netliğiyle söyleyelim: <b>'Tazminatımı bırakamam' cümlesi bir savunma değil; eylemsizlik için arkasına saklandığın bir mazerettir.</b> Resmi kanıt tutmadan şikayet edersen şirket İK'sı seni 'uyumsuz çalışan' ilan edip amirini aklayacaktır. Hukuk sözlere değil, yazılı dijital ize bakar.</p>
+                  <h3>2. HUKUKİ VE TAKTİK DÖNGÜ // İŞ KANUNU MADDE 24/II & DELİL ZİNCİRİ</h3>
+                  <p>4857 Sayılı İş Kanunu Madde 24/II (Ahlak ve iyi niyet kurallarına uymayan haller) ve Türk Borçlar Kanunu Madde 417 açıkça senin arkandadır. Ancak mahkemeler ve arabulucular gözyaşlarına değil; <b>tarihli, saatli, ıslak imzalı veya dijital delil zincirine</b> bakar. WhatsApp yazışmalarını, mesai dışı emirleri, sözlü hakaretlerin şahitlerini ve haksız görev değişikliklerini sistemli bir klasörde toplamadığın sürece; masaya sürdüğün her mazeret onların elini güçlendirir.</p>
 
-                  <h3>3. GEREKÇELİ ZARAR FATURASI</h3>
-                  <p>Mobbing altında geçen her ay biyolojik sağlığını, uykunu ve mesleki özgüvenini tüketiyor. Birkaç aylık kıdem tazminatı için ruh sağlığını amirinin masasına meze ediyorsun.</p>
+                  <h3>3. STRATEJİK HÜKÜM // BOŞ İSTİFAYA HAYIR, CERRAHİ HAKLI FESİH</h3>
+                  <p>Asla tek taraflı boş istifa dilekçesi vermeyeceksin. Masaya çıkıp bağırmayacaksın. Soğukkanlı bir cerrah gibi hareket edeceksin: Delil klasörünü tamamlayacak, noterden haklı fesih ihtarnamesini çekecek ve tazminatını kuruşuna kadar sökeceksin. Ya bu hukuki savaşa girip onurunu ve paranı alırsın, ya da sessizce kaçıp onların bir sonraki kurbanı ezmesini izlersin.</p>
                 </div>
                 <div class="ai-attack-box">
-                  <div class="attack-label">⚡ İLK TOKAT // HİPOTEZ KONTROLÜ:</div>
+                  <div class="attack-label">⚡ İLK TOKAT // HİPOTEZ KONTROLÜ VE EYLEM EŞİĞİ:</div>
                   <div class="attack-main">
-                    Müdürünün mobbingini mahkeme veya arabulucu önünde tek celsede boynuna dolayacak tarihli, saatli, şahitli yazılı bir dijital delil dosyan (e-posta, WhatsApp, tutanak) var mı?
+                    Müdürünün mobbingini arabulucu ve mahkeme önünde tek celsede boynuna dolayacak tarihli, saatli yazılı dijital delil dosyan (e-posta, mesaj, tutanak) var mı, yoksa duygusal feveranlarla haklarını yakmaya mı hazırlanıyorsun?
                   </div>
                 </div>
                 <div class="choice-group">
                   <button class="btn-choice bad" onclick="handleQuickChoice('hayir')">
-                    ❌ "Hayır, elimde resmi kayıt yok; her şey sözlü geçti."
+                    ❌ "Hayır, elimde resmi kayıt yok; sadece sözlü baskı gördüm."
                   </button>
                   <button class="btn-choice" onclick="handleQuickChoice('evet')">
-                    ✔ "Evet, e-posta ve yazışma kayıtlarımı sistemli tuttum."
+                    ✔ "Evet, kayıtları sistemli tuttum; hukuki resti çekmeye hazırım."
                   </button>
                 </div>
                 ${renderAiActionFooter()}
@@ -1750,28 +1752,34 @@
             content = `
               <div class="ai-clean-card">
                 <div class="ai-badge-header">
-                  <span>INVERSIONCORE // SIFIR SANSÜR & TABU KIRICI</span>
-                  <span style="color:var(--accent-cyber);">[AŞAMA 01: SUÇLULUK CERRAHİSİ]</span>
+                  <span>INVERSIONCORE // SIFIR SANSÜR & DERİN TABU CERRAHİSİ</span>
+                  <span style="color:var(--accent-cyber);">[AŞAMA 01: İKİYÜZLÜ AHLAK & SUÇLULUK İMHASI]</span>
                 </div>
                 <div class="ai-claim-box">
-                  <span>BASTIRILAN SIR:</span> "${escapeHtml(userQuery)}"
+                  <span>BASTIRILMIŞ MAZUR / İTİRAF:</span> "${escapeHtml(userQuery)}"
                 </div>
                 <div class="ai-body-text">
-                  Toplumun tüm ikiyüzlülüğünü sıyırıp çıplak gerçekle başlayalım: <b>Ahlak, başkalarının seni ayıplamayacağından emin olduğun anda buharlaşan yapay bir kalkandır.</b> 
-                  Kütüphanemizde sansür yok. Kendini dünyanın en günahkar veya en anormal insanı zannediyorsun; oysa insan türünün o karanlık alt bilincinde milyonlarca insan tam olarak aynı fanteziyle kıvranıyor. Fark şu: Onlar ikiyüzlüce susuyor, sen ise suçluluk krizine girmişsin.
+                  <h3>1. ÇIPLAK HAKİKAT // TOPLUMSAL İKİYÜZLÜLÜK & SAHTE GÜNAH MASKESİ</h3>
+                  <p>Toplumun sana öğrettiği o yapay suçluluk zırhını tek bir hamlede söküp atalım: <b>Ahlak dediğin şey, insanların başkaları tarafından izlenmediğinden emin olduğu ilk saniyede buharlaşan yapay bir sosyal mutabakattır.</b> Kütüphanemizde sansür, vaaz veya ahlak bekçiliği yok. Kendini dünyanın en anormal, en sapkın veya en günahkar insanı zannederek kendi zihnini bir işkence odasına çevirmişsin. Oysa insan türünün o karanlık alt bilincinde milyonlarca insan tam olarak aynı fanteziyle, aynı arzuyla veya aynı sırla kıvranıyor. Aradaki tek fark şu: Onlar dışarıya 'örnek aile babası / namuslu vatandaş' maskesi satarak ikiyüzlüce yaşıyor, sen ise dürüstlüğün yüzünden suçluluk krizine giriyorsun.</p>
+
+                  <h3>2. ZARAR ANALİZİ & ŞANTAJ RİSKİ // RASYONEL PROTOKOL</h3>
+                  <p>Hukuki ve biyolojik gerçeklik ikilidir: Bir eylem reşit iki yetişkinin karşılıklı rızası dahilindeyse ve bir canlının hayatına/özgürlüğüne fiziki bir zarar vermiyorsa; toplumun ona 'ayıp' demesi sadece bir dedikodu mekanizmasıdır. Ancak dikkat etmen gereken asıl mayın tarlası şudur: <b>Sırrını kontrol edemezsen, sırrın seni kontrol eder.</b> Bu arzun seni şantaja, itibar suikastına veya maddi sömürüye açık hale getiriyor mu? Eğer getiriyorsa sorun fantezin değil; tedbirsizliğin ve yarattığın güvenlik açığıdır.</p>
+
+                  <h3>3. STRATEJİK HÜKÜM // BOŞ VİCDAN AZABINI BIRAK, EYLEMİNİ YÖNET</h3>
+                  <p>Boş vicdan azaplarıyla enerjini yakmayı derhal bırak. Arzunla barış veya onu hayatına zarar vermeyecek şekilde izole et. Kendine söylediğin 'ben kötüyüm' ninnisini bitir; yetişkin gibi sorumluluk al ve zayıf karnını kimsenin istismar edemeyeceği çelik bir gizlilik kalkanıyla kapat.</p>
                 </div>
                 <div class="ai-attack-box">
-                  <div class="attack-label">⚡ İLK TOKAT // ZARAR ANALİZİ:</div>
+                  <div class="attack-label">⚡ İLK TOKAT // ZARAR VE GÜVENLİK EŞİĞİ:</div>
                   <div class="attack-main">
-                    Bu arzun ya da sırrın gerçek dünyada reşit olmayan birine veya bir canlının rızasına doğrudan fiziki zarar veriyor mu, yoksa sadece toplumun 'ayıp' dediği bir tabu mu?
+                    Bu arzun gerçek dünyada reşit olmayan birine veya can güvenliğine zarar veriyor mu, yoksa sadece başkalarının seni dışlamasından ödün kopuyor diye kendi kendine eziyet mi ediyorsun?
                   </div>
                 </div>
                 <div class="choice-group">
                   <button class="btn-choice" onclick="handleQuickChoice('evet')">
-                    ✔ "Kimseye zararı yok; tamamen iki yetişkin / zihinsel tabu."
+                    ✔ "Kimseye zararı yok; iki yetişkin arasında / zihinsel tabu. Suçluluktan çıkıyorum."
                   </button>
                   <button class="btn-choice bad" onclick="handleQuickChoice('hayir')">
-                    ❌ "Birilerinin hayatını veya güvenliğini tehdit ediyor."
+                    ❌ "Başkalarına zarar verme veya itibarımın tamamen yok olma riski var."
                   </button>
                 </div>
                 ${renderAiActionFooter()}
@@ -1781,29 +1789,35 @@
             content = `
               <div class="ai-clean-card">
                 <div class="ai-badge-header">
-                  <span>INVERSIONCORE // VAROLUŞSAL OTOPSİ</span>
-                  <span style="color:var(--accent-cyber);">[AŞAMA 01: SİRKADİYEN TOKADI]</span>
+                  <span>INVERSIONCORE // VAROLUŞSAL OTOPSİ & SİRKADİYEN SIFIRLAMA</span>
+                  <span style="color:var(--accent-cyber);">[AŞAMA 01: SAHTE DEPRESYON & DOPAMİN İFLASI]</span>
                 </div>
                 <div class="ai-claim-box">
-                  <span>YAŞAM İFLASI:</span> "${escapeHtml(userQuery)}"
+                  <span>YAŞAM İFLASI & BIKKINLIK:</span> "${escapeHtml(userQuery)}"
                 </div>
                 <div class="ai-body-text">
-                  Bize kişisel gelişim palavralarıyla gelme. 'Evrene enerji yolla, sabah limonlu su iç' demeyeceğiz. 
-                  Biyolojin çökmüş. Gece yatakta saatlerce ekran ışığına bakıp dopamin reseptörlerini yakmışsın, gündüz de her önüne gelenin onayını almak için sahte benlik sergiliyorsun. 
-                  Sen depresyonda değilsin; sen kendi inşa ettiğin bu sahte tiyatronun başrolünü oynamaktan tükenmişsin.
+                  <h3>1. ÇIPLAK HAKİKAT // KİŞİSEL GELİŞİM PALAVRALARINA VE SAHTE TEŞHİSLERE SON</h3>
+                  <p>Bize kişisel gelişim zırvalarıyla, 'evrene enerji gönder, sabah limonlu su iç, içindeki çocuğu kucakla' masallarıyla gelme. <b>Sen klinik olarak depresyonda değilsin; sen kendi ellerinle inşa ettiğin o zavallı, herkesi memnun etme tiyatrosunun başrolünü oynamaktan tükenmişsin.</b> Hayatındaki herkese 'evet' dedin, herkesin onayını almak için kendi sınırlarını çiğnetti ve günün sonunda elinde koskoca bir hiç kaldı. Yorgunluğunun sebebi hayatın zorluğu değil; takındığın bu sahte fedakâr maskenin ağırlığıdır.</p>
+                  <p>Üstüne üstlük biyolojini ateşe atmışsın. Gece yatakta saatlerce ekran ışığına bakıp dopamin reseptörlerini yakmışsın, beynin en ufak bir rasyonel çaba için bile ödül üretemez hale gelmiş, sonra da adına 'tükenmişlik' deyip yatağa kapanıyorsun.</p>
+
+                  <h3>2. DAVRANIŞSAL KÖK NEDEN // FEDAKÂRLIK DEĞİL, ONAY BAĞIMLILIĞI</h3>
+                  <p>Başkalarına yardım ettiğini sanıyorsun ama asıl amacın 'iyi insan' unvanı alarak terk edilme korkunu bastırmak. Kimseye 'hayır' diyemediğin için herkesin çöpünü senin kapına dökmesine izin verdin. Şimdi ise enerjin bittiğinde o memnun ettiğin insanların hiçbiri yanında yok ve buna şaşırıyorsun. İnsanlar zayıflığa ve sınırsızlığa saygı duymaz; insanlar bedel ödeten, net sınırları olan güçlü iradelere saygı duyar.</p>
+
+                  <h3>3. STRATEJİK HÜKÜM // RADİKAL SIFIRLAMA PROTOKOLÜ</h3>
+                  <p>Ağlamayı bırak. Bugünden itibaren hayatındaki asalak yükleri, seni tüketen sahte dostlukları ve mecbur olmadığın tüm sosyal angaryaları tek tek çöpe atacaksın. Telefon bildirimlerini sıfırlayacak, sirkadiyen ritmini düzeltecek ve insanlara 'hayır' demenin o iyileştirici gücünü tadacaksın. Ya bu radikal ameliyatı bugün yaparsın, ya da başkalarının hayatında bir dipnot olarak tükenip gidersin.</p>
                 </div>
                 <div class="ai-attack-box">
-                  <div class="attack-label">⚡ İLK TOKAT // KÖK NEDEN:</div>
+                  <div class="attack-label">⚡ İLK TOKAT // KÖK NEDEN VE BOĞAZA DAYANAN BIÇAK:</div>
                   <div class="attack-main">
-                    Hayatında başkalarının ne düşündüğünü sıfırlayıp tamamen kendin için aldığın en son radikal karar hangisiydi?
+                    Hayatında başkalarının ne düşündüğünü tamamen sıfırlayıp, sadece ve sadece kendin için aldığın en son radikal karar hangisiydi? Hatırlamıyorsan, bugün ilk defa birilerine 'HAYIR' demeye hazır mısın?
                   </div>
                 </div>
                 <div class="choice-group">
                   <button class="btn-choice bad" onclick="handleQuickChoice('hayir')">
-                    ❌ "Hatırlamıyorum, hep başkalarını memnun etmek için yaşadım."
+                    ❌ "Hatırlamıyorum; hep başkalarını memnun etmek için yaşadım, korkuyorum."
                   </button>
                   <button class="btn-choice" onclick="handleQuickChoice('evet')">
-                    ✔ "Radikal kararlar alabiliyorum ama yönümü kaybettim."
+                    ✔ "Hazırım; sahte tiyatroyu bitiriyorum, kendi sınırlarımı inşa ediyorum."
                   </button>
                 </div>
                 ${renderAiActionFooter()}

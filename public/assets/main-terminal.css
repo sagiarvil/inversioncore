@@ -182,7 +182,7 @@
 
     /* Chat modunda alt çubuğun içeriği örtmesini engellemek için geniş güvenli alan */
     .app-viewport.chat-mode .messages-scroll-area {
-      padding-bottom: 260px !important;
+      padding-bottom: 380px !important;
       overflow-y: auto !important;
     }
 
