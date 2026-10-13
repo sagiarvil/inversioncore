@@ -15,6 +15,60 @@ _tokenizer = None
 _deterministic_sampler = None
 _creative_sampler = None
 
+def call_groq_inference(prompt_text: str, system_prompt: str) -> Optional[str]:
+    """
+    Groq Ultra Hızlı Sansürsüz Çıkarım Motoru (Qwen 27B / GPT-OSS 120B).
+    Google veya kurumsal filtrelerin engellediği sert aldatma, dolandırıcılık, şantaj ve kriz konularında
+    hiçbir sansür duvarına takılmadan doğrudan cerrahi analizi döndürür.
+    """
+    raw_keys = os.getenv("GROQ_API_KEYS", "")
+    if not raw_keys:
+        env_file = os.path.join(os.path.dirname(__file__), ".env")
+        if os.path.exists(env_file):
+            with open(env_file, "r", encoding="utf-8") as f:
+                for line in f:
+                    if line.startswith("GROQ_API_KEYS="):
+                        raw_keys = line.strip().split("=", 1)[1]
+                        break
+                    elif line.startswith("GROQ_API_KEY="):
+                        raw_keys = line.strip().split("=", 1)[1]
+
+    keys = [k.strip() for k in raw_keys.split(",") if k.strip()]
+    if not keys:
+        return None
+
+    import urllib.request
+    models = ["qwen/qwen3.8-27b", "openai/gpt-oss-120b"]
+
+    for k in keys:
+        for model_id in models:
+            try:
+                req = urllib.request.Request(
+                    "https://api.groq.com/openai/v1/chat/completions",
+                    headers={
+                        "Authorization": f"Bearer {k}",
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0 (InversionCore; Engine v3)"
+                    },
+                    data=json.dumps({
+                        "model": model_id,
+                        "messages": [
+                            {"role": "system", "content": system_prompt},
+                            {"role": "user", "content": prompt_text}
+                        ],
+                        "temperature": 0.35,
+                        "max_tokens": 512
+                    }).encode("utf-8")
+                )
+                resp = urllib.request.urlopen(req, timeout=8)
+                data = json.loads(resp.read().decode("utf-8"))
+                if data.get("choices") and len(data["choices"]) > 0:
+                    return data["choices"][0]["message"]["content"]
+            except Exception as ge:
+                logger.info(f"[Groq Attempt Failed ({model_id})]: {ge}")
+                continue
+    return None
+
 def call_nvidia_cloud_inference(prompt_text: str, system_prompt: str) -> Optional[str]:
     """
     NVIDIA Cloud AI NIM Inference (Bulut Modu / Sıfır Maliyetli 70B/11B Llama 3.2 NIM).
@@ -287,25 +341,42 @@ class InversionCoreEngine:
         reply = None
         user_prompt_content = f"Kullanıcı Durumu: {effective_query}\n\nGeçmiş Hafıza:\n{core_memory}" if core_memory else f"Kullanıcı Durumu: {effective_query}"
 
-        # 3. UNIFIED SINGLE-PASS ÇIKARIM
-        # Önce MLX kontrol et, yoksa veya başarısız olursa NVIDIA Cloud Inference çalıştır
-        try:
-            model, tokenizer, _, creative_sampler = get_engine_components()
-            if model is not None and tokenizer is not None:
-                from mlx_lm import generate
-                prompt_text = (
-                    f"<|im_start|>system\n{UNIFIED_SYSTEM_PROMPT}\nTur: {round_num}<|im_end|>\n"
-                    f"<|im_start|>user\n{user_prompt_content}<|im_end|>\n"
-                    f"<|im_start|>assistant\n"
-                )
-                reply = generate(model, tokenizer, prompt=prompt_text, max_tokens=320, sampler=creative_sampler, verbose=False)
-        except Exception as _mlx_err:
-            logger.info(f"MLX çıkarımı atlandı ({_mlx_err}), Bulut çıkarımına geçiliyor...")
+        # 3. UNIFIED SANSÜRSÜZ ÇIKARIM MOTORU
+        # HİYERARŞİ:
+        # 1. Groq Ultra Hızlı Sansürsüz Motor (Qwen 27B / GPT-OSS 120B - Sıfır Filtre, Anında Çıkarım)
+        # 2. Yerel Apple Silicon MLX Modeli (Varsa ve aktifse)
+        # 3. NVIDIA Cloud NIM (Llama 3.2 11B Vision & Instruct)
+        
+        sys_prompt = f"{UNIFIED_SYSTEM_PROMPT}\nTur: {round_num}"
 
+        # 1. Öncelik: Groq API (Ultra Hızlı Llama/Qwen Sansürsüz Motor)
+        try:
+            reply = call_groq_inference(user_prompt_content, sys_prompt)
+            if reply:
+                logger.info("[*] InversionCore Groq Sansürsüz Çıkarım Başarılı.")
+        except Exception as _g_err:
+            logger.info(f"Groq çıkarım atlandı ({_g_err})")
+
+        # 2. Öncelik: Yerel MLX
         if not reply:
-            sys_prompt = f"{UNIFIED_SYSTEM_PROMPT}\nTur: {round_num}"
+            try:
+                model, tokenizer, _, creative_sampler = get_engine_components()
+                if model is not None and tokenizer is not None:
+                    from mlx_lm import generate
+                    prompt_text = (
+                        f"<|im_start|>system\n{UNIFIED_SYSTEM_PROMPT}\nTur: {round_num}<|im_end|>\n"
+                        f"<|im_start|>user\n{user_prompt_content}<|im_end|>\n"
+                        f"<|im_start|>assistant\n"
+                    )
+                    reply = generate(model, tokenizer, prompt=prompt_text, max_tokens=320, sampler=creative_sampler, verbose=False)
+            except Exception as _mlx_err:
+                logger.info(f"MLX çıkarımı atlandı ({_mlx_err})")
+
+        # 3. Öncelik: NVIDIA Cloud NIM Fallback
+        if not reply:
             reply = call_nvidia_cloud_inference(user_prompt_content, sys_prompt)
 
+        # 4. Deterministik Güvenlik Fallback
         if not reply:
             reply = (
                 "İNCELEME VE HİPOTEZ OTOPSİSİ:\n"
