@@ -2086,7 +2086,7 @@ Aksi takdirde İş Kanunu Madde 24/II uyarınca haklı fesih hakkımı kullanara
         }
 
         row.innerHTML = content;
-        scrollToBottom();
+        scrollToTarget(row);
       }, 550);
     }
 
@@ -2106,14 +2106,30 @@ Aksi takdirde İş Kanunu Madde 24/II uyarınca haklı fesih hakkımı kullanara
       }
     }
 
-    function scrollToBottom() {
+    function scrollToTarget(el) {
       const area = document.getElementById('scroll-area');
       if (!area) return;
-      area.scrollTop = area.scrollHeight;
-      if (typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function') {
-        window.requestAnimationFrame(() => {
-          area.scrollTop = area.scrollHeight;
-        });
+      if (el && typeof el.getBoundingClientRect === 'function') {
+        const areaRect = area.getBoundingClientRect();
+        const elRect = el.getBoundingClientRect();
+        const targetScroll = area.scrollTop + (elRect.top - areaRect.top) - 16;
+        if (typeof area.scrollTo === 'function') {
+          area.scrollTo({ top: Math.max(0, targetScroll), behavior: 'smooth' });
+        } else {
+          area.scrollTop = Math.max(0, targetScroll);
+        }
+      } else {
+        area.scrollTop = area.scrollHeight;
+      }
+    }
+
+    function scrollToBottom() {
+      const stream = document.getElementById('chat-stream-nodes');
+      if (stream && stream.lastElementChild) {
+        scrollToTarget(stream.lastElementChild);
+      } else {
+        const area = document.getElementById('scroll-area');
+        if (area) area.scrollTop = area.scrollHeight;
       }
     }
 
