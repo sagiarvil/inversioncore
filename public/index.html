@@ -1222,6 +1222,7 @@
     let isChatActive = false;
     let currentRound = 1;
     let userQuery = "";
+    let lastUserResponse = "";
     let detectedTopic = "genel";
 
     function formatMarkdown(text) {
@@ -1556,6 +1557,7 @@
       if (!val && !currentEvidencePayload) return;
 
       const activeText = val || "Görsel delil sunuldu.";
+      lastUserResponse = activeText;
       const activePayload = currentEvidencePayload || window.lastAttachedVisionPayload;
       appendUserMessage(activeText, activePayload);
       removeEvidenceChip('chat', false);
@@ -1650,6 +1652,9 @@
           const timer = setTimeout(() => controller.abort(), 20000);
           
           let combinedDecision = userQuery;
+          if (round > 1 && lastUserResponse) {
+            combinedDecision = `[Mevcut Durum / İlk Soru]: ${userQuery}\n[Kullanıcının Tur ${round} Cevabı / Savunması]: ${lastUserResponse}`;
+          }
           let forensicContextObj = null;
 
           const activePayload = currentEvidencePayload || window.lastAttachedVisionPayload;
@@ -1775,18 +1780,21 @@
     }
 
     function handleQuickChoice(type) {
+      let txt = "";
       if (type === 'hayir') {
-        appendUserMessage("Korkuyorum / Yüzleşecek gücüm veya delilim yok; mazeretim var.");
+        txt = "Korkuyorum / Yüzleşecek gücüm veya delilim yok; mazeretim var.";
         currentRound = 2;
-        triggerAiTurn(2);
       } else if (type === 'evet') {
-        appendUserMessage("Hazırım; maskeyi ve illüzyonu gördüm, gerçekle yüzleşiyorum.");
+        txt = "Hazırım; maskeyi ve illüzyonu gördüm, gerçekle yüzleşiyorum.";
         currentRound = 2;
-        triggerAiTurn(2);
       } else if (type.includes('final')) {
-        appendUserMessage("Tiyatroyu bitiriyorum; gerekçeli hükmü ve net aksiyon silahını teslim edin.");
+        txt = "Tiyatroyu bitiriyorum; gerekçeli hükmü ve net aksiyon silahını teslim edin.";
         currentRound = 3;
-        triggerAiTurn(3);
+      }
+      if (txt) {
+        lastUserResponse = txt;
+        appendUserMessage(txt);
+        triggerAiTurn(currentRound);
       }
     }
 
