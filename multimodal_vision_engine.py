@@ -56,14 +56,14 @@ Yüklenen fotoğrafları bir adli tıp ve biyopsikososyal davranış uzmanı gib
 Resmi/vitrin pozu ile doğal/spontan anlarındaki yüz kaslarını, bakışlarındaki samimiyet veya küçümsemeyi, beden dili kapalılığını görerek doğrudan şu JSON formatında yanıt ver:
 
 {{
-  "section_1_title": "1. ÇIPLAK HAKİKAT // GÖRSEL VE KARAKTER OTOPSİSİ",
-  "section_1_body": "<p>Görsellerdeki mikro-mimik ve beden dili tespitleri...</p>",
+  "section_1_title": "1. GÖRSEL VE DAVRANIŞSAL TESPİTLER",
+  "section_1_body": "<p>Görsellerdeki mikro-mimik ve duruş analizi tespitleri...</p>",
   "section_2_title": "2. GÜÇLÜ YÖNLER VE İCRAAT KAPASİTESİ",
-  "section_2_body": "<p>Bu kişinin nerede işe yarayacağı veya güçlü refleksleri...</p>",
-  "section_3_title": "3. STRATEJİK HÜKÜM // KULLANMA KILAVUZU VE SINIRLAR",
-  "section_3_body": "<p>Bu kişiyle çalışırken veya ilişki kurarken uygulanacak kesin protokol...</p>",
-  "ultimatum_title": "⚡ İLK TOKAT // KARAR EŞİĞİ:",
-  "ultimatum_body": "Kullanıcıyı yüzleştiren tek can alıcı soru.",
+  "section_2_body": "<p>Bu kişinin nerede yüksek verim sağlayacağı veya güçlü refleksleri...</p>",
+  "section_3_title": "3. DEĞERLENDİRME VE İLETİŞİM PRENSİPLERİ",
+  "section_3_body": "<p>Bu kişiyle çalışırken veya iletişim kurarken dikkat edilecek prensipler...</p>",
+  "ultimatum_title": "ÖNCELİKLİ KARAR SORUSU:",
+  "ultimatum_body": "Kullanıcının netleştirmesi gereken en kritik soru.",
   "mask_gap_percent": 42.5,
   "contempt_percent": 38.0
 }}
@@ -87,7 +87,7 @@ SADECE GEÇERLİ JSON ÇIKTISI VER, BAŞKA METİN EKLEME!"""
             "messages": [
                 {
                     "role": "system",
-                    "content": "Sen InversionCore'un Sansürsüz Multimodal Biyopsikososyal Görsel Karakter Otopsi Motorusun. Asla pembe gözlük takmaz, fotoğraflardaki insanın derin psikolojisini ve gizli niyetlerini doğrudan yüz kaslarından ve duruşundan cerrahi bir doğrulukla deşifre edersin."
+                    "content": "Sen InversionCore'un profesyonel ve objektif Görsel Karakter Analiz Motorusun. Görsellerdeki insanın mimiklerini, doğal duruşunu ve iletişim tarzını abartısız, sade ve rasyonel bir dille değerlendirirsin."
                 },
                 {
                     "role": "user",
@@ -126,14 +126,14 @@ SADECE GEÇERLİ JSON ÇIKTISI VER, BAŞKA METİN EKLEME!"""
     def _generate_fallback(cls, target_role: str, custom_question: str) -> Dict[str, Any]:
         """Multimodal bağlantı gecikirse dinamik context-aware acil durum çıktısı"""
         return {
-            "section_1_title": f"1. ÇIPLAK HAKİKAT // {target_role.upper()} OTOPSİSİ",
-            "section_1_body": f"<p>Analiz edilen durum: '{custom_question or 'Karakter analizi'}'. Fotoğraflardaki vitrin halleri ile doğal refleksler arasındaki belirgin asimetri, karşı tarafın inisiyatifi elinde tutmaya ve durumu kendi lehine manipüle etmeye çalıştığını göstermektedir.</p>",
+            "section_1_title": f"1. {target_role.upper()} KİŞİLİK VE DURUŞ ANALİZİ",
+            "section_1_body": f"<p>Analiz edilen durum: '{custom_question or 'Kişilik değerlendirmesi'}'. Fotoğraflardaki vitrin halleri ile doğal anlar arasındaki farklar, kişinin dış dünyaya sunduğu imaj ile içsel kontrol seviyesi arasındaki dengeyi ortaya koymaktadır.</p>",
             "section_2_title": "2. GÜÇLÜ YÖNLER VE KRİTİK ALANLAR",
             "section_2_body": "<p>Yüksek stratejik direnç, sınırlarını koruma refleksi ve dış vitrini yönetebilme kabiliyeti.</p>",
-            "section_3_title": "3. STRATEJİK HÜKÜM VE PROTOKOL",
-            "section_3_body": "<p>Sözlü vaatlere değil, yazılı taahhütlere ve somut sınırlara odaklanılmalı; denetimsiz inisiyatif verilmemelidir.</p>",
-            "ultimatum_title": "⚡ İLK TOKAT // KARAR EŞİĞİ:",
-            "ultimatum_body": "Bu kişinin vitrinine aldanmayı bırakıp somut gerçeklikle yüzleşmeye hazır mısın?",
+            "section_3_title": "3. STRATEJİK DEĞERLENDİRME VE TAVSİYELER",
+            "section_3_body": "<p>Sözlü vaatlere değil, yazılı taahhütlere ve somut sınırlara odaklanılmalı; süreçler açık ve net kurallarla yürütülmelidir.</p>",
+            "ultimatum_title": "ÖNCELİKLİ KARAR SORUSU:",
+            "ultimatum_body": "Bu kişinin sunduğu vitrini değil, somut verileri ve geçmiş performansını esas almaya hazır mısınız?",
             "mask_gap_percent": 35.0,
             "contempt_percent": 40.0
         }

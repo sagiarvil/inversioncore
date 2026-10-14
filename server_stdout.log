@@ -1,18 +1,12 @@
-INFO:     Started server process [13841]
+INFO:     Started server process [16514]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:8888 (Press CTRL+C to quit)
-Inconsistent progression sequence for component 0 coefficient 0
-Inconsistent progression sequence for component 0 coefficient 0
-[Multimodal Vision Error]: HTTP Error 400: Bad Request
 [*] Model RAM'e yükleniyor (Warmup)...
 [*] MLX Modeli yükleniyor: /Users/macair1/models/Qwen2.5-14B-Instruct-abliterated-4bit-mlx
 Model hazır!
 InversionCore Enterprise Engine Başlatılıyor: http://0.0.0.0:8888
 [*] Model RAM'e yükleniyor (Warmup)...
 [*] Model Warmup Başarıyla Tamamlandı!
-INFO:     127.0.0.1:51593 - "POST /api/triangulation-audit HTTP/1.1" 200 OK
-Inconsistent progression sequence for component 0 coefficient 0
-Inconsistent progression sequence for component 0 coefficient 0
-[Multimodal Vision Error]: HTTP Error 400: Bad Request
-INFO:     127.0.0.1:51596 - "POST /api/triangulation-audit HTTP/1.1" 200 OK
+INFO:     92.44.195.224:0 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     92.44.195.224:0 - "POST /api/inversion-analyze HTTP/1.1" 200 OK

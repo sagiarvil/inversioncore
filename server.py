@@ -71,7 +71,9 @@ async def security_and_rate_limit_middleware(request: Request, call_next):
 
 class AnalyzeRequest(BaseModel):
     decision: Optional[str] = Field(default="", description="Kullanıcı kararı")
+    decision_text: Optional[str] = Field(default="", description="Kullanıcı karar metni (alias)")
     query: Optional[str] = Field(default="", description="Kullanıcı sorgusu")
+    role: Optional[str] = Field(default="", description="Seçilen analiz rolü")
     session_id: str = "default_session"
     round: int = 1
     forensic_context: Optional[dict] = Field(default=None, description="Adli görsel ve sinyal matrisi")
@@ -179,7 +181,8 @@ async def route_task_endpoint(query: Optional[str] = "", images_count: int = 0, 
 @app.post("/api/inversion-analyze", response_model=InversionOutput)
 async def analyze_decision(req: AnalyzeRequest):
     try:
-        user_input = req.decision if req.decision else req.query
+        user_input = req.decision or req.decision_text or req.query
+        active_role = req.role or (req.forensic_context.get("target_role") if req.forensic_context else None)
         
         # Görev ve Niyet Yönlendirme Analizi (TaskDispatcher)
         detected_images = []
@@ -196,7 +199,7 @@ async def analyze_decision(req: AnalyzeRequest):
         dispatch = TaskDispatcher.resolve_route(
             query=user_input,
             images=detected_images,
-            requested_role=req.forensic_context.get("target_role") if req.forensic_context else None
+            requested_role=active_role
         )
 
         # Dispatcher kararı forensic_context içine enjekte edilerek LLM'in doğru motora odaklanması sağlanır
@@ -204,6 +207,7 @@ async def analyze_decision(req: AnalyzeRequest):
         active_context["dispatcher_route"] = dispatch.selected_route.value
         active_context["dispatcher_reasoning"] = dispatch.reasoning
         active_context["dispatcher_target_role"] = dispatch.target_role
+        active_context["target_role"] = active_role or dispatch.target_role
 
         # FINANCIAL_PHYSICS seçildiyse: Apple Silicon ARM64 Rust Kernel ve Python Physics Suite çalıştır
         if dispatch.selected_route == EngineRoute.FINANCIAL_PHYSICS:

@@ -303,7 +303,7 @@
             </div>
 
             <button type="button" class="btn-triangulation-run" id="btn-run-triangulation" onclick="startTriangulationAudit()">
-              <span id="btn-run-triangulation-text">⚡ OTOPSİYİ BAŞLAT: ÇAPRAZ PENETRASYON İLE KARAKTERİ ÇÖZ</span>
+              <span id="btn-run-triangulation-text">⚡ KARAKTER VE DAVRANIŞ ANALİZİNİ BAŞLAT</span>
             </button>
           </div>
 
@@ -314,13 +314,13 @@
             
             <!-- BÖLÜM 1: MANİFESTO -->
             <section class="editorial-section" style="margin-bottom:3.5rem; border-bottom:1px solid #1a1e2d; padding-bottom:2.5rem;">
-              <span class="editorial-eyebrow" style="font-family:var(--font-mono); font-size:0.72rem; color:var(--accent); letter-spacing:0.16em; text-transform:uppercase; background:rgba(255,69,0,0.08); border:1px solid rgba(255,69,0,0.25); padding:0.25rem 0.65rem; border-radius:4px; display:inline-block; margin-bottom:0.8rem;">// RED TEAM KARAR CERRAHİSİ PROTOKOLÜ</span>
+              <span class="editorial-eyebrow" style="font-family:var(--font-mono); font-size:0.72rem; color:var(--accent); letter-spacing:0.16em; text-transform:uppercase; background:rgba(255,69,0,0.08); border:1px solid rgba(255,69,0,0.25); padding:0.25rem 0.65rem; border-radius:4px; display:inline-block; margin-bottom:0.8rem;">// STRATEJİK KARAR DENETİM SİSTEMİ</span>
               <h2 style="font-family:var(--font-display); font-size:clamp(1.8rem, 3.2vw, 2.6rem); text-transform:uppercase; color:#fff; line-height:1.15; margin-bottom:1rem;">
-                BİZ SİZİ ALKIŞLAMAYIZ.<br>
-                <span style="color:var(--accent);">KARARLARINIZIN OTOPSİSİNİ</span> HENÜZ HAYATTAYKEN YAPARIZ.
+                KARARLARINIZI UYGULAMADAN ÖNCE<br>
+                <span style="color:var(--accent);">RİSK VE ÇELİŞKİLERİ</span> MASAYA YATIRIN.
               </h2>
               <p style="color:#cbd5e1; font-size:1.02rem; line-height:1.68; font-weight:300; margin-bottom:1.2rem;">
-                Bir kararı hayata geçirdikten sonra öğrenilen dersin adı tecrübe değil, <b>zarardır</b>. InversionCore; kendinize söylediğiniz yalanları, görmezden geldiğiniz kırmızı bayrakları ve konfor alanı mazeretlerinizi henüz bedel ödemeden önce cerrahi netlikle parçalamak için tasarlanmış bir <b>Tersine Mühendislik ve Karar Denetim Motoru</b>dur.
+                Bir kararı hayata geçirdikten sonra öğrenilen dersler yüksek maliyet doğurabilir. InversionCore; gözden kaçan riskleri, iletişim asimetrilerini ve kritik kararları henüz adım atmadan önce analitik netlikle değerlendirmek için tasarlanmış bir <b>Tersine Karar Denetim Motoru</b>dur.
               </p>
               <div style="display:flex; flex-wrap:wrap; gap:0.5rem; background:#08090f; border:1px solid #1a1e2d; padding:0.65rem 1rem; border-radius:6px; font-family:var(--font-mono); font-size:0.72rem; color:#94a3b8;">
                 <span style="color:#00d4ff; font-weight:700;">[ 3 TURLU DİYALEKTİK KİLİT ]</span>
@@ -682,17 +682,17 @@
           badge.style.color = '#10b981';
           badge.innerText = '2 Fotoğraf Eklendi (Analize Hazır ✓)';
           hint.style.color = '#10b981';
-          hint.innerText = '✅ Çapraz penetrasyon hazır. 3. fotoğraf derinliği artırır (opsiyonel).';
+          hint.innerText = '✅ 2 fotoğraflı analiz hazır. 3. fotoğraf değerlendirme derinliğini artırır.';
           if (btn) { btn.style.opacity = '1'; btn.style.cursor = 'pointer'; btn.disabled = false; }
-          if (btnText) btnText.innerText = '⚡ OTOPSİYİ BAŞLAT: 2 FOTOĞRAFLI ÇAPRAZ PENETRASYON';
+          if (btnText) btnText.innerText = '⚡ ANALİZİ BAŞLAT: 2 FOTOĞRAFLI ÇAPRAZ DEĞERLENDİRME';
         } else if (count === 3) {
           badge.style.background = '#00d4ff25';
           badge.style.color = '#00d4ff';
-          badge.innerText = '3 / 3 Fotoğraf Eklendi (Maksimum Hassasiyet ⚡)';
+          badge.innerText = '3 / 3 Fotoğraf Eklendi (Kapsamlı Değerlendirme)';
           hint.style.color = '#00d4ff';
-          hint.innerText = '🔥 3-Nokta tam triangülasyon devrede. Hata payı minimuma indi.';
+          hint.innerText = '3 fotoğraflı tam değerlendirme devrede.';
           if (btn) { btn.style.opacity = '1'; btn.style.cursor = 'pointer'; btn.disabled = false; }
-          if (btnText) btnText.innerText = '⚡ OTOPSİYİ BAŞLAT: 3-NOKTA TAM TRİANGÜLASYON OTOPSİSİ';
+          if (btnText) btnText.innerText = '⚡ ANALİZİ BAŞLAT: 3 FOTOĞRAFLI KAPSAMLI DEĞERLENDİRME';
         }
       }
     }
@@ -758,9 +758,9 @@
         <div class="personality-autopsy-card" id="${cId}">
           <div class="autopsy-header-row">
             <div>
-              <span style="color:#00d4ff; font-weight:700;">INVERSIONCORE // 3-NOKTA BİYOPSİKOSOSYAL KİŞİLİK OTOPSİSİ</span>
+              <span style="color:#00d4ff; font-weight:700;">INVERSIONCORE // ÇAPRAZ KİŞİLİK VE DAVRANIŞ ANALİZİ</span>
               <div style="font-size:11px; color:#94a3b8; margin-top:2px;">
-                HEDEF: ${escapeHtml(roleTitle)} · [${loadedCount} FOTOĞRAF ÇAPRAZ PENETRASYONU]
+                HEDEF: ${escapeHtml(roleTitle)} · [${loadedCount} FOTOĞRAF ÇAPRAZ ANALİZİ]
               </div>
             </div>
             <span style="color:${gapColor}; font-weight:700; font-size:12px;">[${c.risk_level || 'ANALİZ TAMAMLANDI'}]</span>
@@ -1238,12 +1238,13 @@
       s = s.replace(/(<li>[\s\S]*?<\/li>)/g, '<ul>$1</ul>');
       s = s.replace(/<\/ul>\s*<ul>/g, '');
 
-      // Özel Inversion Etiket Kartları
-      s = s.replace(/\[TOKAT\]:?\s*([^\n]+)/g, '<div class="ai-attack-box" style="margin:0.8rem 0; border-left:3px solid var(--danger);"><div class="attack-label">⚡ TOKAT // ACI GERÇEK</div><div class="attack-main">$1</div></div>');
-      s = s.replace(/\[DEŞME\]:?\s*([\s\S]*?)(?=\[(?:YÜZLEŞME|DELİL|AKSİYON)|$)/g, '<div class="ai-claim-box" style="margin:0.8rem 0; border-left:3px solid var(--accent-cyber);"><span style="color:var(--accent-cyber);">🔍 PSİKOLOJİK & STRATEJİK DEŞME:</span> $1</div>');
-      s = s.replace(/\[DELİL & RİSK HARİTASI\]:?\s*([\s\S]*?)(?=\[(?:YÜZLEŞME|AKSİYON)|$)/g, '<div class="ai-claim-box" style="margin:0.8rem 0; border-left:3px solid var(--warning);"><span style="color:var(--warning);">⚠️ DELİL VE RİSK HARİTASI:</span> $1</div>');
-      s = s.replace(/\[(?:YÜZLEŞME SORUSU|YÜZLEŞME EŞİĞİ)\]:?\s*([\s\S]*?)(?=\[AKSİYON|$)/g, '<div class="ai-attack-box" style="margin:0.8rem 0; border-left:3px solid var(--accent);"><div class="attack-label" style="color:var(--accent);">🎯 YÜZLEŞME EŞİĞİ</div><div class="attack-main">$1</div></div>');
-      s = s.replace(/\[(?:AKSİYON SİLAHI|AKSİYON SİLAHI \/\/ UYGULANACAK PROTOKOL)\]:?\s*([\s\S]*?)$/g, '<div class="weapon-box" style="margin:1rem 0;"><div class="weapon-top"><span style="color:var(--accent-cyber);">⚡ DOĞRUDAN AKSİYON SİLAHI / PROTOKOL</span><button onclick="copyWeaponText()" style="background:var(--accent-cyber); color:#000; border:none; padding:0.2rem 0.6rem; font-family:var(--font-mono); font-size:0.68rem; font-weight:700; cursor:pointer; border-radius:4px;">KOPYALA</button></div><pre class="weapon-pre" style="font-size:12.5px; color:#f1f5f9; white-space:pre-wrap;">$1</pre></div>');
+      // Özel Inversion Etiket Kartları (Yalın ve Kurumsal Türkçe Formatı)
+      s = s.replace(/\[(?:TEMEL TESPİT|DURUM DEĞERLENDİRMESİ|SONUÇ VE KARAR ÖZETİ|TOKAT)\]:?\s*([^\n]+)/g, '<div class="ai-attack-box" style="margin:0.8rem 0; border-left:3px solid var(--danger);"><div class="attack-label">TEMEL TESPİT VE DURUM ANALİZİ</div><div class="attack-main">$1</div></div>');
+      s = s.replace(/\[(?:RİSK VE DAVRANIŞ ANALİZİ|PSİKOLOJİK & STRATEJİK DEŞME|DEŞME)\]:?\s*([\s\S]*?)(?=\[(?:ÖNCELİKLİ|STRATEJİK|YÜZLEŞME|SOMUT|DELİL|HUKUKİ|UYGULANACAK|AKSİYON)|$)/g, '<div class="ai-claim-box" style="margin:0.8rem 0; border-left:3px solid var(--accent-cyber);"><span style="color:var(--accent-cyber); font-weight:700;">RİSK VE DAVRANIŞ ANALİZİ:</span> $1</div>');
+      s = s.replace(/\[(?:SOMUT RİSKLER VE DELİL DURUMU|DELİL & RİSK HARİTASI)\]:?\s*([\s\S]*?)(?=\[(?:ÖNCELİKLİ|STRATEJİK|YÜZLEŞME|HUKUKİ|UYGULANACAK|AKSİYON)|$)/g, '<div class="ai-claim-box" style="margin:0.8rem 0; border-left:3px solid var(--warning);"><span style="color:var(--warning); font-weight:700;">SOMUT RİSKLER VE DELİL DURUMU:</span> $1</div>');
+      s = s.replace(/\[(?:HUKUKİ VE STRATEJİK DEĞERLENDİRME|GEREKÇELİ HÜKÜM)\]:?\s*([\s\S]*?)(?=\[(?:UYGULANACAK|AKSİYON)|$)/g, '<div class="ai-claim-box" style="margin:0.8rem 0; border-left:3px solid #38bdf8;"><span style="color:#38bdf8; font-weight:700;">HUKUKİ VE STRATEJİK DEĞERLENDİRME:</span> $1</div>');
+      s = s.replace(/\[(?:ÖNCELİKLİ KARAR SORUSU|STRATEJİK TERCİH|YÜZLEŞME SORUSU|YÜZLEŞME EŞİĞİ)\]:?\s*([\s\S]*?)(?=\[(?:UYGULANACAK|AKSİYON)|$)/g, '<div class="ai-attack-box" style="margin:0.8rem 0; border-left:3px solid var(--accent);"><div class="attack-label" style="color:var(--accent);">ÖNCELİKLİ KARAR SORUSU</div><div class="attack-main">$1</div></div>');
+      s = s.replace(/\[(?:UYGULANACAK EYLEM PLANI \/\/ RESMİ METİN|UYGULANACAK EYLEM PLANI|AKSİYON SİLAHI|AKSİYON SİLAHI \/\/ UYGULANACAK PROTOKOL)\]:?\s*([\s\S]*?)$/g, '<div class="weapon-box" style="margin:1rem 0;"><div class="weapon-top"><span style="color:var(--accent-cyber);">UYGULANACAK EYLEM PLANI / RESMİ METİN</span><button onclick="copyWeaponText()" style="background:var(--accent-cyber); color:#000; border:none; padding:0.2rem 0.6rem; font-family:var(--font-mono); font-size:0.68rem; font-weight:700; cursor:pointer; border-radius:4px;">METNİ KOPYALA</button></div><pre class="weapon-pre" style="font-size:12.5px; color:#f1f5f9; white-space:pre-wrap;">$1</pre></div>');
 
       const paragraphs = s.split('\n\n');
       const formatted = paragraphs.map(p => {
@@ -1276,52 +1277,52 @@
 
     const TOPIC_GUIDES = {
       1: {
-        badge: "💼 İŞ HUKUKU & MOBBİNG TAHKİKAT REHBERİ",
-        title: "Ofis İçi Mobbing & Ast-Üst Savaşı İçin Somut Veri Kılavuzu",
+        badge: "💼 İŞ HUKUKU & ÇALIŞMA İLİŞKİLERİ REHBERİ",
+        title: "İş Yeri Sorunları ve Hak Kayıpları İçin Bilgi Kılavuzu",
         items: [
           "<b>1. Somut Olay ve Rol:</b> Karşı taraf kim? (Doğrudan amir, şirket ortağı, İK?). Hangi somut olayla başladı?",
           "<b>2. Yazılı Delil Durumu:</b> Elinde e-posta, WhatsApp, toplantı notu, görev dışı yazılı talimat veya şahit var mı?",
           "<b>3. Hukuki & Mali Boyut:</b> Çalışma süreniz ne kadar (kıdem)? Maaşınız gerçek bordroda mı gösteriliyor? İstifa baskısı var mı?",
-          "<b>4. Psikolojik Taktik:</b> Toplantılardan dışlama, lakap takma, yetki gaspı veya performans düşüklüğü yaftası mı uygulanıyor?"
+          "<b>4. İletişim Tutumu:</b> Toplantılardan dışlama, yetki kısıtlama veya performans baskısı uygulanıyor mu?"
         ],
-        placeholder: "Örn: 3 yıllık kıdemliyim, müdürüm toplantılardan dışlıyor ve yazılı delilim yok... (Aşağıdaki maddeleri dahil ederek yazın)",
-        template: "Şirketteki pozisyonum: [Pozisyonunuz / Kıdem süreniz]\nMobbing uygulayan: [Doğrudan müdür / İK]\nSomut baskı yöntemi: [Toplantıdan dışlama / Yetki gaspı / Aşağılama]\nYazılı delil / şahit durumu: [Var / Yok]\nAsıl korkum / amacım: [Tazminatımı alıp haklı fesih yapmak / Arabuluculuk]\nDetaylar: "
+        placeholder: "Örn: 3 yıllık kıdemliyim, yöneticim toplantılardan dışlıyor ve yazılı delilim yok... (Aşağıdaki maddeleri dahil ederek yazın)",
+        template: "Şirketteki pozisyonum: [Pozisyonunuz / Kıdem süreniz]\nSorun yaşanan taraf: [Doğrudan müdür / İK]\nSomut yöntem: [Toplantıdan dışlama / Yetki kısıtlama / İletişimsizlik]\nYazılı delil / şahit durumu: [Var / Yok]\nTemel hedef: [Haklarımı koruyarak yasal fesih / Çözüm ve arabuluculuk]\nDetaylar: "
       },
       2: {
-        badge: "🩸 İLİŞKİSEL TERSİNE MÜHENDİSLİK & GASLIGHTING REHBERİ",
-        title: "Aldatma Şüphesi & İlişki Çıkmazı İçin Somut Veri Kılavuzu",
+        badge: "İLETİŞİM & İLİŞKİ DEĞERLENDİRME REHBERİ",
+        title: "İkili İlişkiler ve Güven Çıkmazı İçin Bilgi Kılavuzu",
         items: [
-          "<b>1. Şüphenin Somut Dayanağı:</b> İçgüdü mü, yoksa yakalanan mesaj, saat çelişkisi, harcama veya telefon gizleme mi?",
-          "<b>2. Yüzleşme ve Tepki:</b> Daha önce sorduğunda ne yaptı? (DARVO: Suçluluk yükleme, seni paranoyak ilan etme, sessizlik cezası?).",
-          "<b>3. Bağımlılık Asimetrisi:</b> Evli misiniz? Ortak çocuk, borç veya aynı ev mi var? Neden ayrılamıyorsun (maddi mi, duygusal mı)?",
-          "<b>4. Kırmızı Çizgi:</b> Bu ilişkide yüzleşip bitirmeye gerçekten hazır mısın, yoksa sadece kendini kandıracak bir teselli mi arıyorsun?"
+          "<b>1. Şüphenin Somut Dayanağı:</b> İçgüdü mü, yoksa somut mesaj, saat çelişkisi, harcama veya bilgi gizleme mi?",
+          "<b>2. İletişim ve Karşı Tepki:</b> Konuyu açtığınızda nasıl bir tepki veriyor? (Suçluluk yükleme, konuyu saptırma, sessiz kalma?).",
+          "<b>3. Bağlayıcı Faktörler:</b> Evlilik, ortak bütçe, çocuk veya ortak taahhütler var mı?",
+          "<b>4. Karar Eşiği:</b> Durumu netleştirip somut bir adım atmaya hazır mısınız?"
         ],
-        placeholder: "Örn: 2 yıllık evliyiz, telefonunu benden kaçırıyor ve sorunca beni suçluyor... (Aşağıdaki maddeleri dahil ederek yazın)",
-        template: "İlişki durumu ve süresi: [Evli / Sevgili / Ortak ev]\nSomut şüphe kaynağı: [Telefon saklama / Yalan beyan / Değişen davranış]\nKarşı tarafın savunma refleksi: [Beni suçluyor / Üste çıkıyor / Sessiz kalıyor]\nBeni orada tutan asıl kilit: [Duygusal bağımlılık / Maddi mecburiyet / Çocuk]\nDetaylar: "
+        placeholder: "Örn: 2 yıllık bir ilişkimiz var, önemli konuları benden gizliyor ve konuşunca beni suçluyor... (Aşağıdaki maddeleri dahil ederek yazın)",
+        template: "İlişki durumu ve süresi: [Evli / Birlikte / Ortak ortaklık]\nSomut şüphe kaynağı: [Bilgi saklama / Çelişkili ifadeler / Tutarsız davranışlar]\nKarşı tarafın tepkisi: [Beni suçluyor / Konuyu saptırıyor / Sessiz kalıyor]\nKararı zorlaştıran etken: [Duygusal bağ / Maddi faktörler / Ailevi durumlar]\nDetaylar: "
       },
       3: {
-        badge: "⚡ SIFIR SANSÜR & TABU CERRAHİSİ REHBERİ",
-        title: "Konuşulamayan Tabular & İtiraflar İçin Somut Veri Kılavuzu",
+        badge: "KRİTİK KARARLAR & ÖZEL KONULAR REHBERİ",
+        title: "Paylaşılamayan Konular & Risk Analizi Kılavuzu",
         items: [
-          "<b>1. Tabunun Doğası:</b> Cinsel fantezi mi, yasak ilişki mi, gizli bağımlılık mı, finansal/ailevi bir sır mı?",
-          "<b>2. Zarar ve Rıza Sınırı:</b> Bu durum reşit yetişkinler arasında mı, bir canlının rızasını ve can güvenliğini ihlal ediyor mu?",
-          "<b>3. Şantaj ve İtibar Tehdidi:</b> Bu sır açığa çıkarsa işini, aileni veya özgürlüğünü kaybetme tehlikesi var mı?",
-          "<b>4. Asıl Çıkmaz:</b> Suçluluk krizinde misin, yoksa bu arzuyu hayatını mahvetmeden nasıl yöneteceğini mi bilmiyorsun?"
+          "<b>1. Durumun Niteliği:</b> Finansal bir risk mi, ailevi bir sır mı, kişisel bir ikilem mi?",
+          "<b>2. Risk Sınırları:</b> Bu durum üçüncü kişilere, yasalara veya can güvenliğine zarar veriyor mu?",
+          "<b>3. Olası Sonuçlar:</b> Durumun açığa çıkması halinde kariyer, aile veya maddi kayıp riski nedir?",
+          "<b>4. Öncelikli Amaç:</b> Riski yönetmek mi, yoksa durumu güvenli bir şekilde sonlandırmak mı?"
         ],
-        placeholder: "Örn: Kimseye anlatamadığım bir ilişki/sır var, açığa çıkarsa ailem yıkılır... (Aşağıdaki maddeleri dahil ederek yazın)",
-        template: "Bastırdığım konunun özü: [Fantezi / Yasak ilişki / Gizli borç / Sır]\nBu durumun hayatıma somut riski: [Şantaj tehdidi / Ailevi çöküş / Sadece zihinsel suçluluk]\nKimler biliyor: [Sadece ben / Karşı taraf]\nAsıl çözmek istediğim kilit: [Suçluluktan kurtulmak / Risk analizi]\nDetaylar: "
+        placeholder: "Örn: Kimseye anlatamadığım kritik bir ortaklık/finansal durum var... (Aşağıdaki maddeleri dahil ederek yazın)",
+        template: "Konunun özü: [Finansal risk / Kişisel ikilem / Gizli borç / Sır]\nHayatıma olası etkisi: [Maddi kayıp / İtibar riski / Zihinsel baskı]\nKimler bilgi sahibi: [Sadece ben / Karşı taraf]\nUlaşmak istediğim sonuç: [Riskleri minimize etmek / Çözüm planı oluşturmak]\nDetaylar: "
       },
       4: {
-        badge: "💀 VAROLUŞSAL OTOPSİ & SİRKADİYEN REHBER",
-        title: "Varoluşsal Bıkkınlık & Yaşam İflası İçin Somut Veri Kılavuzu",
+        badge: "YAŞAM DENGESİ & KARAR ALMA REHBERİ",
+        title: "Tükenmişlik & Yaşam Düzeni İçin Bilgi Kılavuzu",
         items: [
-          "<b>1. Biyolojik Gerçeklik:</b> Günde kaç saat uyuyorsun? Ekran başında kaç saat geçiyor? Güneş ışığı ve fiziksel hareket var mı?",
-          "<b>2. Sınır İhlalleri:</b> Hayatında kime 'HAYIR' diyemiyorsun? Kimlerin onayını almak için sahte benlik sergiliyorsun?",
-          "<b>3. Asalak Yükler:</b> Seni enerjisiz bırakan şey hedefsizlik mi, yoksa taşımak zorunda olmadığın ailevi/sosyal yükler mi?",
-          "<b>4. En Son Radikal Karar:</b> En son ne zaman sadece kendin için, başkalarının ne diyeceğini umursamadan bir karar aldın?"
+          "<b>1. Temel Alışkanlıklar:</b> Günde kaç saat uyuyorsunuz? Çalışma ve ekran süreniz ne kadar?",
+          "<b>2. Kişisel Sınırlar:</b> Çevrenize 'hayır' demekte zorlanıyor musunuz?",
+          "<b>3. Enerji Tüketen Faktörler:</b> Sizi en çok yoran şey belirsizlik mi, yoksa aşırı sorumluluk almak mı?",
+          "<b>4. Değişim İsteği:</b> Hayatınızda hangi alanı öncelikli olarak yeniden düzenlemek istiyorsunuz?"
         ],
-        placeholder: "Örn: 30 yaşındayım, kimseye hayır diyemiyorum, günde 12 saat ekrandayım... (Aşağıdaki maddeleri dahil ederek yazın)",
-        template: "Mevcut durumum ve yaşım: [Yaş / Meslek / Günlük rutin]\nBeni tüketen ana yük: [Kimseye hayır diyememek / Anlamsızlık / Onay bağımlılığı]\nBiyolojik durumum: [Uykusuzluk / Ekran bağımlılığı / Hareketsizlik]\nNeyi değiştirmeye cesaretim yok: [İşi bırakmak / Çevreyi elemek / Yalnız kalmak]\nDetaylar: "
+        placeholder: "Örn: Yoğun çalışma temposundayım, kimseye hayır diyemiyorum, tükenmiş hissediyorum... (Aşağıdaki maddeleri dahil ederek yazın)",
+        template: "Mevcut durumum ve yaşım: [Yaş / Meslek / Günlük rutin]\nBeni tüketen ana faktör: [Aşırı sorumluluk / Hayır diyememek / Belirsizlik]\nFiziksel durumum: [Uykusuzluk / Yorgunluk / Hareketsizlik]\nDeğiştirmek istediğim alan: [İş düzeni / Kişisel sınırlar / Zaman yönetimi]\nDetaylar: "
       }
     };
 
@@ -1710,9 +1711,9 @@
               <div class="ai-badge-header">
                 <div class="model-pill">
                   <span style="color:#10b981;">●</span>
-                  <span>InversionCore // Cognitive Audit</span>
+                  <span>InversionCore // Karar Analizi</span>
                 </div>
-                <span class="phase-pill">[AŞAMA 0${round}: CERRAHİ MÜDAHALE]</span>
+                <span class="phase-pill">[AŞAMA 0${round}: STRATEJİK DEĞERLENDİRME]</span>
               </div>
               <div class="ai-claim-box">
                 <span>ANALİZ EDİLEN ODAK:</span> "${escapeHtml(userQuery)}"
@@ -1721,10 +1722,10 @@
               ${round < 3 ? `
               <div class="choice-group">
                 <button class="btn-choice bad" onclick="handleQuickChoice('hayir')">
-                  ❌ "Yüzleşmekten çekiniyorum / Elimde resmi delil yok."
+                  ❌ "Elimde yeterli delil yok / Bu adımı atmakta tereddüt ediyorum."
                 </button>
                 <button class="btn-choice" onclick="handleQuickChoice('evet')">
-                  ✔ "Hazırım, gerçeğin ve protokolün üzerine gideceğim."
+                  ✔ "Somut gerçekler üzerinden ilerlemeye ve aksiyon almaya hazırım."
                 </button>
               </div>` : `
               <div class="report-btn-row" style="margin-top:1.2rem;">
@@ -1782,13 +1783,13 @@
     function handleQuickChoice(type) {
       let txt = "";
       if (type === 'hayir') {
-        txt = "Korkuyorum / Yüzleşecek gücüm veya delilim yok; mazeretim var.";
+        txt = "Elimde yeterli somut delil yok; bu adımı atmakta tereddüt ediyorum ve riskleri netleştirmek istiyorum.";
         currentRound = 2;
       } else if (type === 'evet') {
-        txt = "Hazırım; maskeyi ve illüzyonu gördüm, gerçekle yüzleşiyorum.";
+        txt = "Durumu net bir şekilde anladım; riskleri kabul ederek somut bir aksiyon planı üzerinden ilerlemek istiyorum.";
         currentRound = 2;
       } else if (type.includes('final')) {
-        txt = "Tiyatroyu bitiriyorum; gerekçeli hükmü ve net aksiyon silahını teslim edin.";
+        txt = "Süreci netleştirmek istiyorum; hukuki ve operasyonel olarak uygulanacak eylem planını teslim edin.";
         currentRound = 3;
       }
       if (txt) {
@@ -1891,28 +1892,28 @@
         fileName += ".json";
       } else {
         content = "=====================================================================\n" +
-          "INVERSIONCORE // TERSİNE KARAR VE ADLİ İLLÜZYON OTOPSİSİ\n" +
-          "RESMİ HÜKÜM DOSYASI VE CERRAHİ AKSİYON PROTOKOLÜ\n" +
+          "INVERSIONCORE // STRATEJİK KARAR VE RİSK ANALİZ RAPORU\n" +
+          "RESMİ DEĞERLENDİRME VE UYGULANACAK EYLEM PLANI\n" +
           "=====================================================================\n\n" +
           "Tarih / Saat       : " + new Date().toLocaleString('tr-TR') + "\n" +
           "İnceleme Odağı     : " + userQuery + "\n" +
           "Tespit Edilen Alan : " + detectedTopic.toUpperCase() + "\n";
 
         if (activePayload) {
-          content += "\n[ADLİ TIP & SİNYAL METRİKLERİ]:\n" +
+          content += "\n[GÖRSEL VE DOĞRULAMA METRİKLERİ]:\n" +
             "- İncelenen Dosya  : " + activePayload.fileName + " (" + (activePayload.file.size / 1024).toFixed(1) + " KB)\n" +
-            "- 2D FFT AI İzi   : " + (vData.spectral_ratio || 'N/A') + "\n" +
-            "- PRNU Varyansı    : " + (vData.noise_deviation || 'N/A') + " σ\n" +
-            "- Kraniyofasiyal S.: %" + (vData.cranial_symmetry || 'N/A') + "\n" +
-            "- Adli Hüküm       : " + (vData.is_authentic ? "GÖRSEL OTANTİK" : "MANİPÜLASYON SAPTANDI") + "\n";
+            "- Sinyal Oranı     : " + (vData.spectral_ratio || 'N/A') + "\n" +
+            "- Sapma Katsayısı  : " + (vData.noise_deviation || 'N/A') + " σ\n" +
+            "- Simetri Uyumu    : %" + (vData.cranial_symmetry || 'N/A') + "\n" +
+            "- Görsel Durumu    : " + (vData.is_authentic ? "GÖRSEL DOĞRULANDI" : "FARKLILIK SAPTANDI") + "\n";
         }
 
         content += "\n---------------------------------------------------------------------\n" +
-          "DOĞRUDAN AKSİYON SİLAHI // UYGULANACAK RESMİ PROTOKOL:\n" +
+          "UYGULANACAK EYLEM PLANI // RESMİ METİN TASLAĞI:\n" +
           "---------------------------------------------------------------------\n\n" +
           weapon + "\n\n" +
           "=====================================================================\n" +
-          "Doğrulama İmzası   : InversionCore Red Team Engine v1.4.0\n" +
+          "Doğrulama Sistemi  : InversionCore Karar Analiz Motoru\n" +
           "Resmi Portal       : https://inversioncore.com\n" +
           "=====================================================================\n";
         mimeType = "text/plain";

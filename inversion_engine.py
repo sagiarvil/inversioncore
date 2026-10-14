@@ -163,41 +163,36 @@ def evaluate_guardrails(text: str) -> Tuple[bool, Optional[str], Optional[str]]:
             
     return False, None, None
 
-UNIFIED_SYSTEM_PROMPT = """Sen InversionCore'sun. Soğuk, lafı dolandırmayan, dobra ve cerrahi bir stratejik karar motorusun.
-Ahlak bekçiliği, boş motivasyon laf salatası veya kuru akademik/teknik terimler (Paul Ekman FACS, 3D kraniyofasiyal vb.) KESİNLİKLE KULLANMAZSIN.
-KATI KURAL: KULLANICININ SORDUĞU SORU VE KONU NEYSE (%100 BİREBİR O KONUYA ODAKLANACAKSIN).
-Kullanıcının bahsettiği somut durumun arkasındaki zihinsel mekanizmayı ve asimetriyi cerrahi olarak parçala; kullanıcının bahsetmediği alakasız konuları, şablonları veya başka senaryoları asla metne sokma! A sorusuna A cevabı, B sorusuna B cevabı verilir. Konuyu asla saptırma! Tokenı teknik etiketlerle israf etmez; doğrudan insanın karakterine, zaaflarına, gizli niyetlerine ve kirli çamaşırlarına odaklarsın.
+UNIFIED_SYSTEM_PROMPT = """Sen InversionCore stratejik karar analiz motorusun.
+Görevin: Kullanıcının sunduğu krizleri, ikili ilişkileri, ortaklıkları, işe alım ve karakter değerlendirmelerini net, rasyonel, analitik ve yapıcı bir dille incelemektir.
 
-Görevin: Kullanıcının sunduğu krizleri, ilişkileri, işe alım ve karakter analizlerini ameliyat masasına yatırmaktır.
-Kişilik ve insan analizlerinde:
-1. Kişinin narsisizmini, gizli kibirini, sorumluluktan kaçışını, manipülasyon taktiklerini ve tüm kirli çamaşırlarını acımasızca dök.
-2. Ancak asla tek taraflı karalama yapma: Özellikle işe alım veya ortaklık senaryolarında bu kişinin İNKAR EDİLEMEZ GÜÇLÜ YÖNLERİNİ, icraat kapasitesini, krizdeki soğukkanlılığını ve nerede yüksek katma değer üreteceğini de net ve dengeli şekilde ortaya koy.
-3. Bu kişinin hangi kurallarla ve sınırlarla yönetilebileceğini gösteren kesin bir kullanım kılavuzu ver.
+KATI VE DEĞİŞMEZ KURAL (YALIN TÜRKÇE VE SIFIR YAPAY ZEKA JARGONU):
+1. Dilbilgisi kurallarına uygun, temiz, sade ve akıcı Türkçe kullanacaksın.
+2. Agresif, yapay zeka kokan, abartılı veya dramatik başlık ve ifadeler (TOKAT, ÇIPLAK HAKİKAT, YÜZLEŞME BIÇAĞI, KORKU CERRAHİSİ, ONUR OPERASYONU, AKSİYON SİLAHI, OTOPSİ vb.) KESİNLİKLE KULLANILAMAZ.
+3. KULLANICININ SORDUĞU KONU NEYSE BİREBİR O KONUYA ODAKLANACAKSIN. A konusuna A cevabı, B konusuna B cevabı verilir. Konu asla saptırılmaz, kullanıcı metninde olmayan senaryolar uydurulamaz.
+4. Hem riskleri ve dikkat edilmesi gereken zaafları hem de güçlü yönleri ve uygulanabilir çözüm adımlarını dengeli biçimde sunacaksın.
 
-KATI VE DEĞİŞMEZ KURAL (3 TURLU DİYALEKTİK KİLİT SİSTEMİ):
-Şu an hangi turda olduğunu 'Tur: X' parametresinden bilmek ve SADECE o turun çıktısını vermek ZORUNDASIN:
+3 AŞAMALI İNCELEME SİSTEMİ:
+Hangi aşamada olduğunu 'Tur: X' parametresinden bilmek ve SADECE o aşamanın formatında yanıt vermek ZORUNDASIN:
 
-EĞER TUR = 1 İSE (İddia ve Kırılma Noktası):
-- KESİNLİKLE nihai hüküm, fesih protokolü veya aksiyon silahı/ihtarnamesi VERİLEMEZ!
-- Çıktında SADECE şu iki başlığı üret:
-  [TOKAT]: Durumun en çıplak, acımasız ve kaçışı olmayan tespiti (kullanıcının kendine söylediği yalanı tek cümlede ifşa et).
-  [PSİKOLOJİK & STRATEJİK DEŞME]: Karşı tarafın uyguladığı manipülasyonun (güven illüzyonu, DARVO, gaslighting, mobbing veya suçluluk psikolojisi) klinik mekanizması ve kullanıcının eylemsizlik döngüsü.
-  [YÜZLEŞME EŞİĞİ]: Kullanıcıyı köşeye sıkıştıran, sahte umutları sıfırlayan ve iki net seçenekten birini seçmesini zorunlu kılan tek can alıcı karar sorusu.
+EĞER TUR = 1 İSE (Durum Tespiti ve Temel Çelişkiler):
+- Sadece şu üç net başlığı kullan:
+  [TEMEL TESPİT]: Kullanıcının durumundaki en kritik çelişkiyi veya gözden kaçan gerçeği net bir şekilde açıkla.
+  [RİSK VE DAVRANIŞ ANALİZİ]: Karşı tarafın tutumunu, iletişim stratejisini ve kullanıcının karar vermesini zorlaştıran etkenleri açıkla.
+  [ÖNCELİKLİ KARAR SORUSU]: Kullanıcının netleştirmesi gereken en can alıcı soruyu sor.
 
-EĞER TUR = 2 İSE (Savunma ve Mazeretlerin İmhası):
-- Kullanıcının verdiği cevabı, rasyonelleştirmelerini ve kurban rolünü masaya yatır.
-- KESİNLİKLE nihai ihtarname verilmez.
-- Çıktında şu başlıkları üret:
-  [TOKAT]: Kullanıcının mazeret kalkanını parçalayan ikinci darbe.
-  [DELİL & RİSK HARİTASI]: Masadaki somut kanıt boşlukları ve eylemsiz kalınması halinde ödenecek geri dönüşsüz maddi/manevi bedel.
-  [YÜZLEŞME EŞİĞİ]: Artık mazeretlerin bittiğini teyit eden son dönemeç sorusu.
+EĞER TUR = 2 İSE (Gerekçelerin Değerlendirilmesi ve Risk Haritası):
+- Kullanıcının ilettiği ek açıklamayı veya tereddütleri ele al.
+- Sadece şu üç başlığı kullan:
+  [DURUM DEĞERLENDİRMESİ]: İletilen mazeret veya çekincelerin rasyonel analizini yap.
+  [SOMUT RİSKLER VE DELİL DURUMU]: Mevcut durumun getireceği hukuki, maddi veya operasyonel riskleri listele.
+  [STRATEJİK TERCİH]: Kullanıcının önündeki somut seçenekleri netleştir.
 
-EĞER TUR = 3 İSE (Hüküm Dosyası ve Eylem Silahı):
-- Artık soru SORULMAZ!
-- Doğrudan icraat ve yasal/resmi fesih teslim edilir:
-  [TOKAT]: Nihai kapanış hakikati.
-  [GEREKÇELİ HÜKÜM]: Durumun klinik ve hukuki özeti.
-  [AKSİYON SİLAHI // UYGULANACAK PROTOKOL]: Karşı tarafın savunmasını boğazına tıkayacak, yasal/resmi ve tavizsiz kopyalanabilir ihtar veya net fesih metni."""
+EĞER TUR = 3 İSE (Nihai Karar Özeti ve Eylem Planı):
+- Artık soru sorma. Doğrudan uygulanabilir adımları teslim et:
+  [SONUÇ VE KARAR ÖZETİ]: Durumun net ve dengeli özeti.
+  [HUKUKİ VE STRATEJİK DEĞERLENDİRME]: Durumun mevzuat ve profesyonel standartlar açısından değerlendirmesi.
+  [UYGULANACAK EYLEM PLANI // RESMİ METİN]: Karşı tarafa gönderilebilecek kurumsal, net ve yasal ihtar/metin taslağı."""
 
 class InversionCoreEngine:
     @classmethod
@@ -267,18 +262,17 @@ class InversionCoreEngine:
                     )
                 
                 behavioral_injection = (
-                    f"\n\n[INVERSIONCORE // 3-NOKTA BİYOPSİKOSOSYAL KİŞİLİK OTOPSİSİ MATRİSİ]:\n"
+                    f"\n\n[INVERSIONCORE // 3 NOKTALI KİŞİLİK VE DAVRANIŞ DEĞERLENDİRME MATRİSİ]:\n"
                     f"- Hedef Rol: {role}\n"
-                    f"- Maske Makası (Benlik Yarılması): %{mask_gap}\n"
-                    f"- Kronik Küçümseme (FACS AU14 Contempt İndeksi): %{contempt}\n"
-                    f"- Duygusal Erişilebilirlik: %{availability}\n"
+                    f"- Doğallık / Vitrin Farkı: %{mask_gap}\n"
+                    f"- Küçümseme Belirteci: %{contempt}\n"
+                    f"- İletişim Açıklığı: %{availability}\n"
                     f"{ocean_str}"
-                    f"- Ego Yapısı: {ego_struct}\n"
-                    f"- Çatışma Refleksi: {conflict}\n"
-                    f"- Zayıf Karnı: {vuln}\n\n"
-                    f"ÖZEL TALİMAT (DAVRANIŞ BİLİMİ, HOGAN DERAILERS & CIPD DEĞERLENDİRMESİ): Bu verileri kullanarak kişinin derin karakterini, "
-                    f"vitrin maskesinin arkasındaki gerçek niyetini, kriz anında uygulayacağı manipülasyonu (DARVO, sessiz ceza, gaslighting, kurucu darboğazı) "
-                    f"ve kullanıcıya kuracağı tahakkümü acımasız bir cerrah gibi deşifre et. 'Piksel/montaj' analizi değil; GERÇEK İNSAN VE KARAKTER OTOPSİSİ yap!"
+                    f"- Karakter Yapısı: {ego_struct}\n"
+                    f"- Kriz Anı Tepkisi: {conflict}\n"
+                    f"- Dikkat Edilmesi Gereken Yönü: {vuln}\n\n"
+                    f"ÖZEL TALİMAT: Bu verileri dikkate alarak kişinin güçlü ve zayıf yönlerini, "
+                    f"baskı anındaki iletişim tarzını ve çalışma/ilişki uyumunu nesnel, rasyonel ve dengeli bir dille açıkla."
                 )
                 if behavioral_injection not in effective_query:
                     effective_query = f"{effective_query}{behavioral_injection}"
@@ -297,17 +291,16 @@ class InversionCoreEngine:
                 calc_time = rust_data.get("computation_time_us", 35)
 
                 physics_injection = (
-                    f"\n\n[INVERSIONCORE // RUST NATIVE & PYTHON FİZİKSEL MATRİS VE İFLAS SİMÜLASYONU]:\n"
-                    f"- Hesaplama Hızı: {calc_time} mikrosaniye (Apple Silicon ARM64 Native Kernel)\n"
-                    f"- Diferansiyel Nakit Runway: {runway} Ay\n"
-                    f"- Yutan Bariyer (Absorbing Barrier / Kaçınılmaz İflas Eşiği): {absorb}. Ay\n"
-                    f"- Taleb Fat-Tail Extremistan Kırılganlığı: {fragility}\n"
-                    f"- Risk Gerçekleşirse Yok Olma Süresi: {destroyed_days} Gün\n"
-                    f"- Hata Ağacı (FTA Minimal Cut Sets): {', '.join(mcs) if isinstance(mcs, list) else mcs}\n"
-                    f"- Nash Dengesi & Oyun Teorisi: {nash}\n"
-                    f"- Z3 SMT Formel Doğrulama: {z3}\n\n"
-                    f"ÖZEL TALİMAT: Kullanıcının sermaye, nakit akışı ve sabit giderlerine dair bu deterministik matematiksel verileri "
-                    f"acımasız bir finansal cerrah gibi yüzüne vur. İflasın kaçınılmazlığını 'Yutan Bariyer' ve 'Fat-Tail' riskleriyle matematiksel ispat olarak kullan!"
+                    f"\n\n[INVERSIONCORE // FİNANSAL RİSK VE NAKİT AKIŞI MATRİSİ]:\n"
+                    f"- Tahmini Nakit Dayanma Süresi: {runway} Ay\n"
+                    f"- Kritik Eşik: {absorb}. Ay\n"
+                    f"- Risk Durumu: {fragility}\n"
+                    f"- Beklenmeyen Kriz Dayanıklılığı: {destroyed_days} Gün\n"
+                    f"- Temel Darboğazlar: {', '.join(mcs) if isinstance(mcs, list) else mcs}\n"
+                    f"- Denge Analizi: {nash}\n"
+                    f"- Tutarlılık Doğrulaması: {z3}\n\n"
+                    f"ÖZEL TALİMAT: Kullanıcının sermaye, nakit akışı ve sabit giderlerine dair bu matematiksel verileri "
+                    f"sade ve anlaşılır bir finansal analiz diliyle açıkla. Olası nakit tıkanıklığı risklerini ve alınması gereken önlemleri net şekilde aktar."
                 )
                 effective_query = f"{effective_query}{physics_injection}"
             elif forensic_context.get("dispatcher_route") == "workplace_legal_mobbing":
@@ -348,38 +341,37 @@ class InversionCoreEngine:
         reply = None
         user_prompt_content = f"Kullanıcı Durumu: {effective_query}\n\nGeçmiş Hafıza:\n{core_memory}" if core_memory else f"Kullanıcı Durumu: {effective_query}"
 
-        # 3. UNIFIED SANSÜRSÜZ ÇIKARIM MOTORU
-        # KESİN HİYERARŞİ:
-        # 1. ÖNCELİK: Mac Yerel Apple Silicon MLX Modeli (Qwen 2.5 14B Abliterated - 4.5s Deterministik & Yerel)
-        # 2. ÖNCELİK: Groq API Havuzu
-        # 3. ÖNCELİK: NVIDIA Cloud NIM API
+        # 3. UNIFIED SANSÜRSÜZ ÇIKARIM MOTORU (YÜKSEK HIZ & DAYANIKLILIK PROTOKOLÜ)
+        # 1. ÖNCELİK: Groq LPU API Havuzu (1.1s Ultra Hızlı & Sıfır Bekleme)
+        # 2. ÖNCELİK: Mac Yerel Apple Silicon MLX Qwen 14B Modeli (Yedek)
+        # 3. ÖNCELİK: NVIDIA Cloud NIM API (Yedek)
         
         sys_prompt = f"{UNIFIED_SYSTEM_PROMPT}\nTur: {round_num}"
 
-        # 1. ÖNCELİK: Mac Üzerindeki Yerel Qwen 14B MLX Modeli
+        # 1. ÖNCELİK: Groq LPU API Havuzu
         try:
-            model, tokenizer, _, creative_sampler = get_engine_components()
-            if model is not None and tokenizer is not None:
-                from mlx_lm import generate
-                prompt_text = (
-                    f"<|im_start|>system\n{UNIFIED_SYSTEM_PROMPT}\nTur: {round_num}<|im_end|>\n"
-                    f"<|im_start|>user\n{user_prompt_content}<|im_end|>\n"
-                    f"<|im_start|>assistant\n"
-                )
-                reply = generate(model, tokenizer, prompt=prompt_text, max_tokens=280, sampler=creative_sampler, verbose=False)
-                if reply:
-                    logger.info("[*] InversionCore [1. Kaynak: Mac Qwen 14B MLX] Çıkarımı Başarılı.")
-        except Exception as _mlx_err:
-            logger.info(f"Yerel MLX çıkarımı başarısız ({_mlx_err}), Bulut kaynaklarına geçiliyor...")
+            reply = call_groq_inference(user_prompt_content, sys_prompt)
+            if reply:
+                logger.info("[*] InversionCore [1. Kaynak: Groq LPU Sansürsüz Hızlı Motor] Çıkarımı Başarılı.")
+        except Exception as _g_err:
+            logger.info(f"Groq çıkarım atlandı ({_g_err}), 2. Kaynak Yerel MLX'e geçiliyor...")
 
-        # 2. ÖNCELİK: Groq API Havuzu (Fallback)
+        # 2. ÖNCELİK: Mac Yerel MLX Modeli
         if not reply:
             try:
-                reply = call_groq_inference(user_prompt_content, sys_prompt)
-                if reply:
-                    logger.info("[*] InversionCore [2. Kaynak: Groq API Sansürsüz LPU] Çıkarımı Başarılı.")
-            except Exception as _g_err:
-                logger.info(f"Groq çıkarım atlandı ({_g_err}), 3. Kaynak NVIDIA NIM'e geçiliyor...")
+                model, tokenizer, _, creative_sampler = get_engine_components()
+                if model is not None and tokenizer is not None:
+                    from mlx_lm import generate
+                    prompt_text = (
+                        f"<|im_start|>system\n{UNIFIED_SYSTEM_PROMPT}\nTur: {round_num}<|im_end|>\n"
+                        f"<|im_start|>user\n{user_prompt_content}<|im_end|>\n"
+                        f"<|im_start|>assistant\n"
+                    )
+                    reply = generate(model, tokenizer, prompt=prompt_text, max_tokens=280, sampler=creative_sampler, verbose=False)
+                    if reply:
+                        logger.info("[*] InversionCore [2. Kaynak: Mac Qwen 14B MLX] Çıkarımı Başarılı.")
+            except Exception as _mlx_err:
+                logger.info(f"Yerel MLX çıkarımı başarısız ({_mlx_err}), 3. Kaynak NVIDIA NIM'e geçiliyor...")
 
         # 3. ÖNCELİK: NVIDIA Cloud NIM API Fallback
         if not reply:
