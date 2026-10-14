@@ -982,6 +982,7 @@
       }
 
       if (auditResult && auditResult.metrics) {
+        window.lastTriangulationResult = auditResult;
         const container = document.getElementById('triangulation-live-card-container');
         if (container) {
           container.innerHTML = renderPersonalityAutopsyCard(auditResult);
@@ -1323,6 +1324,111 @@
         ],
         placeholder: "Örn: 30 yaşındayım, kimseye hayır diyemiyorum, günde 12 saat ekrandayım... (Aşağıdaki maddeleri dahil ederek yazın)",
         template: "Mevcut durumum ve yaşım: [Yaş / Meslek / Günlük rutin]\nBeni tüketen ana yük: [Kimseye hayır diyememek / Anlamsızlık / Onay bağımlılığı]\nBiyolojik durumum: [Uykusuzluk / Ekran bağımlılığı / Hareketsizlik]\nNeyi değiştirmeye cesaretim yok: [İşi bırakmak / Çevreyi elemek / Yalnız kalmak]\nDetaylar: "
+      }
+    };
+
+    
+    const ROLE_CLINICAL_LIBRARY = {
+      candidate_employee: {
+        sec1_title: "1. İŞE ALIM ÖN-OTOPSİSİ // CV VİTRİNİ, İŞ AHLAKI VE GİZLİ NARSİSİZM",
+        sec1_body: (gap, cont) => `
+          <p>Karşında sunduğu o parıltılı özgeçmişe, cilalı kelimelere ve yapay mülakat nezaketine sahip biri yok. Karşında, içindeki derin yetersizlik korkusunu dışarıya 'her şeyi bilen, kusursuz ve vazgeçilmez' imajı çizerek bastırmaya çalışan <b>profesyonel bir mülakat aktörü</b> var. Bu kişinin resmi vitrin halleri ile doğal anlarındaki yüz gerilimi arasında <b>%${gap} oranında belirgin bir Benlik Yarılması</b> ve <b>%${cont} gizli küçümseme refleksi</b> yatıyor.</p>
+          <p><b>İş Ahlakı ve Sadakat Riski:</b> Bu aday otoriteye içten içe derin bir öfke besliyor. İşler yolundayken başarıyı tek başına sahiplenir; ancak ilk krizde veya teslim tarihi baskısında sorumluluğu ekip arkadaşlarına veya şirket içi eksikliklere yıkar. Şirket içi dedikodu ağı kurmaya, pasif-agresif direniş sergilemeye ve ilk cazip teklifte projeyi yarıda bırakıp gitmeye son derece meyillidir.</p>
+        `,
+        sec2_title: "2. BU ADAY NEREDE İŞ YAPAR? // İNKAR EDİLEMEZ İCRAAT GÜCÜ",
+        sec2_body: `
+          <p>Ancak bu adayı hemen çöpe atamazsınız; doğru yönetilirse şirkete çok ciddi para kazandıracak somut güçleri var:</p>
+          <p><b>• Sert Rekabet ve Satış Direnci:</b> Egosu yüksek olduğu için 'kaybetmeye' tahammülü yoktur. Rakip şirketlerle müzakerelerde, zorlu müşteri bağlama süreçlerinde ve agresif satış hedeflerinde inanılmaz bir yırtıcılık sergiler.</p>
+          <p><b>• Dış Vitrin Temsili:</b> Şirketi dışarıya karşı satma, sunum yapma ve vitrin projelerini parlatma konusunda üst düzey bir yeteneğe sahiptir.</p>
+        `,
+        sec3_title: "3. İŞE ALIM VE YÖNETİM REÇETESİ // SÖZLEŞME VE KPI ZIRHI",
+        sec3_body: `
+          <p><b>Bu adayla nasıl çalışılır?:</b> Asla duygusal bağ kurmayacaksın. 'Biz bir aileyiz' masalını unutacaksın. Tek kural: <b>Haftalık yazılı KPI takibi, net teslim tarihleri ve sıfır denetimsiz inisiyatif.</b></p>
+          <p>Onu kriz çözmeye ve satışa koşturacaksın; ancak ekibin iç huzurunu ve şirketin kritik şifrelerini asla onun kontrolüne bırakmayacaksın.</p>
+        `,
+        ultimatum_title: "⚡ İŞE ALIM EŞİĞİ // NİHAİ KARAR:",
+        ultimatum_body: "Bu adayın narsistik risklerini bilip katı KPI'larla yönetmeye cesaretin var mı, yoksa mülakattaki tatlı diline kanıp ekibin huzurunu yakacak mısın?",
+        btn_bad: "❌ 'Riskleri çok yüksek; bu egoyla uğraşamam, eliyorum.'",
+        btn_good: "✔ 'Güçlü yanlarını kullanacağım; katı KPI ve yazılı kurallarla sürece alıyorum.'"
+      },
+      founder_bottleneck: {
+        sec1_title: "1. KURUCU SENDROMU // ŞİRKETİN EN BÜYÜK DARBOĞAZI SENİN KONTROL DELİLİĞİN",
+        sec1_body: (gap, cont) => `
+          <p>Şirketin büyümesini rakipler, piyasa koşulları veya sermaye eksikliği engellemiyor. <b>Şirketin asıl darboğazı senin kontrolü elden bırakamama hastalığındır.</b> Resmi patron duruşun ile doğal reflekslerin arasındaki <b>%${gap} Benlik Yarılması</b> ve <b>%${cont} gizli küçümseme</b>, ekibine asla güvenmediğini haykırıyor.</p>
+          <p><b>Ekibi Felç Eden Refleks:</b> Her faturayı, her e-postayı, her küçük kararı bizzat onaylamaya çalışıyorsun. Çalışanların inisiyatif almasını engelliyor, sonra da 'kimse iş sahiplenmiyor, her şeyi ben yapmak zorundayım' diye dert yanıyorsun. İnsanları yetkisiz bırakıp sonra beceriksizlikle suçlayan bir kurucu tuzağındasın.</p>
+        `,
+        sec2_title: "2. ŞİRKETİ BURAYA GETİREN VİZYONER GÜÇ // NEREDE DEVLEŞİRSİN?",
+        sec2_body: `
+          <p>Bu şirketi sıfırdan kurup buraya getiren şey tam olarak senin o inatçı iradendi:</p>
+          <p><b>• Üst Düzey Vizyon ve Satış Dehası:</b> Büyük resmi görme, stratejik ortaklıklar kurma ve şirketin geleceğini okuma konusunda benzersiz bir sezgiye sahipsin.</p>
+          <p><b>• Kriz Yönetimi:</b> Şirket batma noktasına geldiğinde herkes donup kalırken sen tek başına çıkış yolu bulabilen bir mücadele gücüne sahipsin.</p>
+        `,
+        sec3_title: "3. PATRON KULLANMA KILAVUZU // OPERASYONDAN ÇEKİLME REÇETESİ",
+        sec3_body: `
+          <p><b>Şirket nasıl 10 katına çıkar?:</b> Yarından tezi yok, operasyonel işlerden elini çekeceksin. Günlük işleri profesyonel müdürlere devredeceksin.</p>
+          <p>Hata yapmalarına izin vereceksin. Senin işin mikro-yönetim değil; şirketin sermayesini, vizyonunu ve en tepe stratejisini yönetmektir. Şirket senin oyuncağın değil; ölçeklenmesi gereken bir sistemdir.</p>
+        `,
+        ultimatum_title: "⚡ KURUCU EŞİĞİ // DELEGASYON YA DA İFLAS:",
+        ultimatum_body: "Şirketin büyümesi için kendi kontrol deliliğini kırıp profesyonel yönetime yetki devretmeye hazır mısın, yoksa her şeye karışarak şirketi kendi mezarın mı yapacaksın?",
+        btn_bad: "❌ 'Kimseye güvenemem; her şeyi kendim kontrol etmeye devam edeceğim.'",
+        btn_good: "✔ 'Egomu aradan çekiyorum; yetki devredip şirketi profesyonel sisteme taşıyorum.'"
+      },
+      partner: {
+        sec1_title: "1. İLİŞKİSEL TERSİNE MÜHENDİSLİK // MASKE VE GASLIGHTING",
+        sec1_body: (gap, cont) => `
+          <p>Karşındaki insanın tatlı sözlerine veya 'seni seviyorum' vaatlerine bakma. Vitrin ile doğal anlar arasındaki <b>%${gap} Benlik Yarılması</b> ve <b>%${cont} gizli küçümseme refleksi</b>, seninle eşit bir partner olarak değil, yönetilmesi gereken bir figüran olarak ilişki kurduğunu gösteriyor.</p>
+          <p><b>DARVO ve Gaslighting:</b> Bir şüpheyi masaya getirdiğinde konuyu döndürüp dolaştırıp seni suçlu, aşırı şüpheci ve paranoyak ilan ediyor. Kendi suçunu bastırmak için sana suçluluk yüklüyor ve seni sessizlik cezasıyla terbiye etmeye çalışıyor.</p>
+        `,
+        sec2_title: "2. İNKAR EDİLEMEZ ÇEKİM GÜCÜ // SENİ NE ORADA TUTUYOR?",
+        sec2_body: `
+          <p>Bu insanın güçlü bir cazibesi, yüksek sosyal zekası ve kriz anlarında sığınılacak bir liman gibi görünme kabiliyeti var. İstediği zaman dünyanın en ilgili ve şefkatli insanı rolünü kusursuzca oynayabiliyor.</p>
+        `,
+        sec3_title: "3. ONUR OPERASYONU // SINIR VE PROTOKOL REÇETESİ",
+        sec3_body: `
+          <p>Bir ilişkide netlik yoksa orada manipülasyon vardır. Gözyaşlarına veya vaatlere değil, somut davranışlara ve şeffaflığa bakacaksın. Sınırlarını ihlal ettiği anda bedel ödetmeyen insan saygı göremez.</p>
+        `,
+        ultimatum_title: "⚡ YÜZLEŞME VE KARAR EŞİĞİ:",
+        ultimatum_body: "Kendine söylediğin yalanı bitirip bugün o net sınırları çekmeye veya o kapıyı çarpıp çıkmaya hazır mısın?",
+        btn_bad: "❌ 'Korkuyorum; biraz daha bekleyip idare edeceğim.'",
+        btn_good: "✔ 'Sınırlarımı çiziyorum; manipülasyona boyun eğmeyeceğim.'"
+      },
+      manager: {
+        sec1_title: "1. YÖNETİCİ OTOPSİSİ // KURUMSAL SADİZM VE MİKRO-YÖNETİM",
+        sec1_body: (gap, cont) => `
+          <p>Amirinin şirkete bağlılığı bir maskeden ibarettir. <b>%${gap} Benlik Yarılması</b> ve <b>%${cont} küçümseme</b>, astlarını potansiyel rakip olarak gördüğünü kanıtlar.</p>
+          <p>Toplantılardan dışlama, başarıları üst yönetime kendi fikri gibi satma ve hataları astlara yıkma refleksi taşır. Hukuki ve etik sınırlarda sürekli açık verir.</p>
+        `,
+        sec2_title: "2. BU AMİRİN ŞİRKETTEKİ YERİ // GÜÇLÜ YÖNLERİ",
+        sec2_body: `
+          <p>Üst yönetimi manipüle etme, yukarıya oynama ve kriz anlarında kendi pozisyonunu koruma konusunda üst düzey bürokratik zekaya sahiptir.</p>
+        `,
+        sec3_title: "3. KORUNMA VE ETKİSİZLEŞTİRME REÇETESİ // DELİL ZİNCİRİ",
+        sec3_body: `
+          <p>Asla sözlü talimatla iş yapmayacaksın. Her şeyi e-posta ile teyit edecek, tarihli/saatli kayıt tutacak ve hukuki haklı fesih/tazminat klasörünü sessizce hazır edeceksin.</p>
+        `,
+        ultimatum_title: "⚡ MÜCADELE EŞİĞİ:",
+        ultimatum_body: "Sözlü sızlanmaları bırakıp bu yöneticiye karşı kurumsal ve hukuki delil kalkanını kurmaya hazır mısın?",
+        btn_bad: "❌ 'Sesimi çıkarmadan çalışmaya devam edeceğim.'",
+        btn_good: "✔ 'Yazılı delil zincirini kurup haklarımı koruyacağım.'"
+      },
+      groom_candidate: {
+        sec1_title: "1. DAMAT / EŞ ADAYI OTOPSİSİ // AİLE MASKESİ VE MALİ GİZEM",
+        sec1_body: (gap, cont) => `
+          <p>Karşında aile meclislerine oynayan uysal bir vitrin var; ancak <b>%${gap} Benlik Yarılması</b> ve <b>%${cont} gizli küçümseme</b>, bastırılmış bir mali şantaj ve kontrol hırsı taşıdığını gösteriyor.</p>
+          <p>Evlilik sonrasında mali şeffaflığı kapatmaya, aileleri birbirine düşürmeye ve partneri duygusal olarak izole etmeye meyillidir.</p>
+        `,
+        sec2_title: "2. GÜÇLÜ YÖNLERİ VE SOSYAL SERMAYESİ",
+        sec2_body: `
+          <p>Sosyal statü kurma, dış çevreye güven aşılama ve kriz anlarında organize olabilme potansiyeli yüksektir.</p>
+        `,
+        sec3_title: "3. PROTOKOL VE EVLİLİK SÖZLEŞMESİ REÇETESİ",
+        sec3_body: `
+          <p>Romantizm başka, hayat ortaklığı başkadır. Mal rejimi sözleşmesi, mali dürüstlük testi ve aile sınırları en baştan noter güvencesiyle kilitlenmelidir.</p>
+        `,
+        ultimatum_title: "⚡ GÜVEN EŞİĞİ:",
+        ultimatum_body: "Gözünü boyayan vitrine aldanmayıp gerçek mali ve ailesel şeffaflığı masaya sürmeye hazır mısın?",
+        btn_bad: "❌ 'Aramız bozulmasın diye sözleşme konusunu açamam.'",
+        btn_good: "✔ 'Şeffaflık şart; protokolü imzalatıp net sınır koyacağım.'"
       }
     };
 
@@ -1743,11 +1849,30 @@
         } else if (round === 1) {
           if (detectedTopic === 'triangulation') {
             const roleSelect = document.getElementById('triangulation-target-role');
-            const targetRole = roleSelect ? roleSelect.value : 'partner';
+            const targetRole = roleSelect ? roleSelect.value : 'candidate_employee';
             const roleLabel = roleSelect ? roleSelect.options[roleSelect.selectedIndex].text : "Kişilik & Karakter Analizi";
             const auditData = window.lastAttachedVisionPayload && window.lastAttachedVisionPayload.visionData ? window.lastAttachedVisionPayload.visionData : {};
             const maskGap = auditData.noise_deviation ? (auditData.noise_deviation * 10).toFixed(1) : '42.0';
             const contempt = auditData.spectral_ratio ? (auditData.spectral_ratio * 100).toFixed(1) : '54.0';
+
+            // 1. Öncelik: Backend API'den dönen role özel instructor / pydantic klinik otopsi bölümleri
+            const backendSections = window.lastTriangulationResult && window.lastTriangulationResult.autopsy_sections 
+              ? window.lastTriangulationResult.autopsy_sections 
+              : null;
+
+            // 2. Öncelik: Role özel bağımsız klinik kütüphane (Asla kopyala-yapıştır joker metin yok!)
+            const roleSpec = (typeof ROLE_CLINICAL_LIBRARY !== 'undefined' && ROLE_CLINICAL_LIBRARY[targetRole]) 
+              ? ROLE_CLINICAL_LIBRARY[targetRole] 
+              : (ROLE_CLINICAL_LIBRARY ? ROLE_CLINICAL_LIBRARY['candidate_employee'] : null);
+
+            const s1_title = backendSections ? backendSections.section_1_title : (roleSpec ? roleSpec.sec1_title : "1. ÇIPLAK HAKİKAT // MASKE VE NARSİSİZM");
+            const s1_body = backendSections ? backendSections.section_1_body : (roleSpec ? (typeof roleSpec.sec1_body === 'function' ? roleSpec.sec1_body(maskGap, contempt) : roleSpec.sec1_body) : "");
+            const s2_title = backendSections ? backendSections.section_2_title : (roleSpec ? roleSpec.sec2_title : "2. GÜÇLÜ YÖNLER // NEREDE İŞ YAPAR?");
+            const s2_body = backendSections ? backendSections.section_2_body : (roleSpec ? roleSpec.sec2_body : "");
+            const s3_title = backendSections ? backendSections.section_3_title : (roleSpec ? roleSpec.sec3_title : "3. STRATEJİK HÜKÜM // KULLANMA KILAVUZU");
+            const s3_body = backendSections ? backendSections.section_3_body : (roleSpec ? roleSpec.sec3_body : "");
+            const ult_title = backendSections ? backendSections.ultimatum_title : (roleSpec ? roleSpec.ultimatum_title : "⚡ İLK TOKAT // KARAR EŞİĞİ:");
+            const ult_body = backendSections ? backendSections.ultimatum_body : (roleSpec ? roleSpec.ultimatum_body : "Kararınızı verin.");
 
             content = `
               <div class="ai-clean-card">
@@ -1759,32 +1884,27 @@
                   <span>ANALİZ EDİLEN PROFİL & ROL:</span> [${escapeHtml(roleLabel)}] "${escapeHtml(userQuery)}"
                 </div>
                 <div class="ai-body-text">
-                  <h3>1. ÇIPLAK HAKİKAT // KİRLİ ÇAMAŞIRLAR, MASKE VE DERİN NARSİSİZM</h3>
-                  <p>Karşında sunduğu o parıltılı özgeçmişe, cilalı kelimelere ve yapay nezakete sahip biri yok. Karşında, içindeki derin yetersizlik korkusunu dışarıya 'her şeyi bilen, kusursuz ve vazgeçilmez' imajı çizerek bastırmaya çalışan <b>profesyonel bir maske operatörü</b> var. Bu kişinin resmi vitrin halleri ile doğal anlarındaki yüz gerilimi arasında <b>%${maskGap} oranında belirgin bir Benlik Yarılması</b> ve <b>%${contempt} gizli küçümseme refleksi</b> yatıyor.</p>
-                  <p>Bu ne demek? Bu insan seninle konuşurken seni eşit bir ortak veya saygı duyulacak bir muhatap olarak görmüyor; kendi çıkarları için 'yönetilmesi ve kontrol edilmesi gereken bir figüran' olarak kodluyor. Bir hata yaptığında suçu asla üzerine almaz; konuyu döndürüp dolaştırıp senin yetersizliğine, sistemin eksikliğine veya dış koşullara bağlar. Yüzüne gülerken arkadan iş çevirmeyi, sorumluluktan kaçmayı ve köşeye sıkıştığında mağdur edebiyatına sarılmayı refleks haline getirmiştir. Güç zehirlenmesine ve gizli kibire inanılmaz derecede meyillidir.</p>
+                  <h3>${s1_title}</h3>
+                  ${s1_body}
 
-                  <h3>2. İNKAR EDİLEMEZ GÜÇLÜ YANLAR VE YÜKSEK POTANSİYEL // BU KİŞİ NEREDE İŞ YAPAR?</h3>
-                  <p>Ancak her şeyi çöpe atamayız; bu insanın masaya koyduğu ve doğru yönetilirse devasa katma değer üretecek çok somut güçleri var:</p>
-                  <p><b>• Acımasız İcraat ve Sonuç Odaklılık:</b> Duygularıyla değil hırslarıyla hareket ettiği için, başkalarının çekindiği zorlu pazarlıklarda, kriz yönetiminde ve sert rekabet ortamlarında müthiş bir direnç gösterir. Önüne net bir hedef koyduğunda, engelleri ezip geçerek o sonucu teslim eder.</p>
-                  <p><b>• Vitrin ve İkna Kabiliyeti:</b> Sosyal zekası ve dış dünyaya oynama yeteneği üst seviyededir. Müşteri bağlama, şirket temsilciliği, fon bulma ve kitleleri peşinden sürükleme konusunda doğal bir cazibeye sahiptir. İnsanları neyin motive ettiğini çok iyi sezer ve bunu hedefe ulaşmak için ustalıkla kullanır.</p>
-                  <p><b>• Stres Altında Soğukkanlılık:</b> Panik yapmaz. Herkesin eli ayağı birbirine dolandığında o arkasına yaslanıp rasyonel çıkarım yapabilir. Kendi çıkarlarıyla şirketin/ekibin çıkarları örtüştüğü sürece durdurulamaz bir lokomotif gibi çalışır.</p>
+                  <h3>${s2_title}</h3>
+                  ${s2_body}
 
-                  <h3>3. STRATEJİK HÜKÜM // KULLANMA KILAVUZU VE NET REÇETE</h3>
-                  <p><b>Bu kişiyle nasıl çalışılır veya nasıl yaşanır?:</b> Onu 'dostun, sırdaşın veya vicdan ortağın' yapmayacaksın. Ona asla sınırsız inisiyatif veya denetimsiz yetki vermeyeceksin. Bu profille masaya otururken tek bir kural vardır: <b>Çelik gibi sözleşmeler, net yazılı KPI'lar ve sıfır duygusal taviz.</b></p>
-                  <p>Güçlü yanlarını şirketin satışına, kriz yönetimine ve büyümesine koşturacaksın; ancak kasanın anahtarını, stratejik kararları ve ekibin iç huzurunu asla onun insafına bırakmayacaksın. Maskesini bildiğini ona hissettirdiğin anda sana saygı duymak ve çizgide kalmak zorunda kalacaktır.</p>
+                  <h3>${s3_title}</h3>
+                  ${s3_body}
                 </div>
                 <div class="ai-attack-box">
-                  <div class="attack-label">⚡ İLK TOKAT // KARAR VE SINIR EŞİĞİ:</div>
+                  <div class="attack-label">${ult_title}</div>
                   <div class="attack-main">
-                    Bu insanın hem narsisistik risklerini ve manipülasyon açığını bilip hem de yüksek icraat gücünü katı kurallarla yönetmeye hazır mısın, yoksa tatlı diline kanıp ipleri eline vermeye mi niyetlisin?
+                    ${ult_body}
                   </div>
                 </div>
                 <div class="choice-group">
                   <button class="btn-choice bad" onclick="handleQuickChoice('hayir')">
-                    ❌ "Riskleri çok yüksek; bu egoyla uğraşamam, eliyorum / uzak duruyorum."
+                    ${roleSpec && roleSpec.btn_bad ? roleSpec.btn_bad : '❌ "Riskleri çok yüksek; eliyorum / geri çekiliyorum."' }
                   </button>
                   <button class="btn-choice" onclick="handleQuickChoice('evet')">
-                    ✔ "Güçlü yanlarını kullanacağım; katı sınırlar ve yazılı kurallarla sürece alıyorum."
+                    ${roleSpec && roleSpec.btn_good ? roleSpec.btn_good : '✔ "Güçlü yanlarını kullanacağım; katı kurallarla yönetiyorum."' }
                   </button>
                 </div>
                 ${renderAiActionFooter()}

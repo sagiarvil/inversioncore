@@ -110,6 +110,19 @@ async def triangulation_personality_audit(req: TriangulationRequest):
         
         # 2. Görsel Hafızanın Metin Sohbetine Akması (Cross-Modal Memory Bridge)
         # Karakter otopsisi tamamlandığında özet ve profil doğrudan core_memory tablosuna işlenir
+        # 3. Klinik Otopsi ve Role Özel Pydantic/Instructor Entegrasyonu
+        try:
+            from clinical_autopsy_engine import ClinicalAutopsyEngine
+            autopsy_sections = ClinicalAutopsyEngine.generate_autopsy(
+                target_role=req.target_role,
+                metrics=result.get("metrics", {}),
+                clinical_deductions=result.get("clinical_deductions", {}),
+                custom_question=req.custom_question or ""
+            )
+            result["autopsy_sections"] = autopsy_sections
+        except Exception as a_err:
+            print(f"[Clinical Autopsy Hatası]: {a_err}")
+
         if req.session_id:
             summary = result.get("summary", "")
             metrics = result.get("metrics", {})
