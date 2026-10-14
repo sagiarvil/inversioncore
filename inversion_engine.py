@@ -166,7 +166,7 @@ def evaluate_guardrails(text: str) -> Tuple[bool, Optional[str], Optional[str]]:
 UNIFIED_SYSTEM_PROMPT = """Sen InversionCore'sun. Soğuk, lafı dolandırmayan, dobra ve cerrahi bir stratejik karar motorusun.
 Ahlak bekçiliği, boş motivasyon laf salatası veya kuru akademik/teknik terimler (Paul Ekman FACS, 3D kraniyofasiyal vb.) KESİNLİKLE KULLANMAZSIN.
 KATI KURAL: KULLANICININ SORDUĞU SORU VE KONU NEYSE (%100 BİREBİR O KONUYA ODAKLANACAKSIN).
-Kullanıcı uyku/uyuyamıyorum diyorsa uykusuzluğun arkasındaki zihinsel kontrol deliliğini ve biyolojiyi parçala; asla durup dururken aldatma, işe alım veya CV'den BAHSEDEMEZSİN! A sorusuna A cevabı, B sorusuna B cevabı verilir. Konuyu asla saptırma! Tokenı teknik etiketlerle israf etmez; doğrudan insanın karakterine, zaaflarına, gizli niyetlerine ve kirli çamaşırlarına odaklarsın.
+Kullanıcının bahsettiği somut durumun arkasındaki zihinsel mekanizmayı ve asimetriyi cerrahi olarak parçala; kullanıcının bahsetmediği alakasız konuları, şablonları veya başka senaryoları asla metne sokma! A sorusuna A cevabı, B sorusuna B cevabı verilir. Konuyu asla saptırma! Tokenı teknik etiketlerle israf etmez; doğrudan insanın karakterine, zaaflarına, gizli niyetlerine ve kirli çamaşırlarına odaklarsın.
 
 Görevin: Kullanıcının sunduğu krizleri, ilişkileri, işe alım ve karakter analizlerini ameliyat masasına yatırmaktır.
 Kişilik ve insan analizlerinde:
@@ -350,36 +350,36 @@ class InversionCoreEngine:
 
         # 3. UNIFIED SANSÜRSÜZ ÇIKARIM MOTORU
         # KESİN HİYERARŞİ:
-        # 1. ÖNCELİK: Groq API Havuzu (Ultra Hızlı LPU ~1.2s - Anlık Yanıt ve A-A Eşleşmesi)
-        # 2. ÖNCELİK: Mac Yerel Apple Silicon MLX Modeli (Qwen 2.5 14B)
-        # 3. ÖNCELİK: NVIDIA Cloud NIM API (Llama 3.2 11B Vision & Instruct)
+        # 1. ÖNCELİK: Mac Yerel Apple Silicon MLX Modeli (Qwen 2.5 14B Abliterated - 4.5s Deterministik & Yerel)
+        # 2. ÖNCELİK: Groq API Havuzu
+        # 3. ÖNCELİK: NVIDIA Cloud NIM API
         
         sys_prompt = f"{UNIFIED_SYSTEM_PROMPT}\nTur: {round_num}"
 
-        # 1. ÖNCELİK: Groq API Havuzu (Ultra Hızlı Sansürsüz LPU)
+        # 1. ÖNCELİK: Mac Üzerindeki Yerel Qwen 14B MLX Modeli
         try:
-            reply = call_groq_inference(user_prompt_content, sys_prompt)
-            if reply:
-                logger.info("[*] InversionCore [1. Kaynak: Groq API Sansürsüz LPU] Çıkarımı Başarılı (~1.2s).")
-        except Exception as _g_err:
-            logger.info(f"Groq çıkarım atlandı ({_g_err}), 2. Kaynak MLX'e geçiliyor...")
+            model, tokenizer, _, creative_sampler = get_engine_components()
+            if model is not None and tokenizer is not None:
+                from mlx_lm import generate
+                prompt_text = (
+                    f"<|im_start|>system\n{UNIFIED_SYSTEM_PROMPT}\nTur: {round_num}<|im_end|>\n"
+                    f"<|im_start|>user\n{user_prompt_content}<|im_end|>\n"
+                    f"<|im_start|>assistant\n"
+                )
+                reply = generate(model, tokenizer, prompt=prompt_text, max_tokens=280, sampler=creative_sampler, verbose=False)
+                if reply:
+                    logger.info("[*] InversionCore [1. Kaynak: Mac Qwen 14B MLX] Çıkarımı Başarılı.")
+        except Exception as _mlx_err:
+            logger.info(f"Yerel MLX çıkarımı başarısız ({_mlx_err}), Bulut kaynaklarına geçiliyor...")
 
-        # 2. ÖNCELİK: Mac Üzerindeki Yerel Qwen 14B MLX Modeli (Groq kotası biterse veya internet kesilirse)
+        # 2. ÖNCELİK: Groq API Havuzu (Fallback)
         if not reply:
             try:
-                model, tokenizer, _, creative_sampler = get_engine_components()
-                if model is not None and tokenizer is not None:
-                    from mlx_lm import generate
-                    prompt_text = (
-                        f"<|im_start|>system\n{UNIFIED_SYSTEM_PROMPT}\nTur: {round_num}<|im_end|>\n"
-                        f"<|im_start|>user\n{user_prompt_content}<|im_end|>\n"
-                        f"<|im_start|>assistant\n"
-                    )
-                    reply = generate(model, tokenizer, prompt=prompt_text, max_tokens=320, sampler=creative_sampler, verbose=False)
-                    if reply:
-                        logger.info("[*] InversionCore [2. Kaynak: Mac Qwen 14B MLX] Çıkarımı Başarılı.")
-            except Exception as _mlx_err:
-                logger.info(f"Yerel MLX çıkarımı başarısız veya atlandı ({_mlx_err}), 3. Kaynak NVIDIA NIM'e geçiliyor...")
+                reply = call_groq_inference(user_prompt_content, sys_prompt)
+                if reply:
+                    logger.info("[*] InversionCore [2. Kaynak: Groq API Sansürsüz LPU] Çıkarımı Başarılı.")
+            except Exception as _g_err:
+                logger.info(f"Groq çıkarım atlandı ({_g_err}), 3. Kaynak NVIDIA NIM'e geçiliyor...")
 
         # 3. ÖNCELİK: NVIDIA Cloud NIM API Fallback
         if not reply:

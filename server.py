@@ -4,16 +4,28 @@ import json
 import re
 import asyncio
 from collections import defaultdict
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from typing import Optional
 
-from inversion_engine import InversionCoreEngine, InversionOutput
+from inversion_engine import InversionCoreEngine, InversionOutput, get_engine_components
 from inversion_memory import get_core_memory, get_recall_history
 
-app = FastAPI(title="InversionCore Enterprise Engine", version="1.4.0")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Model Warmup (Sunucu ayağa kalkarken modeli RAM'e yükler)
+    try:
+        print("[*] Model RAM'e yükleniyor (Warmup)...")
+        get_engine_components()
+        print("[*] Model Warmup Başarıyla Tamamlandı!")
+    except Exception as e:
+        print(f"[!] Warmup hatası: {e}")
+    yield
+
+app = FastAPI(title="InversionCore Enterprise Engine", version="1.4.0", lifespan=lifespan)
 
 # CORS Yapılandırması
 app.add_middleware(
@@ -28,7 +40,7 @@ PORT = int(os.getenv("PORT", "8888"))
 INVERSION_API_KEY = os.getenv("INVERSION_API_KEY", "inv_prod_live_sec_key_2026")
 
 # In-Memory Token Bucket Rate Limiter
-RATE_LIMIT_PER_MINUTE = 15
+RATE_LIMIT_PER_MINUTE = 60
 ip_request_history = defaultdict(list)
 
 @app.middleware("http")
@@ -250,5 +262,13 @@ if os.path.exists("public"):
 
 if __name__ == "__main__":
     import uvicorn
+    # Başlangıçta MLX Modelini RAM'e yükle (Warmup - İlk istek gecikmesini sıfırlar)
+    try:
+        from inversion_engine import get_engine_components
+        print("[*] Model RAM'e yükleniyor (Warmup)...")
+        get_engine_components()
+    except Exception as _werr:
+        print(f"[!] Warmup atlandı: {_werr}")
+
     print(f"InversionCore Enterprise Engine Başlatılıyor: http://0.0.0.0:{PORT}")
     uvicorn.run("server:app", host="0.0.0.0", port=PORT, reload=False)
