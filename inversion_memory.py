@@ -5,19 +5,8 @@ import threading
 DB_PATH = os.getenv("INVERSION_DB_PATH", os.path.abspath("inversion_memory.db"))
 _db_lock = threading.Lock()
 
-# Firestore Bulut Bellek İstemcisi
+# Yüksek Performanslı Bellek Motoru: Yerel SQLite WAL Modu (Kayıpsız ve Milisaniyelik)
 _firestore_db = None
-try:
-    import firebase_admin
-    from firebase_admin import credentials, firestore
-    if not firebase_admin._apps:
-        project_id = os.getenv("FIREBASE_PROJECT_ID", "inversioncore")
-        firebase_admin.initialize_app(options={"projectId": project_id})
-    _firestore_db = firestore.client()
-    print("[*] InversionCore Cloud Firestore Bellek Motoru Aktif!")
-except Exception as _fe:
-    _firestore_db = None
-    # Sessizce SQLite WAL moduna geçer, logu kirletmez
 
 def get_connection():
     conn = sqlite3.connect(DB_PATH, timeout=15.0, check_same_thread=False)
