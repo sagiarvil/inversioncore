@@ -1579,7 +1579,7 @@
       const varolusWords = [
         'depresyon', 'tukenmislik', 'varolus', 'anlamsizlik', 'bosluk', 'bikkinlik',
         'enerjim yok', 'kalkamiyorum', 'yasamak', 'anlami yok', 'tukenmis', 'umutsuz',
-        'hicbir sey istemiyorum', 'anlamsiz'
+        'hicbir sey istemiyorum', 'anlamsiz', 'uyku', 'uyuyamiyorum', 'uyuyamadim', 'uyuyamamak', 'gece', 'yatamiyorum', 'zihnim durmuyor', 'kafam durmuyor', 'dusunceler'
       ];
 
       iliskiHighPriority.forEach(w => { if (clean.includes(w)) scores.iliski += 6; });
@@ -1611,7 +1611,7 @@
         return 'forensic';
       }
 
-      return maxScore > 0 ? maxTopic : (hasImageEvidence ? 'forensic' : 'iliski');
+      return maxScore > 0 ? maxTopic : (hasImageEvidence ? 'forensic' : 'varolus');
     }
 
     function startAuditFlow() {
@@ -1756,7 +1756,7 @@
       for (const ep of endpoints) {
         try {
           const controller = new AbortController();
-          const timer = setTimeout(() => controller.abort(), 600);
+          const timer = setTimeout(() => controller.abort(), 6000);
           
           let combinedDecision = userQuery;
           let forensicContextObj = null;
