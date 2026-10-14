@@ -122,18 +122,24 @@ async def triangulation_personality_audit(req: TriangulationRequest):
         
         # 2. Görsel Hafızanın Metin Sohbetine Akması (Cross-Modal Memory Bridge)
         # Karakter otopsisi tamamlandığında özet ve profil doğrudan core_memory tablosuna işlenir
-        # 3. Klinik Otopsi ve Role Özel Pydantic/Instructor Entegrasyonu
+        # 3. Gerçek Nöral Multimodal AI Vision (Llama 3.2 Vision ile fotoğrafların doğrudan analizi)
         try:
-            from clinical_autopsy_engine import ClinicalAutopsyEngine
-            autopsy_sections = ClinicalAutopsyEngine.generate_autopsy(
+            from multimodal_vision_engine import MultimodalVisionEngine
+            imgs_to_send = [img for img in [req.formal_image, req.candid_image, req.social_image] if img]
+            mm_result = await asyncio.to_thread(
+                MultimodalVisionEngine.analyze_character_from_images,
+                images_base64=imgs_to_send,
                 target_role=req.target_role,
-                metrics=result.get("metrics", {}),
-                clinical_deductions=result.get("clinical_deductions", {}),
                 custom_question=req.custom_question or ""
             )
-            result["autopsy_sections"] = autopsy_sections
-        except Exception as a_err:
-            print(f"[Clinical Autopsy Hatası]: {a_err}")
+            if mm_result and "section_1_title" in mm_result:
+                result["autopsy_sections"] = mm_result
+                if "mask_gap_percent" in mm_result and "metrics" in result:
+                    result["metrics"]["persona_authenticity_gap"] = mm_result["mask_gap_percent"]
+                if "contempt_percent" in mm_result and "metrics" in result:
+                    result["metrics"]["chronic_contempt_index"] = mm_result["contempt_percent"]
+        except Exception as mm_err:
+            print(f"[Multimodal Vision Hatası]: {mm_err}")
 
         if req.session_id:
             summary = result.get("summary", "")

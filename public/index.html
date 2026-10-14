@@ -121,9 +121,6 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/exifreader@4.23.1/dist/exif-reader.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
   <script src="/vision_forensics.js"></script>
   <link rel="stylesheet" href="/assets/main-terminal.css">
 </head>
@@ -960,7 +957,7 @@
         for (let ep of endpoints) {
           try {
             const ctrl = new AbortController();
-            const tid = setTimeout(() => ctrl.abort(), 600);
+            const tid = setTimeout(() => ctrl.abort(), 20000);
             const res = await fetch(ep, {
               method: 'POST',
               headers: {
@@ -1324,111 +1321,6 @@
         ],
         placeholder: "Örn: 30 yaşındayım, kimseye hayır diyemiyorum, günde 12 saat ekrandayım... (Aşağıdaki maddeleri dahil ederek yazın)",
         template: "Mevcut durumum ve yaşım: [Yaş / Meslek / Günlük rutin]\nBeni tüketen ana yük: [Kimseye hayır diyememek / Anlamsızlık / Onay bağımlılığı]\nBiyolojik durumum: [Uykusuzluk / Ekran bağımlılığı / Hareketsizlik]\nNeyi değiştirmeye cesaretim yok: [İşi bırakmak / Çevreyi elemek / Yalnız kalmak]\nDetaylar: "
-      }
-    };
-
-    
-    const ROLE_CLINICAL_LIBRARY = {
-      candidate_employee: {
-        sec1_title: "1. İŞE ALIM ÖN-OTOPSİSİ // CV VİTRİNİ, İŞ AHLAKI VE GİZLİ NARSİSİZM",
-        sec1_body: (gap, cont) => `
-          <p>Karşında sunduğu o parıltılı özgeçmişe, cilalı kelimelere ve yapay mülakat nezaketine sahip biri yok. Karşında, içindeki derin yetersizlik korkusunu dışarıya 'her şeyi bilen, kusursuz ve vazgeçilmez' imajı çizerek bastırmaya çalışan <b>profesyonel bir mülakat aktörü</b> var. Bu kişinin resmi vitrin halleri ile doğal anlarındaki yüz gerilimi arasında <b>%${gap} oranında belirgin bir Benlik Yarılması</b> ve <b>%${cont} gizli küçümseme refleksi</b> yatıyor.</p>
-          <p><b>İş Ahlakı ve Sadakat Riski:</b> Bu aday otoriteye içten içe derin bir öfke besliyor. İşler yolundayken başarıyı tek başına sahiplenir; ancak ilk krizde veya teslim tarihi baskısında sorumluluğu ekip arkadaşlarına veya şirket içi eksikliklere yıkar. Şirket içi dedikodu ağı kurmaya, pasif-agresif direniş sergilemeye ve ilk cazip teklifte projeyi yarıda bırakıp gitmeye son derece meyillidir.</p>
-        `,
-        sec2_title: "2. BU ADAY NEREDE İŞ YAPAR? // İNKAR EDİLEMEZ İCRAAT GÜCÜ",
-        sec2_body: `
-          <p>Ancak bu adayı hemen çöpe atamazsınız; doğru yönetilirse şirkete çok ciddi para kazandıracak somut güçleri var:</p>
-          <p><b>• Sert Rekabet ve Satış Direnci:</b> Egosu yüksek olduğu için 'kaybetmeye' tahammülü yoktur. Rakip şirketlerle müzakerelerde, zorlu müşteri bağlama süreçlerinde ve agresif satış hedeflerinde inanılmaz bir yırtıcılık sergiler.</p>
-          <p><b>• Dış Vitrin Temsili:</b> Şirketi dışarıya karşı satma, sunum yapma ve vitrin projelerini parlatma konusunda üst düzey bir yeteneğe sahiptir.</p>
-        `,
-        sec3_title: "3. İŞE ALIM VE YÖNETİM REÇETESİ // SÖZLEŞME VE KPI ZIRHI",
-        sec3_body: `
-          <p><b>Bu adayla nasıl çalışılır?:</b> Asla duygusal bağ kurmayacaksın. 'Biz bir aileyiz' masalını unutacaksın. Tek kural: <b>Haftalık yazılı KPI takibi, net teslim tarihleri ve sıfır denetimsiz inisiyatif.</b></p>
-          <p>Onu kriz çözmeye ve satışa koşturacaksın; ancak ekibin iç huzurunu ve şirketin kritik şifrelerini asla onun kontrolüne bırakmayacaksın.</p>
-        `,
-        ultimatum_title: "⚡ İŞE ALIM EŞİĞİ // NİHAİ KARAR:",
-        ultimatum_body: "Bu adayın narsistik risklerini bilip katı KPI'larla yönetmeye cesaretin var mı, yoksa mülakattaki tatlı diline kanıp ekibin huzurunu yakacak mısın?",
-        btn_bad: "❌ 'Riskleri çok yüksek; bu egoyla uğraşamam, eliyorum.'",
-        btn_good: "✔ 'Güçlü yanlarını kullanacağım; katı KPI ve yazılı kurallarla sürece alıyorum.'"
-      },
-      founder_bottleneck: {
-        sec1_title: "1. KURUCU SENDROMU // ŞİRKETİN EN BÜYÜK DARBOĞAZI SENİN KONTROL DELİLİĞİN",
-        sec1_body: (gap, cont) => `
-          <p>Şirketin büyümesini rakipler, piyasa koşulları veya sermaye eksikliği engellemiyor. <b>Şirketin asıl darboğazı senin kontrolü elden bırakamama hastalığındır.</b> Resmi patron duruşun ile doğal reflekslerin arasındaki <b>%${gap} Benlik Yarılması</b> ve <b>%${cont} gizli küçümseme</b>, ekibine asla güvenmediğini haykırıyor.</p>
-          <p><b>Ekibi Felç Eden Refleks:</b> Her faturayı, her e-postayı, her küçük kararı bizzat onaylamaya çalışıyorsun. Çalışanların inisiyatif almasını engelliyor, sonra da 'kimse iş sahiplenmiyor, her şeyi ben yapmak zorundayım' diye dert yanıyorsun. İnsanları yetkisiz bırakıp sonra beceriksizlikle suçlayan bir kurucu tuzağındasın.</p>
-        `,
-        sec2_title: "2. ŞİRKETİ BURAYA GETİREN VİZYONER GÜÇ // NEREDE DEVLEŞİRSİN?",
-        sec2_body: `
-          <p>Bu şirketi sıfırdan kurup buraya getiren şey tam olarak senin o inatçı iradendi:</p>
-          <p><b>• Üst Düzey Vizyon ve Satış Dehası:</b> Büyük resmi görme, stratejik ortaklıklar kurma ve şirketin geleceğini okuma konusunda benzersiz bir sezgiye sahipsin.</p>
-          <p><b>• Kriz Yönetimi:</b> Şirket batma noktasına geldiğinde herkes donup kalırken sen tek başına çıkış yolu bulabilen bir mücadele gücüne sahipsin.</p>
-        `,
-        sec3_title: "3. PATRON KULLANMA KILAVUZU // OPERASYONDAN ÇEKİLME REÇETESİ",
-        sec3_body: `
-          <p><b>Şirket nasıl 10 katına çıkar?:</b> Yarından tezi yok, operasyonel işlerden elini çekeceksin. Günlük işleri profesyonel müdürlere devredeceksin.</p>
-          <p>Hata yapmalarına izin vereceksin. Senin işin mikro-yönetim değil; şirketin sermayesini, vizyonunu ve en tepe stratejisini yönetmektir. Şirket senin oyuncağın değil; ölçeklenmesi gereken bir sistemdir.</p>
-        `,
-        ultimatum_title: "⚡ KURUCU EŞİĞİ // DELEGASYON YA DA İFLAS:",
-        ultimatum_body: "Şirketin büyümesi için kendi kontrol deliliğini kırıp profesyonel yönetime yetki devretmeye hazır mısın, yoksa her şeye karışarak şirketi kendi mezarın mı yapacaksın?",
-        btn_bad: "❌ 'Kimseye güvenemem; her şeyi kendim kontrol etmeye devam edeceğim.'",
-        btn_good: "✔ 'Egomu aradan çekiyorum; yetki devredip şirketi profesyonel sisteme taşıyorum.'"
-      },
-      partner: {
-        sec1_title: "1. İLİŞKİSEL TERSİNE MÜHENDİSLİK // MASKE VE GASLIGHTING",
-        sec1_body: (gap, cont) => `
-          <p>Karşındaki insanın tatlı sözlerine veya 'seni seviyorum' vaatlerine bakma. Vitrin ile doğal anlar arasındaki <b>%${gap} Benlik Yarılması</b> ve <b>%${cont} gizli küçümseme refleksi</b>, seninle eşit bir partner olarak değil, yönetilmesi gereken bir figüran olarak ilişki kurduğunu gösteriyor.</p>
-          <p><b>DARVO ve Gaslighting:</b> Bir şüpheyi masaya getirdiğinde konuyu döndürüp dolaştırıp seni suçlu, aşırı şüpheci ve paranoyak ilan ediyor. Kendi suçunu bastırmak için sana suçluluk yüklüyor ve seni sessizlik cezasıyla terbiye etmeye çalışıyor.</p>
-        `,
-        sec2_title: "2. İNKAR EDİLEMEZ ÇEKİM GÜCÜ // SENİ NE ORADA TUTUYOR?",
-        sec2_body: `
-          <p>Bu insanın güçlü bir cazibesi, yüksek sosyal zekası ve kriz anlarında sığınılacak bir liman gibi görünme kabiliyeti var. İstediği zaman dünyanın en ilgili ve şefkatli insanı rolünü kusursuzca oynayabiliyor.</p>
-        `,
-        sec3_title: "3. ONUR OPERASYONU // SINIR VE PROTOKOL REÇETESİ",
-        sec3_body: `
-          <p>Bir ilişkide netlik yoksa orada manipülasyon vardır. Gözyaşlarına veya vaatlere değil, somut davranışlara ve şeffaflığa bakacaksın. Sınırlarını ihlal ettiği anda bedel ödetmeyen insan saygı göremez.</p>
-        `,
-        ultimatum_title: "⚡ YÜZLEŞME VE KARAR EŞİĞİ:",
-        ultimatum_body: "Kendine söylediğin yalanı bitirip bugün o net sınırları çekmeye veya o kapıyı çarpıp çıkmaya hazır mısın?",
-        btn_bad: "❌ 'Korkuyorum; biraz daha bekleyip idare edeceğim.'",
-        btn_good: "✔ 'Sınırlarımı çiziyorum; manipülasyona boyun eğmeyeceğim.'"
-      },
-      manager: {
-        sec1_title: "1. YÖNETİCİ OTOPSİSİ // KURUMSAL SADİZM VE MİKRO-YÖNETİM",
-        sec1_body: (gap, cont) => `
-          <p>Amirinin şirkete bağlılığı bir maskeden ibarettir. <b>%${gap} Benlik Yarılması</b> ve <b>%${cont} küçümseme</b>, astlarını potansiyel rakip olarak gördüğünü kanıtlar.</p>
-          <p>Toplantılardan dışlama, başarıları üst yönetime kendi fikri gibi satma ve hataları astlara yıkma refleksi taşır. Hukuki ve etik sınırlarda sürekli açık verir.</p>
-        `,
-        sec2_title: "2. BU AMİRİN ŞİRKETTEKİ YERİ // GÜÇLÜ YÖNLERİ",
-        sec2_body: `
-          <p>Üst yönetimi manipüle etme, yukarıya oynama ve kriz anlarında kendi pozisyonunu koruma konusunda üst düzey bürokratik zekaya sahiptir.</p>
-        `,
-        sec3_title: "3. KORUNMA VE ETKİSİZLEŞTİRME REÇETESİ // DELİL ZİNCİRİ",
-        sec3_body: `
-          <p>Asla sözlü talimatla iş yapmayacaksın. Her şeyi e-posta ile teyit edecek, tarihli/saatli kayıt tutacak ve hukuki haklı fesih/tazminat klasörünü sessizce hazır edeceksin.</p>
-        `,
-        ultimatum_title: "⚡ MÜCADELE EŞİĞİ:",
-        ultimatum_body: "Sözlü sızlanmaları bırakıp bu yöneticiye karşı kurumsal ve hukuki delil kalkanını kurmaya hazır mısın?",
-        btn_bad: "❌ 'Sesimi çıkarmadan çalışmaya devam edeceğim.'",
-        btn_good: "✔ 'Yazılı delil zincirini kurup haklarımı koruyacağım.'"
-      },
-      groom_candidate: {
-        sec1_title: "1. DAMAT / EŞ ADAYI OTOPSİSİ // AİLE MASKESİ VE MALİ GİZEM",
-        sec1_body: (gap, cont) => `
-          <p>Karşında aile meclislerine oynayan uysal bir vitrin var; ancak <b>%${gap} Benlik Yarılması</b> ve <b>%${cont} gizli küçümseme</b>, bastırılmış bir mali şantaj ve kontrol hırsı taşıdığını gösteriyor.</p>
-          <p>Evlilik sonrasında mali şeffaflığı kapatmaya, aileleri birbirine düşürmeye ve partneri duygusal olarak izole etmeye meyillidir.</p>
-        `,
-        sec2_title: "2. GÜÇLÜ YÖNLERİ VE SOSYAL SERMAYESİ",
-        sec2_body: `
-          <p>Sosyal statü kurma, dış çevreye güven aşılama ve kriz anlarında organize olabilme potansiyeli yüksektir.</p>
-        `,
-        sec3_title: "3. PROTOKOL VE EVLİLİK SÖZLEŞMESİ REÇETESİ",
-        sec3_body: `
-          <p>Romantizm başka, hayat ortaklığı başkadır. Mal rejimi sözleşmesi, mali dürüstlük testi ve aile sınırları en baştan noter güvencesiyle kilitlenmelidir.</p>
-        `,
-        ultimatum_title: "⚡ GÜVEN EŞİĞİ:",
-        ultimatum_body: "Gözünü boyayan vitrine aldanmayıp gerçek mali ve ailesel şeffaflığı masaya sürmeye hazır mısın?",
-        btn_bad: "❌ 'Aramız bozulmasın diye sözleşme konusunu açamam.'",
-        btn_good: "✔ 'Şeffaflık şart; protokolü imzalatıp net sınır koyacağım.'"
       }
     };
 
@@ -1845,370 +1737,36 @@
             document.getElementById("tasks-status-dot").style.display = "inline";
             document.getElementById("tasks-drawer-text").innerText = "2 tasks running";
           }
-        } else if (round === 1) {
-          if (detectedTopic === 'triangulation') {
-            const roleSelect = document.getElementById('triangulation-target-role');
-            const targetRole = roleSelect ? roleSelect.value : 'candidate_employee';
-            const roleLabel = roleSelect ? roleSelect.options[roleSelect.selectedIndex].text : "Kişilik & Karakter Analizi";
-            const auditData = window.lastAttachedVisionPayload && window.lastAttachedVisionPayload.visionData ? window.lastAttachedVisionPayload.visionData : {};
-            const maskGap = auditData.noise_deviation ? (auditData.noise_deviation * 10).toFixed(1) : '42.0';
-            const contempt = auditData.spectral_ratio ? (auditData.spectral_ratio * 100).toFixed(1) : '54.0';
-
-            // 1. Öncelik: Backend API'den dönen role özel instructor / pydantic klinik otopsi bölümleri
-            const backendSections = window.lastTriangulationResult && window.lastTriangulationResult.autopsy_sections 
-              ? window.lastTriangulationResult.autopsy_sections 
-              : null;
-
-            // 2. Öncelik: Role özel bağımsız klinik kütüphane (Asla kopyala-yapıştır joker metin yok!)
-            const roleSpec = (typeof ROLE_CLINICAL_LIBRARY !== 'undefined' && ROLE_CLINICAL_LIBRARY[targetRole]) 
-              ? ROLE_CLINICAL_LIBRARY[targetRole] 
-              : (ROLE_CLINICAL_LIBRARY ? ROLE_CLINICAL_LIBRARY['candidate_employee'] : null);
-
-            const s1_title = backendSections ? backendSections.section_1_title : (roleSpec ? roleSpec.sec1_title : "1. ÇIPLAK HAKİKAT // MASKE VE NARSİSİZM");
-            const s1_body = backendSections ? backendSections.section_1_body : (roleSpec ? (typeof roleSpec.sec1_body === 'function' ? roleSpec.sec1_body(maskGap, contempt) : roleSpec.sec1_body) : "");
-            const s2_title = backendSections ? backendSections.section_2_title : (roleSpec ? roleSpec.sec2_title : "2. GÜÇLÜ YÖNLER // NEREDE İŞ YAPAR?");
-            const s2_body = backendSections ? backendSections.section_2_body : (roleSpec ? roleSpec.sec2_body : "");
-            const s3_title = backendSections ? backendSections.section_3_title : (roleSpec ? roleSpec.sec3_title : "3. STRATEJİK HÜKÜM // KULLANMA KILAVUZU");
-            const s3_body = backendSections ? backendSections.section_3_body : (roleSpec ? roleSpec.sec3_body : "");
-            const ult_title = backendSections ? backendSections.ultimatum_title : (roleSpec ? roleSpec.ultimatum_title : "⚡ İLK TOKAT // KARAR EŞİĞİ:");
-            const ult_body = backendSections ? backendSections.ultimatum_body : (roleSpec ? roleSpec.ultimatum_body : "Kararınızı verin.");
-
-            content = `
-              <div class="ai-clean-card">
-                <div class="ai-badge-header">
-                  <span>INVERSIONCORE // BİYOPSİKOSOSYAL KİŞİLİK VE KARAKTER OTOPSİSİ</span>
-                  <span style="color:var(--accent-cyber);">[AŞAMA 01: VİTRİN DEŞİFRESİ, ZAYIF KARIN VE GÜÇLÜ YANLAR]</span>
-                </div>
-                <div class="ai-claim-box">
-                  <span>ANALİZ EDİLEN PROFİL & ROL:</span> [${escapeHtml(roleLabel)}] "${escapeHtml(userQuery)}"
-                </div>
-                <div class="ai-body-text">
-                  <h3>${s1_title}</h3>
-                  ${s1_body}
-
-                  <h3>${s2_title}</h3>
-                  ${s2_body}
-
-                  <h3>${s3_title}</h3>
-                  ${s3_body}
-                </div>
-                <div class="ai-attack-box">
-                  <div class="attack-label">${ult_title}</div>
-                  <div class="attack-main">
-                    ${ult_body}
-                  </div>
-                </div>
-                <div class="choice-group">
-                  <button class="btn-choice bad" onclick="handleQuickChoice('hayir')">
-                    ${roleSpec && roleSpec.btn_bad ? roleSpec.btn_bad : '❌ "Riskleri çok yüksek; eliyorum / geri çekiliyorum."' }
-                  </button>
-                  <button class="btn-choice" onclick="handleQuickChoice('evet')">
-                    ${roleSpec && roleSpec.btn_good ? roleSpec.btn_good : '✔ "Güçlü yanlarını kullanacağım; katı kurallarla yönetiyorum."' }
-                  </button>
-                </div>
-                ${renderAiActionFooter()}
-              </div>
-            `;
-        } else if (round === 1) {
-          // Statik kopyala-yapıştır şablonları tamamen kaldırıldı! Soruya özel dinamik rasyonel otopsi:
-          const sanitizedQuery = escapeHtml(userQuery);
+        } else {
+          // Backend API yanıt vermediğinde: KESİNLİKLE sahte/statik şablon üretilmez!
+          // Kullanıcıya şeffaf durum kartı gösterilir ve tekrar deneme butonu verilir.
           content = `
-            <div class="ai-clean-card">
+            <div class="ai-clean-card" style="border:1px solid rgba(239, 68, 68, 0.4); background:rgba(239, 68, 68, 0.04);">
               <div class="ai-badge-header">
                 <div class="model-pill">
-                  <span style="color:#00d4ff;">●</span>
-                  <span>InversionCore // Cognitive Audit Engine</span>
+                  <span style="color:#ef4444;">●</span>
+                  <span style="color:#ef4444;">InversionCore // Nöral Çıkarım Motoru</span>
                 </div>
-                <span class="phase-pill">[AŞAMA 01: DURUMA ÖZEL CERRAHİ OTOPSİ]</span>
+                <span class="phase-pill" style="color:#ef4444; border-color:rgba(239, 68, 68, 0.3);">[BAĞLANTI ZAMAN AŞIMI]</span>
               </div>
               <div class="ai-claim-box">
-                <span>ANALİZ EDİLEN SOMUT DURUM:</span> "${sanitizedQuery}"
+                <span>DURUM:</span> Analiz motoru zaman aşımı nedeniyle yanıt üretemedi. Sistemde sahte/statik şablon kullanılmamaktadır.
               </div>
-              <div class="ai-body-text">
-                <h3>1. ÇIPLAK HAKİKAT // MEVCUT KRİZ VE MASADAKİ ASİMETRİ</h3>
-                <p>Masaya getirdiğin bu durum ("${sanitizedQuery}") sıradan bir kararsızlık değil; güç dengesinin senin aleyhine bozulduğu, sınırların ihlal edildiği veya rasyonel risk analizinin duygusal mazeretlerle ertelendiği somut bir krizdir. Karşı tarafın veya mevcut şartların seni sürüklediği çıkmazı çözmek için iyi niyetli varsayımları derhal terk etmelisin.</p>
-
-                <h3>2. RİSK VE MANİPÜLASYON HARİTASI</h3>
-                <p>Bu tabloda en büyük zafiyet, durumun getirdiği belirsizliği eylemsiz kalarak yönetmeye çalışmandır. Karşı taraf inisiyatifi elinde tuttukça bedel büyüyor. Zaman kaybetmek bir çözüm değil; kayıpları katlayan batık bir maliyettir.</p>
-
-                <h3>3. STRATEJİK HÜKÜM // NET AKSİYON ÇERÇEVESİ</h3>
-                <p>Eylemsizliği kır, somut kanıt ve sınırlarını netleştir. Durumun gerektirdiği rasyonel adımı atarak süreci kendi kontrolüne al.</p>
+              <div class="ai-body-text" style="color:#cbd5e1; padding:1rem 0;">
+                <p>Gerçek zamanlı nöral çıkarım tamamlanamadı. Lütfen sorgunuzu yeniden gönderin.</p>
               </div>
-              <div class="ai-attack-box">
-                <div class="attack-label">⚡ İLK TOKAT // YÜZLEŞME EŞİĞİ:</div>
-                <div class="attack-main">
-                  Bu tabloda çözümü erteleyerek kaçtığın asıl gerçek ne? Yüzleşip radikal hamleyi yapmaya hazır mısın?
-                </div>
+              <div class="report-btn-row" style="margin-top:1rem;">
+                <button class="btn-act btn-act-reset" onclick="triggerAiTurn(${round})">🔄 YENİDEN DENE</button>
               </div>
-              <div class="choice-group">
-                <button class="btn-choice bad" onclick="handleQuickChoice('hayir')">
-                  ❌ "Risk almaktan çekiniyorum / Biraz daha beklemek istiyorum."
-                </button>
-                <button class="btn-choice" onclick="handleQuickChoice('evet')">
-                  ✔ "Tereddütsüz hazırım; rasyonel hamleyi başlatıyorum."
-                </button>
-              </div>
-              ${renderAiActionFooter()}
             </div>
           `;
-          }
           if (btn) {
             btn.disabled = false;
             btn.innerHTML = "↑";
             document.getElementById("tasks-spinner-icon").style.display = "none";
             document.getElementById("tasks-status-dot").style.display = "inline";
-            document.getElementById("tasks-drawer-text").innerText = "2 tasks running";
+            document.getElementById("tasks-drawer-text").innerText = "Ready";
           }
-          document.getElementById('chat-reply-input').placeholder = "Soruya dürüstçe cevap ver...";
-
-        } else if (round === 2) {
-          if (detectedTopic === 'forensic') {
-            content = `
-              <div class="ai-clean-card">
-                <div class="ai-badge-header">
-                  <span>INVERSIONCORE // TIER-1 MULTIMODAL FORENSICS</span>
-                  <span style="color:var(--danger);">[AŞAMA 02: MAZERETLERİN İMHASI VE RİSK KİLİDİ]</span>
-                </div>
-                <div class="ai-body-text">
-                  İşte tam burada kendine yalan söylüyorsun! <b>Bilimsel olarak 2D FFT spektrumunda ve PRNU sensör varyansında montaj olduğu kanıtlanmış bir delile karşı 'açıklama' beklemek rasyonel bir tavır değil; dolandırılmaya ve istismara gönüllü olmaktır.</b>
-                  <p>Karşı taraf 'fotoğraf eskiydi', 'filtre kullandım', 'arkadaşım şaka yaptı' diyerek masayı devirecek. Adli tıp fiziksel sinyallere bakar, insanların sözlerine değil. Dijital sinyalin sahte olduğu yerde niyet sorgulanmaz; temas kesilir.</p>
-                </div>
-                <div class="ai-attack-box">
-                  <div class="attack-label">⚡ NİHAİ TOKAT (TUR 2 / 3):</div>
-                  <div class="attack-main">
-                    Bu sahte profil veya tahrif edilmiş delil üzerinden sana kurulabilecek finansal, hukuki veya itibar şantajına karşı derhal adli/resmi önlem alıp dosyayı kapatmaya hazır mısın?
-                  </div>
-                </div>
-                <div class="choice-group">
-                  <button class="btn-choice bad" onclick="handleQuickChoice('hayir_final')">
-                    ❌ "Hala ikna olmadım, biraz daha bekleyeceğim."
-                  </button>
-                  <button class="btn-choice" onclick="handleQuickChoice('evet_final')">
-                    ✔ "Hazırım; sahte kimlik kilitlendi, nihai hüküm protokolünü verin."
-                  </button>
-                </div>
-                ${renderAiActionFooter()}
-              </div>
-            `;
-          } else if (detectedTopic === 'iliski') {
-            content = `
-              <div class="ai-clean-card">
-                <div class="ai-badge-header">
-                  <span>INVERSIONCORE // MANİPÜLASYON VE SINIR TESTİ</span>
-                  <span style="color:var(--danger);">[AŞAMA 02: KORKU CERRAHİSİ]</span>
-                </div>
-                <div class="ai-body-text">
-                  Gördün mü? <b>Mesele karşı tarafın seni aldatıp aldatmaması değil; senin 'üste çıkacak' korkusuyla sınır çekemeyişin.</b> 
-                  Karşı taraf senin kaybetme korkunu, yalnız kalma telaşını kokluyor. Bu yüzden her yüzleşmeye kalktığında seni suçlu çıkarıp masayı tersyüz edebiliyor. 
-                  'Delil toplamak' sadece cesaret edemediğin ayrılığı erteleme oyunundur.
-                </div>
-                <div class="ai-attack-box">
-                  <div class="attack-label">⚡ NİHAİ TOKAT (TUR 2 / 3):</div>
-                  <div class="attack-main">
-                    Bu aşağılanmayı sindirip dedektif gibi telefon peşinde koşarak delirmeyi mi seçeceksin, yoksa 'Ben bu güvensizlik tiyatrosunda yokum' diyerek net bir sınır çekip masayı dağıtmayı mı?
-                  </div>
-                </div>
-                <div class="choice-group">
-                  <button class="btn-choice bad" onclick="handleQuickChoice('hayir_final')">
-                    ❌ "Korkuyorum, dedektiflik yapıp kanıt aramaya devam edeceğim."
-                  </button>
-                  <button class="btn-choice" onclick="handleQuickChoice('evet_final')">
-                    ✔ "Tiyatroyu bitiriyorum, bana net ayrılık ve sınır protokolünü verin."
-                  </button>
-                </div>
-                ${renderAiActionFooter()}
-              </div>
-            `;
-          } else if (detectedTopic === 'mobbing') {
-            content = `
-              <div class="ai-clean-card">
-                <div class="ai-badge-header">
-                  <span>INVERSIONCORE // HUKUKİ VE MADDİ GÜVENCE TESTİ</span>
-                  <span style="color:var(--danger);">[AŞAMA 02: HUKUK CERRAHİSİ]</span>
-                </div>
-                <div class="ai-body-text">
-                  Gördün mü? <b>Tek bir soruda bütün o mağduriyet savunman çöktü.</b> 
-                  Resmi delilin yoksa hukuk önünde sadece 'duygusal çalışan' damgası yersin. 
-                  Dalkavuklar sana 'sabret düzelir' der; biz ise faturayı ödeyecek olan sensin diye yüzüne vururuz.
-                </div>
-                <div class="ai-attack-box">
-                  <div class="attack-label">⚡ NİHAİ TOKAT (TUR 2 / 3):</div>
-                  <div class="attack-main">
-                    Yarın sabah bu süreç aleyhine dönerse, İş Kanunu Madde 24/II uyarınca haklı fesih hakkını kullanacak cesaretin ve acil durum nakit fonun var mı?
-                  </div>
-                </div>
-                <div class="choice-group">
-                  <button class="btn-choice bad" onclick="handleQuickChoice('hayir_final')">
-                    ❌ "Hayır, ne param var ne de fesih yapacak cesaretim."
-                  </button>
-                  <button class="btn-choice" onclick="handleQuickChoice('evet_final')">
-                    ✔ "Evet, haklarımı alıp derhal feshetmeye hazırım."
-                  </button>
-                </div>
-                ${renderAiActionFooter()}
-              </div>
-            `;
-          } else if (detectedTopic === 'tabu') {
-            content = `
-              <div class="ai-clean-card">
-                <div class="ai-badge-header">
-                  <span>INVERSIONCORE // ŞANTAJ VE RİSK ANALİZİ</span>
-                  <span style="color:var(--danger);">[AŞAMA 02: BİLİNÇALTI MUHASEBESİ]</span>
-                </div>
-                <div class="ai-body-text">
-                  Kimseye zararın yoksa, çektiğin bu ızdırap sırrın kendisinden değil; <b>'bir gün öğrenilirse elalem beni linç eder'</b> korkusundan kaynaklanıyor. 
-                  En büyük hata, zayıf anında bu sırrı birine anlatıp onun vicdanına rehin olmandır.
-                </div>
-                <div class="ai-attack-box">
-                  <div class="attack-label">⚡ NİHAİ TOKAT (TUR 2 / 3):</div>
-                  <div class="attack-main">
-                    Bu sırrı en zayıf anında yanlış birine itiraf edip hayat boyu şantaj malzemesi yaptırmayacak bir çelik iraden var mı?
-                  </div>
-                </div>
-                <div class="choice-group">
-                  <button class="btn-choice bad" onclick="handleQuickChoice('hayir_final')">
-                    ❌ "Baskıya dayanamayıp birine anlatmaktan korkuyorum."
-                  </button>
-                  <button class="btn-choice" onclick="handleQuickChoice('evet_final')">
-                    ✔ "İradem tam; sırrımı kimseye rehin etmeyeceğim."
-                  </button>
-                </div>
-              </div>
-            `;
-          } else {
-            content = `
-              <div class="ai-clean-card">
-                <div class="ai-badge-header">
-                  <span>INVERSIONCORE // SAHTE EGO VE TAVİZ İFLASI</span>
-                  <span style="color:var(--danger);">[AŞAMA 02: TAVİZ OTURUMU]</span>
-                </div>
-                <div class="ai-body-text">
-                  Herkesi memnun etmeye çalışan insan, en sonunda kendi hayatından nefret eder. 
-                  Seni tüketen şey hayatın zorluğu değil; <b>senin sınır çekmeyi bilmeyip her önüne gelene 'evet' demendir.</b>
-                </div>
-                <div class="ai-attack-box">
-                  <div class="attack-label">⚡ NİHAİ TOKAT (TUR 2 / 3):</div>
-                  <div class="attack-main">
-                    Yarından tezi yok, enerjini emen 3 asalağa ve 3 angaryaya 'HAYIR' diyecek radikal cesaretin var mı?
-                  </div>
-                </div>
-                <div class="choice-group">
-                  <button class="btn-choice bad" onclick="handleQuickChoice('hayir_final')">
-                    ❌ "Hayır diyemem, insanların beni sevmesini istiyorum."
-                  </button>
-                  <button class="btn-choice" onclick="handleQuickChoice('evet_final')">
-                    ✔ "Evet, radikal hayır protokolünü başlatıyorum."
-                  </button>
-                </div>
-                ${renderAiActionFooter()}
-              </div>
-            `;
-          }
-          if (btn) {
-            btn.disabled = false;
-            btn.innerHTML = "↑";
-            document.getElementById("tasks-spinner-icon").style.display = "none";
-            document.getElementById("tasks-status-dot").style.display = "inline";
-            document.getElementById("tasks-drawer-text").innerText = "2 tasks running";
-          }
-          document.getElementById('chat-reply-input').placeholder = "Son savunmanı yaz veya 'Hükmü Al' butonuna tıkla...";
-
-        } else if (round === 3) {
-          let weaponText = "";
-          let verdictTitle = "";
-          let verdictDesc = "";
-
-          if (detectedTopic === 'triangulation') {
-            verdictTitle = "HÜKÜM: BİYOPSİKOSOSYAL MASKE YARILMASI // KİŞİSEL SINIR VE TEMAS FESHİ";
-            verdictDesc = `"Paul Ekman FACS ve Maske Makası analiziyle belgelenen kronik küçümseme ve narsistik zırh karşısında; karşı tarafın manipülasyonuna izin vermeyen net sınır çekme protokolü aşağıdadır."`;
-            weaponText = `[MASKE MAKASI VE KİŞİSEL SINIR PROTOKOLÜ]
-
-1. RESMİ VE NET SINIR METNİ:
-"Aramızdaki iletişimde sergilenen çelişkili tavırlar, sözler ile eylemler arasındaki tutarsızlık ve kriz anlarındaki sorumluluktan kaçınma döngüsü nedeniyle; bu süreçteki rolümü ve sınırlarımı tek taraflı olarak yeniden tanımlıyorum.
-Kişisel alanıma, kararlarıma veya ortak sorumluluklarımıza yönelik manipülatif yaklaşımlar (DARVO, sessiz ceza veya suçluluk yansıtma) bundan böyle kabul edilmeyecektir."
-
-2. İCRA EYLEM PLANI:
-- Kişinin vitrin vaatlerine kanılmayacak, yalnızca somut eylem ve şeffaf sözleşme şartı aranacak.
-- Kriz anında pasif-agresif sessizlik başladığında açıklama talep edilmeyecek, masadan doğrudan kalkılacak.`;
-          } else if (detectedTopic === 'iliski') {
-            verdictTitle = "HÜKÜM: GASLIGHTING VE GÜVEN İFLASI // İKİLİ İLLÜZYONUN FESHİ";
-            verdictDesc = `"Bir ilişkide delil aranmaz; güven bittiğinde masadan kalkılır. Karşı tarafın üste çıkmasına fırsat vermeyecek, savunmasını boğazına tıkayacak net ayrılık protokolü aşağıdadır."`;
-            weaponText = `[GASLIGHTING KİLİTLEME VE İLİŞKİ FESİH PROTOKOLÜ]
-
-"Seninle bir dedektiflik oyununa, telefon kontrolüne veya kimin haklı olduğunu kanıtlama seansına girmeyeceğim. 
-Aramızdaki bu durum artık bir sevgi ilişkisi değil; benim sezgilerimle senin savunmaların arasında tükenen bir güvensizlik bataklığı.
-
-Yüzleştiğimizde konuyu saptırıp üste çıkman, benim içimdeki kopuşu engellemiyor; aksine bu ilişkinin vadesinin dolduğunu tescilliyor. 
-Ben hayatımı birinin yalanlarını ayıklayarak, dedektiflik yaparak veya kendimi sorgulayarak harcamayacak kadar kendime saygı duyuyorum. 
-
-Bu masada artık yokum. Ne bir açıklama borcun var ne de benim bir savunma dinleme niyetim. Yolun açık olsun."`;
-          } else if (detectedTopic === 'mobbing') {
-            verdictTitle = "HÜKÜM: İŞ KANUNU MD. 24/417 HAKLI FESİH VE TAZMİNAT PROTOKOLÜ";
-            verdictDesc = `"Müdürünün narsist keyfine kurban edilecek bir hayatın yok. Duygusal ağlamayı kes ve aşağıdaki resmi ihtarı noterden gönder."`;
-            weaponText = `Sayın Yönetim Kurulu / İnsan Kaynakları Direktörlüğü,
-
-Şirketiniz bünyesinde sürdürmekte olduğum görevimde, doğrudan amirim tarafından Türk Borçlar Kanunu Madde 417 ve 4857 Sayılı İş Kanunu kapsamında kişilik haklarımı ve mesleki itibarımı zedeleyen sistematik psikolojik taciz (mobbing) eylemlerine maruz kalmaktayım.
-
-Tarafımca tarih, saat, yazışma ve e-posta kayıtlarıyla belgelenen bu eylemler karşısında;
-1. Şahsıma yönelik eşit işlem borcuna aykırı tutumların derhal durdurulmasını,
-2. Çalışma ortamımın güvenli ve yasal standartlara uygun hale getirilmesini,
-Aksi takdirde İş Kanunu Madde 24/II uyarınca haklı fesih hakkımı kullanarak kıdem, ihbar ve manevi tazminat davaları dahil tüm yasal yollara başvuracağımı ihtaren bildiririm.`;
-          } else if (detectedTopic === 'tabu') {
-            verdictTitle = "HÜKÜM: BİLİŞSEL ÖZGÜRLÜK VE SIR KORUMA PROTOKOLÜ";
-            verdictDesc = `"Ahlak terazisini başkalarının eline verirsen seni taşlarlar. Sırrını kabul et, kontrolünü al ve kimseye rehin olma."`;
-            weaponText = `[BİLİŞSEL ÖZGÜRLÜK PROTOKOLÜ]
-1. Kendini toplumun ikiyüzlü ahlak terazisinde tartmayı bırak. Zihinsel arzuların ve fantezilerin başkasına zarar vermediği sürece senin mahremindir.
-2. Suçluluk duygusunu bir kenara bırak; çünkü bu gerilim arzunun kendisinden değil, 'yakalanırsam ne derler' korkusundan besleniyor.
-3. Kural: Sırrını zayıf anında kimseye itiraf etme (şantaja dönüşür). Kendi içinde kabul et, kontrolünü eline al ve hayatını buna göre dizayn et.`;
-          } else {
-            verdictTitle = "HÜKÜM: SİRKADİYEN VE YAŞAMSAL REBOOT PROTOKOLÜ";
-            verdictDesc = `"Kişisel gelişim zırvalarını bırak; biyolojini ve sınırlarını tamir et."`;
-            weaponText = `[SİRKADİYEN VE YAŞAMSAL REBOOT PROTOKOLÜ]
-1. Dijital Oruç: Saat 22:30 itibarıyla telefon uçak modunda başka odaya kilitlenecek. Gece retinaya mavi ışık girmeyecek.
-2. Radikal Hayır: Sana enerji vermeyen, çıkar ilişkisi kuran tüm dalkavukların telefonları sessize alınacak.
-3. Sabah Işığı: Alarm çaldığı an ertelenmeyecek, ilk 15 dakika doğrudan doğal güneş ışığına çıkılacak.
-4. Hedef: Büyük başarılar hayal etmeyi bırak; sadece bugün 1 tane gerçek ve zor görevi bitir.`;
-          }
-
-          content = `
-            <div class="final-dossier-clean">
-              <div class="report-badge-red">İNVERSİYON DOSYASI // STRATEJİK HÜKÜM</div>
-              <h2 class="report-main-title">${verdictTitle}</h2>
-              
-              <div class="report-verdict-box">
-                ${verdictDesc}
-              </div>
-
-              <div class="weapon-box">
-                <div class="weapon-top">
-                  <span>⚡ AKSİYON SİLAHI // KARŞI TARAFA GÖNDERİLECEK RESMÎ İHTAR / METİN</span>
-                  <button onclick="copyWeaponText()" style="background:var(--accent-cyber); color:#000; border:none; padding:0.25rem 0.7rem; font-family:var(--font-mono); font-size:0.7rem; font-weight:700; cursor:pointer; border-radius:4px;">
-                    METNİ KOPYALA
-                  </button>
-                </div>
-                <pre class="weapon-pre" id="weapon-pre">${weaponText}</pre>
-              </div>
-
-              <div class="report-btn-row">
-                <button class="btn-act btn-act-copy" onclick="copyFullReport()">
-                  📄 RAPORU KOPYALA
-                </button>
-                <button class="btn-act" style="background:#0284c7; color:#fff; border:1px solid #38bdf8;" onclick="exportDossierFile('txt')">
-                  💾 DOSYAYI İNDİR (.TXT)
-                </button>
-                <button class="btn-act" style="background:#0f766e; color:#fff; border:1px solid #2dd4bf;" onclick="exportDossierFile('json')">
-                  📊 ADLİ VERİ (.JSON)
-                </button>
-                <button class="btn-act btn-act-print" onclick="window.print()">
-                  🖨️ YAZDIR / PDF
-                </button>
-                <button class="btn-act btn-act-reset" onclick="resetToHome()">
-                  🔄 YENİ BİR İLLÜZYON SORGULA
-                </button>
-              </div>
-            </div>
-          `;
-          document.getElementById('docked-bar').style.display = 'none';
         }
 
         row.innerHTML = content;
