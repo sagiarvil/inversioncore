@@ -27,15 +27,6 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="InversionCore Enterprise Engine", version="1.4.0", lifespan=lifespan)
 
-# CORS Yapılandırması
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
 PORT = int(os.getenv("PORT", "8888"))
 INVERSION_API_KEY = os.getenv("INVERSION_API_KEY", "inv_prod_live_sec_key_2026")
 
@@ -68,6 +59,22 @@ async def security_and_rate_limit_middleware(request: Request, call_next):
 
     ip_request_history[client_ip].append(current_time)
     return await call_next(request)
+
+# CORS Yapılandırması (En dış middleware olarak eklenir, böylece 403/429 ve OPTIONS dahil her yanıta CORS başlığı eklenir)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://inversioncore.com",
+        "https://www.inversioncore.com",
+        "http://localhost:8888",
+        "http://127.0.0.1:8888",
+        "*"
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=["*"],
+)
 
 class AnalyzeRequest(BaseModel):
     decision: Optional[str] = Field(default="", description="Kullanıcı kararı")

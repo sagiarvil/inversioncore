@@ -1702,82 +1702,80 @@
         } catch (_) {}
       }
 
-      setTimeout(() => {
-        let content = "";
+      let content = "";
 
-        if (backendReply) {
-          content = `
-            <div class="ai-clean-card">
-              <div class="ai-badge-header">
-                <div class="model-pill">
-                  <span style="color:#10b981;">●</span>
-                  <span>InversionCore // Karar Analizi</span>
-                </div>
-                <span class="phase-pill">[AŞAMA 0${round}: STRATEJİK DEĞERLENDİRME]</span>
+      if (backendReply) {
+        content = `
+          <div class="ai-clean-card">
+            <div class="ai-badge-header">
+              <div class="model-pill">
+                <span style="color:#10b981;">●</span>
+                <span>InversionCore // Karar Analizi</span>
               </div>
-              <div class="ai-claim-box">
-                <span>ANALİZ EDİLEN ODAK:</span> "${escapeHtml(userQuery)}"
-              </div>
-              <div class="ai-body-text">${formatMarkdown(backendReply)}</div>
-              ${round < 3 ? `
-              <div class="choice-group">
-                <button class="btn-choice bad" onclick="handleQuickChoice('hayir')">
-                  ❌ "Elimde yeterli delil yok / Bu adımı atmakta tereddüt ediyorum."
-                </button>
-                <button class="btn-choice" onclick="handleQuickChoice('evet')">
-                  ✔ "Somut gerçekler üzerinden ilerlemeye ve aksiyon almaya hazırım."
-                </button>
-              </div>` : `
-              <div class="report-btn-row" style="margin-top:1.2rem;">
-                <button class="btn-act btn-act-copy" onclick="copyFullReport()">📄 RAPORU KOPYALA</button>
-                <button class="btn-act btn-act-print" onclick="window.print()">🖨️ YAZDIR / PDF</button>
-                <button class="btn-act btn-act-reset" onclick="resetToHome()">🔄 YENİ SORGULA</button>
-              </div>`}
-              ${renderAiActionFooter()}
+              <span class="phase-pill">[AŞAMA 0${round}: STRATEJİK DEĞERLENDİRME]</span>
             </div>
-          `;
-          if (btn) {
-            btn.disabled = false;
-            btn.innerHTML = "↑";
-            document.getElementById("tasks-spinner-icon").style.display = "none";
-            document.getElementById("tasks-status-dot").style.display = "inline";
-            document.getElementById("tasks-drawer-text").innerText = "2 tasks running";
-          }
-        } else {
-          // Backend API yanıt vermediğinde: KESİNLİKLE sahte/statik şablon üretilmez!
-          // Kullanıcıya şeffaf durum kartı gösterilir ve tekrar deneme butonu verilir.
-          content = `
-            <div class="ai-clean-card" style="border:1px solid rgba(239, 68, 68, 0.4); background:rgba(239, 68, 68, 0.04);">
-              <div class="ai-badge-header">
-                <div class="model-pill">
-                  <span style="color:#ef4444;">●</span>
-                  <span style="color:#ef4444;">InversionCore // Nöral Çıkarım Motoru</span>
-                </div>
-                <span class="phase-pill" style="color:#ef4444; border-color:rgba(239, 68, 68, 0.3);">[BAĞLANTI ZAMAN AŞIMI]</span>
-              </div>
-              <div class="ai-claim-box">
-                <span>DURUM:</span> Analiz motoru zaman aşımı nedeniyle yanıt üretemedi. Sistemde sahte/statik şablon kullanılmamaktadır.
-              </div>
-              <div class="ai-body-text" style="color:#cbd5e1; padding:1rem 0;">
-                <p>Gerçek zamanlı nöral çıkarım tamamlanamadı. Lütfen sorgunuzu yeniden gönderin.</p>
-              </div>
-              <div class="report-btn-row" style="margin-top:1rem;">
-                <button class="btn-act btn-act-reset" onclick="triggerAiTurn(${round})">🔄 YENİDEN DENE</button>
-              </div>
+            <div class="ai-claim-box">
+              <span>ANALİZ EDİLEN ODAK:</span> "${escapeHtml(userQuery)}"
             </div>
-          `;
-          if (btn) {
-            btn.disabled = false;
-            btn.innerHTML = "↑";
-            document.getElementById("tasks-spinner-icon").style.display = "none";
-            document.getElementById("tasks-status-dot").style.display = "inline";
-            document.getElementById("tasks-drawer-text").innerText = "Ready";
-          }
+            <div class="ai-body-text">${formatMarkdown(backendReply)}</div>
+            ${round < 3 ? `
+            <div class="choice-group">
+              <button class="btn-choice bad" onclick="handleQuickChoice('hayir')">
+                ❌ "Elimde yeterli delil yok / Bu adımı atmakta tereddüt ediyorum."
+              </button>
+              <button class="btn-choice" onclick="handleQuickChoice('evet')">
+                ✔ "Somut gerçekler üzerinden ilerlemeye ve aksiyon almaya hazırım."
+              </button>
+            </div>` : `
+            <div class="report-btn-row" style="margin-top:1.2rem;">
+              <button class="btn-act btn-act-copy" onclick="copyFullReport()">📄 RAPORU KOPYALA</button>
+              <button class="btn-act btn-act-print" onclick="window.print()">🖨️ YAZDIR / PDF</button>
+              <button class="btn-act btn-act-reset" onclick="resetToHome()">🔄 YENİ SORGULA</button>
+            </div>`}
+            ${renderAiActionFooter()}
+          </div>
+        `;
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = "↑";
+          document.getElementById("tasks-spinner-icon").style.display = "none";
+          document.getElementById("tasks-status-dot").style.display = "inline";
+          document.getElementById("tasks-drawer-text").innerText = "2 tasks running";
         }
+      } else {
+        // Backend API yanıt vermediğinde: KESİNLİKLE sahte/statik şablon üretilmez!
+        // Kullanıcıya şeffaf durum kartı gösterilir ve tekrar deneme butonu verilir.
+        content = `
+          <div class="ai-clean-card" style="border:1px solid rgba(239, 68, 68, 0.4); background:rgba(239, 68, 68, 0.04);">
+            <div class="ai-badge-header">
+              <div class="model-pill">
+                <span style="color:#ef4444;">●</span>
+                <span style="color:#ef4444;">InversionCore // Nöral Çıkarım Motoru</span>
+              </div>
+              <span class="phase-pill" style="color:#ef4444; border-color:rgba(239, 68, 68, 0.3);">[BAĞLANTI ZAMAN AŞIMI]</span>
+            </div>
+            <div class="ai-claim-box">
+              <span>DURUM:</span> Analiz motoru zaman aşımı nedeniyle yanıt üretemedi. Sistemde sahte/statik şablon kullanılmamaktadır.
+            </div>
+            <div class="ai-body-text" style="color:#cbd5e1; padding:1rem 0;">
+              <p>Gerçek zamanlı nöral çıkarım tamamlanamadı. Lütfen sorgunuzu yeniden gönderin.</p>
+            </div>
+            <div class="report-btn-row" style="margin-top:1rem;">
+              <button class="btn-act btn-act-reset" onclick="triggerAiTurn(${round})">🔄 YENİDEN DENE</button>
+            </div>
+          </div>
+        `;
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = "↑";
+          document.getElementById("tasks-spinner-icon").style.display = "none";
+          document.getElementById("tasks-status-dot").style.display = "inline";
+          document.getElementById("tasks-drawer-text").innerText = "Ready";
+        }
+      }
 
-        row.innerHTML = content;
-        scrollToTarget(row);
-      })();
+      row.innerHTML = content;
+      scrollToTarget(row);
     }
 
     function handleQuickChoice(type) {
